@@ -62,6 +62,53 @@
     updateProgressSlider();
   }
 
+  const siteLoader = document.getElementById('site-loader');
+  let hasRevealedSite = false;
+
+  function waitForWindowLoad() {
+    if (document.readyState === 'complete') return Promise.resolve();
+    return new Promise(resolve => {
+      window.addEventListener('load', resolve, { once: true });
+    });
+  }
+
+  function waitForImages() {
+    const images = [...document.images].filter(img => !siteLoader || !siteLoader.contains(img));
+    return Promise.all(images.map(img => {
+      if (img.complete) {
+        return img.decode ? img.decode().catch(() => {}) : Promise.resolve();
+      }
+      return new Promise(resolve => {
+        img.addEventListener('load', resolve, { once: true });
+        img.addEventListener('error', resolve, { once: true });
+      });
+    }));
+  }
+
+  function revealSite() {
+    if (hasRevealedSite) return;
+    hasRevealedSite = true;
+
+    fitName();
+    update();
+    updateProgressSlider();
+    document.querySelectorAll('.page-view.active').forEach(updateCsProgressSlider);
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        document.body.classList.add('is-loaded');
+        document.body.classList.remove('is-loading');
+        syncCursorMode();
+
+        if (siteLoader) {
+          window.setTimeout(() => {
+            siteLoader.remove();
+          }, 700);
+        }
+      });
+    });
+  }
+
   // Close with Escape key
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') { closePage(); closeMobileMenu(); }
@@ -257,6 +304,13 @@
     pageView.addEventListener('scroll', () => updateCsProgressSlider(pageView), { passive: true });
   });
   updateProgressSlider();
+
+  Promise.all([
+    waitForWindowLoad(),
+    document.fonts ? document.fonts.ready.catch(() => {}) : Promise.resolve(),
+    waitForImages(),
+    new Promise(resolve => window.setTimeout(resolve, 900))
+  ]).then(revealSite).catch(revealSite);
 
   function hasCustomCursorEffect() {
     return window.innerWidth > 1024 && window.matchMedia('(pointer: fine)').matches;
