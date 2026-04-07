@@ -75,6 +75,21 @@
   html.dark .portfolio-project-name { color: #ffffff; }
   html.dark .portfolio-problem { color: #aaaaaa; }
   html.dark .about-hero-title { color: #ffffff; }
+  html.dark .site-footer {
+    background: #111111;
+    border-top-color: rgba(255,255,255,0.08);
+  }
+  html.dark .footer-eyebrow,
+  html.dark .footer-column-title,
+  html.dark .footer-name,
+  html.dark .footer-link,
+  html.dark .footer-link-button {
+    color: #ffffff;
+  }
+  html.dark .footer-copy,
+  html.dark .footer-meta {
+    color: #a8a8a8;
+  }
   html.dark .ai-category-title { color: #ffffff; }
   html.dark .ai-card-caption { color: #aaaaaa; }
   html.dark #howIAiTitle { color: #ffffff; }
@@ -995,7 +1010,7 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr) 240px;
     gap: 32px;
-    align-items: end;
+    align-items: start;
     -webkit-mask-image: none;
     mask-image: none;
   }
@@ -1046,10 +1061,13 @@
     margin-top: 0;
     padding-bottom: 0;
     max-width: 240px;
-    min-height: 100%;
+    min-height: auto;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: flex-start;
+    align-self: start;
+    position: sticky;
+    top: 104px;
   }
 
   .portfolio-project-name {
@@ -1142,7 +1160,14 @@
     }
     .portfolio-card     { height: 515px; border-radius: 20px; }
     .portfolio-image-placeholder { width: 80%; }
-    .portfolio-meta { margin-top: 16px; max-width: none; min-height: auto; display: block; }
+    .portfolio-meta {
+      margin-top: 16px;
+      max-width: none;
+      min-height: auto;
+      display: block;
+      position: static;
+      top: auto;
+    }
     .portfolio-project-name { font-size: 20px; margin-bottom: 6px; }
     .portfolio-problem { font-size: 15px; margin-bottom: 16px; }
     .portfolio-cta { font-size: 12px; }
@@ -1323,11 +1348,189 @@
   }
   .about-text p:last-child { margin-bottom: 0; }
   .about-page-inner { padding: 80px 220px 120px; }
+
+  .site-footer {
+    margin-top: 120px;
+    padding: 72px 0 20px;
+    background: #f1f1f1;
+    border-top: 1px solid rgba(0,0,0,0.06);
+    overflow: visible;
+  }
+
+  .footer-top,
+  .footer-bottom,
+  .footer-name-row {
+    width: 100%;
+    max-width: 1440px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 48px;
+    padding-right: 48px;
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    gap: 48px;
+    align-items: start;
+  }
+
+  .footer-eyebrow {
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    color: #000000;
+    margin-bottom: 14px;
+  }
+
+  .footer-copy {
+    max-width: 440px;
+    font-size: 15px;
+    line-height: 1.75;
+    color: #5a5a5a;
+  }
+
+  .footer-links {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .footer-column-title {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #000000;
+    margin-bottom: 16px;
+  }
+
+  .footer-link,
+  .footer-link-button {
+    display: block;
+    width: fit-content;
+    margin-bottom: 12px;
+    font-size: 14px;
+    color: #111111;
+    text-decoration: none;
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    text-align: left;
+  }
+
+  .footer-bottom {
+    margin-top: 72px;
+    display: flex;
+    gap: 20px;
+    font-size: 13px;
+    color: #7d7d7d;
+  }
+
+  .footer-name-row {
+    margin-top: 36px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    overflow: visible;
+  }
+
+  .footer-name {
+    display: block;
+    padding-bottom: 8px;
+    padding-left: 0;
+    margin-left: 0;
+    overflow: visible;
+    flex: 1 1 auto;
+  }
+
+  #footerNameSvg {
+    display: block;
+    width: 100%;
+    min-width: 1760px;
+    height: auto;
+    overflow: visible;
+  }
+
+  .footer-meta-inline {
+    padding-bottom: 10px;
+    flex: 0 0 auto;
+    white-space: nowrap;
+    align-self: flex-end;
+  }
+
   @media (max-width: 768px) {
     .work-about-spacer { height: 64px; }
     .about-section { padding: 0 20px 80px; }
     .about-hero-title, .about-hero-subtitle { font-size: 36px; }
     .about-page-inner { padding: 60px 20px 80px; }
+    .site-footer {
+      margin-top: 80px;
+      padding: 36px 0 14px;
+    }
+    .footer-top,
+    .footer-bottom,
+    .footer-name-row {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    .footer-top {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .footer-eyebrow {
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+    .footer-copy {
+      font-size: 14px;
+      line-height: 1.65;
+      max-width: none;
+    }
+    .footer-links {
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+    .footer-column {
+      padding-top: 18px;
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
+    .footer-column-title {
+      margin-bottom: 10px;
+    }
+    .footer-link,
+    .footer-link-button {
+      margin-bottom: 8px;
+      font-size: 14px;
+      line-height: 1.45;
+      min-height: 24px;
+    }
+    .footer-bottom {
+      margin-top: 24px;
+      gap: 6px;
+    }
+    .footer-name-row {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+    }
+    .footer-name {
+      width: 100%;
+      padding-left: 0;
+      margin-left: 0;
+      padding-bottom: 0;
+    }
+    #footerNameSvg {
+      min-width: 0;
+      width: 100%;
+      max-width: 100%;
+    }
+    #footerNameText {
+      font-size: 230px;
+      letter-spacing: -18px;
+    }
   }
 
 

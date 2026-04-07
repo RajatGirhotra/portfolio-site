@@ -596,6 +596,8 @@
 
   let tspans = [];
   let activeIdx = -1;
+  let footerTspans = [];
+  let activeFooterIdx = -1;
 
   function splitIntoLetters() {
     const textEl = document.getElementById('bigNameText');
@@ -655,6 +657,63 @@
     });
   }
 
+  function splitFooterIntoLetters() {
+    const textEl = document.getElementById('footerNameText');
+    const svgEl = document.getElementById('footerNameSvg');
+    if (!textEl || !svgEl || window.innerWidth <= 1024) return;
+
+    let defs = svgEl.querySelector('defs');
+    if (!defs) {
+      defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+      svgEl.insertBefore(defs, svgEl.firstChild);
+    }
+
+    const name = 'Rajat Girhotra';
+    footerTspans = [];
+
+    textEl.textContent = name;
+    const charExtents = [];
+    for (let i = 0; i < name.length; i++) {
+      try {
+        charExtents.push(textEl.getExtentOfChar(i));
+      } catch (e) {
+        charExtents.push(null);
+      }
+    }
+
+    textEl.textContent = '';
+
+    [...name].forEach((char, i) => {
+      const tspan = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
+      tspan.textContent = char === ' ' ? '\u00A0' : char;
+      tspan.setAttribute('fill', getBaseColor());
+
+      if (char !== ' ') {
+        const gradId = `footer-lg${i}`;
+        const grad = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+        grad.setAttribute('id', gradId);
+        grad.setAttribute('x1', '0%');
+        grad.setAttribute('y1', '0%');
+        grad.setAttribute('x2', '100%');
+        grad.setAttribute('y2', '100%');
+        const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+        stop1.setAttribute('offset', '0%');
+        const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+        stop2.setAttribute('offset', '100%');
+        grad.appendChild(stop1);
+        grad.appendChild(stop2);
+        defs.appendChild(grad);
+        tspan._gradId = gradId;
+        tspan._stop1 = stop1;
+        tspan._stop2 = stop2;
+        tspan._ext = charExtents[i];
+      }
+
+      footerTspans.push({ el: tspan, char });
+      textEl.appendChild(tspan);
+    });
+  }
+
   document.addEventListener('mousemove', e => {
     if (!tspans.length) return;
 
@@ -698,9 +757,54 @@
     }
   });
 
+  document.addEventListener('mousemove', e => {
+    if (!footerTspans.length || window.innerWidth <= 1024) return;
+
+    const svgEl = document.getElementById('footerNameSvg');
+    if (!svgEl) return;
+
+    const pt = svgEl.createSVGPoint();
+    pt.x = e.clientX;
+    pt.y = e.clientY;
+    const screenCTM = svgEl.getScreenCTM();
+    if (!screenCTM) return;
+    const svgPt = pt.matrixTransform(screenCTM.inverse());
+
+    let hitIdx = -1;
+    for (let i = 0; i < footerTspans.length; i++) {
+      const { el, char } = footerTspans[i];
+      if (char === ' ' || !el._ext) continue;
+      const ext = el._ext;
+      if (svgPt.x >= ext.x && svgPt.x <= ext.x + ext.width &&
+          svgPt.y >= ext.y - 8 && svgPt.y <= ext.y + ext.height + 8) {
+        hitIdx = i;
+        break;
+      }
+    }
+
+    if (hitIdx === activeFooterIdx) return;
+
+    if (activeFooterIdx !== -1 && footerTspans[activeFooterIdx]) {
+      footerTspans[activeFooterIdx].el.setAttribute('fill', getBaseColor());
+    }
+
+    activeFooterIdx = hitIdx;
+
+    if (hitIdx !== -1) {
+      const t = footerTspans[hitIdx].el;
+      if (t._gradId) {
+        const [c1, c2] = GRADIENTS[Math.floor(Math.random() * GRADIENTS.length)];
+        t._stop1.setAttribute('stop-color', c1);
+        t._stop2.setAttribute('stop-color', c2);
+        t.setAttribute('fill', `url(#${t._gradId})`);
+      }
+    }
+  });
+
   document.fonts.ready.then(() => {
     setTimeout(() => {
       splitIntoLetters();
+      splitFooterIntoLetters();
       const letters = tspans.filter(t => t.char !== ' ');
       const totalDuration = 1500;
       const interval = totalDuration / letters.length;
