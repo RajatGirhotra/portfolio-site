@@ -74,12 +74,22 @@
 
   const siteLoader = document.getElementById('site-loader');
   let hasRevealedSite = false;
+  let hasInitializedNameEffects = false;
 
-  function waitForWindowLoad() {
-    if (document.readyState === 'complete') return Promise.resolve();
-    return new Promise(resolve => {
-      window.addEventListener('load', resolve, { once: true });
-    });
+  function afterDomReady() {
+    if (document.readyState === 'loading') {
+      return new Promise(resolve => {
+        document.addEventListener('DOMContentLoaded', resolve, { once: true });
+      });
+    }
+    return Promise.resolve();
+  }
+
+  function withTimeout(promise, timeoutMs) {
+    return Promise.race([
+      promise,
+      new Promise(resolve => window.setTimeout(resolve, timeoutMs))
+    ]);
   }
 
   function waitForImages() {
@@ -94,9 +104,42 @@
       return new Promise(resolve => {
         img.addEventListener('load', resolve, { once: true });
         img.addEventListener('error', resolve, { once: true });
-        window.setTimeout(resolve, 1800);
+        window.setTimeout(resolve, 1200);
       });
     }));
+  }
+
+  function initializeNameEffects() {
+    if (hasInitializedNameEffects) return;
+    hasInitializedNameEffects = true;
+
+    const fontsReady = document.fonts ? document.fonts.ready.catch(() => {}) : Promise.resolve();
+    fontsReady.then(() => {
+      fitName();
+      setTimeout(fitName, 100);
+      setTimeout(() => {
+        splitIntoLetters();
+        splitFooterIntoLetters();
+        const letters = tspans.filter(t => t.char !== ' ');
+        const totalDuration = 1500;
+        const interval = totalDuration / letters.length;
+
+        letters.forEach((t, i) => {
+          setTimeout(() => {
+            const el = t.el;
+            if (!el._gradId) return;
+            const [c1, c2] = GRADIENTS[Math.floor(Math.random() * GRADIENTS.length)];
+            el._stop1.setAttribute('stop-color', c1);
+            el._stop2.setAttribute('stop-color', c2);
+            el.setAttribute('fill', `url(#${el._gradId})`);
+
+            setTimeout(() => {
+              el.setAttribute('fill', getBaseColor());
+            }, 400);
+          }, i * interval);
+        });
+      }, 200);
+    });
   }
 
   function revealSite() {
@@ -113,6 +156,7 @@
         document.body.classList.add('is-loaded');
         document.body.classList.remove('is-loading');
         syncCursorMode();
+        initializeNameEffects();
 
         if (siteLoader) {
           window.setTimeout(() => {
@@ -272,11 +316,6 @@
     }
   }
 
-  document.fonts.ready.then(() => {
-    fitName();
-    setTimeout(fitName, 100);
-  });
-
   window.addEventListener('resize', fitName);
   if (window.visualViewport) {
     window.visualViewport.addEventListener('resize', fitName);
@@ -356,10 +395,9 @@
   updateProgressSlider();
 
   Promise.all([
-    waitForWindowLoad(),
-    document.fonts ? document.fonts.ready.catch(() => {}) : Promise.resolve(),
-    waitForImages(),
-    new Promise(resolve => window.setTimeout(resolve, 900))
+    afterDomReady(),
+    withTimeout(waitForImages(), 1200),
+    new Promise(resolve => window.setTimeout(resolve, 350))
   ]).then(revealSite).catch(revealSite);
 
   function hasCustomCursorEffect() {
@@ -799,30 +837,4 @@
         t.setAttribute('fill', `url(#${t._gradId})`);
       }
     }
-  });
-
-  document.fonts.ready.then(() => {
-    setTimeout(() => {
-      splitIntoLetters();
-      splitFooterIntoLetters();
-      const letters = tspans.filter(t => t.char !== ' ');
-      const totalDuration = 1500;
-      const interval = totalDuration / letters.length;
-
-      letters.forEach((t, i) => {
-        setTimeout(() => {
-          const el = t.el;
-          if (!el._gradId) return;
-          const [c1, c2] = GRADIENTS[Math.floor(Math.random() * GRADIENTS.length)];
-          el._stop1.setAttribute('stop-color', c1);
-          el._stop2.setAttribute('stop-color', c2);
-          el.setAttribute('fill', `url(#${el._gradId})`);
-
-          // Turn back to black immediately after filling (400ms later)
-          setTimeout(() => {
-            el.setAttribute('fill', getBaseColor());
-          }, 400);
-        }, i * interval);
-      });
-    }, 200);
   });
