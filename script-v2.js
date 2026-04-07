@@ -83,7 +83,10 @@
   }
 
   function waitForImages() {
-    const images = [...document.images].filter(img => !siteLoader || !siteLoader.contains(img));
+    const images = [...document.images].filter(img =>
+      (!siteLoader || !siteLoader.contains(img)) &&
+      img.loading !== 'lazy'
+    );
     return Promise.all(images.map(img => {
       if (img.complete) {
         return img.decode ? img.decode().catch(() => {}) : Promise.resolve();
@@ -91,6 +94,7 @@
       return new Promise(resolve => {
         img.addEventListener('load', resolve, { once: true });
         img.addEventListener('error', resolve, { once: true });
+        window.setTimeout(resolve, 1800);
       });
     }));
   }
