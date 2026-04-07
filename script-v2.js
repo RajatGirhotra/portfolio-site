@@ -48,6 +48,13 @@
     // Update big name text base fill
     const bigText = document.getElementById('bigNameText');
     if (bigText) bigText.setAttribute('fill', base);
+    footerTspans.forEach(t => {
+      if (t.el.getAttribute('fill') !== 'url(#' + (t.el._gradId || '') + ')') {
+        t.el.setAttribute('fill', base);
+      }
+    });
+    const footerText = document.getElementById('footerNameText');
+    if (footerText) footerText.setAttribute('fill', base);
   }
 
   function openPage(id) {
@@ -116,10 +123,13 @@
     const fontsReady = document.fonts ? document.fonts.ready.catch(() => {}) : Promise.resolve();
     fontsReady.then(() => {
       fitName();
+      fitFooterName();
       setTimeout(fitName, 100);
+      setTimeout(fitFooterName, 100);
       setTimeout(() => {
         splitIntoLetters();
         splitFooterIntoLetters();
+        fitFooterName();
         const letters = tspans.filter(t => t.char !== ' ');
         const totalDuration = 1500;
         const interval = totalDuration / letters.length;
@@ -147,6 +157,7 @@
     hasRevealedSite = true;
 
     fitName();
+    fitFooterName();
     update();
     updateProgressSlider();
     document.querySelectorAll('.page-view.active').forEach(updateCsProgressSlider);
@@ -178,6 +189,9 @@
   const svg        = document.getElementById('bigNameSvg');
   const text       = document.getElementById('bigNameText');
   const heroCenter = document.querySelector('.hero-center');
+  const footerNameWrap = document.querySelector('.footer-name');
+  const footerNameSvg = document.getElementById('footerNameSvg');
+  const footerNameText = document.getElementById('footerNameText');
 
   const SIDE_PAD = 200;
   let nameHeight   = 0;
@@ -253,6 +267,40 @@
     }
   }
 
+  function fitFooterName() {
+    if (!footerNameWrap || !footerNameSvg || !footerNameText) return;
+
+    const isMobile = window.innerWidth <= 768;
+    const availableWidth = footerNameWrap.clientWidth;
+    if (!availableWidth) return;
+
+    const baseFontSize = isMobile ? 230 : 390;
+    const baseLetterSpacing = isMobile ? -18 : -30;
+    const hasSplitLetters = footerNameText.querySelector('tspan');
+
+    if (!hasSplitLetters) {
+      footerNameText.textContent = 'Rajat Girhotra';
+    }
+
+    footerNameText.setAttribute('font-size', String(baseFontSize));
+    footerNameText.setAttribute('letter-spacing', String(baseLetterSpacing));
+    footerNameText.setAttribute('x', '0');
+    footerNameText.setAttribute('y', isMobile ? '220' : '332');
+
+    const bbox = footerNameText.getBBox();
+    if (!bbox.width) return;
+
+    const scale = availableWidth / bbox.width;
+    footerNameText.setAttribute('font-size', (baseFontSize * scale).toFixed(2));
+    footerNameText.setAttribute('letter-spacing', (baseLetterSpacing * scale).toFixed(2));
+
+    const fittedBox = footerNameText.getBBox();
+    footerNameSvg.setAttribute(
+      'viewBox',
+      `${(fittedBox.x - 6).toFixed(2)} ${(fittedBox.y - 8).toFixed(2)} ${(fittedBox.width + 12).toFixed(2)} ${(fittedBox.height + 16).toFixed(2)}`
+    );
+  }
+
   function update() {
     const W = window.innerWidth;
     if (W <= 768) return;
@@ -317,8 +365,10 @@
   }
 
   window.addEventListener('resize', fitName);
+  window.addEventListener('resize', fitFooterName);
   if (window.visualViewport) {
     window.visualViewport.addEventListener('resize', fitName);
+    window.visualViewport.addEventListener('resize', fitFooterName);
   }
   window.addEventListener('scroll', update, { passive: true });
 
@@ -750,6 +800,8 @@
       footerTspans.push({ el: tspan, char });
       textEl.appendChild(tspan);
     });
+
+    fitFooterName();
   }
 
   document.addEventListener('mousemove', e => {
