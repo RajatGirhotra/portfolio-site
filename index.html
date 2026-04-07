@@ -90,6 +90,10 @@
   <button class="mobile-menu-close" onclick="closeMobileMenu()">✕ Close</button>
 </div>
 
+<button id="globalPageClose" class="page-close global-page-close" onclick="closePage()">
+  <span class="page-close-icon">✕</span><span>Close</span>
+</button>
+
 <!-- WORK PAGE -->
 <div class="page-view" id="page-work">
   <button class="page-close" onclick="closePage()">✕ Close</button>
@@ -162,7 +166,7 @@
 </div>
 
 <!-- CASE STUDY: LIFE INSURANCE -->
-<div class="page-view" id="page-life-insurance">
+<div class="page-view case-study-view" id="page-life-insurance">
   <button class="page-close" onclick="closePage()"><span class="page-close-icon">✕</span><span>Close</span></button>
   <div class="progress-slider-cs" aria-hidden="true">
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
@@ -235,7 +239,7 @@
 </div>
 
 <!-- CASE STUDY: GO LEAP -->
-<div class="page-view" id="page-go-leap">
+<div class="page-view case-study-view" id="page-go-leap">
   <button class="page-close" onclick="closePage()"><span class="page-close-icon">✕</span><span>Close</span></button>
   <div class="progress-slider-cs" aria-hidden="true">
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
@@ -299,6 +303,152 @@
         <h2 class="cs-heading">What I learned</h2>
         <p class="cs-text">The line between discovery and overwhelm is thin. Our first iteration went too immersive — fullscreen takeovers with autoplay. It felt exciting in demos but exhausting in real use. Pulling back to a controlled vertical flow with opt-in depth was the right call, even though it felt less dramatic.</p>
         <p class="cs-text">Good discovery design is invisible. When it works, users don't say “great UX” — they just say “I found something amazing.” That's the goal.</p>
+      </section>
+    </div>
+  </div>
+</div>
+
+<!-- CASE STUDY: REFI NFT DASHBOARD -->
+<div class="page-view case-study-view" id="page-refi-nft-dashboard">
+  <button class="page-close" onclick="closePage()"><span class="page-close-icon">✕</span><span>Close</span></button>
+  <div class="progress-slider-cs" aria-hidden="true">
+    <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
+    <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
+    <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
+    <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
+  </div>
+  <div class="case-study-page">
+    <div class="case-study-hero">
+      <picture class="case-study-hero-media">
+        <source media="(max-width: 768px)" srcset="RefiMobileDarkMode.png">
+        <img src="RefiDesktopDarkMode.png" alt="ReFi NFT Dashboard case study hero">
+      </picture>
+    </div>
+    <div class="case-study-body">
+      <section class="cs-section cs-overview">
+        <div class="cs-meta-row">
+          <div class="cs-meta-item"><span class="cs-meta-label">Role</span><span class="cs-meta-value">Product Designer</span></div>
+          <div class="cs-meta-item"><span class="cs-meta-label">Duration</span><span class="cs-meta-value">10 weeks</span></div>
+          <div class="cs-meta-item"><span class="cs-meta-label">Platform</span><span class="cs-meta-value">Web Dashboard</span></div>
+          <div class="cs-meta-item"><span class="cs-meta-label">Focus</span><span class="cs-meta-value">Portfolio Tracking · Analytics</span></div>
+        </div>
+      </section>
+      <section class="cs-section">
+        <div class="cs-label">01 — Context</div>
+        <h2 class="cs-heading">Making web3 data feel understandable</h2>
+        <p class="cs-text">The ReFi NFT Dashboard was meant to help collectors and investors understand the environmental and financial value of the NFT projects they held. But the original dashboard looked like a developer tool: dense tables, fragmented widgets, and very little hierarchy.</p>
+        <p class="cs-text">We needed an interface that could serve both power users and curious newcomers without flattening the complexity of the data.</p>
+        <div class="cs-image-placeholder"><span class="cs-image-placeholder-label">Legacy dashboard audit</span></div>
+      </section>
+      <section class="cs-section">
+        <div class="cs-label">02 — Research</div>
+        <h2 class="cs-heading">What users actually wanted to know</h2>
+        <p class="cs-text">Interviews with collectors, community managers, and analysts revealed that users were less interested in raw blockchain metrics and more interested in three practical questions: what do I own, how is it performing, and what story does this portfolio tell?</p>
+        <div class="cs-insight-grid">
+          <div class="cs-insight-card"><div class="cs-insight-num">73%</div><div class="cs-insight-desc">of users said they wanted a clearer top-level summary before diving into wallet-level details.</div></div>
+          <div class="cs-insight-card"><div class="cs-insight-num">2.8×</div><div class="cs-insight-desc">more engagement came from visual trend modules than table-based reports.</div></div>
+          <div class="cs-insight-card"><div class="cs-insight-num">61%</div><div class="cs-insight-desc">of interviewees struggled to connect sustainability impact with collection performance.</div></div>
+        </div>
+      </section>
+      <section class="cs-section">
+        <div class="cs-label">03 — Design</div>
+        <h2 class="cs-heading">A dashboard with narrative structure</h2>
+        <div class="cs-principles">
+          <div class="cs-principle"><div class="cs-principle-title">Signal first, detail second</div><p class="cs-text">The landing state highlights portfolio value, impact score, and collection movement before exposing deeper breakdowns.</p></div>
+          <div class="cs-principle"><div class="cs-principle-title">Modular cards with strong hierarchy</div><p class="cs-text">Key stats, trend charts, and collection lists were redesigned into a clear card system with cleaner rhythm and easier scanning.</p></div>
+          <div class="cs-principle"><div class="cs-principle-title">Trust through context</div><p class="cs-text">Every metric includes short explanatory labels so users understand why a number matters and how it is calculated.</p></div>
+        </div>
+        <div class="cs-image-placeholder"><span class="cs-image-placeholder-label">Dashboard redesign system</span></div>
+      </section>
+      <section class="cs-section">
+        <div class="cs-label">04 — Outcome</div>
+        <h2 class="cs-heading">A calmer, more legible product</h2>
+        <p class="cs-text">The redesign reduced the cognitive load of the dashboard and gave the product a stronger point of view. Beta testers reported that the new experience felt “more premium,” “more trustworthy,” and “much easier to understand at a glance.”</p>
+        <div class="cs-results">
+          <div class="cs-result-item"><div class="cs-result-num">+39%</div><div class="cs-result-label">Increase in weekly dashboard return visits</div></div>
+          <div class="cs-result-item"><div class="cs-result-num">-31%</div><div class="cs-result-label">Time to understand portfolio summary</div></div>
+          <div class="cs-result-item"><div class="cs-result-num">+24%</div><div class="cs-result-label">Interaction with collection detail cards</div></div>
+          <div class="cs-result-item"><div class="cs-result-num">4.5★</div><div class="cs-result-label">Average clarity rating in usability feedback</div></div>
+        </div>
+      </section>
+      <section class="cs-section cs-reflection">
+        <div class="cs-label">05 — Reflection</div>
+        <h2 class="cs-heading">What I learned</h2>
+        <p class="cs-text">Dashboards often fail when they try to be comprehensive before they are comprehensible. The biggest shift here was treating the product like an editorial surface, not just a data container.</p>
+        <p class="cs-text">The right framing made the same information feel dramatically more useful, even before we added new data sources.</p>
+      </section>
+    </div>
+  </div>
+</div>
+
+<!-- CASE STUDY: COLROWS -->
+<div class="page-view case-study-view" id="page-colrows">
+  <button class="page-close" onclick="closePage()"><span class="page-close-icon">✕</span><span>Close</span></button>
+  <div class="progress-slider-cs" aria-hidden="true">
+    <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
+    <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
+    <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
+    <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
+  </div>
+  <div class="case-study-page">
+    <div class="case-study-hero">
+      <picture class="case-study-hero-media">
+        <source media="(max-width: 768px)" srcset="ColrowsMobileLightMode.png">
+        <img src="ColrowsDesktopLightMode.png" alt="Colrows case study hero">
+      </picture>
+    </div>
+    <div class="case-study-body">
+      <section class="cs-section cs-overview">
+        <div class="cs-meta-row">
+          <div class="cs-meta-item"><span class="cs-meta-label">Role</span><span class="cs-meta-value">Design Lead</span></div>
+          <div class="cs-meta-item"><span class="cs-meta-label">Duration</span><span class="cs-meta-value">12 weeks</span></div>
+          <div class="cs-meta-item"><span class="cs-meta-label">Platform</span><span class="cs-meta-value">Web App</span></div>
+          <div class="cs-meta-item"><span class="cs-meta-label">Focus</span><span class="cs-meta-value">Creative Tooling · Collaboration</span></div>
+        </div>
+      </section>
+      <section class="cs-section">
+        <div class="cs-label">01 — Context</div>
+        <h2 class="cs-heading">Helping teams work with color more intelligently</h2>
+        <p class="cs-text">Colrows began as a creative utility for organizing palettes and references, but it quickly grew into a collaboration tool for visual teams. The challenge was that the product had useful capabilities but no clear interaction model, making it feel unfinished and inconsistent.</p>
+        <p class="cs-text">The redesign focused on helping creative teams move from collecting references to actually making decisions together.</p>
+        <div class="cs-image-placeholder"><span class="cs-image-placeholder-label">Original workspace structure</span></div>
+      </section>
+      <section class="cs-section">
+        <div class="cs-label">02 — Research</div>
+        <h2 class="cs-heading">From inspiration board to decision tool</h2>
+        <p class="cs-text">Workshops with designers and brand teams showed that color tools usually break at the point of collaboration. Saving swatches is easy; aligning people around them is not. Users wanted faster commenting, clearer version states, and a stronger sense of what was final.</p>
+        <div class="cs-insight-grid">
+          <div class="cs-insight-card"><div class="cs-insight-num">66%</div><div class="cs-insight-desc">of teams shared palettes outside the tool because decision-making features felt weak.</div></div>
+          <div class="cs-insight-card"><div class="cs-insight-num">47%</div><div class="cs-insight-desc">fewer duplicate palette explorations when history and variants were visible side by side.</div></div>
+          <div class="cs-insight-card"><div class="cs-insight-num">3.4×</div><div class="cs-insight-desc">more comments were added when annotation points were embedded directly on the canvas.</div></div>
+        </div>
+      </section>
+      <section class="cs-section">
+        <div class="cs-label">03 — Design</div>
+        <h2 class="cs-heading">A workspace that feels creative but decisive</h2>
+        <div class="cs-principles">
+          <div class="cs-principle"><div class="cs-principle-title">Canvas-first layout</div><p class="cs-text">The palette and moodboard take center stage, with secondary tools tucked into lighter side panels that stay available without competing for attention.</p></div>
+          <div class="cs-principle"><div class="cs-principle-title">Clear state communication</div><p class="cs-text">Drafts, team picks, shortlisted palettes, and approved options all have distinct visual states, reducing ambiguity during reviews.</p></div>
+          <div class="cs-principle"><div class="cs-principle-title">Collaboration built into the object</div><p class="cs-text">Comments, reactions, and comparison tools live on the palette itself, not hidden in detached activity feeds.</p></div>
+        </div>
+        <div class="cs-image-placeholder"><span class="cs-image-placeholder-label">New collaboration workflow</span></div>
+      </section>
+      <section class="cs-section">
+        <div class="cs-label">04 — Outcome</div>
+        <h2 class="cs-heading">Stronger collaboration, faster decisions</h2>
+        <p class="cs-text">The new product direction positioned Colrows as more than a utility. Teams could now move from exploration to approval in the same place, which made the tool more valuable during live projects.</p>
+        <div class="cs-results">
+          <div class="cs-result-item"><div class="cs-result-num">+52%</div><div class="cs-result-label">Increase in shared team workspaces</div></div>
+          <div class="cs-result-item"><div class="cs-result-num">-36%</div><div class="cs-result-label">Time to final palette approval</div></div>
+          <div class="cs-result-item"><div class="cs-result-num">+41%</div><div class="cs-result-label">Weekly active collaborators</div></div>
+          <div class="cs-result-item"><div class="cs-result-num">+29%</div><div class="cs-result-label">Reuse of saved palettes across projects</div></div>
+        </div>
+      </section>
+      <section class="cs-section cs-reflection">
+        <div class="cs-label">05 — Reflection</div>
+        <h2 class="cs-heading">What I learned</h2>
+        <p class="cs-text">Creative software needs both openness and structure. Too much freedom and the product feels aimless; too much process and it stops feeling creative.</p>
+        <p class="cs-text">The best part of this project was finding a balance where the interface still felt expressive, but decisions felt easier and more grounded.</p>
       </section>
     </div>
   </div>
@@ -382,12 +532,21 @@
     <div class="portfolio-card">
       <picture class="portfolio-project-image">
         <source media="(max-width: 768px)" srcset="Mobile1.png">
-        <img src="Desktop1.png" alt="Life Insurance, Bajaj Finserv project preview">
+        <img
+          id="life-work-preview"
+          src="LifeDesktopLightMode.png"
+          data-light-src="LifeDesktopLightMode.png"
+          data-dark-src="LifeDesktopDarkMode.png"
+          alt="Life Insurance, Bajaj Finserv project preview">
       </picture>
     </div>
     <div class="portfolio-meta">
       <div class="portfolio-project-name">Life Insurance, Bajaj Finserv</div>
       <p class="portfolio-problem">Designing journey to buy Life Insurance for the customers</p>
+      <div class="portfolio-cta" aria-hidden="true">
+        <span class="portfolio-cta-label">See Project</span>
+        <span class="portfolio-cta-arrow">→</span>
+      </div>
     </div>
   </div>
 
@@ -402,6 +561,44 @@
     <div class="portfolio-meta">
       <div class="portfolio-project-name">Go Leap</div>
       <p class="portfolio-problem">To make discovery experience more immersive</p>
+      <div class="portfolio-cta" aria-hidden="true">
+        <span class="portfolio-cta-label">See Project</span>
+        <span class="portfolio-cta-arrow">→</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="portfolio-container portfolio-container-clickable" onclick="openPage('refi-nft-dashboard')" onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openPage('refi-nft-dashboard'); }" role="button" tabindex="0" aria-label="Open ReFi NFT Dashboard case study">
+    <div class="portfolio-card">
+      <picture class="portfolio-project-image">
+        <source media="(max-width: 768px)" srcset="RefiMobileDarkMode.png">
+        <img src="RefiDesktopDarkMode.png" alt="ReFi NFT Dashboard project preview">
+      </picture>
+    </div>
+    <div class="portfolio-meta">
+      <div class="portfolio-project-name">ReFi NFT Dashboard</div>
+      <p class="portfolio-problem">Designing a dashboard that makes NFT portfolio analytics feel readable and trustworthy.</p>
+      <div class="portfolio-cta" aria-hidden="true">
+        <span class="portfolio-cta-label">See Project</span>
+        <span class="portfolio-cta-arrow">→</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="portfolio-container portfolio-container-clickable" onclick="openPage('colrows')" onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openPage('colrows'); }" role="button" tabindex="0" aria-label="Open Colrows case study">
+    <div class="portfolio-card">
+      <picture class="portfolio-project-image">
+        <source media="(max-width: 768px)" srcset="ColrowsMobileLightMode.png">
+        <img src="ColrowsDesktopLightMode.png" alt="Colrows project preview">
+      </picture>
+    </div>
+    <div class="portfolio-meta">
+      <div class="portfolio-project-name">Colrows</div>
+      <p class="portfolio-problem">Creating a collaborative color workspace for creative teams to explore and decide faster.</p>
+      <div class="portfolio-cta" aria-hidden="true">
+        <span class="portfolio-cta-label">See Project</span>
+        <span class="portfolio-cta-arrow">→</span>
+      </div>
     </div>
   </div>
 
@@ -448,7 +645,7 @@
 
 <div id="cursor-dot">
   <svg class="cursor-hand" viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M8.4 11.2V4.8a1.4 1.4 0 0 1 2.8 0v4.1h.8V3.8a1.4 1.4 0 0 1 2.8 0v5.1h.8V5.1a1.4 1.4 0 1 1 2.8 0v5h.7a1.4 1.4 0 0 1 1.4 1.4v1.8c0 4.3-2.7 7.1-6.8 7.1-3 0-5-1.6-6.1-4.6l-1.1-3.2a1.4 1.4 0 0 1 2.6-.9l.9 2.1h.4v-2.6a1.4 1.4 0 0 1 2.8 0Z" fill="currentColor"/>
+    <path d="M7.5 3.5v9.2l-1.7-1.5a1.5 1.5 0 0 0-2.2 2l3.4 5.5A3 3 0 0 0 9.6 20H14a3 3 0 0 0 3-3v-6.2a1.5 1.5 0 0 0-3 0V9.5a1.5 1.5 0 0 0-3 0V8.7a1.5 1.5 0 0 0-3 0V3.5a1.5 1.5 0 0 0-3 0Z" fill="currentColor"/>
   </svg>
 </div>
 <div id="cursor-ring"></div>

@@ -28,8 +28,16 @@
     return document.documentElement.classList.contains('dark') ? '#ffffff' : '#000000';
   }
 
+  function syncThemeImages() {
+    const isDark = document.documentElement.classList.contains('dark');
+    document.querySelectorAll('[data-light-src][data-dark-src]').forEach(img => {
+      img.src = isDark ? img.dataset.darkSrc : img.dataset.lightSrc;
+    });
+  }
+
   function toggleTheme() {
     document.documentElement.classList.toggle('dark');
+    syncThemeImages();
     // Update all tspan fills to match new theme
     const base = getBaseColor();
     tspans.forEach(t => {
@@ -51,6 +59,7 @@
       page.scrollTop = 0;
       updateCsProgressSlider(page);
     }
+    syncGlobalCloseButton();
     document.querySelectorAll('.nav-link').forEach(l => {
       if (l.getAttribute('onclick').includes(id)) l.classList.add('active');
     });
@@ -59,6 +68,7 @@
   function closePage() {
     document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+    syncGlobalCloseButton();
     updateProgressSlider();
   }
 
@@ -182,6 +192,7 @@
       wrapper.style.bottom = '0';
       wrapper.style.left = '-200px';
       wrapper.style.right = '-200px';
+      wrapper.style.opacity = '1';
       wrapper.style.filter = '';
       wrapper.style.webkitFilter = '';
     } else {
@@ -189,6 +200,7 @@
       wrapper.style.bottom = '0';
       wrapper.style.left = '-200px';
       wrapper.style.right = '-200px';
+      wrapper.style.transition = 'opacity 0.18s linear, filter 0.18s linear';
       update();
     }
   }
@@ -199,10 +211,18 @@
 
     const H = window.innerHeight;
     const scrollY = window.scrollY;
-    const aboutSection = document.querySelector('.portfolio-section');
+    const portfolioSection = document.querySelector('.portfolio-section');
 
-    if (aboutSection) {
-      const rect = aboutSection.getBoundingClientRect();
+    if (portfolioSection) {
+      const rect = portfolioSection.getBoundingClientRect();
+      const nameTopInViewport = H - nameHeight - bottomOffset;
+      const nameBottomInViewport = H - bottomOffset;
+      const revealGap = 160;
+      const overlapStart = nameTopInViewport - revealGap;
+      const overlapEnd = nameBottomInViewport + revealGap;
+      const overlapDistance = Math.max(0, Math.min(rect.bottom, overlapEnd) - Math.max(rect.top, overlapStart));
+      const opacityRatio = 1 - Math.min(1, overlapDistance / (nameHeight + revealGap * 2));
+      wrapper.style.opacity = opacityRatio.toFixed(3);
 
       if (rect.bottom > H / 2) {
         // Portfolio bottom still in upper half — stay fixed
@@ -215,6 +235,7 @@
       }
     } else {
       wrapper.style.bottom = bottomOffset + 'px';
+      wrapper.style.opacity = '1';
     }
 
     // Blur logic
@@ -270,11 +291,21 @@
   const psLines = document.querySelectorAll('#progress-slider .ps-line');
   const totalMainProgressLines = psLines.length;
   const navProgressBar = document.getElementById('nav-progress-bar');
+  const progressSlider = document.getElementById('progress-slider');
+  const globalPageClose = document.getElementById('globalPageClose');
 
-  function updateProgressSlider() {
-    const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = docHeight > 0 ? scrollTop / docHeight : 0;
+  function syncGlobalProgressVisibility() {
+    if (!progressSlider) return;
+    progressSlider.style.display = window.innerWidth > 768 ? 'flex' : 'none';
+  }
+
+  function syncGlobalCloseButton() {
+    if (!globalPageClose) return;
+    const activePage = document.querySelector('.page-view.active');
+    globalPageClose.classList.toggle('is-visible', Boolean(activePage));
+  }
+
+  function setGlobalProgress(progress) {
     const filled = Math.round(progress * totalMainProgressLines);
     psLines.forEach((line, index) => {
       line.classList.toggle('active', index < filled);
@@ -284,25 +315,40 @@
     }
   }
 
-  function updateCsProgressSlider(pageEl) {
-    if (!pageEl) return;
-    const sliderEl = pageEl.querySelector('.progress-slider-cs');
-    if (!sliderEl) return;
-    const lines = sliderEl.querySelectorAll('.ps-cs-line');
-    const total = lines.length;
+  function getOverlayProgress(pageEl) {
+    if (!pageEl) return 0;
     const scrollTop = pageEl.scrollTop;
     const scrollHeight = pageEl.scrollHeight - pageEl.clientHeight;
-    const progress = scrollHeight > 0 ? scrollTop / scrollHeight : 0;
-    const filled = Math.round(progress * total);
-    lines.forEach((line, index) => {
-      line.classList.toggle('active', index < filled);
-    });
+    return scrollHeight > 0 ? scrollTop / scrollHeight : 0;
+  }
+
+  function updateProgressSlider() {
+    const activeCaseStudy = document.querySelector('.page-view.active.case-study-view');
+    syncGlobalProgressVisibility();
+    syncGlobalCloseButton();
+    if (activeCaseStudy && window.innerWidth > 768) {
+      setGlobalProgress(getOverlayProgress(activeCaseStudy));
+      return;
+    }
+
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? scrollTop / docHeight : 0;
+    setGlobalProgress(progress);
+  }
+
+  function updateCsProgressSlider(pageEl) {
+    if (!pageEl || !pageEl.classList.contains('case-study-view') || window.innerWidth <= 768) return;
+    syncGlobalProgressVisibility();
+    setGlobalProgress(getOverlayProgress(pageEl));
   }
 
   window.addEventListener('scroll', updateProgressSlider, { passive: true });
   document.querySelectorAll('.page-view').forEach(pageView => {
     pageView.addEventListener('scroll', () => updateCsProgressSlider(pageView), { passive: true });
   });
+  syncThemeImages();
+  syncGlobalCloseButton();
   updateProgressSlider();
 
   Promise.all([
@@ -353,6 +399,8 @@
     mouseY = e.clientY;
     dot.style.left = mouseX + 'px';
     dot.style.top  = mouseY + 'px';
+    const hoveredEl = document.elementFromPoint(mouseX, mouseY);
+    dot.classList.toggle('is-pointer', Boolean(hoveredEl && hoveredEl.closest(pointerSelector)));
   });
 
   function handleTouchCursor(e) {
@@ -385,7 +433,8 @@
   animateRing();
 
   // Magnetic effect on interactive elements
-  const magneticEls = document.querySelectorAll('a, button, .portfolio-card, .portfolio-container-clickable, .logo, .nav-link, .page-close');
+  const magneticEls = document.querySelectorAll('.logo, .nav-link');
+  const pointerSelector = '.logo, .nav-link';
 
   magneticEls.forEach(el => {
     el.addEventListener('mouseenter', () => {
