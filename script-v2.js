@@ -72,6 +72,24 @@
     });
   }
 
+  function setWorkTab(tabId, triggerEl) {
+    document.querySelectorAll('.work-tab').forEach(tab => {
+      const isActive = tab.dataset.workTab === tabId;
+      tab.classList.toggle('is-active', isActive);
+      tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+
+    document.querySelectorAll('.work-tab-panel').forEach(panel => {
+      const isActive = panel.dataset.workPanel === tabId;
+      panel.classList.toggle('is-active', isActive);
+      panel.hidden = !isActive;
+    });
+
+    if (triggerEl) {
+      triggerEl.blur();
+    }
+  }
+
   function closePage() {
     document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));

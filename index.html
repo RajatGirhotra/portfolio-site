@@ -106,7 +106,54 @@
   </div>
   <div class="page-inner">
     <div class="page-title">Work</div>
-    <p style="font-size:15px;color:#575757;line-height:1.8;">Case studies and projects coming soon.</p>
+    <div class="work-tabs" role="tablist" aria-label="Work categories">
+      <button class="work-tab is-active" type="button" role="tab" aria-selected="true" data-work-tab="office" onclick="setWorkTab('office', this)">Office</button>
+      <button class="work-tab" type="button" role="tab" aria-selected="false" data-work-tab="freelance" onclick="setWorkTab('freelance', this)">Freelance</button>
+      <button class="work-tab" type="button" role="tab" aria-selected="false" data-work-tab="playground" onclick="setWorkTab('playground', this)">Playground</button>
+      <button class="work-tab" type="button" role="tab" aria-selected="false" data-work-tab="ai-designs" onclick="setWorkTab('ai-designs', this)">AI Designs</button>
+    </div>
+    <div class="work-tab-panel is-active" data-work-panel="office" role="tabpanel">
+      <div class="work-grid">
+        <button class="work-card" type="button" onclick="openPage('life-insurance')">
+          <span class="work-card-kicker">Office</span>
+          <span class="work-card-title">Life Insurance, Bajaj Finserv</span>
+          <span class="work-card-copy">Reworked the life insurance buying journey to make trust, comparison, and conversion feel much simpler.</span>
+          <span class="work-card-link">Open case study</span>
+        </button>
+        <button class="work-card" type="button" onclick="openPage('go-leap')">
+          <span class="work-card-kicker">Office</span>
+          <span class="work-card-title">Go Leap</span>
+          <span class="work-card-copy">Designed a more immersive discovery flow that made browsing feel less like search and more like exploration.</span>
+          <span class="work-card-link">Open case study</span>
+        </button>
+      </div>
+    </div>
+    <div class="work-tab-panel" data-work-panel="freelance" role="tabpanel" hidden>
+      <div class="work-grid">
+        <button class="work-card" type="button" onclick="openPage('colrows')">
+          <span class="work-card-kicker">Freelance</span>
+          <span class="work-card-title">Colrows</span>
+          <span class="work-card-copy">Built a fresh visual direction and cleaner storytelling for a brand-led digital experience.</span>
+          <span class="work-card-link">Open case study</span>
+        </button>
+      </div>
+    </div>
+    <div class="work-tab-panel" data-work-panel="playground" role="tabpanel" hidden>
+      <div class="work-grid">
+        <button class="work-card" type="button" onclick="openPage('refi-nft-dashboard')">
+          <span class="work-card-kicker">Playground</span>
+          <span class="work-card-title">ReFi NFT Dashboard</span>
+          <span class="work-card-copy">Explored a dashboard system for digital assets with a sharper focus on clarity, hierarchy, and motion.</span>
+          <span class="work-card-link">Open case study</span>
+        </button>
+      </div>
+    </div>
+    <div class="work-tab-panel" data-work-panel="ai-designs" role="tabpanel" hidden>
+      <div class="work-empty-state">
+        <div class="work-empty-title">AI Designs coming soon</div>
+        <p class="work-empty-copy">This tab is reserved for concept explorations, AI-assisted interfaces, and rapid design experiments.</p>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -160,9 +207,38 @@
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
   </div>
-  <div class="page-inner">
-    <div class="page-title">Contact</div>
-    <p style="font-size:15px;color:#575757;line-height:1.8;">Get in touch coming soon.</p>
+  <div class="page-inner contact-page">
+    <div class="contact-hero">
+      <div class="page-title">Contact</div>
+      <p class="contact-lead">Open to product design roles, collaborations, freelance projects, and thoughtful conversations around design, systems, and creative technology.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-block">
+        <div class="contact-label">Reach out</div>
+        <a class="contact-value" href="mailto:rajatgirhotra13@gmail.com">rajatgirhotra13@gmail.com</a>
+        <a class="contact-value" href="tel:+919354423022">+91 9354423022</a>
+      </div>
+      <div class="contact-block">
+        <div class="contact-label">Based in</div>
+        <div class="contact-value contact-value-static">Pune, India</div>
+        <div class="contact-note">Available for remote-friendly opportunities and selected in-person collaborations.</div>
+      </div>
+      <div class="contact-block">
+        <div class="contact-label">Social links</div>
+        <a class="contact-value" href="https://linkedin.com" target="_blank" rel="noreferrer">LinkedIn</a>
+        <a class="contact-value" href="https://behance.net" target="_blank" rel="noreferrer">Behance</a>
+        <a class="contact-value" href="https://dribbble.com" target="_blank" rel="noreferrer">Dribbble</a>
+      </div>
+      <div class="contact-block contact-block-highlight">
+        <div class="contact-label">Best for</div>
+        <div class="contact-chip-row">
+          <span class="contact-chip">Product Design</span>
+          <span class="contact-chip">Design Systems</span>
+          <span class="contact-chip">0→1 Concepts</span>
+          <span class="contact-chip">AI Interfaces</span>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
