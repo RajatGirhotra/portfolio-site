@@ -135,6 +135,9 @@
     color: #ffffff;
     background: rgba(255,255,255,0.04);
   }
+  html.dark .artwork-caption {
+    color: #a8a8a8;
+  }
   html.dark .ai-category-title { color: #ffffff; }
   html.dark .ai-card-caption { color: #aaaaaa; }
   html.dark #howIAiTitle { color: #ffffff; }
@@ -422,9 +425,11 @@
     }
 
     .mobile-menu .nav-link {
+      font-family: 'Inter', sans-serif;
       font-size: 36px;
       font-weight: 400;
       letter-spacing: -0.02em;
+      line-height: 1;
       color: var(--text);
       padding: 18px 0;
       border-bottom: 1px solid var(--border);
@@ -439,6 +444,7 @@
     .mobile-menu.open .nav-link:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.14s; }
     .mobile-menu.open .nav-link:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.20s; }
     .mobile-menu.open .nav-link:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.26s; }
+    .mobile-menu.open .nav-link:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 0.32s; }
 
     .mobile-menu .nav-link:hover { color: var(--gray); }
 
@@ -470,6 +476,7 @@
   .nav-link {
     font-family: 'Inter', sans-serif;
     font-size: 13px;
+    line-height: 1;
     font-weight: 400;
     color: #000000;
     text-decoration: none;
@@ -531,11 +538,20 @@
     max-width: 900px;
   }
 
+  .work-page-inner {
+    max-width: 100%;
+    padding: 80px 48px 120px;
+  }
+
   .page-title {
-    font-size: 36px;
-    font-weight: 500;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 112px;
+    line-height: 0.88;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.04em;
     color: #000000;
-    margin-bottom: 48px;
+    margin-bottom: 40px;
   }
 
   .page-close {
@@ -1477,11 +1493,72 @@
     color: #111111;
   }
 
+  .artwork-page {
+    max-width: 100%;
+    padding: 80px 48px 120px;
+  }
+
+  .artwork-gallery {
+    width: 100%;
+    display: block;
+    padding-top: 12px;
+  }
+
+  .artwork-figure {
+    width: min(100%, 1440px);
+    margin: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1080px) minmax(140px, 1fr);
+    gap: 20px;
+    align-items: end;
+  }
+
+  .artwork-figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 0;
+  }
+
+  .artwork-caption {
+    align-self: end;
+    display: flex;
+    justify-content: flex-start;
+    padding-bottom: 4px;
+  }
+
+  .artwork-caption-text {
+    font-size: 16px;
+    line-height: 1.4;
+    color: #666666;
+  }
+
+  .ai-designs-showcase {
+    width: 100%;
+  }
+
+  .ai-design-figure {
+    width: min(100%, 1440px);
+  }
+
   .work-tabs {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
     margin: 28px 0 36px;
+  }
+
+  .work-tab-showcase .portfolio-container {
+    padding: 0 0 0 0;
+    margin-bottom: 100px;
+  }
+
+  .work-tab-showcase .portfolio-container:last-child {
+    margin-bottom: 0;
+  }
+
+  .work-tab-showcase .portfolio-meta {
+    top: 136px;
   }
 
   .work-tab {
@@ -1573,6 +1650,10 @@
     font-size: 15px;
     line-height: 1.8;
     color: #666666;
+  }
+
+  .work-tab-panel[data-work-panel="playground"] .work-empty-copy {
+    font-size: 16px;
   }
 
   .site-footer {
@@ -1685,6 +1766,20 @@
   }
 
   @media (max-width: 768px) {
+    .work-page-inner {
+      padding: 80px 20px 96px;
+    }
+    .work-tab-showcase .portfolio-container {
+      margin-bottom: 48px;
+    }
+    .work-tab-showcase .portfolio-meta {
+      top: auto;
+    }
+    .page-title {
+      font-size: 72px;
+      line-height: 0.9;
+      margin-bottom: 28px;
+    }
     .contact-page {
       padding-top: 80px;
       padding-bottom: 96px;
@@ -1719,6 +1814,29 @@
       padding: 8px 12px;
       font-size: 12px;
     }
+    .artwork-page {
+      padding: 80px 20px 96px;
+    }
+    .artwork-gallery {
+      padding-top: 0;
+    }
+    .artwork-figure {
+      width: 100%;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    .artwork-figure img {
+      border-radius: 0;
+    }
+    .artwork-caption {
+      padding-bottom: 0;
+    }
+    .artwork-caption-text {
+      font-size: 16px;
+    }
+    .ai-design-figure {
+      width: 100%;
+    }
     .work-tabs {
       gap: 8px;
       margin: 20px 0 28px;
@@ -1744,6 +1862,9 @@
     .work-empty-copy {
       font-size: 14px;
       line-height: 1.7;
+    }
+    .work-tab-panel[data-work-panel="playground"] .work-empty-copy {
+      font-size: 16px;
     }
     .work-empty-title {
       font-size: 24px;
