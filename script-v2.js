@@ -25,7 +25,7 @@
   }
 
   function getBaseColor() {
-    return document.documentElement.classList.contains('dark') ? '#ffffff' : '#000000';
+    return document.documentElement.classList.contains('dark') ? '#F3F3F3' : '#000000';
   }
 
   function syncThemeImages() {
@@ -473,6 +473,7 @@
   function syncGlobalCloseButton() {
     if (!globalPageClose) return;
     const activePage = document.querySelector('.page-view.active');
+    document.body.classList.toggle('has-active-page', Boolean(activePage));
     globalPageClose.classList.toggle('is-visible', Boolean(activePage));
   }
 
