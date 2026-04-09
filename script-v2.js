@@ -158,6 +158,42 @@
     }));
   }
 
+  function setupImageSkeletons() {
+    document.querySelectorAll('img').forEach(img => {
+      if (siteLoader && siteLoader.contains(img)) return;
+
+      const host = img.closest('.portfolio-project-image, .case-study-hero-media, .resume-preview, .artwork-figure');
+      if (!host) return;
+
+      host.classList.add('image-skeleton-host');
+      img.classList.add('image-skeleton');
+
+      const markReady = () => {
+        host.classList.add('is-loaded');
+        img.classList.add('is-loaded');
+      };
+
+      if (img.complete && img.naturalWidth > 0) {
+        if (img.decode) {
+          img.decode().catch(() => {}).finally(markReady);
+        } else {
+          markReady();
+        }
+        return;
+      }
+
+      img.addEventListener('load', () => {
+        if (img.decode) {
+          img.decode().catch(() => {}).finally(markReady);
+        } else {
+          markReady();
+        }
+      }, { once: true });
+
+      img.addEventListener('error', markReady, { once: true });
+    });
+  }
+
   function initializeNameEffects() {
     if (hasInitializedNameEffects) return;
     hasInitializedNameEffects = true;
@@ -505,6 +541,8 @@
     withTimeout(waitForImages(), 1200),
     new Promise(resolve => window.setTimeout(resolve, 350))
   ]).then(revealSite).catch(revealSite);
+
+  afterDomReady().then(setupImageSkeletons);
 
   function hasCustomCursorEffect() {
     return window.innerWidth > 1024 && window.matchMedia('(pointer: fine)').matches;
