@@ -1649,6 +1649,7 @@
   .ai-design-figure {
     width: min(100%, 1440px);
     align-items: start !important;
+    overflow: visible;
   }
 
   .ai-design-figure .artwork-caption {
@@ -1657,7 +1658,12 @@
     top: 136px;
     padding-bottom: 0;
     margin-top: 0;
+    padding-top: 0;
     justify-content: flex-start;
+  }
+
+  .ai-design-figure.image-skeleton-host {
+    overflow: visible;
   }
 
   .work-tabs {
