@@ -69,6 +69,8 @@
   /* Big name SVG */
   html.dark #bigNameText { fill: #F3F3F3; }
   html.dark #bigNameText tspan[fill="#000000"] { fill: #F3F3F3; }
+  html.dark #footerNameText { fill: #F3F3F3; }
+  html.dark #footerNameText tspan[fill="#000000"] { fill: #F3F3F3; }
 
   /* Section titles */
   html.dark .portfolio-title { color: #F3F3F3; }
@@ -402,12 +404,12 @@
 
   @media (max-width: 768px) {
     #nav-progress-bar {
-      display: block;
+      display: none;
       position: fixed;
       top: 57px;
       left: 0;
       right: 0;
-      height: 5px;
+      height: 2px;
       background: transparent;
       z-index: 321;
       pointer-events: none;
@@ -647,10 +649,12 @@
   }
 
   @media (max-width: 768px) {
-    .global-page-close {
-      top: auto;
-      right: 20px;
-      bottom: 20px;
+    .global-page-close.is-visible {
+      top: auto !important;
+      left: auto !important;
+      right: 30px !important;
+      bottom: 30px !important;
+      transform: none !important;
       width: 56px;
       height: 56px;
       padding: 0;
@@ -1335,6 +1339,12 @@
       margin-left: -20px;
       border-radius: 0;
     }
+    .refi-mobile-edge-card .portfolio-card,
+    .colrows-mobile-edge-card .portfolio-card {
+      width: calc(100% + 40px);
+      margin-left: -20px;
+      border-radius: 0;
+    }
     .portfolio-image-placeholder { width: 80%; }
     .portfolio-meta {
       margin-top: 16px;
@@ -1451,6 +1461,16 @@
       padding: 20px 20px;
     }
 
+    .work-section-wrapper {
+      margin-top: 120px;
+    }
+
+    .work-section-wrapper > section {
+      background: var(--bg) !important;
+      -webkit-mask-image: none !important;
+      mask-image: none !important;
+    }
+
     .hero-center {
       max-width: 100%;
       padding: 0 16px;
@@ -1470,7 +1490,7 @@
 
     /* Work section */
     .work-section {
-      padding: 80px 20px 10px;
+      padding: 0 20px 10px;
     }
 
     .work-entry {

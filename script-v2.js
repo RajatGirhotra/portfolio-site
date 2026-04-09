@@ -281,7 +281,7 @@
     const isMobile = W <= 768;
     const H = isMobile && window.visualViewport ? window.visualViewport.height : window.innerHeight;
     const navHeight = isMobile ? 58 : 74;
-    bottomOffset = isMobile ? 60 : 0;
+    bottomOffset = 0;
 
     const svgW = W + SIDE_PAD * 2;
     svg.setAttribute('width', svgW);
@@ -329,7 +329,7 @@
 
     if (isMobile) {
       wrapper.style.position = 'absolute';
-      wrapper.style.bottom = '0';
+      wrapper.style.bottom = bottomOffset + 'px';
       wrapper.style.left = '-200px';
       wrapper.style.right = '-200px';
       wrapper.style.opacity = '1';
@@ -495,11 +495,11 @@
   }
 
   function updateProgressSlider() {
-    const activeCaseStudy = document.querySelector('.page-view.active.case-study-view');
+    const activePage = document.querySelector('.page-view.active');
     syncGlobalProgressVisibility();
     syncGlobalCloseButton();
-    if (activeCaseStudy && window.innerWidth > 768) {
-      setGlobalProgress(getOverlayProgress(activeCaseStudy));
+    if (activePage) {
+      setGlobalProgress(getOverlayProgress(activePage));
       return;
     }
 
@@ -510,7 +510,7 @@
   }
 
   function updateCsProgressSlider(pageEl) {
-    if (!pageEl || !pageEl.classList.contains('case-study-view') || window.innerWidth <= 768) return;
+    if (!pageEl || !pageEl.classList.contains('active')) return;
     syncGlobalProgressVisibility();
     setGlobalProgress(getOverlayProgress(pageEl));
   }
