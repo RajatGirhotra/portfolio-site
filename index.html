@@ -37,7 +37,7 @@
   <a class="logo" href="#" onclick="closePage()">Rajat Girhotra</a>
   <div class="nav-links">
     <span class="nav-link" onclick="openPage('work')">Work</span>
-    <span class="nav-link" onclick="openPage('artwork')">Artwork</span>
+    <span class="nav-link" onclick="openPage('how-i-ai')">How I AI</span>
     <span class="nav-link" onclick="openPage('about')">About me</span>
     <span class="nav-link" onclick="openPage('resume')">Resume</span>
     <span class="nav-link" onclick="openPage('contact')">Contact</span>
@@ -91,7 +91,7 @@
 <!-- Mobile Menu Full-Screen Panel -->
 <div class="mobile-menu" id="mobileMenu">
   <span class="nav-link" onclick="openPage('work'); closeMobileMenu()">Work</span>
-  <span class="nav-link" onclick="openPage('artwork'); closeMobileMenu()">Artwork</span>
+  <span class="nav-link" onclick="openPage('how-i-ai'); closeMobileMenu()">How I AI</span>
   <span class="nav-link" onclick="openPage('about'); closeMobileMenu()">About me</span>
   <span class="nav-link" onclick="openPage('resume'); closeMobileMenu()">Resume</span>
   <span class="nav-link" onclick="openPage('contact'); closeMobileMenu()">Contact</span>
@@ -117,7 +117,7 @@
       <button class="work-tab is-active" type="button" role="tab" aria-selected="true" data-work-tab="office" onclick="setWorkTab('office', this)">Office</button>
       <button class="work-tab" type="button" role="tab" aria-selected="false" data-work-tab="freelance" onclick="setWorkTab('freelance', this)">Freelance</button>
       <button class="work-tab" type="button" role="tab" aria-selected="false" data-work-tab="playground" onclick="setWorkTab('playground', this)">Playground</button>
-      <button class="work-tab" type="button" role="tab" aria-selected="false" data-work-tab="ai-designs" onclick="setWorkTab('ai-designs', this)">AI Designs</button>
+      <button class="work-tab" type="button" role="tab" aria-selected="false" data-work-tab="artwork" onclick="setWorkTab('artwork', this)">Artwork</button>
     </div>
     <div class="work-tab-panel is-active" data-work-panel="office" role="tabpanel">
       <div class="work-tab-showcase">
@@ -237,11 +237,25 @@
         <div class="work-empty-title">Playground coming soon</div>
         <p class="work-empty-copy">Some fun and useful product feature ideas which I get while doing random things, so I just design them quickly and post them on LinkedIn every Tuesday. Check them out.</p>
       </div>
+      <div class="playground-gallery">
+        <figure class="playground-card">
+          <div class="playground-image-placeholder"></div>
+          <figcaption class="playground-caption">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</figcaption>
+        </figure>
+        <figure class="playground-card">
+          <div class="playground-image-placeholder"></div>
+          <figcaption class="playground-caption">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</figcaption>
+        </figure>
+        <figure class="playground-card">
+          <div class="playground-image-placeholder"></div>
+          <figcaption class="playground-caption">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</figcaption>
+        </figure>
+      </div>
     </div>
-    <div class="work-tab-panel" data-work-panel="ai-designs" role="tabpanel" hidden>
-      <div class="ai-designs-showcase">
-        <figure class="artwork-figure ai-design-figure">
-          <img src="Artwork-desktop-1-1800.jpg" alt="Isometric Icon Design - ChatGPT" loading="lazy" decoding="async" fetchpriority="low">
+    <div class="work-tab-panel" data-work-panel="artwork" role="tabpanel" hidden>
+      <div class="artwork-gallery work-artwork-gallery">
+        <figure class="artwork-figure">
+          <img src="Artwork-desktop-1-1800.jpg" alt="Isometric Icon Design - ChatGPT artwork" loading="lazy" decoding="async" fetchpriority="low">
           <figcaption class="artwork-caption">
             <span class="artwork-caption-text">Isometric Icon Design - ChatGPT</span>
           </figcaption>
@@ -251,8 +265,8 @@
   </div>
 </div>
 
-<!-- ARTWORK PAGE -->
-<div class="page-view" id="page-artwork">
+<!-- HOW I AI PAGE -->
+<div class="page-view" id="page-how-i-ai">
   <button class="page-close" onclick="closePage()">✕ Close</button>
   <div class="progress-slider-cs" aria-hidden="true">
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
@@ -261,14 +275,44 @@
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
   </div>
   <div class="page-inner artwork-page">
-    <div class="page-title">Artwork</div>
-    <div class="artwork-gallery">
-      <figure class="artwork-figure">
-        <img src="Artwork-desktop-1-1800.jpg" alt="Isometric Icon Design - ChatGPT artwork" loading="lazy" decoding="async" fetchpriority="low">
-        <figcaption class="artwork-caption">
-          <span class="artwork-caption-text">Isometric Icon Design - ChatGPT</span>
-        </figcaption>
-      </figure>
+    <div class="page-title">How I AI</div>
+    <div class="work-tabs how-ai-tabs" role="tablist" aria-label="How I AI categories">
+      <button class="work-tab is-active" type="button" role="tab" aria-selected="true" data-how-ai-tab="visual" onclick="setHowIAITab('visual', this)">Visual</button>
+      <button class="work-tab" type="button" role="tab" aria-selected="false" data-how-ai-tab="process-workflow" onclick="setHowIAITab('process-workflow', this)">Process workflow</button>
+    </div>
+    <div class="how-ai-tab-panel is-active" data-how-ai-panel="visual" role="tabpanel">
+      <div class="ai-designs-showcase">
+        <figure class="artwork-figure ai-design-figure">
+          <img src="Artwork-desktop-1-1800.jpg" alt="Isometric Icon Design - ChatGPT" loading="lazy" decoding="async" fetchpriority="low">
+          <figcaption class="artwork-caption">
+            <span class="artwork-caption-text">Isometric Icon Design - ChatGPT</span>
+          </figcaption>
+        </figure>
+        <figure class="artwork-figure ai-design-figure">
+          <img src="Artwork-desktop-3-1800.jpg" alt="Normal People, Normal things. Created with ChatGPT, Gemini, Grok." loading="lazy" decoding="async" fetchpriority="low">
+          <figcaption class="artwork-caption">
+            <span class="artwork-caption-text">Normal People, Normal things. Created with ChatGPT, Gemini, Grok.</span>
+          </figcaption>
+        </figure>
+        <figure class="artwork-figure ai-design-figure">
+          <img src="Artwork-desktop-4-1800.jpg" alt="Isometric Monuments Created with ChatGPT." loading="lazy" decoding="async" fetchpriority="low">
+          <figcaption class="artwork-caption">
+            <span class="artwork-caption-text">Isometric Monuments Created with ChatGPT.</span>
+          </figcaption>
+        </figure>
+        <figure class="artwork-figure ai-design-figure">
+          <img src="Artwork-desktop-5-1800.jpg" alt="Brand work. Made with Chat GPT" loading="lazy" decoding="async" fetchpriority="low">
+          <figcaption class="artwork-caption">
+            <span class="artwork-caption-text">Brand work. Made with Chat GPT</span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+    <div class="how-ai-tab-panel" data-how-ai-panel="process-workflow" role="tabpanel" hidden>
+      <div class="work-empty-state how-ai-process-state">
+        <div class="work-empty-title">Process workflow</div>
+        <p class="work-empty-copy">A space to document the exact prompts, iteration loops, tools, and editing workflow I use to turn rough AI outputs into polished visual directions and production-ready explorations.</p>
+      </div>
     </div>
   </div>
 </div>

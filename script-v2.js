@@ -35,26 +35,32 @@
     });
   }
 
-  function toggleTheme() {
-    document.documentElement.classList.toggle('dark');
+  function applyThemeState(isDark) {
+    document.documentElement.classList.toggle('dark', isDark);
     syncThemeImages();
-    // Update all tspan fills to match new theme
+
     const base = getBaseColor();
     tspans.forEach(t => {
       if (t.el.getAttribute('fill') !== 'url(#' + (t.el._gradId || '') + ')') {
         t.el.setAttribute('fill', base);
       }
     });
-    // Update big name text base fill
+
     const bigText = document.getElementById('bigNameText');
     if (bigText) bigText.setAttribute('fill', base);
+
     footerTspans.forEach(t => {
       if (t.el.getAttribute('fill') !== 'url(#' + (t.el._gradId || '') + ')') {
         t.el.setAttribute('fill', base);
       }
     });
+
     const footerText = document.getElementById('footerNameText');
     if (footerText) footerText.setAttribute('fill', base);
+  }
+
+  function toggleTheme() {
+    applyThemeState(!document.documentElement.classList.contains('dark'));
   }
 
   function openPage(id) {
@@ -81,6 +87,24 @@
 
     document.querySelectorAll('.work-tab-panel').forEach(panel => {
       const isActive = panel.dataset.workPanel === tabId;
+      panel.classList.toggle('is-active', isActive);
+      panel.hidden = !isActive;
+    });
+
+    if (triggerEl) {
+      triggerEl.blur();
+    }
+  }
+
+  function setHowIAITab(tabId, triggerEl) {
+    document.querySelectorAll('[data-how-ai-tab]').forEach(tab => {
+      const isActive = tab.dataset.howAiTab === tabId;
+      tab.classList.toggle('is-active', isActive);
+      tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+
+    document.querySelectorAll('[data-how-ai-panel]').forEach(panel => {
+      const isActive = panel.dataset.howAiPanel === tabId;
       panel.classList.toggle('is-active', isActive);
       panel.hidden = !isActive;
     });
@@ -458,6 +482,20 @@
   document.querySelectorAll('.page-view').forEach(pageView => {
     pageView.addEventListener('scroll', () => updateCsProgressSlider(pageView), { passive: true });
   });
+  const systemThemeQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+
+  if (systemThemeQuery) {
+    const handleSystemThemeChange = event => {
+      applyThemeState(event.matches);
+    };
+
+    if (typeof systemThemeQuery.addEventListener === 'function') {
+      systemThemeQuery.addEventListener('change', handleSystemThemeChange);
+    } else if (typeof systemThemeQuery.addListener === 'function') {
+      systemThemeQuery.addListener(handleSystemThemeChange);
+    }
+  }
+
   syncThemeImages();
   syncGlobalCloseButton();
   updateProgressSlider();
