@@ -41,7 +41,7 @@
   html.dark .portfolio-card { background: var(--bg); }
   html.dark .portfolio-image-placeholder { background: #2a2a2a; }
   html.dark .ai-card-image { background: #1e1e1e; }
-  html.dark .about-hero-subtitle { color: #555555; }
+  html.dark .about-hero-subtitle { color: #F3F3F3; }
   html.dark .about-text p { color: #F3F3F3; }
   html.dark .fun-fact { color: #F3F3F3; }
   html.dark #cursor-ring { border-color: rgba(255,255,255,0.35); }
@@ -62,7 +62,7 @@
   html.dark .page-view p { color: #F3F3F3; }
   html.dark .page-view strong { color: #F3F3F3; }
   html.dark .page-view .about-hero-title { color: #F3F3F3; }
-  html.dark .page-view .about-hero-subtitle { color: #444444; }
+  html.dark .page-view .about-hero-subtitle { color: #F3F3F3; }
   html.dark .nav-link { color: #F3F3F3; }
   html.dark .theme-toggle { color: #F3F3F3; }
 
@@ -92,9 +92,12 @@
   html.dark .footer-meta {
     color: #F3F3F3;
   }
+  html.dark .footer-meta-inline {
+    color: #F3F3F3;
+  }
   html.dark .work-tab {
     border-color: rgba(255,255,255,0.12);
-    color: #b5b5b5;
+    color: #F3F3F3;
   }
   html.dark .work-tab.is-active {
     background: #ffffff;
@@ -147,6 +150,25 @@
     background: rgba(255,255,255,0.04);
   }
   html.dark .artwork-caption {
+    color: #F3F3F3;
+  }
+  html.dark .artwork-caption-text,
+  html.dark .playground-caption,
+  html.dark .company-role,
+  html.dark .company-period,
+  html.dark .work-desc,
+  html.dark .work-highlight,
+  html.dark .portfolio-cta,
+  html.dark .cs-text,
+  html.dark .cs-insight-desc,
+  html.dark .cs-result-label,
+  html.dark .cs-image-placeholder-label,
+  html.dark .contact-note,
+  html.dark .contact-chip,
+  html.dark .footer-copy,
+  html.dark .footer-meta-inline,
+  html.dark .sub-tagline,
+  html.dark .stat-label {
     color: #F3F3F3;
   }
   html.dark .ai-category-title { color: #F3F3F3; }
@@ -995,10 +1017,10 @@
     #progress-slider { display: none; }
     .progress-slider-cs { display: none !important; }
     .case-study-hero {
-      width: auto;
+      width: calc(100% + 32px);
       height: 320px;
-      border-radius: 22px;
-      margin: 0 16px 24px;
+      border-radius: 0;
+      margin: 0 -16px 24px;
     }
     .case-study-hero-placeholder {
       font-size: 28px;
@@ -1328,17 +1350,14 @@
       display: block;
       margin-bottom: 48px;
     }
-    .portfolio-card     { height: 515px; border-radius: 0; }
-    .life-mobile-edge-card .portfolio-card {
+    .portfolio-card {
       width: calc(100% + 40px);
       margin-left: -20px;
+      height: 515px;
       border-radius: 0;
     }
-    .goleap-mobile-edge-card .portfolio-card {
-      width: calc(100% + 40px);
-      margin-left: -20px;
-      border-radius: 0;
-    }
+    .life-mobile-edge-card .portfolio-card,
+    .goleap-mobile-edge-card .portfolio-card,
     .refi-mobile-edge-card .portfolio-card,
     .colrows-mobile-edge-card .portfolio-card {
       width: calc(100% + 40px);
@@ -1996,7 +2015,10 @@
 
   @media (max-width: 768px) {
     .work-page-inner {
-      padding: 80px 20px 96px;
+      padding: 32px 16px 96px;
+    }
+    .about-page-inner {
+      padding-top: 32px;
     }
     .work-tab-showcase .portfolio-container {
       margin-bottom: 48px;
@@ -2009,12 +2031,20 @@
       line-height: 0.9;
       margin-bottom: 28px;
     }
+    .page-view .page-title {
+      margin-bottom: 16px;
+      padding-left: 0;
+    }
+    #page-work .page-title {
+      margin-bottom: 16px;
+      padding-left: 0;
+    }
     .contact-page {
-      padding-top: 80px;
+      padding-top: 32px;
       padding-bottom: 96px;
     }
     .resume-page {
-      padding: 80px 20px 96px;
+      padding: 32px 20px 96px;
     }
     .resume-actions {
       margin-bottom: 20px;
@@ -2025,7 +2055,8 @@
       font-size: 13px;
     }
     .resume-preview {
-      width: 100%;
+      width: calc(100% + 40px);
+      margin-left: -20px;
       min-height: 320px;
     }
     .contact-hero {
@@ -2061,11 +2092,15 @@
     .artwork-page {
       padding: 80px 20px 96px;
     }
+    #page-how-i-ai .artwork-page {
+      padding-top: 32px;
+    }
     .artwork-gallery {
       padding-top: 0;
     }
     .artwork-figure {
-      width: 100%;
+      width: calc(100% + 40px);
+      margin-left: -20px;
       grid-template-columns: 1fr;
       gap: 14px;
     }
@@ -2078,14 +2113,21 @@
       height: auto;
     }
     .artwork-caption {
-      padding-bottom: 0;
+      padding: 0 16px;
     }
     .artwork-caption-text {
       font-size: 16px;
     }
     .ai-design-figure {
-      width: 100%;
+      width: calc(100% + 40px);
       align-items: end;
+    }
+    .ai-design-figure img {
+      aspect-ratio: auto;
+      object-fit: contain;
+      width: 100%;
+      height: auto;
+      background: transparent;
     }
     .ai-design-figure .artwork-caption {
       position: static;
@@ -2100,19 +2142,47 @@
       gap: 24px;
       margin-top: 28px;
     }
+    .playground-card {
+      width: calc(100% + 40px);
+      margin-left: -20px;
+    }
+    .playground-caption {
+      padding: 0 16px;
+    }
     .playground-caption {
       margin-top: 12px;
       font-size: 14px;
     }
-    .work-tabs {
-      gap: 8px;
-      margin: 20px 0 28px;
+    .page-view .work-tabs {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin: 0 0 28px;
     }
-    .work-tab {
-      padding: 9px 14px;
+    .page-view .work-tab {
+      width: 100%;
+      min-height: 56px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0;
+      padding: 16px 12px;
       font-size: 13px;
+      letter-spacing: 0.01em;
     }
-    .work-grid {
+    .resume-download-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 56px;
+      padding: 16px 12px;
+      border-radius: 0;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+    }
+  .work-grid {
       grid-template-columns: 1fr;
       gap: 14px;
     }
@@ -2139,7 +2209,7 @@
     .work-about-spacer { height: 64px; }
     .about-section { padding: 0 20px 80px; }
     .about-hero-title, .about-hero-subtitle { font-size: 36px; }
-    .about-page-inner { padding: 60px 20px 80px; }
+    .about-page-inner { padding: 32px 20px 80px; }
     .site-footer {
       margin-top: 80px;
       padding: 36px 0 14px;
