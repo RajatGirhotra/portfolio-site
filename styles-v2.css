@@ -1648,14 +1648,16 @@
 
   .ai-design-figure {
     width: min(100%, 1440px);
-    align-items: start;
+    align-items: start !important;
   }
 
   .ai-design-figure .artwork-caption {
-    align-self: start;
+    align-self: start !important;
     position: sticky;
     top: 136px;
     padding-bottom: 0;
+    margin-top: 0;
+    justify-content: flex-start;
   }
 
   .work-tabs {
@@ -1983,7 +1985,11 @@
     }
     .artwork-figure img {
       border-radius: 0;
-      min-height: 240px;
+      min-height: 0;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      width: 100%;
+      height: auto;
     }
     .artwork-caption {
       padding-bottom: 0;
