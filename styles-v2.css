@@ -653,7 +653,7 @@
       top: auto !important;
       left: auto !important;
       right: 30px !important;
-      bottom: 30px !important;
+      bottom: calc(env(safe-area-inset-bottom, 0px) + 72px) !important;
       transform: none !important;
       width: 56px;
       height: 56px;

@@ -465,6 +465,13 @@
   const progressSlider = document.getElementById('progress-slider');
   const globalPageClose = document.getElementById('globalPageClose');
 
+  if (globalPageClose) {
+    globalPageClose.addEventListener('touchend', event => {
+      event.preventDefault();
+      closePage();
+    }, { passive: false });
+  }
+
   function syncGlobalProgressVisibility() {
     if (!progressSlider) return;
     progressSlider.style.display = window.innerWidth > 768 ? 'flex' : 'none';
