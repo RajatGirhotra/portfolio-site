@@ -1886,9 +1886,18 @@
     .portfolio-card {
       width: calc(100% + 40px);
       margin-left: -20px;
-      aspect-ratio: 4 / 3;
+      aspect-ratio: unset;
       height: unset;
       border-radius: 0;
+    }
+    .portfolio-project-image {
+      width: 100%;
+      height: auto;
+    }
+    .portfolio-project-image img {
+      width: 100%;
+      height: auto;
+      object-fit: unset;
     }
     .life-mobile-edge-card .portfolio-card,
     .goleap-mobile-edge-card .portfolio-card,
@@ -2105,11 +2114,63 @@
 
   .resume-page {
     max-width: 100%;
-    padding: 80px 48px 120px;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    align-items: stretch;
   }
 
-  .resume-actions {
-    margin-bottom: 28px;
+  .resume-layout {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    width: 100%;
+    height: 100%;
+  }
+
+  .resume-image-col {
+    padding: 48px 40px 48px 80px;
+    display: flex;
+    align-items: flex-start;
+    overflow-y: auto;
+  }
+
+  .resume-preview {
+    width: 100%;
+    border: 1px solid rgba(0,0,0,0.08);
+    background: #f8f8f8;
+  }
+
+  .resume-preview img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: calc(100vh - 60px - 96px);
+    object-fit: contain;
+    object-position: top;
+  }
+
+  .resume-info-col {
+    padding: 60px 48px 48px 40px;
+    border-left: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: sticky;
+    top: 0;
+    height: 100%;
+  }
+
+  .resume-info-col .page-title {
+    padding-left: 0;
+    margin-bottom: 0;
+  }
+
+  .resume-caption {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--text-muted);
+    flex: 1;
   }
 
   .resume-download-button {
@@ -2125,19 +2186,7 @@
     text-decoration: none;
     font: 500 13px/1 'Inter', sans-serif;
     letter-spacing: 0.01em;
-  }
-
-  .resume-preview {
-    width: min(100%, 1100px);
-    border: 1px solid rgba(0,0,0,0.08);
-    background: #f8f8f8;
-    min-height: 520px;
-  }
-
-  .resume-preview img {
-    display: block;
-    width: 100%;
-    height: auto;
+    align-self: flex-start;
   }
 
   .contact-hero {
@@ -2578,20 +2627,30 @@
       padding-bottom: 96px;
     }
     .resume-page {
-      padding: 32px 20px 96px;
+      padding: 0;
+      height: auto;
     }
-    .resume-actions {
-      margin-bottom: 20px;
+    .resume-layout {
+      grid-template-columns: 1fr;
+      height: auto;
+    }
+    .resume-image-col {
+      padding: 24px 20px 16px;
+    }
+    .resume-preview img {
+      max-height: none;
+    }
+    .resume-info-col {
+      padding: 20px 20px 48px;
+      border-left: none;
+      border-top: 1px solid var(--border);
+      position: static;
+      height: auto;
     }
     .resume-download-button {
       min-height: 42px;
       padding: 11px 16px;
       font-size: 13px;
-    }
-    .resume-preview {
-      width: calc(100% + 40px);
-      margin-left: -20px;
-      min-height: 320px;
     }
     .contact-hero {
       margin-bottom: 28px;
