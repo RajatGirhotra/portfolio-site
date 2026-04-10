@@ -128,7 +128,7 @@
     </div>
     <div class="work-tab-panel is-active" data-work-panel="office" role="tabpanel">
       <div class="work-tab-showcase">
-        <div class="portfolio-container">
+        <div class="portfolio-container portfolio-container-clickable" onclick="openPage('health-insurance')" onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openPage('health-insurance'); }" role="button" tabindex="0" aria-label="Open Health Insurance case study">
           <div class="portfolio-card">
             <picture class="portfolio-project-image">
               <source media="(max-width: 768px)" srcset="Health Mobile.png">
@@ -137,11 +137,21 @@
           </div>
           <div class="portfolio-meta">
             <div class="portfolio-project-name">Health Insurance</div>
-            <p class="portfolio-problem">Placeholder for flows, plan comparison, and purchase experience design in the health insurance journey</p>
+            <p class="portfolio-problem">Reducing drop offs and accelerating policy purchase through better UX</p>
+            <div class="portfolio-support-meta">
+              <div class="portfolio-support-line">Role: Product Designer</div>
+              <div class="portfolio-support-line">Scope: Discovery → UX → UI → Validation</div>
+              <div class="portfolio-support-line">Platform: Mobile Web + App</div>
+              <div class="portfolio-support-line">Duration: 3 weeks</div>
+            </div>
+            <div class="portfolio-cta" aria-hidden="true">
+              <span class="portfolio-cta-label">See Project</span>
+              <span class="portfolio-cta-arrow">→</span>
+            </div>
           </div>
         </div>
 
-        <div class="portfolio-container">
+        <div class="portfolio-container portfolio-container-clickable" onclick="openPage('car-insurance')" onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openPage('car-insurance'); }" role="button" tabindex="0" aria-label="Open Car Insurance case study">
           <div class="portfolio-card">
             <picture class="portfolio-project-image">
               <source media="(max-width: 768px)" srcset="CarMobile.png">
@@ -149,8 +159,18 @@
             </picture>
           </div>
           <div class="portfolio-meta">
-            <div class="portfolio-project-name">Car Insurance</div>
-            <p class="portfolio-problem">Placeholder for vehicle insurance onboarding, quote comparison, and renewal experience work</p>
+            <div class="portfolio-project-name">Car Insurance buying journey</div>
+            <p class="portfolio-problem">Designing scalable flows, decision logic, and edge-case handling across purchase and renewal journeys</p>
+            <div class="portfolio-support-meta">
+              <div class="portfolio-support-line">Role: Experience Designer (Business + UX)</div>
+              <div class="portfolio-support-line">Scope: End-to-end flows</div>
+              <div class="portfolio-support-line">Platform: Mobile, Desktop</div>
+              <div class="portfolio-support-line">Collaboration: PM, Business, Central Design Team</div>
+            </div>
+            <div class="portfolio-cta" aria-hidden="true">
+              <span class="portfolio-cta-label">See Project</span>
+              <span class="portfolio-cta-arrow">→</span>
+            </div>
           </div>
         </div>
 
@@ -239,7 +259,7 @@
           </div>
           <div class="portfolio-meta">
             <div class="portfolio-project-name">ReFi NFT Dashboard</div>
-            <p class="portfolio-problem">A concept dashboard for tracking digital assets, collections, and portfolio performance</p>
+            <p class="portfolio-problem">Making climate investing accessible, transparent, and on Blockchain with NFTs</p>
             <div class="portfolio-cta" aria-hidden="true">
               <span class="portfolio-cta-label">See Project</span>
               <span class="portfolio-cta-arrow">→</span>
@@ -432,6 +452,207 @@
   </div>
 </div>
 
+<!-- CASE STUDY: HEALTH INSURANCE -->
+<div class="page-view case-study-view" id="page-health-insurance">
+  <button class="page-close" onclick="closePage()"><span class="page-close-icon">✕</span><span>Close</span></button>
+  <div class="progress-slider-cs" aria-hidden="true">
+    <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
+    <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
+    <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
+    <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
+  </div>
+  <div class="case-study-page">
+    <h1 class="cs-hero-title">Health Insurance Experience Redesign</h1>
+    <div class="case-study-hero">
+      <picture class="case-study-hero-media">
+        <source media="(max-width: 768px)" srcset="Health Mobile.png">
+        <img src="HealthDesktop.png" alt="Health Insurance case study hero" loading="lazy" decoding="async" fetchpriority="low">
+      </picture>
+    </div>
+    <div class="case-study-body">
+
+      <!-- Overview -->
+      <section class="cs-section cs-overview">
+        <div class="cs-label">Health Insurance</div>
+        <h2 class="cs-heading">Redesigning the end-to-end health insurance purchase journey to improve conversion, reduce drop-offs, and simplify decision making for users buying policies for themselves and family members.</h2>
+        <div class="cs-meta-row">
+          <div class="cs-meta-item"><span class="cs-meta-label">Role</span><span class="cs-meta-value">Product Designer</span></div>
+          <div class="cs-meta-item"><span class="cs-meta-label">Duration</span><span class="cs-meta-value">3 weeks</span></div>
+          <div class="cs-meta-item"><span class="cs-meta-label">Platform</span><span class="cs-meta-value">Mobile Web + App</span></div>
+          <div class="cs-meta-item"><span class="cs-meta-label">Scope</span><span class="cs-meta-value">Discovery → UX → UI → Validation</span></div>
+        </div>
+      </section>
+
+      <!-- Problem + Before side by side -->
+      <section class="cs-section">
+        <div class="cs-label">01 — Problem</div>
+        <h2 class="cs-heading">Where the journey was broken</h2>
+        <div class="cs-problem-grid">
+          <div class="cs-problem-card">
+            <div class="cs-problem-card-title">Confusing member selection</div>
+            <div class="cs-problem-card-text">Users struggled with who-to-insure logic; complex family combinations created confusion and dead ends.</div>
+          </div>
+          <div class="cs-problem-card">
+            <div class="cs-problem-card-title">Form drop-offs</div>
+            <div class="cs-problem-card-text">High abandonment during medical declaration and proposer detail forms due to long, unguided inputs.</div>
+          </div>
+          <div class="cs-problem-card">
+            <div class="cs-problem-card-title">Poor plan discovery</div>
+            <div class="cs-problem-card-text">Filters and plan comparison lacked clarity, leaving users unable to make confident decisions.</div>
+          </div>
+          <div class="cs-problem-card">
+            <div class="cs-problem-card-title">Reactive error handling</div>
+            <div class="cs-problem-card-text">Errors surfaced after submission rather than being prevented inline, causing frustration and re-entry.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Before metrics — tinted band -->
+      <section class="cs-section">
+        <div class="cs-label">02 — Baseline</div>
+        <h2 class="cs-heading">Where we started</h2>
+        <div class="cs-band" style="margin-top: 24px;">
+          <div class="cs-band-label">Key metrics before redesign</div>
+          <div class="cs-stat-grid-3">
+            <div class="cs-stat-item"><div class="cs-stat-num">18.6%</div><div class="cs-stat-label">Conversion rate</div></div>
+            <div class="cs-stat-item"><div class="cs-stat-num">27%</div><div class="cs-stat-label">Drop-off at member selection</div></div>
+            <div class="cs-stat-item"><div class="cs-stat-num">34%</div><div class="cs-stat-label">Drop-off at medical declaration</div></div>
+            <div class="cs-stat-item"><div class="cs-stat-num">6.8 min</div><div class="cs-stat-label">Avg. time to purchase</div></div>
+            <div class="cs-stat-item"><div class="cs-stat-num">22%</div><div class="cs-stat-label">Error rate in form sessions</div></div>
+            <div class="cs-stat-item"><div class="cs-stat-num">9%</div><div class="cs-stat-label">Plan comparison usage</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Goals -->
+      <section class="cs-section">
+        <div class="cs-label">03 — Goals</div>
+        <h2 class="cs-heading">What we set out to achieve</h2>
+        <div class="cs-goals-list">
+          <div class="cs-goal-item"><span class="cs-goal-num">01</span><span class="cs-goal-text">Increase overall conversion by reducing funnel drop-offs at every stage</span></div>
+          <div class="cs-goal-item"><span class="cs-goal-num">02</span><span class="cs-goal-text">Simplify family member selection for varied combination scenarios</span></div>
+          <div class="cs-goal-item"><span class="cs-goal-num">03</span><span class="cs-goal-text">Improve form completion through preventive error handling and inline guidance</span></div>
+          <div class="cs-goal-item"><span class="cs-goal-num">04</span><span class="cs-goal-text">Make plan filtering and comparison intuitive so users find the right plan faster</span></div>
+          <div class="cs-goal-item"><span class="cs-goal-num">05</span><span class="cs-goal-text">Reduce time to purchase by streamlining decision points across the journey</span></div>
+        </div>
+      </section>
+
+      <!-- Design — 2-col card grid -->
+      <section class="cs-section">
+        <div class="cs-label">04 — Design</div>
+        <h2 class="cs-heading">Eight areas of redesign</h2>
+        <div class="cs-design-grid">
+          <div class="cs-design-card">
+            <div class="cs-design-num">01</div>
+            <div class="cs-design-title">Member selection</div>
+            <div class="cs-design-text">Converted to modular chips (Self, Spouse, Children, Parents) with real-time logic. Parents requiring a separate policy surfaced via progressive disclosure instead of a dead end.</div>
+            <div class="cs-design-result">Reduced confusion at entry point</div>
+          </div>
+          <div class="cs-design-card">
+            <div class="cs-design-num">02</div>
+            <div class="cs-design-title">Guided form experience</div>
+            <div class="cs-design-text">Inline validation replaced post-submit errors. Contextual hints for age, PIN, and eligibility. Smart defaults and reduced redundant fields including PIN serviceability and age validation.</div>
+            <div class="cs-design-result">Lower error loops, faster completion</div>
+          </div>
+          <div class="cs-design-card">
+            <div class="cs-design-num">03</div>
+            <div class="cs-design-title">Family complexity handling</div>
+            <div class="cs-design-text">Covered real-world scenarios: self + spouse + children, self + parents, parents-only edge cases, and member limits — via inline nudges and system-driven constraints instead of silent failures.</div>
+            <div class="cs-design-result">Fewer dead ends across combinations</div>
+          </div>
+          <div class="cs-design-card">
+            <div class="cs-design-num">04</div>
+            <div class="cs-design-title">Plan discovery &amp; filters</div>
+            <div class="cs-design-text">Pre-applied filters based on user input. Structured filters (Cover, Premium, Deductible, Benefits) in a bottom sheet with a clear "Show results" CTA for quick, friction-free filtering.</div>
+            <div class="cs-design-result">Better plan exploration and confidence</div>
+          </div>
+          <div class="cs-design-card">
+            <div class="cs-design-num">05</div>
+            <div class="cs-design-title">Add-ons &amp; cross-sell</div>
+            <div class="cs-design-text">Positioned add-ons as optional upgrades with price tags and benefit summaries. Grouped to reduce clutter and cognitive load at a high-intent moment.</div>
+            <div class="cs-design-result">Increased attach rate from 17% → 29%</div>
+          </div>
+          <div class="cs-design-card">
+            <div class="cs-design-num">06</div>
+            <div class="cs-design-title">Medical declaration</div>
+            <div class="cs-design-text">Binary decision first (Yes/No), expanding only if needed. Checklist-based condition selection reduced the intimidation of a traditionally dense medical form.</div>
+            <div class="cs-design-result">Reduced intimidation, faster completion</div>
+          </div>
+          <div class="cs-design-card">
+            <div class="cs-design-num">07</div>
+            <div class="cs-design-title">Error handling system</div>
+            <div class="cs-design-text">Field-level validation with clear, actionable error messages. Shifted from reactive errors to preventive logic — catching issues before they blocked progress.</div>
+            <div class="cs-design-result">Improved trust and form clarity</div>
+          </div>
+          <div class="cs-design-card">
+            <div class="cs-design-num">08</div>
+            <div class="cs-design-title">Post-purchase experience</div>
+            <div class="cs-design-text">Clear confirmation state with cleanly structured policy details. Introduced a feedback capture moment (rating + reasons) to close the loop and feed future improvements.</div>
+            <div class="cs-design-result">Better closure and insight loop</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Impact -->
+      <section class="cs-section">
+        <div class="cs-label">05 — Impact</div>
+        <h2 class="cs-heading">Results after redesign</h2>
+        <div class="cs-impact-grid">
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">+44%</div>
+            <div class="cs-impact-from">18.6% → 26.9%</div>
+            <div class="cs-impact-label">Conversion rate</div>
+          </div>
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">−48%</div>
+            <div class="cs-impact-from">27% → 14%</div>
+            <div class="cs-impact-label">Drop-off at member selection</div>
+          </div>
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">−44%</div>
+            <div class="cs-impact-from">34% → 19%</div>
+            <div class="cs-impact-label">Drop-off at medical declaration</div>
+          </div>
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">−38%</div>
+            <div class="cs-impact-from">6.8 → 4.2 min</div>
+            <div class="cs-impact-label">Time to purchase</div>
+          </div>
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">−59%</div>
+            <div class="cs-impact-from">22% → 9%</div>
+            <div class="cs-impact-label">Error rate in forms</div>
+          </div>
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">+133%</div>
+            <div class="cs-impact-from">9% → 21%</div>
+            <div class="cs-impact-label">Plan comparison usage</div>
+          </div>
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">+71%</div>
+            <div class="cs-impact-from">17% → 29%</div>
+            <div class="cs-impact-label">Add-on attach rate</div>
+          </div>
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">↑</div>
+            <div class="cs-impact-from">Full funnel</div>
+            <div class="cs-impact-label">Reduced friction across every stage</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Reflection -->
+      <section class="cs-section cs-reflection">
+        <div class="cs-label">06 — Reflection</div>
+        <h2 class="cs-heading">What this project reinforced</h2>
+        <p class="cs-text">Reducing friction across the entire funnel and improving clarity in complex family scenarios led to faster decision making and strong uplift in both conversion and revenue levers.</p>
+        <p class="cs-text">The biggest lesson: preventive design always outperforms reactive fixes. Catching errors before they happen — through smart defaults, inline validation, and progressive disclosure — had a compounding effect across every stage of the journey.</p>
+      </section>
+
+    </div>
+  </div>
+</div>
+
 <!-- CASE STUDY: LIFE INSURANCE -->
 <div class="page-view case-study-view" id="page-life-insurance">
   <button class="page-close" onclick="closePage()"><span class="page-close-icon">✕</span><span>Close</span></button>
@@ -442,6 +663,7 @@
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
   </div>
   <div class="case-study-page">
+    <h1 class="cs-hero-title">Life Insurance, Bajaj Finserv</h1>
     <div class="case-study-hero">
       <picture class="case-study-hero-media">
         <source media="(max-width: 768px)" srcset="LifeMobileLightMode-1400.jpg">
@@ -449,7 +671,10 @@
       </picture>
     </div>
     <div class="case-study-body">
+
       <section class="cs-section cs-overview">
+        <div class="cs-label">Life Insurance · Bajaj Finserv</div>
+        <h2 class="cs-heading">Redesigning the end-to-end life insurance purchase journey — from plan discovery to policy issuance — with a focus on trust, clarity, and conversion.</h2>
         <div class="cs-meta-row">
           <div class="cs-meta-item"><span class="cs-meta-label">Role</span><span class="cs-meta-value">Lead Product Designer</span></div>
           <div class="cs-meta-item"><span class="cs-meta-label">Duration</span><span class="cs-meta-value">6 months</span></div>
@@ -457,50 +682,103 @@
           <div class="cs-meta-item"><span class="cs-meta-label">Team</span><span class="cs-meta-value">2 Designers · 3 PMs · 8 Devs</span></div>
         </div>
       </section>
+
       <section class="cs-section">
-        <div class="cs-label">01 — Context</div>
-        <h2 class="cs-heading">The problem worth solving</h2>
-        <p class="cs-text">Life insurance has one of the lowest penetration rates in India despite being a critical financial instrument. Bajaj Finserv's existing purchase journey was fragmented across multiple screens, required repeated data entry, and had a confusing plan comparison flow — resulting in high drop-off rates before users even reached the payment screen.</p>
-        <p class="cs-text">Our task was to redesign the end-to-end purchase journey — from plan discovery to policy issuance — with a focus on trust, clarity, and conversion.</p>
-        <div class="cs-image-placeholder"><span class="cs-image-placeholder-label">Before — Screenshots</span></div>
+        <div class="cs-label">01 — Problem</div>
+        <h2 class="cs-heading">A journey full of friction and distrust</h2>
+        <div class="cs-problem-grid">
+          <div class="cs-problem-card">
+            <div class="cs-problem-card-title">Fragmented flow</div>
+            <div class="cs-problem-card-text">The purchase journey was split across multiple disconnected screens with no sense of progress or continuity.</div>
+          </div>
+          <div class="cs-problem-card">
+            <div class="cs-problem-card-title">Repeated data entry</div>
+            <div class="cs-problem-card-text">Users had to re-enter the same information multiple times with no auto-save or session recovery.</div>
+          </div>
+          <div class="cs-problem-card">
+            <div class="cs-problem-card-title">Confusing plan comparison</div>
+            <div class="cs-problem-card-text">Plans were presented with dense jargon, no clear differentiation, and an overwhelming number of options.</div>
+          </div>
+          <div class="cs-problem-card">
+            <div class="cs-problem-card-title">Broken trust signals</div>
+            <div class="cs-problem-card-text">Users didn't trust the premium calculator numbers and couldn't find clear exclusion information before purchasing.</div>
+          </div>
+        </div>
       </section>
+
       <section class="cs-section">
         <div class="cs-label">02 — Research</div>
-        <h2 class="cs-heading">Understanding where users were lost</h2>
-        <p class="cs-text">Through a combination of session recordings, exit surveys, and 12 user interviews, three core pain points emerged:</p>
-        <div class="cs-insight-grid">
-          <div class="cs-insight-card"><div class="cs-insight-num">68%</div><div class="cs-insight-desc">of users dropped off at the plan selection screen, overwhelmed by jargon and too many options.</div></div>
-          <div class="cs-insight-card"><div class="cs-insight-num">4.2×</div><div class="cs-insight-desc">more time was spent on the premium calculator than expected — users didn't trust the numbers.</div></div>
-          <div class="cs-insight-card"><div class="cs-insight-num">41%</div><div class="cs-insight-desc">of returning users couldn't locate previously started applications, causing frustration and re-entry.</div></div>
+        <h2 class="cs-heading">Where users were getting lost</h2>
+        <div class="cs-band" style="margin-top: 24px;">
+          <div class="cs-band-label">Key findings from session recordings, exit surveys &amp; 12 user interviews</div>
+          <div class="cs-stat-grid-3">
+            <div class="cs-stat-item"><div class="cs-stat-num">68%</div><div class="cs-stat-label">dropped off at plan selection — overwhelmed by jargon and too many options</div></div>
+            <div class="cs-stat-item"><div class="cs-stat-num">4.2×</div><div class="cs-stat-label">more time on premium calculator than expected — users didn't trust the numbers</div></div>
+            <div class="cs-stat-item"><div class="cs-stat-num">41%</div><div class="cs-stat-label">of returning users couldn't find previously started applications</div></div>
+          </div>
         </div>
       </section>
+
       <section class="cs-section">
         <div class="cs-label">03 — Design</div>
-        <h2 class="cs-heading">Principles that guided the work</h2>
-        <div class="cs-principles">
-          <div class="cs-principle"><div class="cs-principle-title">Reduce cognitive load</div><p class="cs-text">Progressive disclosure — show only what's needed at each step. Complex terms explained inline with plain language.</p></div>
-          <div class="cs-principle"><div class="cs-principle-title">Build trust through transparency</div><p class="cs-text">Live premium calculations, clear exclusion summaries, and a progress bar that shows exactly where users are in the journey.</p></div>
-          <div class="cs-principle"><div class="cs-principle-title">Continuity across sessions</div><p class="cs-text">Auto-saved application state so users can resume exactly where they left off — even across devices.</p></div>
+        <h2 class="cs-heading">Three principles that guided the work</h2>
+        <div class="cs-design-grid">
+          <div class="cs-design-card">
+            <div class="cs-design-num">01</div>
+            <div class="cs-design-title">Reduce cognitive load</div>
+            <div class="cs-design-text">Progressive disclosure — show only what's needed at each step. Complex terms explained inline with plain language so users never feel out of their depth.</div>
+            <div class="cs-design-result">Simpler decisions at every stage</div>
+          </div>
+          <div class="cs-design-card">
+            <div class="cs-design-num">02</div>
+            <div class="cs-design-title">Build trust through transparency</div>
+            <div class="cs-design-text">Live premium calculations, clear exclusion summaries surfaced upfront, and a progress indicator showing exactly where users are in the journey.</div>
+            <div class="cs-design-result">Higher confidence before payment</div>
+          </div>
+          <div class="cs-design-card">
+            <div class="cs-design-num">03</div>
+            <div class="cs-design-title">Continuity across sessions</div>
+            <div class="cs-design-text">Auto-saved application state so users can resume exactly where they left off — even when switching devices mid-journey.</div>
+            <div class="cs-design-result">Recovered previously lost return users</div>
+          </div>
         </div>
-        <div class="cs-image-placeholder"><span class="cs-image-placeholder-label">Design Screens</span></div>
       </section>
+
       <section class="cs-section">
-        <div class="cs-label">04 — Outcome</div>
+        <div class="cs-label">04 — Impact</div>
         <h2 class="cs-heading">Results after launch</h2>
-        <p class="cs-text">The redesigned journey shipped to 100% of users in Q3 2023. Within 8 weeks of launch, we saw significant improvements across all tracked metrics:</p>
-        <div class="cs-results">
-          <div class="cs-result-item"><div class="cs-result-num">+34%</div><div class="cs-result-label">Funnel completion rate</div></div>
-          <div class="cs-result-item"><div class="cs-result-num">-28%</div><div class="cs-result-label">Avg. time to purchase</div></div>
-          <div class="cs-result-item"><div class="cs-result-num">+19%</div><div class="cs-result-label">Return user conversion</div></div>
-          <div class="cs-result-item"><div class="cs-result-num">4.6★</div><div class="cs-result-label">Post-purchase satisfaction score</div></div>
+        <p class="cs-text" style="margin-bottom: 24px;">Shipped to 100% of users in Q3 2023. Significant improvements across all tracked metrics within 8 weeks:</p>
+        <div class="cs-impact-grid">
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">+34%</div>
+            <div class="cs-impact-from">End-to-end</div>
+            <div class="cs-impact-label">Funnel completion rate</div>
+          </div>
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">−28%</div>
+            <div class="cs-impact-from">Faster purchase</div>
+            <div class="cs-impact-label">Avg. time to purchase</div>
+          </div>
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">+19%</div>
+            <div class="cs-impact-from">Returning users</div>
+            <div class="cs-impact-label">Return user conversion</div>
+          </div>
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">4.6★</div>
+            <div class="cs-impact-from">Out of 5</div>
+            <div class="cs-impact-label">Post-purchase satisfaction</div>
+          </div>
         </div>
       </section>
+
       <section class="cs-section cs-reflection">
         <div class="cs-label">05 — Reflection</div>
         <h2 class="cs-heading">What I learned</h2>
-        <p class="cs-text">Insurance is a trust product. Every visual, every label, and every interaction either builds or erodes that trust. The biggest design win wasn't a flashy UI — it was the decision to surface the exclusions clearly upfront, even if it reduced plan selections in the short term. That honesty paid off in satisfaction scores.</p>
+        <p class="cs-text">Insurance is a trust product. Every visual, every label, and every interaction either builds or erodes that trust. The biggest design win wasn't a flashy UI — it was the decision to surface exclusions clearly upfront, even if it reduced plan selections short-term. That honesty paid off in satisfaction scores.</p>
         <p class="cs-text">I also learned how to work within regulatory constraints without killing the experience. Several UI patterns needed legal sign-off, and getting design-friendly approvals required presenting data alongside mockups in every stakeholder meeting.</p>
       </section>
+
     </div>
   </div>
 </div>
@@ -515,62 +793,280 @@
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
   </div>
   <div class="case-study-page">
+    <h1 class="cs-hero-title">Go Leap</h1>
     <div class="case-study-hero">
-      <div class="case-study-hero-placeholder">Go Leap</div>
+      <picture class="case-study-hero-media">
+        <source media="(max-width: 768px)" srcset="GoLeapMobile-1400.jpg">
+        <img src="GoLeapDesktop-2400.jpg" alt="Go Leap case study hero" loading="lazy" decoding="async" fetchpriority="low">
+      </picture>
+    </div>
+    <div class=”case-study-body”>
+
+      <section class=”cs-section cs-overview”>
+        <div class=”cs-label”>Go Leap · Freelance</div>
+        <h2 class=”cs-heading”>Making discovery feel alive — replacing a static catalogue with an immersive, personalised exploration experience that keeps users coming back.</h2>
+        <div class=”cs-meta-row”>
+          <div class=”cs-meta-item”><span class=”cs-meta-label”>Role</span><span class=”cs-meta-value”>Product Designer</span></div>
+          <div class=”cs-meta-item”><span class=”cs-meta-label”>Duration</span><span class=”cs-meta-value”>4 months</span></div>
+          <div class=”cs-meta-item”><span class=”cs-meta-label”>Platform</span><span class=”cs-meta-value”>iOS · Android</span></div>
+          <div class=”cs-meta-item”><span class=”cs-meta-label”>Focus</span><span class=”cs-meta-value”>Discovery · Exploration UX</span></div>
+        </div>
+      </section>
+
+      <section class=”cs-section”>
+        <div class=”cs-label”>01 — Problem</div>
+        <h2 class=”cs-heading”>A catalogue with no momentum</h2>
+        <div class=”cs-problem-grid”>
+          <div class=”cs-problem-card”>
+            <div class=”cs-problem-card-title”>Static grid layout</div>
+            <div class=”cs-problem-card-text”>Discovery surface felt like a catalogue — cards with no editorial context, no mood, and no sense of why something was worth exploring.</div>
+          </div>
+          <div class=”cs-problem-card”>
+            <div class=”cs-problem-card-title”>No momentum</div>
+            <div class=”cs-problem-card-text”>The grid required active effort to browse. Users had to decide what to tap rather than being pulled forward by the experience.</div>
+          </div>
+          <div class=”cs-problem-card”>
+            <div class=”cs-problem-card-title”>Single-session users</div>
+            <div class=”cs-problem-card-text”>Users browsed once and left. D7 retention was the critical metric — the product wasn't building a habit.</div>
+          </div>
+          <div class=”cs-problem-card”>
+            <div class=”cs-problem-card-title”>No personalisation</div>
+            <div class=”cs-problem-card-text”>Content shown was the same for everyone. No signals were captured to improve relevance over time.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class=”cs-section”>
+        <div class=”cs-label”>02 — Research</div>
+        <h2 class=”cs-heading”>What makes discovery feel alive?</h2>
+        <p class=”cs-text” style=”margin-bottom: 24px;”>Competitive analysis of TikTok, Pinterest, and Spotify Discover revealed three shared qualities in high-engagement discovery: editorial curation with context, momentum that pulls you forward, and personalisation that feels earned.</p>
+        <div class=”cs-band”>
+          <div class=”cs-band-label”>Key findings from testing &amp; competitive analysis</div>
+          <div class=”cs-stat-grid-3”>
+            <div class=”cs-stat-item”><div class=”cs-stat-num”>2.1×</div><div class=”cs-stat-label”>higher session length when content had editorial context vs. just a title and image</div></div>
+            <div class=”cs-stat-item”><div class=”cs-stat-num”>55%</div><div class=”cs-stat-label”>of users said the old grid felt “too much work to browse” — they wanted to be guided</div></div>
+            <div class=”cs-stat-item”><div class=”cs-stat-num”>3×</div><div class=”cs-stat-label”>more items saved to wishlist when category context was visible during browsing</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class=”cs-section”>
+        <div class=”cs-label”>03 — Design</div>
+        <h2 class=”cs-heading”>An experience that moves with you</h2>
+        <div class=”cs-design-grid”>
+          <div class=”cs-design-card”>
+            <div class=”cs-design-num”>01</div>
+            <div class=”cs-design-title”>Full-bleed editorial cards</div>
+            <div class=”cs-design-text”>Replaced the compact grid with large, immersive cards including a mood line — a single sentence that frames why you'd want this. Context drives curiosity.</div>
+            <div class=”cs-design-result”>Higher intent-to-explore per card</div>
+          </div>
+          <div class=”cs-design-card”>
+            <div class=”cs-design-num”>02</div>
+            <div class=”cs-design-title”>Momentum scroll</div>
+            <div class=”cs-design-text”>Vertical story-style layout with predictive preloading. The next card is always ready — no loading states, no friction between moments of discovery.</div>
+            <div class=”cs-design-result”>Seamless continuous browsing</div>
+          </div>
+          <div class=”cs-design-card”>
+            <div class=”cs-design-num”>03</div>
+            <div class=”cs-design-title”>Interest fingerprinting</div>
+            <div class=”cs-design-text”>Subtle swipe signals (pause time, tap depth, direction) train a lightweight local model — no account required to start getting personalised results.</div>
+            <div class=”cs-design-result”>Personalisation without friction</div>
+          </div>
+        </div>
+      </section>
+
+      <section class=”cs-section”>
+        <div class=”cs-label”>04 — Impact</div>
+        <h2 class=”cs-heading”>Moving the needle on exploration</h2>
+        <p class=”cs-text” style=”margin-bottom: 24px;”>Launched in beta to 20% of users. Early signals were strong enough to push to 100% within three weeks.</p>
+        <div class=”cs-impact-grid”>
+          <div class=”cs-impact-cell”>
+            <div class=”cs-impact-delta”>+61%</div>
+            <div class=”cs-impact-from”>After redesign</div>
+            <div class=”cs-impact-label”>D7 retention</div>
+          </div>
+          <div class=”cs-impact-cell”>
+            <div class=”cs-impact-delta”>+44%</div>
+            <div class=”cs-impact-from”>Per session</div>
+            <div class=”cs-impact-label”>Avg. items explored</div>
+          </div>
+          <div class=”cs-impact-cell”>
+            <div class=”cs-impact-delta”>−38%</div>
+            <div class=”cs-impact-from”>Discovery page</div>
+            <div class=”cs-impact-label”>Bounce rate</div>
+          </div>
+          <div class=”cs-impact-cell”>
+            <div class=”cs-impact-delta”>+27%</div>
+            <div class=”cs-impact-from”>Per session</div>
+            <div class=”cs-impact-label”>Wishlist saves</div>
+          </div>
+        </div>
+      </section>
+
+      <section class=”cs-section cs-reflection”>
+        <div class=”cs-label”>05 — Reflection</div>
+        <h2 class=”cs-heading”>What I learned</h2>
+        <p class=”cs-text”>The line between discovery and overwhelm is thin. Our first iteration went too immersive — fullscreen takeovers with autoplay. It felt exciting in demos but exhausting in real use. Pulling back to a controlled vertical flow with opt-in depth was the right call.</p>
+        <p class=”cs-text”>Good discovery design is invisible. When it works, users don't say “great UX” — they just say “I found something amazing.” That's the goal.</p>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<!-- CASE STUDY: CAR INSURANCE -->
+<div class="page-view case-study-view" id="page-car-insurance">
+  <button class="page-close" onclick="closePage()"><span class="page-close-icon">✕</span><span>Close</span></button>
+  <div class="progress-slider-cs" aria-hidden="true">
+    <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
+    <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
+    <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
+    <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
+  </div>
+  <div class="case-study-page">
+    <h1 class="cs-hero-title">Car Insurance buying journey</h1>
+    <div class="case-study-hero">
+      <picture class="case-study-hero-media">
+        <source media="(max-width: 768px)" srcset="CarMobile.png">
+        <img src="CarDesktop.png" alt="Motor Insurance case study hero" loading="lazy" decoding="async" fetchpriority="low">
+      </picture>
     </div>
     <div class="case-study-body">
+
       <section class="cs-section cs-overview">
+        <div class="cs-label">Car Insurance · Bajaj Finserv</div>
+        <h2 class="cs-heading">Designing a scalable end-to-end motor insurance journey — covering purchase, renewal, and servicing — by translating complex business logic into structured, production-ready flows.</h2>
         <div class="cs-meta-row">
-          <div class="cs-meta-item"><span class="cs-meta-label">Role</span><span class="cs-meta-value">Product Designer</span></div>
-          <div class="cs-meta-item"><span class="cs-meta-label">Duration</span><span class="cs-meta-value">4 months</span></div>
-          <div class="cs-meta-item"><span class="cs-meta-label">Platform</span><span class="cs-meta-value">iOS · Android</span></div>
-          <div class="cs-meta-item"><span class="cs-meta-label">Focus</span><span class="cs-meta-value">Discovery · Exploration UX</span></div>
+          <div class="cs-meta-item"><span class="cs-meta-label">Role</span><span class="cs-meta-value">Experience Designer (Business + UX)</span></div>
+          <div class="cs-meta-item"><span class="cs-meta-label">Scope</span><span class="cs-meta-value">End-to-end flows</span></div>
+          <div class="cs-meta-item"><span class="cs-meta-label">Platform</span><span class="cs-meta-value">Mobile · Desktop</span></div>
+          <div class="cs-meta-item"><span class="cs-meta-label">Collaboration</span><span class="cs-meta-value">PM · Business · Design Team</span></div>
         </div>
       </section>
+
       <section class="cs-section">
-        <div class="cs-label">01 — Context</div>
-        <h2 class="cs-heading">Discovery was broken</h2>
-        <p class="cs-text">Go Leap's core promise is to help users discover new experiences, activities, and products tailored to their interests. But their discovery surface felt like a static catalogue — a grid of cards with no personality, no momentum, and no sense of serendipity.</p>
-        <p class="cs-text">Users were browsing once and leaving. Retention after the first session was the core metric we needed to move.</p>
-        <div class="cs-image-placeholder"><span class="cs-image-placeholder-label">Before — Discovery Screen</span></div>
-      </section>
-      <section class="cs-section">
-        <div class="cs-label">02 — Research</div>
-        <h2 class="cs-heading">What makes discovery feel alive?</h2>
-        <p class="cs-text">Competitive analysis of products with high discovery engagement — TikTok, Pinterest, Spotify Discover — revealed consistent patterns. The best discovery experiences share three qualities: editorial curation with context, momentum that pulls you forward, and personalization that feels earned rather than creepy.</p>
-        <div class="cs-insight-grid">
-          <div class="cs-insight-card"><div class="cs-insight-num">2.1×</div><div class="cs-insight-desc">higher session length when content had editorial context vs. just a title and image.</div></div>
-          <div class="cs-insight-card"><div class="cs-insight-num">55%</div><div class="cs-insight-desc">of users in testing said the old grid felt “too much work to browse” — they wanted to be guided.</div></div>
-          <div class="cs-insight-card"><div class="cs-insight-num">3×</div><div class="cs-insight-desc">more items saved to wishlist when category context was visible during browsing.</div></div>
+        <div class="cs-label">01 — Problem</div>
+        <h2 class="cs-heading">Where users were getting stuck</h2>
+        <div class="cs-problem-grid">
+          <div class="cs-problem-card">
+            <div class="cs-problem-card-title">Multiple user states</div>
+            <div class="cs-problem-card-text">Users entering via new purchase, renewal, or expired policy were forced into nearly identical flows — causing confusion and drop-offs early.</div>
+          </div>
+          <div class="cs-problem-card">
+            <div class="cs-problem-card-title">Late error detection</div>
+            <div class="cs-problem-card-text">Critical issues like incorrect vehicle type were only caught deep in the journey, after significant user effort had already been invested.</div>
+          </div>
+          <div class="cs-problem-card">
+            <div class="cs-problem-card-title">Form fatigue</div>
+            <div class="cs-problem-card-text">Long, unstructured forms with no inline guidance led to 35–45% drop-offs during quote and data-capture stages.</div>
+          </div>
+          <div class="cs-problem-card">
+            <div class="cs-problem-card-title">Decision overload</div>
+            <div class="cs-problem-card-text">IDV, NCB, and add-on decisions were presented without context, leaving users uncertain and slowing the journey to a halt.</div>
+          </div>
         </div>
       </section>
+
       <section class="cs-section">
-        <div class="cs-label">03 — Design</div>
-        <h2 class="cs-heading">An experience that moves with you</h2>
-        <div class="cs-principles">
-          <div class="cs-principle"><div class="cs-principle-title">Full-bleed editorial cards</div><p class="cs-text">Replaced the compact grid with large, immersive cards that include a mood line — a single sentence that frames why you'd want this. Context drives curiosity.</p></div>
-          <div class="cs-principle"><div class="cs-principle-title">Momentum scroll</div><p class="cs-text">A vertical story-style layout with predictive preloading, ensuring the next card is always ready. No loading states, no friction.</p></div>
-          <div class="cs-principle"><div class="cs-principle-title">Interest fingerprinting</div><p class="cs-text">Subtle swipe signals (pause time, tap depth, direction) train a lightweight local model — no account required to start getting personalised results.</p></div>
-        </div>
-        <div class="cs-image-placeholder"><span class="cs-image-placeholder-label">Redesigned Discovery Flow</span></div>
-      </section>
-      <section class="cs-section">
-        <div class="cs-label">04 — Outcome</div>
-        <h2 class="cs-heading">Moving the needle on exploration</h2>
-        <p class="cs-text">The new discovery flow launched in beta to 20% of users. Early signals were strong enough to push to 100% within three weeks.</p>
-        <div class="cs-results">
-          <div class="cs-result-item"><div class="cs-result-num">+61%</div><div class="cs-result-label">D7 retention after redesign</div></div>
-          <div class="cs-result-item"><div class="cs-result-num">+44%</div><div class="cs-result-label">Avg. items explored per session</div></div>
-          <div class="cs-result-item"><div class="cs-result-num">-38%</div><div class="cs-result-label">Bounce rate from discovery page</div></div>
-          <div class="cs-result-item"><div class="cs-result-num">+27%</div><div class="cs-result-label">Wishlist saves per session</div></div>
+        <div class="cs-label">02 — My Role</div>
+        <h2 class="cs-heading">Bridging business logic and user experience</h2>
+        <div class="cs-goals-list">
+          <div class="cs-goal-item"><span class="cs-goal-num">01</span><span class="cs-goal-text">Defined end-to-end experience flows and decision trees with conditional logic for all entry states</span></div>
+          <div class="cs-goal-item"><span class="cs-goal-num">02</span><span class="cs-goal-text">Identified and designed recovery paths for edge cases — expired policies, KYC failures, invalid inputs</span></div>
+          <div class="cs-goal-item"><span class="cs-goal-num">03</span><span class="cs-goal-text">Collaborated with PMs, business, and stakeholders to translate requirements into structured flows</span></div>
+          <div class="cs-goal-item"><span class="cs-goal-num">04</span><span class="cs-goal-text">Delivered production-ready flow architecture to central design team for UI execution</span></div>
         </div>
       </section>
+
+      <section class="cs-section">
+        <div class="cs-label">03 — Approach</div>
+        <h2 class="cs-heading">Eight areas of flow design</h2>
+        <div class="cs-design-grid">
+          <div class="cs-design-card">
+            <div class="cs-design-num">01</div>
+            <div class="cs-design-title">Flow architecture</div>
+            <div class="cs-design-text">Structured the journey: Entry &amp; validation → Data capture → Quote → Plan selection → Add-ons → Checkout &amp; issuance.</div>
+            <div class="cs-design-result">Clear, navigable path for all user types</div>
+          </div>
+          <div class="cs-design-card">
+            <div class="cs-design-num">02</div>
+            <div class="cs-design-title">Decision logic design</div>
+            <div class="cs-design-text">Conditional flows based on policy state, vehicle data, claims history, and insurer constraints — reducing redundant steps by ~20–25% for returning users.</div>
+            <div class="cs-design-result">Smarter paths for repeat users</div>
+          </div>
+          <div class="cs-design-card">
+            <div class="cs-design-num">03</div>
+            <div class="cs-design-title">Early validation</div>
+            <div class="cs-design-text">Vehicle number type detection and mandatory field checks at entry — prevented invalid journeys before users invested effort.</div>
+            <div class="cs-design-result">~30% reduction in downstream errors</div>
+          </div>
+          <div class="cs-design-card">
+            <div class="cs-design-num">04</div>
+            <div class="cs-design-title">Structured data capture</div>
+            <div class="cs-design-text">Step-based inputs with inline validation replaced long forms — reduced drop-offs from ~40% to ~25%.</div>
+            <div class="cs-design-result">Significantly improved completion</div>
+          </div>
+          <div class="cs-design-card">
+            <div class="cs-design-num">05</div>
+            <div class="cs-design-title">Pricing &amp; comparison</div>
+            <div class="cs-design-text">Structured plan comparison with clear breakdowns, zero-depreciation filters, and visible insurer benefits.</div>
+            <div class="cs-design-result">~15–20% faster decision-making</div>
+          </div>
+          <div class="cs-design-card">
+            <div class="cs-design-num">06</div>
+            <div class="cs-design-title">Add-on system</div>
+            <div class="cs-design-text">Modular, selectable add-on components with benefit context — reduced cognitive load and increased attach rate by ~10–15%.</div>
+            <div class="cs-design-result">Higher add-on adoption</div>
+          </div>
+          <div class="cs-design-card">
+            <div class="cs-design-num">07</div>
+            <div class="cs-design-title">NCB &amp; IDV flows</div>
+            <div class="cs-design-text">Guided No Claim Bonus inputs reduced incorrect entries by ~25%. Adjustable IDV with clear trade-offs improved pricing transparency.</div>
+            <div class="cs-design-result">Less confusion at pricing stage</div>
+          </div>
+          <div class="cs-design-card">
+            <div class="cs-design-num">08</div>
+            <div class="cs-design-title">Edge case handling</div>
+            <div class="cs-design-text">Designed recovery paths for invalid PIN codes, KYC failures, nominee errors, and policy mismatches — journey failures became guided recovery moments.</div>
+            <div class="cs-design-result">~12–18% completion improvement</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="cs-section">
+        <div class="cs-label">04 — Impact</div>
+        <h2 class="cs-heading">Results after delivery</h2>
+        <div class="cs-impact-grid">
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">−15–20%</div>
+            <div class="cs-impact-from">Full funnel</div>
+            <div class="cs-impact-label">Drop-off reduction</div>
+          </div>
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">+20%</div>
+            <div class="cs-impact-from">Data capture</div>
+            <div class="cs-impact-label">Form completion rate</div>
+          </div>
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">−25–30%</div>
+            <div class="cs-impact-from">Entry &amp; forms</div>
+            <div class="cs-impact-label">Error-related failures</div>
+          </div>
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">+10–15%</div>
+            <div class="cs-impact-from">Plan selection</div>
+            <div class="cs-impact-label">Add-on adoption</div>
+          </div>
+        </div>
+      </section>
+
       <section class="cs-section cs-reflection">
         <div class="cs-label">05 — Reflection</div>
         <h2 class="cs-heading">What I learned</h2>
-        <p class="cs-text">The line between discovery and overwhelm is thin. Our first iteration went too immersive — fullscreen takeovers with autoplay. It felt exciting in demos but exhausting in real use. Pulling back to a controlled vertical flow with opt-in depth was the right call, even though it felt less dramatic.</p>
-        <p class="cs-text">Good discovery design is invisible. When it works, users don't say “great UX” — they just say “I found something amazing.” That's the goal.</p>
+        <p class="cs-text">Most complexity in insurance design lies in logic, not visuals. Designing without UI first improves clarity of thinking and forces you to solve the real problem before decorating it.</p>
+        <p class="cs-text">Edge cases define real product quality. Strong alignment with business is critical in regulated domains — and once the branching logic became clearer, every downstream screen became easier to design, test, and scale.</p>
       </section>
+
     </div>
   </div>
 </div>
@@ -585,65 +1081,214 @@
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
   </div>
   <div class="case-study-page">
+    <h1 class="cs-hero-title">ReFi NFT Dashboard</h1>
     <div class="case-study-hero">
       <picture class="case-study-hero-media">
         <source media="(max-width: 768px)" srcset="RefiMobile-1400.jpg">
         <img src="RefiDesktopDarkMode-2400.jpg" alt="ReFi NFT Dashboard case study hero" loading="lazy" decoding="async" fetchpriority="low">
       </picture>
     </div>
-    <div class="case-study-body">
-      <section class="cs-section cs-overview">
-        <div class="cs-meta-row">
-          <div class="cs-meta-item"><span class="cs-meta-label">Role</span><span class="cs-meta-value">Product Designer</span></div>
-          <div class="cs-meta-item"><span class="cs-meta-label">Duration</span><span class="cs-meta-value">10 weeks</span></div>
-          <div class="cs-meta-item"><span class="cs-meta-label">Platform</span><span class="cs-meta-value">Web Dashboard</span></div>
-          <div class="cs-meta-item"><span class="cs-meta-label">Focus</span><span class="cs-meta-value">Portfolio Tracking · Analytics</span></div>
+    <div class=”case-study-body”>
+
+      <!-- Overview -->
+      <section class=”cs-section cs-overview”>
+        <div class=”cs-label”>ReFi Protocol · Freelance</div>
+        <h2 class=”cs-heading”>Designing the end-to-end experience for a blockchain-based platform where users invest in real-world environmental assets through tokenization, staking, and NFTs.</h2>
+        <div class=”cs-meta-row”>
+          <div class=”cs-meta-item”><span class=”cs-meta-label”>Role</span><span class=”cs-meta-value”>Sole Product Designer</span></div>
+          <div class=”cs-meta-item”><span class=”cs-meta-label”>Platform</span><span class=”cs-meta-value”>Web App (Blockchain)</span></div>
+          <div class=”cs-meta-item”><span class=”cs-meta-label”>Scope</span><span class=”cs-meta-value”>Dashboard · Staking · Bridging · NFTs · Leaderboard</span></div>
+          <div class=”cs-meta-item”><span class=”cs-meta-label”>Goal</span><span class=”cs-meta-value”>Make Web3 + sustainability feel intuitive</span></div>
         </div>
       </section>
-      <section class="cs-section">
-        <div class="cs-label">01 — Context</div>
-        <h2 class="cs-heading">Making web3 data feel understandable</h2>
-        <p class="cs-text">The ReFi NFT Dashboard was meant to help collectors and investors understand the environmental and financial value of the NFT projects they held. But the original dashboard looked like a developer tool: dense tables, fragmented widgets, and very little hierarchy.</p>
-        <p class="cs-text">We needed an interface that could serve both power users and curious newcomers without flattening the complexity of the data.</p>
-        <div class="cs-image-placeholder"><span class="cs-image-placeholder-label">Legacy dashboard audit</span></div>
-      </section>
-      <section class="cs-section">
-        <div class="cs-label">02 — Research</div>
-        <h2 class="cs-heading">What users actually wanted to know</h2>
-        <p class="cs-text">Interviews with collectors, community managers, and analysts revealed that users were less interested in raw blockchain metrics and more interested in three practical questions: what do I own, how is it performing, and what story does this portfolio tell?</p>
-        <div class="cs-insight-grid">
-          <div class="cs-insight-card"><div class="cs-insight-num">73%</div><div class="cs-insight-desc">of users said they wanted a clearer top-level summary before diving into wallet-level details.</div></div>
-          <div class="cs-insight-card"><div class="cs-insight-num">2.8×</div><div class="cs-insight-desc">more engagement came from visual trend modules than table-based reports.</div></div>
-          <div class="cs-insight-card"><div class="cs-insight-num">61%</div><div class="cs-insight-desc">of interviewees struggled to connect sustainability impact with collection performance.</div></div>
+
+      <!-- Problem -->
+      <section class=”cs-section”>
+        <div class=”cs-label”>01 — Problem</div>
+        <h2 class=”cs-heading”>Three intersecting UX challenges</h2>
+        <p class=”cs-text” style=”margin-bottom: 24px;”>ReFi sits at the intersection of Web3 complexity, financial decisions, and environmental impact — a combination that creates compounding friction for users.</p>
+        <div class=”cs-problem-grid”>
+          <div class=”cs-problem-card”>
+            <div class=”cs-problem-card-title”>High cognitive load</div>
+            <div class=”cs-problem-card-text”>Users must simultaneously understand wallets, staking mechanics, bridging, and NFTs — before they can take any meaningful action.</div>
+          </div>
+          <div class=”cs-problem-card”>
+            <div class=”cs-problem-card-title”>Trust gap</div>
+            <div class=”cs-problem-card-text”>Users are investing real money in “real-world environmental impact” mediated through digital abstractions — trust is not given, it must be designed.</div>
+          </div>
+          <div class=”cs-problem-card”>
+            <div class=”cs-problem-card-title”>Fragmented flows</div>
+            <div class=”cs-problem-card-text”>Most DeFi products split related actions across disconnected screens, forcing users to context-switch and lose momentum mid-journey.</div>
+          </div>
         </div>
       </section>
-      <section class="cs-section">
-        <div class="cs-label">03 — Design</div>
-        <h2 class="cs-heading">A dashboard with narrative structure</h2>
-        <div class="cs-principles">
-          <div class="cs-principle"><div class="cs-principle-title">Signal first, detail second</div><p class="cs-text">The landing state highlights portfolio value, impact score, and collection movement before exposing deeper breakdowns.</p></div>
-          <div class="cs-principle"><div class="cs-principle-title">Modular cards with strong hierarchy</div><p class="cs-text">Key stats, trend charts, and collection lists were redesigned into a clear card system with cleaner rhythm and easier scanning.</p></div>
-          <div class="cs-principle"><div class="cs-principle-title">Trust through context</div><p class="cs-text">Every metric includes short explanatory labels so users understand why a number matters and how it is calculated.</p></div>
-        </div>
-        <div class="cs-image-placeholder"><span class="cs-image-placeholder-label">Dashboard redesign system</span></div>
-      </section>
-      <section class="cs-section">
-        <div class="cs-label">04 — Outcome</div>
-        <h2 class="cs-heading">A calmer, more legible product</h2>
-        <p class="cs-text">The redesign reduced the cognitive load of the dashboard and gave the product a stronger point of view. Beta testers reported that the new experience felt “more premium,” “more trustworthy,” and “much easier to understand at a glance.”</p>
-        <div class="cs-results">
-          <div class="cs-result-item"><div class="cs-result-num">+39%</div><div class="cs-result-label">Increase in weekly dashboard return visits</div></div>
-          <div class="cs-result-item"><div class="cs-result-num">-31%</div><div class="cs-result-label">Time to understand portfolio summary</div></div>
-          <div class="cs-result-item"><div class="cs-result-num">+24%</div><div class="cs-result-label">Interaction with collection detail cards</div></div>
-          <div class="cs-result-item"><div class="cs-result-num">4.5★</div><div class="cs-result-label">Average clarity rating in usability feedback</div></div>
+
+      <!-- Goal -->
+      <section class=”cs-section”>
+        <div class=”cs-label”>02 — Goal</div>
+        <h2 class=”cs-heading”>Make complex Web3 feel simple and trustworthy</h2>
+        <div class=”cs-goals-list”>
+          <div class=”cs-goal-item”><span class=”cs-goal-num”>01</span><span class=”cs-goal-text”>Simplify Web3 interactions so non-crypto users can participate without prior knowledge</span></div>
+          <div class=”cs-goal-item”><span class=”cs-goal-num”>02</span><span class=”cs-goal-text”>Build trust through data visibility, clarity, and explainable outcomes</span></div>
+          <div class=”cs-goal-item”><span class=”cs-goal-num”>03</span><span class=”cs-goal-text”>Create a seamless loop between investing, staking, and NFT ownership</span></div>
         </div>
       </section>
-      <section class="cs-section cs-reflection">
-        <div class="cs-label">05 — Reflection</div>
-        <h2 class="cs-heading">What I learned</h2>
-        <p class="cs-text">Dashboards often fail when they try to be comprehensive before they are comprehensible. The biggest shift here was treating the product like an editorial surface, not just a data container.</p>
-        <p class="cs-text">The right framing made the same information feel dramatically more useful, even before we added new data sources.</p>
+
+      <!-- Approach -->
+      <section class=”cs-section”>
+        <div class=”cs-label”>03 — Approach</div>
+        <h2 class=”cs-heading”>Three design principles that shaped every screen</h2>
+        <div class=”cs-design-grid”>
+          <div class=”cs-design-card”>
+            <div class=”cs-design-num”>01</div>
+            <div class=”cs-design-title”>System-first thinking</div>
+            <div class=”cs-design-text”>Instead of designing individual screens, I designed across states: disconnected wallet, empty states, active user states, and error states — ensuring the system felt coherent at every moment.</div>
+            <div class=”cs-design-result”>No orphaned or broken states</div>
+          </div>
+          <div class=”cs-design-card”>
+            <div class=”cs-design-num”>02</div>
+            <div class=”cs-design-title”>Reduce decision friction</div>
+            <div class=”cs-design-text”>Every screen was designed to answer three questions: What do I have? What can I do next? What will I get? This framing eliminated ambiguity at every decision point.</div>
+            <div class=”cs-design-result”>Clear path forward on every screen</div>
+          </div>
+          <div class=”cs-design-card”>
+            <div class=”cs-design-num”>03</div>
+            <div class=”cs-design-title”>Visual trust layer</div>
+            <div class=”cs-design-text”>Deep green palette for sustainability and finance. Glass + glow for premium Web3 feel. Structured cards for data clarity. Every visual choice builds confidence in the system.</div>
+            <div class=”cs-design-result”>Premium feel that earns trust</div>
+          </div>
+        </div>
       </section>
+
+      <!-- Key Flows -->
+      <section class=”cs-section”>
+        <div class=”cs-label”>04 — Key Flows</div>
+        <h2 class=”cs-heading”>Seven flows designed end-to-end</h2>
+        <div class=”cs-design-grid”>
+          <div class=”cs-design-card”>
+            <div class=”cs-design-num”>Dashboard</div>
+            <div class=”cs-design-title”>Clarity over complexity</div>
+            <div class=”cs-design-text”>Consolidated global metrics, personal holdings, and rewards into a single view with visual hierarchy using card grouping — so users understand their position instantly.</div>
+            <div class=”cs-design-result”>↓38% time to understand portfolio · ↑52% staking interaction from dashboard</div>
+          </div>
+          <div class=”cs-design-card”>
+            <div class=”cs-design-num”>Wallet</div>
+            <div class=”cs-design-title”>Blocking uncertainty early</div>
+            <div class=”cs-design-text”>Forced wallet connection via modal with a clear CTA and zero ambiguity. Most DeFi apps fail because users don't know why things aren't working — we solved this at entry.</div>
+            <div class=”cs-design-result”>↑27% successful connections · ↓first-session drop-offs</div>
+          </div>
+          <div class=”cs-design-card”>
+            <div class=”cs-design-num”>Staking</div>
+            <div class=”cs-design-title”>Making yield tangible</div>
+            <div class=”cs-design-text”>Simplified pools into Duration, APY, and Lock conditions. Introduced “expected rewards” visibility and a restake modal for an instant action loop after yield matures.</div>
+            <div class=”cs-design-result”>↑41% staking conversion · ↑33% repeat staking via restake flow</div>
+          </div>
+          <div class=”cs-design-card”>
+            <div class=”cs-design-num”>Bridging</div>
+            <div class=”cs-design-title”>Reducing perceived risk</div>
+            <div class=”cs-design-text”>Dual input fields with mirrored values, real-time conversion panel, and clear wallet connection states — reducing the anxiety of moving assets cross-chain.</div>
+            <div class=”cs-design-result”>↓46% bridging errors · ↑22% successful cross-chain transactions</div>
+          </div>
+          <div class=”cs-design-card”>
+            <div class=”cs-design-num”>Leaderboard</div>
+            <div class=”cs-design-title”>Social proof layer</div>
+            <div class=”cs-design-text”>Public visibility of top wallets and staked amounts. Gamifies participation and builds trust — seeing others commit meaningfully reduces hesitation for new users.</div>
+            <div class=”cs-design-result”>↑19% increase in staking after leaderboard exposure</div>
+          </div>
+          <div class=”cs-design-card”>
+            <div class=”cs-design-num”>NFT Marketplace</div>
+            <div class=”cs-design-title”>Making impact visible</div>
+            <div class=”cs-design-text”>Translated abstract “carbon investment” into visual NFTs (trees, forests) with real metadata — location, size, certification — and tabs for Collection, Project details, Highlights, and Owned NFTs.</div>
+            <div class=”cs-design-result”>↑48% NFT exploration rate · ↑26% purchase intent</div>
+          </div>
+          <div class=”cs-design-card”>
+            <div class=”cs-design-num”>NFT Reveal</div>
+            <div class=”cs-design-title”>Emotional hook</div>
+            <div class=”cs-design-text”>Introduced a reveal interaction before showing metadata — creating anticipation and ownership attachment. Borrowed from collectibles UX to add emotional weight to a financial action.</div>
+            <div class=”cs-design-result”>↑31% engagement per NFT · ↑retention in marketplace sessions</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Design System -->
+      <section class=”cs-section”>
+        <div class=”cs-label”>05 — Design System</div>
+        <h2 class=”cs-heading”>Built for scalability across DeFi, NFTs, and data</h2>
+        <div class=”cs-band” style=”margin-top: 24px;”>
+          <div class=”cs-band-label”>System foundations</div>
+          <div class=”cs-stat-grid-3”>
+            <div class=”cs-stat-item”>
+              <div class=”cs-stat-num” style=”font-size: 18px; font-weight: 600;”>Color</div>
+              <div class=”cs-stat-label”>Deep green + neon accents — finance × sustainability. Glass + glow for premium Web3 feel.</div>
+            </div>
+            <div class=”cs-stat-item”>
+              <div class=”cs-stat-num” style=”font-size: 18px; font-weight: 600;”>Typography</div>
+              <div class=”cs-stat-label”>Clean, minimal, data-first. Hierarchy built for scanning dense financial information quickly.</div>
+            </div>
+            <div class=”cs-stat-item”>
+              <div class=”cs-stat-num” style=”font-size: 18px; font-weight: 600;”>Components</div>
+              <div class=”cs-stat-label”>Metric cards · Data tables · Modal system · Status indicators — all designed for reuse across flows.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Impact -->
+      <section class=”cs-section”>
+        <div class=”cs-label”>06 — Impact</div>
+        <h2 class=”cs-heading”>Combined outcomes across all flows</h2>
+        <div class=”cs-impact-grid”>
+          <div class=”cs-impact-cell”>
+            <div class=”cs-impact-delta”>+40–50%</div>
+            <div class=”cs-impact-from”>Key flows</div>
+            <div class=”cs-impact-label”>Task completion improvement</div>
+          </div>
+          <div class=”cs-impact-cell”>
+            <div class=”cs-impact-delta”>−35%</div>
+            <div class=”cs-impact-from”>First session</div>
+            <div class=”cs-impact-label”>User drop-off</div>
+          </div>
+          <div class=”cs-impact-cell”>
+            <div class=”cs-impact-delta”>2.1×</div>
+            <div class=”cs-impact-from”>Staking + NFT</div>
+            <div class=”cs-impact-label”>Engagement increase</div>
+          </div>
+          <div class=”cs-impact-cell”>
+            <div class=”cs-impact-delta”>↑41%</div>
+            <div class=”cs-impact-from”>Staking flow</div>
+            <div class=”cs-impact-label”>Staking conversion</div>
+          </div>
+          <div class=”cs-impact-cell”>
+            <div class=”cs-impact-delta”>↓46%</div>
+            <div class=”cs-impact-from”>Bridging flow</div>
+            <div class=”cs-impact-label”>Bridging errors</div>
+          </div>
+          <div class=”cs-impact-cell”>
+            <div class=”cs-impact-delta”>↑48%</div>
+            <div class=”cs-impact-from”>Marketplace</div>
+            <div class=”cs-impact-label”>NFT exploration rate</div>
+          </div>
+          <div class=”cs-impact-cell”>
+            <div class=”cs-impact-delta”>↑27%</div>
+            <div class=”cs-impact-from”>Entry flow</div>
+            <div class=”cs-impact-label”>Successful wallet connections</div>
+          </div>
+          <div class=”cs-impact-cell”>
+            <div class=”cs-impact-delta”>”Clear”</div>
+            <div class=”cs-impact-from”>Qualitative feedback</div>
+            <div class=”cs-impact-label”>”Legit” · “Easy to follow”</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Reflection -->
+      <section class=”cs-section cs-reflection”>
+        <div class=”cs-label”>07 — Reflection</div>
+        <h2 class=”cs-heading”>What I learned</h2>
+        <p class=”cs-text”>In Web3, clarity beats innovation. Financial UX must remove fear before enabling action — and visual storytelling (like NFT reveals) can bridge the gap between abstract concepts and genuine emotional investment.</p>
+        <p class=”cs-text”>The deeper lesson: good UX hides complexity without removing capability. The system felt simple on the surface while giving power users full control underneath — that balance is the hardest thing to get right, and the most valuable when you do.</p>
+      </section>
+
     </div>
   </div>
 </div>
@@ -658,6 +1303,7 @@
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
   </div>
   <div class="case-study-page">
+    <h1 class="cs-hero-title">Colrows</h1>
     <div class="case-study-hero">
       <picture class="case-study-hero-media">
         <source media="(max-width: 768px)" srcset="ColrowsMobile-1400.jpg">
@@ -665,58 +1311,221 @@
       </picture>
     </div>
     <div class="case-study-body">
+
+      <!-- Overview -->
       <section class="cs-section cs-overview">
+        <div class="cs-label">Colrows · Freelance</div>
+        <h2 class="cs-heading">Designing an AI-first data workspace — turning complex data workflows into real-time decision systems anyone can use, not just analysts.</h2>
         <div class="cs-meta-row">
-          <div class="cs-meta-item"><span class="cs-meta-label">Role</span><span class="cs-meta-value">Design Lead</span></div>
-          <div class="cs-meta-item"><span class="cs-meta-label">Duration</span><span class="cs-meta-value">12 weeks</span></div>
+          <div class="cs-meta-item"><span class="cs-meta-label">Role</span><span class="cs-meta-value">Sole Freelance Product Designer</span></div>
           <div class="cs-meta-item"><span class="cs-meta-label">Platform</span><span class="cs-meta-value">Web App</span></div>
-          <div class="cs-meta-item"><span class="cs-meta-label">Focus</span><span class="cs-meta-value">Creative Tooling · Collaboration</span></div>
+          <div class="cs-meta-item"><span class="cs-meta-label">Focus</span><span class="cs-meta-value">AI Chat · Querying · Data Viz</span></div>
+          <div class="cs-meta-item"><span class="cs-meta-label">Scope</span><span class="cs-meta-value">End-to-end UX/UI</span></div>
         </div>
       </section>
+
+      <!-- Problem -->
       <section class="cs-section">
-        <div class="cs-label">01 — Context</div>
-        <h2 class="cs-heading">Helping teams work with color more intelligently</h2>
-        <p class="cs-text">Colrows began as a creative utility for organizing palettes and references, but it quickly grew into a collaboration tool for visual teams. The challenge was that the product had useful capabilities but no clear interaction model, making it feel unfinished and inconsistent.</p>
-        <p class="cs-text">The redesign focused on helping creative teams move from collecting references to actually making decisions together.</p>
-        <div class="cs-image-placeholder"><span class="cs-image-placeholder-label">Original workspace structure</span></div>
-      </section>
-      <section class="cs-section">
-        <div class="cs-label">02 — Research</div>
-        <h2 class="cs-heading">From inspiration board to decision tool</h2>
-        <p class="cs-text">Workshops with designers and brand teams showed that color tools usually break at the point of collaboration. Saving swatches is easy; aligning people around them is not. Users wanted faster commenting, clearer version states, and a stronger sense of what was final.</p>
-        <div class="cs-insight-grid">
-          <div class="cs-insight-card"><div class="cs-insight-num">66%</div><div class="cs-insight-desc">of teams shared palettes outside the tool because decision-making features felt weak.</div></div>
-          <div class="cs-insight-card"><div class="cs-insight-num">47%</div><div class="cs-insight-desc">fewer duplicate palette explorations when history and variants were visible side by side.</div></div>
-          <div class="cs-insight-card"><div class="cs-insight-num">3.4×</div><div class="cs-insight-desc">more comments were added when annotation points were embedded directly on the canvas.</div></div>
+        <div class="cs-label">01 — Problem</div>
+        <h2 class="cs-heading">Organizations don't lack data — they lack speed and clarity</h2>
+        <div class="cs-problem-grid">
+          <div class="cs-problem-card">
+            <div class="cs-problem-card-title">Data is siloed</div>
+            <div class="cs-problem-card-text">Data lives across disconnected systems with no unified layer — making cross-source questions nearly impossible without analyst involvement.</div>
+          </div>
+          <div class="cs-problem-card">
+            <div class="cs-problem-card-title">Business teams depend on analysts</div>
+            <div class="cs-problem-card-text">Every question requires a data request. Queries take hours or days — slowing decisions at every level of the organization.</div>
+          </div>
+          <div class="cs-problem-card">
+            <div class="cs-problem-card-title">BI tools are complex and fragmented</div>
+            <div class="cs-problem-card-text">Existing tools require SQL knowledge and context-switching between multiple platforms — too steep a curve for non-technical users.</div>
+          </div>
+          <div class="cs-problem-card">
+            <div class="cs-problem-card-title">Decision latency is real</div>
+            <div class="cs-problem-card-text">In one real deployment, teams took 2–3 days to answer a single business question — a direct cost to speed and competitive advantage.</div>
+          </div>
         </div>
       </section>
+
+      <!-- Goal -->
       <section class="cs-section">
-        <div class="cs-label">03 — Design</div>
-        <h2 class="cs-heading">A workspace that feels creative but decisive</h2>
-        <div class="cs-principles">
-          <div class="cs-principle"><div class="cs-principle-title">Canvas-first layout</div><p class="cs-text">The palette and moodboard take center stage, with secondary tools tucked into lighter side panels that stay available without competing for attention.</p></div>
-          <div class="cs-principle"><div class="cs-principle-title">Clear state communication</div><p class="cs-text">Drafts, team picks, shortlisted palettes, and approved options all have distinct visual states, reducing ambiguity during reviews.</p></div>
-          <div class="cs-principle"><div class="cs-principle-title">Collaboration built into the object</div><p class="cs-text">Comments, reactions, and comparison tools live on the palette itself, not hidden in detached activity feeds.</p></div>
-        </div>
-        <div class="cs-image-placeholder"><span class="cs-image-placeholder-label">New collaboration workflow</span></div>
-      </section>
-      <section class="cs-section">
-        <div class="cs-label">04 — Outcome</div>
-        <h2 class="cs-heading">Stronger collaboration, faster decisions</h2>
-        <p class="cs-text">The new product direction positioned Colrows as more than a utility. Teams could now move from exploration to approval in the same place, which made the tool more valuable during live projects.</p>
-        <div class="cs-results">
-          <div class="cs-result-item"><div class="cs-result-num">+52%</div><div class="cs-result-label">Increase in shared team workspaces</div></div>
-          <div class="cs-result-item"><div class="cs-result-num">-36%</div><div class="cs-result-label">Time to final palette approval</div></div>
-          <div class="cs-result-item"><div class="cs-result-num">+41%</div><div class="cs-result-label">Weekly active collaborators</div></div>
-          <div class="cs-result-item"><div class="cs-result-num">+29%</div><div class="cs-result-label">Reuse of saved palettes across projects</div></div>
+        <div class="cs-label">02 — Goal</div>
+        <h2 class="cs-heading">Make data access instant and self-serve</h2>
+        <div class="cs-goals-list">
+          <div class="cs-goal-item"><span class="cs-goal-num">01</span><span class="cs-goal-text">Anyone can query data instantly — no SQL, no analyst dependency</span></div>
+          <div class="cs-goal-item"><span class="cs-goal-num">02</span><span class="cs-goal-text">AI removes the barrier between a question and an answer</span></div>
+          <div class="cs-goal-item"><span class="cs-goal-num">03</span><span class="cs-goal-text">Insights are explainable, editable, and actionable — not black-box outputs</span></div>
+          <div class="cs-goal-item"><span class="cs-goal-num">04</span><span class="cs-goal-text">Decision-making becomes real-time across the whole organization</span></div>
         </div>
       </section>
+
+      <!-- My Role -->
+      <section class="cs-section">
+        <div class="cs-label">03 — My Role</div>
+        <h2 class="cs-heading">Sole Freelance Product Designer</h2>
+        <div class="cs-goals-list">
+          <div class="cs-goal-item"><span class="cs-goal-num">↗</span><span class="cs-goal-text">UX strategy and product thinking — shaping how the AI layer should work for different user types</span></div>
+          <div class="cs-goal-item"><span class="cs-goal-num">↗</span><span class="cs-goal-text">End-to-end UI/UX design across AI chat, querying, and insights surfaces</span></div>
+          <div class="cs-goal-item"><span class="cs-goal-num">↗</span><span class="cs-goal-text">AI interaction design — defining how users communicate with and trust the system</span></div>
+          <div class="cs-goal-item"><span class="cs-goal-num">↗</span><span class="cs-goal-text">Data visualization flows and design system foundations</span></div>
+        </div>
+      </section>
+
+      <!-- Approach -->
+      <section class="cs-section">
+        <div class="cs-label">04 — Approach</div>
+        <h2 class="cs-heading">Five design decisions that shaped the product</h2>
+        <div class="cs-design-grid">
+          <div class="cs-design-card">
+            <div class="cs-design-num">01</div>
+            <div class="cs-design-title">One core action: Ask anything</div>
+            <div class="cs-design-text">Instead of dashboards and filters, the product centers around a single prompt: "Ask a question." This reduces friction and aligns with natural user behavior — removing the need to learn the tool's structure.</div>
+            <div class="cs-design-result">Zero learning curve for new users</div>
+          </div>
+          <div class="cs-design-card">
+            <div class="cs-design-num">02</div>
+            <div class="cs-design-title">AI + structured outputs (trust layer)</div>
+            <div class="cs-design-text">AI alone isn't enough in data products. I designed chat-based input with structured outputs — tables, charts, and editable SQL — so users could verify and trust what the AI returned.</div>
+            <div class="cs-design-result">Transparency at every answer</div>
+          </div>
+          <div class="cs-design-card">
+            <div class="cs-design-num">03</div>
+            <div class="cs-design-title">Explainability as a core UX principle</div>
+            <div class="cs-design-text">Users can see how answers are generated, edit queries, and rerun them. Insights are backed by visible data sources — building trust in a category where skepticism is high.</div>
+            <div class="cs-design-result">Users act on AI outputs with confidence</div>
+          </div>
+          <div class="cs-design-card">
+            <div class="cs-design-num">04</div>
+            <div class="cs-design-title">Question → Insight → Action</div>
+            <div class="cs-design-text">AI suggests visualizations automatically. Charts generate instantly. Users iterate without switching tools — the whole workflow lives in one continuous, uninterrupted flow.</div>
+            <div class="cs-design-result">End-to-end in minutes, not days</div>
+          </div>
+          <div class="cs-design-card">
+            <div class="cs-design-num">05</div>
+            <div class="cs-design-title">Designing for multiple personas</div>
+            <div class="cs-design-text">Non-technical users get a conversational interface. Analysts get flexible SQL control. Enterprises get role-based access and security. Progressive disclosure serves all three without compromise.</div>
+            <div class="cs-design-result">One system, three user types</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Key Features -->
+      <section class="cs-section">
+        <div class="cs-label">05 — Features</div>
+        <h2 class="cs-heading">Key features designed</h2>
+        <div class="cs-features-grid">
+          <div class="cs-feature-item">AI-powered conversational querying</div>
+          <div class="cs-feature-item">Auto-generated &amp; editable SQL</div>
+          <div class="cs-feature-item">Real-time chart generation</div>
+          <div class="cs-feature-item">Unified workspace across data sources</div>
+          <div class="cs-feature-item">Notebook-style exploration</div>
+          <div class="cs-feature-item">Role-based access controls</div>
+        </div>
+      </section>
+
+      <!-- Impact -->
+      <section class="cs-section">
+        <div class="cs-label">06 — Impact</div>
+        <h2 class="cs-heading">From a live enterprise deployment</h2>
+        <div class="cs-impact-grid">
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">−90%+</div>
+            <div class="cs-impact-from">Decision latency</div>
+            <div class="cs-impact-label">Questions answered in minutes instead of days</div>
+          </div>
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">8×</div>
+            <div class="cs-impact-from">Data adoption</div>
+            <div class="cs-impact-label">Business teams querying data directly</div>
+          </div>
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">−80%</div>
+            <div class="cs-impact-from">IT/data team requests</div>
+            <div class="cs-impact-label">Shift to self-serve analytics</div>
+          </div>
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">1000×</div>
+            <div class="cs-impact-from">Campaign diagnosis</div>
+            <div class="cs-impact-label">Real-time optimization became possible</div>
+          </div>
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">+18–24%</div>
+            <div class="cs-impact-from">Sales productivity</div>
+            <div class="cs-impact-label">Faster insights → faster decisions</div>
+          </div>
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">−30%</div>
+            <div class="cs-impact-from">Supply chain</div>
+            <div class="cs-impact-label">Reduction in stockouts</div>
+          </div>
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">+15%</div>
+            <div class="cs-impact-from">Inventory</div>
+            <div class="cs-impact-label">Inventory turnover improvement</div>
+          </div>
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">&lt;4 min</div>
+            <div class="cs-impact-from">Was 2–3 days</div>
+            <div class="cs-impact-label">Time to answer a business question</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Before vs After -->
+      <section class="cs-section">
+        <div class="cs-label">07 — Before vs After</div>
+        <h2 class="cs-heading">What changed</h2>
+        <div class="cs-compare-table">
+          <div class="cs-compare-header">Before</div>
+          <div class="cs-compare-header">After</div>
+          <div class="cs-compare-cell">2–3 days to answer a business question</div>
+          <div class="cs-compare-cell">Under 4 minutes</div>
+          <div class="cs-compare-cell">Heavy dependency on analysts</div>
+          <div class="cs-compare-cell">Self-serve by business teams</div>
+          <div class="cs-compare-cell">Static dashboards</div>
+          <div class="cs-compare-cell">Real-time insights</div>
+          <div class="cs-compare-cell">Fragmented data sources</div>
+          <div class="cs-compare-cell">Unified semantic layer</div>
+          <div class="cs-compare-cell">Multiple versions of truth</div>
+          <div class="cs-compare-cell">Single source of truth</div>
+        </div>
+      </section>
+
+      <!-- Challenges -->
+      <section class="cs-section">
+        <div class="cs-label">08 — Challenges</div>
+        <h2 class="cs-heading">Hard problems this project surfaced</h2>
+        <div class="cs-design-grid">
+          <div class="cs-design-card">
+            <div class="cs-design-num">01</div>
+            <div class="cs-design-title">AI uncertainty vs data accuracy</div>
+            <div class="cs-design-text">AI outputs can feel uncertain — especially in data products where accuracy is critical. Solved through transparency (show the source), editability (let users fix queries), and structured outputs (tables before interpretation).</div>
+            <div class="cs-design-result">Trust built through control, not faith</div>
+          </div>
+          <div class="cs-design-card">
+            <div class="cs-design-num">02</div>
+            <div class="cs-design-title">Simplicity vs power</div>
+            <div class="cs-design-text">Non-technical users need simplicity. Analysts need control. Solved through progressive disclosure and a layered UX — each persona gets the right depth without overwhelming the other.</div>
+            <div class="cs-design-result">One interface, no compromises</div>
+          </div>
+          <div class="cs-design-card">
+            <div class="cs-design-num">03</div>
+            <div class="cs-design-title">No existing design patterns</div>
+            <div class="cs-design-text">AI + BI is a genuinely new category. There were no established patterns to borrow from. Solution: combine chat UX conventions with data tooling patterns — familiar enough to learn, new enough to be powerful.</div>
+            <div class="cs-design-result">Invented patterns that now feel obvious</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Reflection -->
       <section class="cs-section cs-reflection">
-        <div class="cs-label">05 — Reflection</div>
+        <div class="cs-label">09 — Reflection</div>
         <h2 class="cs-heading">What I learned</h2>
-        <p class="cs-text">Creative software needs both openness and structure. Too much freedom and the product feels aimless; too much process and it stops feeling creative.</p>
-        <p class="cs-text">The best part of this project was finding a balance where the interface still felt expressive, but decisions felt easier and more grounded.</p>
+        <p class="cs-text">AI products must prioritize trust and explainability above everything else. Good UX hides complexity without removing capability — and data products succeed when they reduce time-to-decision, not just improve visuals.</p>
+        <p class="cs-text">The outcome: Colrows evolved into a system where business teams can go from question → insight → action in minutes, without relying on data teams. That's the real measure of success.</p>
       </section>
+
     </div>
   </div>
 </div>
@@ -847,7 +1656,7 @@
     </div>
     <div class="portfolio-meta">
       <div class="portfolio-project-name">ReFi NFT Dashboard</div>
-      <p class="portfolio-problem">Designing a dashboard that makes NFT portfolio analytics feel readable and trustworthy.</p>
+      <p class="portfolio-problem">Making climate investing accessible, transparent, and on Blockchain with NFTs</p>
       <div class="portfolio-cta" aria-hidden="true">
         <span class="portfolio-cta-label">See Project</span>
         <span class="portfolio-cta-arrow">→</span>
