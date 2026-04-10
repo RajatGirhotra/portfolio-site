@@ -1,11 +1,13 @@
 
   function toggleMobileMenu() {
     const menu = document.getElementById('mobileMenu');
+    const backdrop = document.getElementById('drawerBackdrop');
     const btn = document.querySelector('.menu-toggle');
     if (menu.classList.contains('open')) {
       closeMobileMenu();
     } else {
       menu.style.display = 'flex';
+      if (backdrop && window.innerWidth > 768) backdrop.classList.add('is-visible');
       // Double rAF ensures display:flex is painted before transition starts
       requestAnimationFrame(() => requestAnimationFrame(() => {
         menu.classList.add('open');
@@ -16,9 +18,11 @@
 
   function closeMobileMenu() {
     const menu = document.getElementById('mobileMenu');
+    const backdrop = document.getElementById('drawerBackdrop');
     const btn = document.querySelector('.menu-toggle');
     menu.classList.remove('open');
     btn.classList.remove('open');
+    if (backdrop) backdrop.classList.remove('is-visible');
     menu.addEventListener('transitionend', () => {
       if (!menu.classList.contains('open')) menu.style.display = 'none';
     }, { once: true });
@@ -63,11 +67,46 @@
     applyThemeState(!document.documentElement.classList.contains('dark'));
   }
 
+  const STORAGE_KEYS = {
+    page: 'portfolio-active-page',
+    workTab: 'portfolio-work-tab',
+    howAiTab: 'portfolio-how-ai-tab'
+  };
+
+  function getPageIdFromElement(pageEl) {
+    return pageEl ? pageEl.id.replace(/^page-/, '') : '';
+  }
+
+  function persistViewState(pageIdOverride) {
+    const activePage = document.querySelector('.page-view.active');
+    const pageId = typeof pageIdOverride === 'string' ? pageIdOverride : getPageIdFromElement(activePage);
+    sessionStorage.setItem(STORAGE_KEYS.page, pageId || '');
+
+    const activeWorkTab = document.querySelector('[data-work-tab].is-active');
+    if (activeWorkTab) {
+      sessionStorage.setItem(STORAGE_KEYS.workTab, activeWorkTab.dataset.workTab);
+    }
+
+    const activeHowAiTab = document.querySelector('[data-how-ai-tab].is-active');
+    if (activeHowAiTab) {
+      sessionStorage.setItem(STORAGE_KEYS.howAiTab, activeHowAiTab.dataset.howAiTab);
+    }
+  }
+
   function openPage(id) {
+    closeMobileMenu();
+    const currentActivePage = document.querySelector('.page-view.active');
     document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
     const page = document.getElementById('page-' + id);
     if (page) {
+      if (page.classList.contains('case-study-view') && currentActivePage) {
+        page.dataset.returnTo = getPageIdFromElement(currentActivePage);
+      } else if (!page.classList.contains('case-study-view')) {
+        document.querySelectorAll('.case-study-view').forEach(caseStudy => {
+          delete caseStudy.dataset.returnTo;
+        });
+      }
       page.classList.add('active');
       page.scrollTop = 0;
       updateCsProgressSlider(page);
@@ -76,6 +115,7 @@
     document.querySelectorAll('.nav-link').forEach(l => {
       if (l.getAttribute('onclick').includes(id)) l.classList.add('active');
     });
+    persistViewState(id);
   }
 
   function setWorkTab(tabId, triggerEl) {
@@ -94,6 +134,7 @@
     if (triggerEl) {
       triggerEl.blur();
     }
+    sessionStorage.setItem(STORAGE_KEYS.workTab, tabId);
   }
 
   function setHowIAITab(tabId, triggerEl) {
@@ -112,12 +153,33 @@
     if (triggerEl) {
       triggerEl.blur();
     }
+    sessionStorage.setItem(STORAGE_KEYS.howAiTab, tabId);
   }
 
   function closePage() {
+    closeMobileMenu();
+    const activePage = document.querySelector('.page-view.active');
+    const returnTo = activePage && activePage.classList.contains('case-study-view') ? activePage.dataset.returnTo : '';
+
     document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+
+    if (returnTo) {
+      const returnPage = document.getElementById('page-' + returnTo);
+      if (returnPage) {
+        returnPage.classList.add('active');
+        updateCsProgressSlider(returnPage);
+        document.querySelectorAll('.nav-link').forEach(l => {
+          if (l.getAttribute('onclick').includes(returnTo)) l.classList.add('active');
+        });
+        syncGlobalCloseButton();
+        persistViewState(returnTo);
+        return;
+      }
+    }
+
     syncGlobalCloseButton();
+    persistViewState('');
     updateProgressSlider();
   }
 
@@ -484,6 +546,41 @@
     globalPageClose.classList.toggle('is-visible', Boolean(activePage));
   }
 
+  function syncDesktopTabFloat(pageEl) {
+    const activePage = pageEl || document.querySelector('#page-work.page-view.active, #page-how-i-ai.page-view.active');
+    const allFloatingTabs = document.querySelectorAll('#page-work .work-tabs, #page-how-i-ai .work-tabs');
+
+    if (!activePage || window.innerWidth <= 768) {
+      allFloatingTabs.forEach(tab => {
+        tab.style.setProperty('--tab-dock-x', '0px');
+        tab.style.setProperty('--tab-dock-y', '0px');
+      });
+      return;
+    }
+
+    const tabs = activePage.querySelector('.work-tabs');
+    const pageInner = activePage.querySelector('.page-inner');
+    const nav = document.querySelector('nav');
+    if (!tabs || !pageInner) return;
+
+    tabs.style.setProperty('--tab-dock-x', '0px');
+    tabs.style.setProperty('--tab-dock-y', '0px');
+
+    const scrollTop = activePage.scrollTop;
+    const progress = Math.max(0, Math.min(scrollTop / 360, 1));
+    const tabsRect = tabs.getBoundingClientRect();
+    const navRect = nav ? nav.getBoundingClientRect() : { top: 0, height: 72, left: 0, width: window.innerWidth };
+    const naturalLeft = tabsRect.left;
+    const naturalTop = tabsRect.top;
+    const targetLeft = (window.innerWidth - tabs.offsetWidth) / 2;
+    const targetTop = navRect.top + ((navRect.height - tabs.offsetHeight) / 2);
+    const shiftX = (targetLeft - naturalLeft) * progress;
+    const shiftY = (targetTop - naturalTop) * progress;
+
+    tabs.style.setProperty('--tab-dock-x', `${shiftX.toFixed(2)}px`);
+    tabs.style.setProperty('--tab-dock-y', `${shiftY.toFixed(2)}px`);
+  }
+
   function setGlobalProgress(progress) {
     const filled = Math.round(progress * totalMainProgressLines);
     psLines.forEach((line, index) => {
@@ -505,6 +602,7 @@
     const activePage = document.querySelector('.page-view.active');
     syncGlobalProgressVisibility();
     syncGlobalCloseButton();
+    syncDesktopTabFloat(activePage);
     if (activePage) {
       setGlobalProgress(getOverlayProgress(activePage));
       return;
@@ -520,6 +618,7 @@
     if (!pageEl || !pageEl.classList.contains('active')) return;
     syncGlobalProgressVisibility();
     setGlobalProgress(getOverlayProgress(pageEl));
+    syncDesktopTabFloat(pageEl);
   }
 
   window.addEventListener('scroll', updateProgressSlider, { passive: true });
@@ -542,7 +641,27 @@
 
   syncThemeImages();
   syncGlobalCloseButton();
+  syncDesktopTabFloat();
   updateProgressSlider();
+
+  afterDomReady().then(() => {
+    const savedWorkTab = sessionStorage.getItem(STORAGE_KEYS.workTab);
+    if (savedWorkTab) {
+      setWorkTab(savedWorkTab);
+    }
+
+    const savedHowAiTab = sessionStorage.getItem(STORAGE_KEYS.howAiTab);
+    if (savedHowAiTab) {
+      setHowIAITab(savedHowAiTab);
+    }
+
+    const savedPage = sessionStorage.getItem(STORAGE_KEYS.page);
+    if (savedPage) {
+      openPage(savedPage);
+    }
+  });
+
+  window.addEventListener('resize', () => syncDesktopTabFloat(), { passive: true });
 
   Promise.all([
     afterDomReady(),

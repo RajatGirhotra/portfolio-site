@@ -62,6 +62,9 @@
   </div>
   <!-- Mobile-only controls -->
   <div class="nav-mobile-controls">
+    <button class="nav-overlay-close" onclick="closePage()" aria-label="Close page">
+      <span class="page-close-icon">✕</span><span>Close</span>
+    </button>
     <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
       <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
@@ -89,7 +92,11 @@
 <div id="nav-progress-bar" aria-hidden="true"></div>
 
 <!-- Mobile Menu Full-Screen Panel -->
+<div class="drawer-backdrop" id="drawerBackdrop" onclick="closeMobileMenu()" aria-hidden="true"></div>
 <div class="mobile-menu" id="mobileMenu">
+  <button class="drawer-close" onclick="closeMobileMenu()" aria-label="Close menu">
+    <span class="page-close-icon">✕</span>
+  </button>
   <span class="nav-link" onclick="openPage('work'); closeMobileMenu()">Work</span>
   <span class="nav-link" onclick="openPage('how-i-ai'); closeMobileMenu()">How I AI</span>
   <span class="nav-link" onclick="openPage('about'); closeMobileMenu()">About me</span>
@@ -121,6 +128,45 @@
     </div>
     <div class="work-tab-panel is-active" data-work-panel="office" role="tabpanel">
       <div class="work-tab-showcase">
+        <div class="portfolio-container">
+          <div class="portfolio-card">
+            <picture class="portfolio-project-image">
+              <source media="(max-width: 768px)" srcset="Health Mobile.png">
+              <img src="HealthDesktop.png" alt="Health Insurance project preview" loading="lazy" decoding="async" fetchpriority="low">
+            </picture>
+          </div>
+          <div class="portfolio-meta">
+            <div class="portfolio-project-name">Health Insurance</div>
+            <p class="portfolio-problem">Placeholder for flows, plan comparison, and purchase experience design in the health insurance journey</p>
+          </div>
+        </div>
+
+        <div class="portfolio-container">
+          <div class="portfolio-card">
+            <picture class="portfolio-project-image">
+              <source media="(max-width: 768px)" srcset="CarMobile.png">
+              <img src="CarDesktop.png" alt="Car Insurance project preview" loading="lazy" decoding="async" fetchpriority="low">
+            </picture>
+          </div>
+          <div class="portfolio-meta">
+            <div class="portfolio-project-name">Car Insurance</div>
+            <p class="portfolio-problem">Placeholder for vehicle insurance onboarding, quote comparison, and renewal experience work</p>
+          </div>
+        </div>
+
+        <div class="portfolio-container">
+          <div class="portfolio-card">
+            <picture class="portfolio-project-image">
+              <source media="(max-width: 768px)" srcset="Marketing mobile.png">
+              <img src="Marketing desktop.png" alt="Marketing Creatives project preview" loading="lazy" decoding="async" fetchpriority="low">
+            </picture>
+          </div>
+          <div class="portfolio-meta">
+            <div class="portfolio-project-name">Marketting Creatives</div>
+            <p class="portfolio-problem">Placeholder for campaign assets, promotional landing pages, and visual creative systems across channels</p>
+          </div>
+        </div>
+
         <div class="portfolio-container portfolio-container-clickable life-mobile-edge-card" onclick="openPage('life-insurance')" onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openPage('life-insurance'); }" role="button" tabindex="0" aria-label="Open Life Insurance case study">
           <div class="portfolio-card">
             <picture class="portfolio-project-image">
@@ -144,36 +190,6 @@
               <span class="portfolio-cta-label">See Project</span>
               <span class="portfolio-cta-arrow">→</span>
             </div>
-          </div>
-        </div>
-
-        <div class="portfolio-container">
-          <div class="portfolio-card">
-            <div class="portfolio-image-placeholder"></div>
-          </div>
-          <div class="portfolio-meta">
-            <div class="portfolio-project-name">Health Insurance</div>
-            <p class="portfolio-problem">Placeholder for flows, plan comparison, and purchase experience design in the health insurance journey</p>
-          </div>
-        </div>
-
-        <div class="portfolio-container">
-          <div class="portfolio-card">
-            <div class="portfolio-image-placeholder"></div>
-          </div>
-          <div class="portfolio-meta">
-            <div class="portfolio-project-name">Car Insurance</div>
-            <p class="portfolio-problem">Placeholder for vehicle insurance onboarding, quote comparison, and renewal experience work</p>
-          </div>
-        </div>
-
-        <div class="portfolio-container">
-          <div class="portfolio-card">
-            <div class="portfolio-image-placeholder"></div>
-          </div>
-          <div class="portfolio-meta">
-            <div class="portfolio-project-name">Marketting Creatives</div>
-            <p class="portfolio-problem">Placeholder for campaign assets, promotional landing pages, and visual creative systems across channels</p>
           </div>
         </div>
       </div>
