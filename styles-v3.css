@@ -212,7 +212,6 @@
     font-family: 'Inter', sans-serif;
     overflow-x: clip;
     overscroll-behavior-y: none;
-    touch-action: pan-y;
     scrollbar-width: none;
     transition: background 0.4s ease, color 0.4s ease;
   }
@@ -686,6 +685,11 @@
       overflow-x: hidden;
     }
 
+    .page-view {
+      overflow-y: auto;
+      touch-action: pan-y;
+    }
+
     .nav-links { display: none !important; }
     .nav-mobile-controls { display: flex; }
     .nav-overlay-close { display: none !important; }
@@ -807,6 +811,7 @@
     top: 0; left: 0; right: 0; bottom: 0;
     background: var(--bg);
     z-index: 200;
+    overflow-x: hidden;
     overflow-y: auto;
     overscroll-behavior-y: none;
     touch-action: pan-y;

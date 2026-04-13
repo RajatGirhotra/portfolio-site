@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles-v2.css">
+<link rel="stylesheet" href="styles-v3.css">
 
 
 </head>
@@ -63,7 +63,7 @@
   <!-- Mobile-only controls -->
   <div class="nav-mobile-controls">
     <button class="nav-overlay-close" onclick="closePage()" aria-label="Close page">
-      <span class="page-close-icon">✕</span><span>Close</span>
+      <span class="page-close-icon"></span><span>Close</span>
     </button>
     <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
       <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -95,23 +95,23 @@
 <div class="drawer-backdrop" id="drawerBackdrop" onclick="closeMobileMenu()" aria-hidden="true"></div>
 <div class="mobile-menu" id="mobileMenu">
   <button class="drawer-close" onclick="closeMobileMenu()" aria-label="Close menu">
-    <span class="page-close-icon">✕</span>
+    <span class="page-close-icon"></span>
   </button>
   <span class="nav-link" onclick="openPage('work'); closeMobileMenu()">Work</span>
   <span class="nav-link" onclick="openPage('how-i-ai'); closeMobileMenu()">How I AI</span>
   <span class="nav-link" onclick="openPage('about'); closeMobileMenu()">About me</span>
   <span class="nav-link" onclick="openPage('resume'); closeMobileMenu()">Resume</span>
   <span class="nav-link" onclick="openPage('contact'); closeMobileMenu()">Contact</span>
-  <button class="mobile-menu-close" onclick="closeMobileMenu()">✕ Close</button>
+  <button class="mobile-menu-close" onclick="closeMobileMenu()"> Close</button>
 </div>
 
 <button id="globalPageClose" class="page-close global-page-close" onclick="closePage()">
-  <span class="page-close-icon">✕</span><span>Close</span>
+  <span class="page-close-icon"></span><span>Close</span>
 </button>
 
 <!-- WORK PAGE -->
 <div class="page-view" id="page-work">
-  <button class="page-close" onclick="closePage()">✕ Close</button>
+  <button class="page-close" onclick="closePage()"><span class="page-close-icon"></span><span>Close</span></button>
   <div class="progress-slider-cs" aria-hidden="true">
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
@@ -121,17 +121,18 @@
   <div class="page-inner work-page-inner">
     <div class="page-title">Work</div>
     <div class="work-tabs" role="tablist" aria-label="Work categories">
-      <button class="work-tab is-active" type="button" role="tab" aria-selected="true" data-work-tab="office" onclick="setWorkTab('office', this)">Office</button>
-      <button class="work-tab" type="button" role="tab" aria-selected="false" data-work-tab="freelance" onclick="setWorkTab('freelance', this)">Freelance</button>
-      <button class="work-tab" type="button" role="tab" aria-selected="false" data-work-tab="playground" onclick="setWorkTab('playground', this)">Playground</button>
-      <button class="work-tab" type="button" role="tab" aria-selected="false" data-work-tab="artwork" onclick="setWorkTab('artwork', this)">Artwork</button>
+      <button class="work-tab work-tab-latest" type="button" aria-haspopup="true"><span class="tab-label">Latest</span><span class="tab-chevron" aria-hidden="true"></span></button>
+      <button class="work-tab is-active" type="button" role="tab" aria-selected="true" data-work-tab="office" onclick="setWorkTab('office', this)"><span class="tab-icon">🏢</span><span class="tab-label">Office</span></button>
+      <button class="work-tab" type="button" role="tab" aria-selected="false" data-work-tab="freelance" onclick="setWorkTab('freelance', this)"><span class="tab-icon">💼</span><span class="tab-label">Freelance</span></button>
+      <button class="work-tab" type="button" role="tab" aria-selected="false" data-work-tab="playground" onclick="setWorkTab('playground', this)"><span class="tab-icon">🎮</span><span class="tab-label">Playground</span></button>
+      <button class="work-tab" type="button" role="tab" aria-selected="false" data-work-tab="artwork" onclick="setWorkTab('artwork', this)"><span class="tab-icon">🎨</span><span class="tab-label">Artwork</span></button>
     </div>
     <div class="work-tab-panel is-active" data-work-panel="office" role="tabpanel">
       <div class="work-tab-showcase">
         <div class="portfolio-container portfolio-container-clickable" onclick="openPage('health-insurance')" onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openPage('health-insurance'); }" role="button" tabindex="0" aria-label="Open Health Insurance case study">
           <div class="portfolio-card">
             <picture class="portfolio-project-image">
-              <source media="(max-width: 768px)" srcset="Health Mobile.png">
+              <source media="(max-width: 768px)" srcset="Health_Mobile.png">
               <img src="HealthDesktop.png" alt="Health Insurance project preview" loading="lazy" decoding="async" fetchpriority="low">
             </picture>
           </div>
@@ -140,13 +141,13 @@
             <p class="portfolio-problem">Reducing drop offs and accelerating policy purchase through better UX</p>
             <div class="portfolio-support-meta">
               <div class="portfolio-support-line">Role: Product Designer</div>
-              <div class="portfolio-support-line">Scope: Discovery → UX → UI → Validation</div>
+              <div class="portfolio-support-line">Scope: Discovery " UX " UI " Validation</div>
               <div class="portfolio-support-line">Platform: Mobile Web + App</div>
               <div class="portfolio-support-line">Duration: 3 weeks</div>
             </div>
             <div class="portfolio-cta" aria-hidden="true">
               <span class="portfolio-cta-label">See Project</span>
-              <span class="portfolio-cta-arrow">→</span>
+              <span class="portfolio-cta-arrow">"</span>
             </div>
           </div>
         </div>
@@ -169,7 +170,7 @@
             </div>
             <div class="portfolio-cta" aria-hidden="true">
               <span class="portfolio-cta-label">See Project</span>
-              <span class="portfolio-cta-arrow">→</span>
+              <span class="portfolio-cta-arrow">"</span>
             </div>
           </div>
         </div>
@@ -208,7 +209,7 @@
             <p class="portfolio-problem">Designing journey to buy Life Insurance for the customers</p>
             <div class="portfolio-cta" aria-hidden="true">
               <span class="portfolio-cta-label">See Project</span>
-              <span class="portfolio-cta-arrow">→</span>
+              <span class="portfolio-cta-arrow">"</span>
             </div>
           </div>
         </div>
@@ -228,7 +229,7 @@
             <p class="portfolio-problem">To make discovery experience more immersive</p>
             <div class="portfolio-cta" aria-hidden="true">
               <span class="portfolio-cta-label">See Project</span>
-              <span class="portfolio-cta-arrow">→</span>
+              <span class="portfolio-cta-arrow">"</span>
             </div>
           </div>
         </div>
@@ -245,7 +246,7 @@
             <p class="portfolio-problem">A bright brand and product direction for a more expressive digital experience</p>
             <div class="portfolio-cta" aria-hidden="true">
               <span class="portfolio-cta-label">See Project</span>
-              <span class="portfolio-cta-arrow">→</span>
+              <span class="portfolio-cta-arrow">"</span>
             </div>
           </div>
         </div>
@@ -262,7 +263,7 @@
             <p class="portfolio-problem">Making climate investing accessible, transparent, and on Blockchain with NFTs</p>
             <div class="portfolio-cta" aria-hidden="true">
               <span class="portfolio-cta-label">See Project</span>
-              <span class="portfolio-cta-arrow">→</span>
+              <span class="portfolio-cta-arrow">"</span>
             </div>
           </div>
         </div>
@@ -303,7 +304,7 @@
 
 <!-- HOW I AI PAGE -->
 <div class="page-view" id="page-how-i-ai">
-  <button class="page-close" onclick="closePage()">✕ Close</button>
+  <button class="page-close" onclick="closePage()"><span class="page-close-icon"></span><span>Close</span></button>
   <div class="progress-slider-cs" aria-hidden="true">
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
@@ -313,8 +314,8 @@
   <div class="page-inner artwork-page">
     <div class="page-title">How I AI</div>
     <div class="work-tabs how-ai-tabs" role="tablist" aria-label="How I AI categories">
-      <button class="work-tab is-active" type="button" role="tab" aria-selected="true" data-how-ai-tab="visual" onclick="setHowIAITab('visual', this)">Visual</button>
-      <button class="work-tab" type="button" role="tab" aria-selected="false" data-how-ai-tab="process-workflow" onclick="setHowIAITab('process-workflow', this)">Process workflow</button>
+      <button class="work-tab is-active" type="button" role="tab" aria-selected="true" data-how-ai-tab="visual" onclick="setHowIAITab('visual', this)"><span class="tab-icon"></span><span class="tab-label">Visual</span><span class="tab-arrow" aria-hidden="true"></span></button>
+      <button class="work-tab" type="button" role="tab" aria-selected="false" data-how-ai-tab="process-workflow" onclick="setHowIAITab('process-workflow', this)"><span class="tab-icon">"️</span><span class="tab-label">Process workflow</span></button>
     </div>
     <div class="how-ai-tab-panel is-active" data-how-ai-panel="visual" role="tabpanel">
       <div class="ai-designs-showcase">
@@ -364,7 +365,7 @@
 
 <!-- ABOUT ME PAGE -->
 <div class="page-view" id="page-about">
-  <button class="page-close" onclick="closePage()">✕ Close</button>
+  <button class="page-close" onclick="closePage()"><span class="page-close-icon"></span><span>Close</span></button>
   <div class="progress-slider-cs" aria-hidden="true">
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
@@ -381,7 +382,7 @@
       <p>What I really wanted was to design products that delight people and genuinely help them. So I changed my career and became a full time designer.</p>
       <p>After getting a job, I realized design is also about working with the business. Hitting numbers. Improving metrics. Fixing funnels. Reducing friction. All while still delighting and helping customers. That's what I focus on now.</p>
       <p>I learned design by practicing. By trying new products and apps. But mostly by staying curious.</p>
-      <p>With the rise of AI, I can now create what's in my head at the speed of light. Iterate → Experiment → Fail → Iterate again.</p>
+      <p>With the rise of AI, I can now create what's in my head at the speed of light. Iterate " Experiment " Fail " Iterate again.</p>
       <p><strong>Fail fast. Learn fast.</strong></p>
       <p>In my free time, I read books, create videos, work on side projects, spend time with family, and play PlayStation while creating new concept designs.</p>
     </div>
@@ -390,7 +391,7 @@
 
 <!-- RESUME PAGE -->
 <div class="page-view" id="page-resume">
-  <button class="page-close" onclick="closePage()">✕ Close</button>
+  <button class="page-close" onclick="closePage()"><span class="page-close-icon"></span><span>Close</span></button>
   <div class="progress-slider-cs" aria-hidden="true">
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
@@ -415,7 +416,7 @@
 
 <!-- CONTACT PAGE -->
 <div class="page-view" id="page-contact">
-  <button class="page-close" onclick="closePage()">✕ Close</button>
+  <button class="page-close" onclick="closePage()"><span class="page-close-icon"></span><span>Close</span></button>
   <div class="progress-slider-cs" aria-hidden="true">
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
@@ -449,7 +450,7 @@
         <div class="contact-chip-row">
           <span class="contact-chip">Product Design</span>
           <span class="contact-chip">Design Systems</span>
-          <span class="contact-chip">0→1 Concepts</span>
+          <span class="contact-chip">0"1 Concepts</span>
           <span class="contact-chip">AI Interfaces</span>
         </div>
       </div>
@@ -459,7 +460,7 @@
 
 <!-- CASE STUDY: HEALTH INSURANCE -->
 <div class="page-view case-study-view" id="page-health-insurance">
-  <button class="page-close" onclick="closePage()"><span class="page-close-icon">✕</span><span>Close</span></button>
+  <button class="page-close" onclick="closePage()"><span class="page-close-icon">x</span><span>Close</span></button>
   <div class="progress-slider-cs" aria-hidden="true">
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
@@ -484,13 +485,13 @@
           <div class="cs-meta-item"><span class="cs-meta-label">Role</span><span class="cs-meta-value">Product Designer</span></div>
           <div class="cs-meta-item"><span class="cs-meta-label">Duration</span><span class="cs-meta-value">3 weeks</span></div>
           <div class="cs-meta-item"><span class="cs-meta-label">Platform</span><span class="cs-meta-value">Mobile Web + App</span></div>
-          <div class="cs-meta-item"><span class="cs-meta-label">Scope</span><span class="cs-meta-value">Discovery → UX → UI → Validation</span></div>
+          <div class="cs-meta-item"><span class="cs-meta-label">Scope</span><span class="cs-meta-value">Discovery " UX " UI " Validation</span></div>
         </div>
       </section>
 
       <!-- Problem + Before side by side -->
       <section class="cs-section">
-        <div class="cs-label">01 — Problem</div>
+        <div class="cs-label">01  Problem</div>
         <h2 class="cs-heading">Where the journey was broken</h2>
         <div class="cs-problem-grid">
           <div class="cs-problem-card">
@@ -512,9 +513,9 @@
         </div>
       </section>
 
-      <!-- Before metrics — tinted band -->
+      <!-- Before metrics  tinted band -->
       <section class="cs-section">
-        <div class="cs-label">02 — Baseline</div>
+        <div class="cs-label">02  Baseline</div>
         <h2 class="cs-heading">Where we started</h2>
         <div class="cs-band" style="margin-top: 24px;">
           <div class="cs-band-label">Key metrics before redesign</div>
@@ -531,7 +532,7 @@
 
       <!-- Goals -->
       <section class="cs-section">
-        <div class="cs-label">03 — Goals</div>
+        <div class="cs-label">03  Goals</div>
         <h2 class="cs-heading">What we set out to achieve</h2>
         <div class="cs-goals-list">
           <div class="cs-goal-item"><span class="cs-goal-num">01</span><span class="cs-goal-text">Increase overall conversion by reducing funnel drop-offs at every stage</span></div>
@@ -542,9 +543,9 @@
         </div>
       </section>
 
-      <!-- Design — 2-col card grid -->
+      <!-- Design  2-col card grid -->
       <section class="cs-section">
-        <div class="cs-label">04 — Design</div>
+        <div class="cs-label">04  Design</div>
         <h2 class="cs-heading">Eight areas of redesign</h2>
         <div class="cs-design-grid">
           <div class="cs-design-card">
@@ -562,7 +563,7 @@
           <div class="cs-design-card">
             <div class="cs-design-num">03</div>
             <div class="cs-design-title">Family complexity handling</div>
-            <div class="cs-design-text">Covered real-world scenarios: self + spouse + children, self + parents, parents-only edge cases, and member limits — via inline nudges and system-driven constraints instead of silent failures.</div>
+            <div class="cs-design-text">Covered real-world scenarios: self + spouse + children, self + parents, parents-only edge cases, and member limits  via inline nudges and system-driven constraints instead of silent failures.</div>
             <div class="cs-design-result">Fewer dead ends across combinations</div>
           </div>
           <div class="cs-design-card">
@@ -575,7 +576,7 @@
             <div class="cs-design-num">05</div>
             <div class="cs-design-title">Add-ons &amp; cross-sell</div>
             <div class="cs-design-text">Positioned add-ons as optional upgrades with price tags and benefit summaries. Grouped to reduce clutter and cognitive load at a high-intent moment.</div>
-            <div class="cs-design-result">Increased attach rate from 17% → 29%</div>
+            <div class="cs-design-result">Increased attach rate from 17% " 29%</div>
           </div>
           <div class="cs-design-card">
             <div class="cs-design-num">06</div>
@@ -586,7 +587,7 @@
           <div class="cs-design-card">
             <div class="cs-design-num">07</div>
             <div class="cs-design-title">Error handling system</div>
-            <div class="cs-design-text">Field-level validation with clear, actionable error messages. Shifted from reactive errors to preventive logic — catching issues before they blocked progress.</div>
+            <div class="cs-design-text">Field-level validation with clear, actionable error messages. Shifted from reactive errors to preventive logic  catching issues before they blocked progress.</div>
             <div class="cs-design-result">Improved trust and form clarity</div>
           </div>
           <div class="cs-design-card">
@@ -600,46 +601,46 @@
 
       <!-- Impact -->
       <section class="cs-section">
-        <div class="cs-label">05 — Impact</div>
+        <div class="cs-label">05  Impact</div>
         <h2 class="cs-heading">Results after redesign</h2>
         <div class="cs-impact-grid">
           <div class="cs-impact-cell">
             <div class="cs-impact-delta">+44%</div>
-            <div class="cs-impact-from">18.6% → 26.9%</div>
+            <div class="cs-impact-from">18.6% " 26.9%</div>
             <div class="cs-impact-label">Conversion rate</div>
           </div>
           <div class="cs-impact-cell">
-            <div class="cs-impact-delta">−48%</div>
-            <div class="cs-impact-from">27% → 14%</div>
+            <div class="cs-impact-delta">"48%</div>
+            <div class="cs-impact-from">27% " 14%</div>
             <div class="cs-impact-label">Drop-off at member selection</div>
           </div>
           <div class="cs-impact-cell">
-            <div class="cs-impact-delta">−44%</div>
-            <div class="cs-impact-from">34% → 19%</div>
+            <div class="cs-impact-delta">"44%</div>
+            <div class="cs-impact-from">34% " 19%</div>
             <div class="cs-impact-label">Drop-off at medical declaration</div>
           </div>
           <div class="cs-impact-cell">
-            <div class="cs-impact-delta">−38%</div>
-            <div class="cs-impact-from">6.8 → 4.2 min</div>
+            <div class="cs-impact-delta">"38%</div>
+            <div class="cs-impact-from">6.8 " 4.2 min</div>
             <div class="cs-impact-label">Time to purchase</div>
           </div>
           <div class="cs-impact-cell">
-            <div class="cs-impact-delta">−59%</div>
-            <div class="cs-impact-from">22% → 9%</div>
+            <div class="cs-impact-delta">"59%</div>
+            <div class="cs-impact-from">22% " 9%</div>
             <div class="cs-impact-label">Error rate in forms</div>
           </div>
           <div class="cs-impact-cell">
             <div class="cs-impact-delta">+133%</div>
-            <div class="cs-impact-from">9% → 21%</div>
+            <div class="cs-impact-from">9% " 21%</div>
             <div class="cs-impact-label">Plan comparison usage</div>
           </div>
           <div class="cs-impact-cell">
             <div class="cs-impact-delta">+71%</div>
-            <div class="cs-impact-from">17% → 29%</div>
+            <div class="cs-impact-from">17% " 29%</div>
             <div class="cs-impact-label">Add-on attach rate</div>
           </div>
           <div class="cs-impact-cell">
-            <div class="cs-impact-delta">↑</div>
+            <div class="cs-impact-delta">"</div>
             <div class="cs-impact-from">Full funnel</div>
             <div class="cs-impact-label">Reduced friction across every stage</div>
           </div>
@@ -648,10 +649,10 @@
 
       <!-- Reflection -->
       <section class="cs-section cs-reflection">
-        <div class="cs-label">06 — Reflection</div>
+        <div class="cs-label">06  Reflection</div>
         <h2 class="cs-heading">What this project reinforced</h2>
         <p class="cs-text">Reducing friction across the entire funnel and improving clarity in complex family scenarios led to faster decision making and strong uplift in both conversion and revenue levers.</p>
-        <p class="cs-text">The biggest lesson: preventive design always outperforms reactive fixes. Catching errors before they happen — through smart defaults, inline validation, and progressive disclosure — had a compounding effect across every stage of the journey.</p>
+        <p class="cs-text">The biggest lesson: preventive design always outperforms reactive fixes. Catching errors before they happen  through smart defaults, inline validation, and progressive disclosure  had a compounding effect across every stage of the journey.</p>
       </section>
 
     </div>
@@ -660,7 +661,7 @@
 
 <!-- CASE STUDY: LIFE INSURANCE -->
 <div class="page-view case-study-view" id="page-life-insurance">
-  <button class="page-close" onclick="closePage()"><span class="page-close-icon">✕</span><span>Close</span></button>
+  <button class="page-close" onclick="closePage()"><span class="page-close-icon"></span><span>Close</span></button>
   <div class="progress-slider-cs" aria-hidden="true">
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
@@ -679,7 +680,7 @@
 
       <section class="cs-section cs-overview">
         <div class="cs-label">Life Insurance · Bajaj Finserv</div>
-        <h2 class="cs-heading">Redesigning the end-to-end life insurance purchase journey — from plan discovery to policy issuance — with a focus on trust, clarity, and conversion.</h2>
+        <h2 class="cs-heading">Redesigning the end-to-end life insurance purchase journey  from plan discovery to policy issuance  with a focus on trust, clarity, and conversion.</h2>
         <div class="cs-meta-row">
           <div class="cs-meta-item"><span class="cs-meta-label">Role</span><span class="cs-meta-value">Lead Product Designer</span></div>
           <div class="cs-meta-item"><span class="cs-meta-label">Duration</span><span class="cs-meta-value">6 months</span></div>
@@ -689,7 +690,7 @@
       </section>
 
       <section class="cs-section">
-        <div class="cs-label">01 — Problem</div>
+        <div class="cs-label">01  Problem</div>
         <h2 class="cs-heading">A journey full of friction and distrust</h2>
         <div class="cs-problem-grid">
           <div class="cs-problem-card">
@@ -712,26 +713,26 @@
       </section>
 
       <section class="cs-section">
-        <div class="cs-label">02 — Research</div>
+        <div class="cs-label">02  Research</div>
         <h2 class="cs-heading">Where users were getting lost</h2>
         <div class="cs-band" style="margin-top: 24px;">
           <div class="cs-band-label">Key findings from session recordings, exit surveys &amp; 12 user interviews</div>
           <div class="cs-stat-grid-3">
-            <div class="cs-stat-item"><div class="cs-stat-num">68%</div><div class="cs-stat-label">dropped off at plan selection — overwhelmed by jargon and too many options</div></div>
-            <div class="cs-stat-item"><div class="cs-stat-num">4.2×</div><div class="cs-stat-label">more time on premium calculator than expected — users didn't trust the numbers</div></div>
+            <div class="cs-stat-item"><div class="cs-stat-num">68%</div><div class="cs-stat-label">dropped off at plan selection  overwhelmed by jargon and too many options</div></div>
+            <div class="cs-stat-item"><div class="cs-stat-num">4.2×</div><div class="cs-stat-label">more time on premium calculator than expected  users didn't trust the numbers</div></div>
             <div class="cs-stat-item"><div class="cs-stat-num">41%</div><div class="cs-stat-label">of returning users couldn't find previously started applications</div></div>
           </div>
         </div>
       </section>
 
       <section class="cs-section">
-        <div class="cs-label">03 — Design</div>
+        <div class="cs-label">03  Design</div>
         <h2 class="cs-heading">Three principles that guided the work</h2>
         <div class="cs-design-grid">
           <div class="cs-design-card">
             <div class="cs-design-num">01</div>
             <div class="cs-design-title">Reduce cognitive load</div>
-            <div class="cs-design-text">Progressive disclosure — show only what's needed at each step. Complex terms explained inline with plain language so users never feel out of their depth.</div>
+            <div class="cs-design-text">Progressive disclosure  show only what's needed at each step. Complex terms explained inline with plain language so users never feel out of their depth.</div>
             <div class="cs-design-result">Simpler decisions at every stage</div>
           </div>
           <div class="cs-design-card">
@@ -743,14 +744,14 @@
           <div class="cs-design-card">
             <div class="cs-design-num">03</div>
             <div class="cs-design-title">Continuity across sessions</div>
-            <div class="cs-design-text">Auto-saved application state so users can resume exactly where they left off — even when switching devices mid-journey.</div>
+            <div class="cs-design-text">Auto-saved application state so users can resume exactly where they left off  even when switching devices mid-journey.</div>
             <div class="cs-design-result">Recovered previously lost return users</div>
           </div>
         </div>
       </section>
 
       <section class="cs-section">
-        <div class="cs-label">04 — Impact</div>
+        <div class="cs-label">04  Impact</div>
         <h2 class="cs-heading">Results after launch</h2>
         <p class="cs-text" style="margin-bottom: 24px;">Shipped to 100% of users in Q3 2023. Significant improvements across all tracked metrics within 8 weeks:</p>
         <div class="cs-impact-grid">
@@ -760,7 +761,7 @@
             <div class="cs-impact-label">Funnel completion rate</div>
           </div>
           <div class="cs-impact-cell">
-            <div class="cs-impact-delta">−28%</div>
+            <div class="cs-impact-delta">"28%</div>
             <div class="cs-impact-from">Faster purchase</div>
             <div class="cs-impact-label">Avg. time to purchase</div>
           </div>
@@ -770,7 +771,7 @@
             <div class="cs-impact-label">Return user conversion</div>
           </div>
           <div class="cs-impact-cell">
-            <div class="cs-impact-delta">4.6★</div>
+            <div class="cs-impact-delta">4.6"</div>
             <div class="cs-impact-from">Out of 5</div>
             <div class="cs-impact-label">Post-purchase satisfaction</div>
           </div>
@@ -778,9 +779,9 @@
       </section>
 
       <section class="cs-section cs-reflection">
-        <div class="cs-label">05 — Reflection</div>
+        <div class="cs-label">05  Reflection</div>
         <h2 class="cs-heading">What I learned</h2>
-        <p class="cs-text">Insurance is a trust product. Every visual, every label, and every interaction either builds or erodes that trust. The biggest design win wasn't a flashy UI — it was the decision to surface exclusions clearly upfront, even if it reduced plan selections short-term. That honesty paid off in satisfaction scores.</p>
+        <p class="cs-text">Insurance is a trust product. Every visual, every label, and every interaction either builds or erodes that trust. The biggest design win wasn't a flashy UI  it was the decision to surface exclusions clearly upfront, even if it reduced plan selections short-term. That honesty paid off in satisfaction scores.</p>
         <p class="cs-text">I also learned how to work within regulatory constraints without killing the experience. Several UI patterns needed legal sign-off, and getting design-friendly approvals required presenting data alongside mockups in every stakeholder meeting.</p>
       </section>
 
@@ -790,7 +791,7 @@
 
 <!-- CASE STUDY: GO LEAP -->
 <div class="page-view case-study-view" id="page-go-leap">
-  <button class="page-close" onclick="closePage()"><span class="page-close-icon">✕</span><span>Close</span></button>
+  <button class="page-close" onclick="closePage()"><span class="page-close-icon"></span><span>Close</span></button>
   <div class="progress-slider-cs" aria-hidden="true">
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
@@ -805,114 +806,130 @@
         <img src="GoLeapDesktop-2400.jpg" alt="Go Leap case study hero" loading="lazy" decoding="async" fetchpriority="low">
       </picture>
     </div>
-    <div class=”case-study-body”>
+    <div class="case-study-body">
 
-      <section class=”cs-section cs-overview”>
-        <div class=”cs-label”>Go Leap · Freelance</div>
-        <h2 class=”cs-heading”>Making discovery feel alive — replacing a static catalogue with an immersive, personalised exploration experience that keeps users coming back.</h2>
-        <div class=”cs-meta-row”>
-          <div class=”cs-meta-item”><span class=”cs-meta-label”>Role</span><span class=”cs-meta-value”>Product Designer</span></div>
-          <div class=”cs-meta-item”><span class=”cs-meta-label”>Duration</span><span class=”cs-meta-value”>4 months</span></div>
-          <div class=”cs-meta-item”><span class=”cs-meta-label”>Platform</span><span class=”cs-meta-value”>iOS · Android</span></div>
-          <div class=”cs-meta-item”><span class=”cs-meta-label”>Focus</span><span class=”cs-meta-value”>Discovery · Exploration UX</span></div>
+      <section class="cs-section cs-overview">
+        <div class="cs-label">Go Leap · Freelance</div>
+        <h2 class="cs-heading">Making discovery feel alive by replacing a static catalogue with an immersive, personalised exploration experience that keeps users coming back.</h2>
+        <div class="cs-meta-row">
+          <div class="cs-meta-item"><span class="cs-meta-label">Role</span><span class="cs-meta-value">Product Designer</span></div>
+          <div class="cs-meta-item"><span class="cs-meta-label">Duration</span><span class="cs-meta-value">4 months</span></div>
+          <div class="cs-meta-item"><span class="cs-meta-label">Platform</span><span class="cs-meta-value">iOS · Android</span></div>
+          <div class="cs-meta-item"><span class="cs-meta-label">Focus</span><span class="cs-meta-value">Discovery · Exploration UX</span></div>
         </div>
       </section>
 
-      <section class=”cs-section”>
-        <div class=”cs-label”>01 — Problem</div>
-        <h2 class=”cs-heading”>A catalogue with no momentum</h2>
-        <div class=”cs-problem-grid”>
-          <div class=”cs-problem-card”>
-            <div class=”cs-problem-card-title”>Static grid layout</div>
-            <div class=”cs-problem-card-text”>Discovery surface felt like a catalogue — cards with no editorial context, no mood, and no sense of why something was worth exploring.</div>
+      <section class="cs-section">
+        <div class="cs-label">01  Problem</div>
+        <h2 class="cs-heading">A catalogue with no momentum</h2>
+        <div class="cs-problem-grid">
+          <div class="cs-problem-card">
+            <div class="cs-problem-card-title">Static grid layout</div>
+            <div class="cs-problem-card-text">Discovery felt like a catalogue  cards with no editorial context, no mood, no sense of why something was worth exploring.</div>
           </div>
-          <div class=”cs-problem-card”>
-            <div class=”cs-problem-card-title”>No momentum</div>
-            <div class=”cs-problem-card-text”>The grid required active effort to browse. Users had to decide what to tap rather than being pulled forward by the experience.</div>
+          <div class="cs-problem-card">
+            <div class="cs-problem-card-title">No forward momentum</div>
+            <div class="cs-problem-card-text">The grid required active effort to browse. Users had to decide what to tap rather than being pulled forward by the experience.</div>
           </div>
-          <div class=”cs-problem-card”>
-            <div class=”cs-problem-card-title”>Single-session users</div>
-            <div class=”cs-problem-card-text”>Users browsed once and left. D7 retention was the critical metric — the product wasn't building a habit.</div>
+          <div class="cs-problem-card">
+            <div class="cs-problem-card-title">Single-session drop-off</div>
+            <div class="cs-problem-card-text">Users browsed once and left. D7 retention was the critical metric  the product wasn't building a habit.</div>
           </div>
-          <div class=”cs-problem-card”>
-            <div class=”cs-problem-card-title”>No personalisation</div>
-            <div class=”cs-problem-card-text”>Content shown was the same for everyone. No signals were captured to improve relevance over time.</div>
-          </div>
-        </div>
-      </section>
-
-      <section class=”cs-section”>
-        <div class=”cs-label”>02 — Research</div>
-        <h2 class=”cs-heading”>What makes discovery feel alive?</h2>
-        <p class=”cs-text” style=”margin-bottom: 24px;”>Competitive analysis of TikTok, Pinterest, and Spotify Discover revealed three shared qualities in high-engagement discovery: editorial curation with context, momentum that pulls you forward, and personalisation that feels earned.</p>
-        <div class=”cs-band”>
-          <div class=”cs-band-label”>Key findings from testing &amp; competitive analysis</div>
-          <div class=”cs-stat-grid-3”>
-            <div class=”cs-stat-item”><div class=”cs-stat-num”>2.1×</div><div class=”cs-stat-label”>higher session length when content had editorial context vs. just a title and image</div></div>
-            <div class=”cs-stat-item”><div class=”cs-stat-num”>55%</div><div class=”cs-stat-label”>of users said the old grid felt “too much work to browse” — they wanted to be guided</div></div>
-            <div class=”cs-stat-item”><div class=”cs-stat-num”>3×</div><div class=”cs-stat-label”>more items saved to wishlist when category context was visible during browsing</div></div>
+          <div class="cs-problem-card">
+            <div class="cs-problem-card-title">No personalisation</div>
+            <div class="cs-problem-card-text">Content was identical for every user. No signals were captured to improve relevance or surface content worth returning for.</div>
           </div>
         </div>
       </section>
 
-      <section class=”cs-section”>
-        <div class=”cs-label”>03 — Design</div>
-        <h2 class=”cs-heading”>An experience that moves with you</h2>
-        <div class=”cs-design-grid”>
-          <div class=”cs-design-card”>
-            <div class=”cs-design-num”>01</div>
-            <div class=”cs-design-title”>Full-bleed editorial cards</div>
-            <div class=”cs-design-text”>Replaced the compact grid with large, immersive cards including a mood line — a single sentence that frames why you'd want this. Context drives curiosity.</div>
-            <div class=”cs-design-result”>Higher intent-to-explore per card</div>
-          </div>
-          <div class=”cs-design-card”>
-            <div class=”cs-design-num”>02</div>
-            <div class=”cs-design-title”>Momentum scroll</div>
-            <div class=”cs-design-text”>Vertical story-style layout with predictive preloading. The next card is always ready — no loading states, no friction between moments of discovery.</div>
-            <div class=”cs-design-result”>Seamless continuous browsing</div>
-          </div>
-          <div class=”cs-design-card”>
-            <div class=”cs-design-num”>03</div>
-            <div class=”cs-design-title”>Interest fingerprinting</div>
-            <div class=”cs-design-text”>Subtle swipe signals (pause time, tap depth, direction) train a lightweight local model — no account required to start getting personalised results.</div>
-            <div class=”cs-design-result”>Personalisation without friction</div>
+      <section class="cs-section">
+        <div class="cs-label">02  Baseline</div>
+        <h2 class="cs-heading">Where we started</h2>
+        <div class="cs-band" style="margin-top: 24px;">
+          <div class="cs-band-label">Key metrics before redesign</div>
+          <div class="cs-stat-grid-3">
+            <div class="cs-stat-item"><div class="cs-stat-num">22%</div><div class="cs-stat-label">D7 retention  users not returning after first session</div></div>
+            <div class="cs-stat-item"><div class="cs-stat-num">55%</div><div class="cs-stat-label">of users said the grid felt "too much work to browse"</div></div>
+            <div class="cs-stat-item"><div class="cs-stat-num">4.2</div><div class="cs-stat-label">avg. items explored per session before drop-off</div></div>
           </div>
         </div>
       </section>
 
-      <section class=”cs-section”>
-        <div class=”cs-label”>04 — Impact</div>
-        <h2 class=”cs-heading”>Moving the needle on exploration</h2>
-        <p class=”cs-text” style=”margin-bottom: 24px;”>Launched in beta to 20% of users. Early signals were strong enough to push to 100% within three weeks.</p>
-        <div class=”cs-impact-grid”>
-          <div class=”cs-impact-cell”>
-            <div class=”cs-impact-delta”>+61%</div>
-            <div class=”cs-impact-from”>After redesign</div>
-            <div class=”cs-impact-label”>D7 retention</div>
+      <section class="cs-section">
+        <div class="cs-label">03  Goals</div>
+        <h2 class="cs-heading">What we set out to achieve</h2>
+        <div class="cs-goals-list">
+          <div class="cs-goal-item"><span class="cs-goal-num">01</span><span class="cs-goal-text">Increase D7 retention by making the experience feel worth returning to</span></div>
+          <div class="cs-goal-item"><span class="cs-goal-num">02</span><span class="cs-goal-text">Replace passive browsing with a forward-moving discovery flow</span></div>
+          <div class="cs-goal-item"><span class="cs-goal-num">03</span><span class="cs-goal-text">Add editorial context so users understand why content is relevant to them</span></div>
+          <div class="cs-goal-item"><span class="cs-goal-num">04</span><span class="cs-goal-text">Build lightweight personalisation that improves without requiring sign-up</span></div>
+        </div>
+      </section>
+
+      <section class="cs-section">
+        <div class="cs-label">04  Design</div>
+        <h2 class="cs-heading">An experience that moves with you</h2>
+        <div class="cs-design-grid">
+          <div class="cs-design-card">
+            <div class="cs-design-num">01</div>
+            <div class="cs-design-title">Full-bleed editorial cards</div>
+            <div class="cs-design-text">Replaced the compact grid with large immersive cards and a mood line  a single sentence that frames why you'd want this. Context drives curiosity and intent.</div>
+            <div class="cs-design-result">Higher intent-to-explore per card</div>
           </div>
-          <div class=”cs-impact-cell”>
-            <div class=”cs-impact-delta”>+44%</div>
-            <div class=”cs-impact-from”>Per session</div>
-            <div class=”cs-impact-label”>Avg. items explored</div>
+          <div class="cs-design-card">
+            <div class="cs-design-num">02</div>
+            <div class="cs-design-title">Momentum scroll</div>
+            <div class="cs-design-text">Vertical story-style layout with predictive preloading. The next card is always ready  no loading states, no friction between moments of discovery.</div>
+            <div class="cs-design-result">Seamless continuous browsing</div>
           </div>
-          <div class=”cs-impact-cell”>
-            <div class=”cs-impact-delta”>−38%</div>
-            <div class=”cs-impact-from”>Discovery page</div>
-            <div class=”cs-impact-label”>Bounce rate</div>
+          <div class="cs-design-card">
+            <div class="cs-design-num">03</div>
+            <div class="cs-design-title">Interest fingerprinting</div>
+            <div class="cs-design-text">Swipe signals (pause time, tap depth, direction) train a lightweight local model  no account required to start getting personalised results.</div>
+            <div class="cs-design-result">Personalisation without sign-up friction</div>
           </div>
-          <div class=”cs-impact-cell”>
-            <div class=”cs-impact-delta”>+27%</div>
-            <div class=”cs-impact-from”>Per session</div>
-            <div class=”cs-impact-label”>Wishlist saves</div>
+          <div class="cs-design-card">
+            <div class="cs-design-num">04</div>
+            <div class="cs-design-title">Category context layer</div>
+            <div class="cs-design-text">Subtle category tags and mood indicators helped users mentally organise what they were exploring, reducing the cognitive load of open-ended browsing.</div>
+            <div class="cs-design-result">3× more wishlist saves per session</div>
           </div>
         </div>
       </section>
 
-      <section class=”cs-section cs-reflection”>
-        <div class=”cs-label”>05 — Reflection</div>
-        <h2 class=”cs-heading”>What I learned</h2>
-        <p class=”cs-text”>The line between discovery and overwhelm is thin. Our first iteration went too immersive — fullscreen takeovers with autoplay. It felt exciting in demos but exhausting in real use. Pulling back to a controlled vertical flow with opt-in depth was the right call.</p>
-        <p class=”cs-text”>Good discovery design is invisible. When it works, users don't say “great UX” — they just say “I found something amazing.” That's the goal.</p>
+      <section class="cs-section">
+        <div class="cs-label">05  Impact</div>
+        <h2 class="cs-heading">Moving the needle on exploration</h2>
+        <p class="cs-text" style="margin-bottom: 24px;">Launched in beta to 20% of users. Early signals were strong enough to roll out to 100% within three weeks.</p>
+        <div class="cs-impact-grid">
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">+61%</div>
+            <div class="cs-impact-from">After redesign</div>
+            <div class="cs-impact-label">D7 retention</div>
+          </div>
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">+44%</div>
+            <div class="cs-impact-from">Per session</div>
+            <div class="cs-impact-label">Items explored</div>
+          </div>
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">-38%</div>
+            <div class="cs-impact-from">Discovery page</div>
+            <div class="cs-impact-label">Bounce rate</div>
+          </div>
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">+27%</div>
+            <div class="cs-impact-from">Per session</div>
+            <div class="cs-impact-label">Wishlist saves</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="cs-section cs-reflection">
+        <div class="cs-label">06  Reflection</div>
+        <h2 class="cs-heading">What I learned</h2>
+        <p class="cs-text">The line between discovery and overwhelm is thin. Our first iteration went too immersive with fullscreen takeovers and autoplay. It felt exciting in demos but exhausting in real use. Pulling back to a controlled vertical flow with opt-in depth was the right call.</p>
+        <p class="cs-text">Good discovery design is invisible. When it works, users don't say "great UX"; they just say "I found something amazing." That's the goal.</p>
       </section>
 
     </div>
@@ -921,7 +938,7 @@
 
 <!-- CASE STUDY: CAR INSURANCE -->
 <div class="page-view case-study-view" id="page-car-insurance">
-  <button class="page-close" onclick="closePage()"><span class="page-close-icon">✕</span><span>Close</span></button>
+  <button class="page-close" onclick="closePage()"><span class="page-close-icon"></span><span>Close</span></button>
   <div class="progress-slider-cs" aria-hidden="true">
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
@@ -940,7 +957,7 @@
 
       <section class="cs-section cs-overview">
         <div class="cs-label">Car Insurance · Bajaj Finserv</div>
-        <h2 class="cs-heading">Designing a scalable end-to-end motor insurance journey — covering purchase, renewal, and servicing — by translating complex business logic into structured, production-ready flows.</h2>
+        <h2 class="cs-heading">Designing a scalable end-to-end motor insurance journey  covering purchase, renewal, and servicing  by translating complex business logic into structured, production-ready flows.</h2>
         <div class="cs-meta-row">
           <div class="cs-meta-item"><span class="cs-meta-label">Role</span><span class="cs-meta-value">Experience Designer (Business + UX)</span></div>
           <div class="cs-meta-item"><span class="cs-meta-label">Scope</span><span class="cs-meta-value">End-to-end flows</span></div>
@@ -950,12 +967,12 @@
       </section>
 
       <section class="cs-section">
-        <div class="cs-label">01 — Problem</div>
+        <div class="cs-label">01  Problem</div>
         <h2 class="cs-heading">Where users were getting stuck</h2>
         <div class="cs-problem-grid">
           <div class="cs-problem-card">
             <div class="cs-problem-card-title">Multiple user states</div>
-            <div class="cs-problem-card-text">Users entering via new purchase, renewal, or expired policy were forced into nearly identical flows — causing confusion and drop-offs early.</div>
+            <div class="cs-problem-card-text">Users entering via new purchase, renewal, or expired policy were forced into nearly identical flows  causing confusion and drop-offs early.</div>
           </div>
           <div class="cs-problem-card">
             <div class="cs-problem-card-title">Late error detection</div>
@@ -963,7 +980,7 @@
           </div>
           <div class="cs-problem-card">
             <div class="cs-problem-card-title">Form fatigue</div>
-            <div class="cs-problem-card-text">Long, unstructured forms with no inline guidance led to 35–45% drop-offs during quote and data-capture stages.</div>
+            <div class="cs-problem-card-text">Long, unstructured forms with no inline guidance led to 3545% drop-offs during quote and data-capture stages.</div>
           </div>
           <div class="cs-problem-card">
             <div class="cs-problem-card-title">Decision overload</div>
@@ -973,54 +990,54 @@
       </section>
 
       <section class="cs-section">
-        <div class="cs-label">02 — My Role</div>
+        <div class="cs-label">02  My Role</div>
         <h2 class="cs-heading">Bridging business logic and user experience</h2>
         <div class="cs-goals-list">
           <div class="cs-goal-item"><span class="cs-goal-num">01</span><span class="cs-goal-text">Defined end-to-end experience flows and decision trees with conditional logic for all entry states</span></div>
-          <div class="cs-goal-item"><span class="cs-goal-num">02</span><span class="cs-goal-text">Identified and designed recovery paths for edge cases — expired policies, KYC failures, invalid inputs</span></div>
+          <div class="cs-goal-item"><span class="cs-goal-num">02</span><span class="cs-goal-text">Identified and designed recovery paths for edge cases  expired policies, KYC failures, invalid inputs</span></div>
           <div class="cs-goal-item"><span class="cs-goal-num">03</span><span class="cs-goal-text">Collaborated with PMs, business, and stakeholders to translate requirements into structured flows</span></div>
           <div class="cs-goal-item"><span class="cs-goal-num">04</span><span class="cs-goal-text">Delivered production-ready flow architecture to central design team for UI execution</span></div>
         </div>
       </section>
 
       <section class="cs-section">
-        <div class="cs-label">03 — Approach</div>
+        <div class="cs-label">03  Approach</div>
         <h2 class="cs-heading">Eight areas of flow design</h2>
         <div class="cs-design-grid">
           <div class="cs-design-card">
             <div class="cs-design-num">01</div>
             <div class="cs-design-title">Flow architecture</div>
-            <div class="cs-design-text">Structured the journey: Entry &amp; validation → Data capture → Quote → Plan selection → Add-ons → Checkout &amp; issuance.</div>
+            <div class="cs-design-text">Structured the journey: Entry &amp; validation " Data capture " Quote " Plan selection " Add-ons " Checkout &amp; issuance.</div>
             <div class="cs-design-result">Clear, navigable path for all user types</div>
           </div>
           <div class="cs-design-card">
             <div class="cs-design-num">02</div>
             <div class="cs-design-title">Decision logic design</div>
-            <div class="cs-design-text">Conditional flows based on policy state, vehicle data, claims history, and insurer constraints — reducing redundant steps by ~20–25% for returning users.</div>
+            <div class="cs-design-text">Conditional flows based on policy state, vehicle data, claims history, and insurer constraints  reducing redundant steps by ~2025% for returning users.</div>
             <div class="cs-design-result">Smarter paths for repeat users</div>
           </div>
           <div class="cs-design-card">
             <div class="cs-design-num">03</div>
             <div class="cs-design-title">Early validation</div>
-            <div class="cs-design-text">Vehicle number type detection and mandatory field checks at entry — prevented invalid journeys before users invested effort.</div>
+            <div class="cs-design-text">Vehicle number type detection and mandatory field checks at entry  prevented invalid journeys before users invested effort.</div>
             <div class="cs-design-result">~30% reduction in downstream errors</div>
           </div>
           <div class="cs-design-card">
             <div class="cs-design-num">04</div>
             <div class="cs-design-title">Structured data capture</div>
-            <div class="cs-design-text">Step-based inputs with inline validation replaced long forms — reduced drop-offs from ~40% to ~25%.</div>
+            <div class="cs-design-text">Step-based inputs with inline validation replaced long forms  reduced drop-offs from ~40% to ~25%.</div>
             <div class="cs-design-result">Significantly improved completion</div>
           </div>
           <div class="cs-design-card">
             <div class="cs-design-num">05</div>
             <div class="cs-design-title">Pricing &amp; comparison</div>
             <div class="cs-design-text">Structured plan comparison with clear breakdowns, zero-depreciation filters, and visible insurer benefits.</div>
-            <div class="cs-design-result">~15–20% faster decision-making</div>
+            <div class="cs-design-result">~1520% faster decision-making</div>
           </div>
           <div class="cs-design-card">
             <div class="cs-design-num">06</div>
             <div class="cs-design-title">Add-on system</div>
-            <div class="cs-design-text">Modular, selectable add-on components with benefit context — reduced cognitive load and increased attach rate by ~10–15%.</div>
+            <div class="cs-design-text">Modular, selectable add-on components with benefit context  reduced cognitive load and increased attach rate by ~1015%.</div>
             <div class="cs-design-result">Higher add-on adoption</div>
           </div>
           <div class="cs-design-card">
@@ -1032,18 +1049,18 @@
           <div class="cs-design-card">
             <div class="cs-design-num">08</div>
             <div class="cs-design-title">Edge case handling</div>
-            <div class="cs-design-text">Designed recovery paths for invalid PIN codes, KYC failures, nominee errors, and policy mismatches — journey failures became guided recovery moments.</div>
-            <div class="cs-design-result">~12–18% completion improvement</div>
+            <div class="cs-design-text">Designed recovery paths for invalid PIN codes, KYC failures, nominee errors, and policy mismatches  journey failures became guided recovery moments.</div>
+            <div class="cs-design-result">~1218% completion improvement</div>
           </div>
         </div>
       </section>
 
       <section class="cs-section">
-        <div class="cs-label">04 — Impact</div>
+        <div class="cs-label">04  Impact</div>
         <h2 class="cs-heading">Results after delivery</h2>
         <div class="cs-impact-grid">
           <div class="cs-impact-cell">
-            <div class="cs-impact-delta">−15–20%</div>
+            <div class="cs-impact-delta">"1520%</div>
             <div class="cs-impact-from">Full funnel</div>
             <div class="cs-impact-label">Drop-off reduction</div>
           </div>
@@ -1053,12 +1070,12 @@
             <div class="cs-impact-label">Form completion rate</div>
           </div>
           <div class="cs-impact-cell">
-            <div class="cs-impact-delta">−25–30%</div>
+            <div class="cs-impact-delta">"2530%</div>
             <div class="cs-impact-from">Entry &amp; forms</div>
             <div class="cs-impact-label">Error-related failures</div>
           </div>
           <div class="cs-impact-cell">
-            <div class="cs-impact-delta">+10–15%</div>
+            <div class="cs-impact-delta">+1015%</div>
             <div class="cs-impact-from">Plan selection</div>
             <div class="cs-impact-label">Add-on adoption</div>
           </div>
@@ -1066,10 +1083,10 @@
       </section>
 
       <section class="cs-section cs-reflection">
-        <div class="cs-label">05 — Reflection</div>
+        <div class="cs-label">05  Reflection</div>
         <h2 class="cs-heading">What I learned</h2>
         <p class="cs-text">Most complexity in insurance design lies in logic, not visuals. Designing without UI first improves clarity of thinking and forces you to solve the real problem before decorating it.</p>
-        <p class="cs-text">Edge cases define real product quality. Strong alignment with business is critical in regulated domains — and once the branching logic became clearer, every downstream screen became easier to design, test, and scale.</p>
+        <p class="cs-text">Edge cases define real product quality. Strong alignment with business is critical in regulated domains  and once the branching logic became clearer, every downstream screen became easier to design, test, and scale.</p>
       </section>
 
     </div>
@@ -1078,7 +1095,7 @@
 
 <!-- CASE STUDY: REFI NFT DASHBOARD -->
 <div class="page-view case-study-view" id="page-refi-nft-dashboard">
-  <button class="page-close" onclick="closePage()"><span class="page-close-icon">✕</span><span>Close</span></button>
+  <button class="page-close" onclick="closePage()"><span class="page-close-icon"></span><span>Close</span></button>
   <div class="progress-slider-cs" aria-hidden="true">
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
@@ -1093,205 +1110,205 @@
         <img src="RefiDesktopDarkMode-2400.jpg" alt="ReFi NFT Dashboard case study hero" loading="lazy" decoding="async" fetchpriority="low">
       </picture>
     </div>
-    <div class=”case-study-body”>
+    <div class="case-study-body">
 
       <!-- Overview -->
-      <section class=”cs-section cs-overview”>
-        <div class=”cs-label”>ReFi Protocol · Freelance</div>
-        <h2 class=”cs-heading”>Designing the end-to-end experience for a blockchain-based platform where users invest in real-world environmental assets through tokenization, staking, and NFTs.</h2>
-        <div class=”cs-meta-row”>
-          <div class=”cs-meta-item”><span class=”cs-meta-label”>Role</span><span class=”cs-meta-value”>Sole Product Designer</span></div>
-          <div class=”cs-meta-item”><span class=”cs-meta-label”>Platform</span><span class=”cs-meta-value”>Web App (Blockchain)</span></div>
-          <div class=”cs-meta-item”><span class=”cs-meta-label”>Scope</span><span class=”cs-meta-value”>Dashboard · Staking · Bridging · NFTs · Leaderboard</span></div>
-          <div class=”cs-meta-item”><span class=”cs-meta-label”>Goal</span><span class=”cs-meta-value”>Make Web3 + sustainability feel intuitive</span></div>
+      <section class="cs-section cs-overview">
+        <div class="cs-label">ReFi Protocol · Freelance</div>
+        <h2 class="cs-heading">Designing the end-to-end experience for a blockchain-based platform where users invest in real-world environmental assets through tokenization, staking, and NFTs.</h2>
+        <div class="cs-meta-row">
+          <div class="cs-meta-item"><span class="cs-meta-label">Role</span><span class="cs-meta-value">Sole Product Designer</span></div>
+          <div class="cs-meta-item"><span class="cs-meta-label">Platform</span><span class="cs-meta-value">Web App (Blockchain)</span></div>
+          <div class="cs-meta-item"><span class="cs-meta-label">Scope</span><span class="cs-meta-value">Dashboard · Staking · Bridging · NFTs · Leaderboard</span></div>
+          <div class="cs-meta-item"><span class="cs-meta-label">Goal</span><span class="cs-meta-value">Make Web3 + sustainability feel intuitive</span></div>
         </div>
       </section>
 
       <!-- Problem -->
-      <section class=”cs-section”>
-        <div class=”cs-label”>01 — Problem</div>
-        <h2 class=”cs-heading”>Three intersecting UX challenges</h2>
-        <p class=”cs-text” style=”margin-bottom: 24px;”>ReFi sits at the intersection of Web3 complexity, financial decisions, and environmental impact — a combination that creates compounding friction for users.</p>
-        <div class=”cs-problem-grid”>
-          <div class=”cs-problem-card”>
-            <div class=”cs-problem-card-title”>High cognitive load</div>
-            <div class=”cs-problem-card-text”>Users must simultaneously understand wallets, staking mechanics, bridging, and NFTs — before they can take any meaningful action.</div>
+      <section class="cs-section">
+        <div class="cs-label">01  Problem</div>
+        <h2 class="cs-heading">Three intersecting UX challenges</h2>
+        <p class="cs-text" style="margin-bottom: 24px;">ReFi sits at the intersection of Web3 complexity, financial decisions, and environmental impact  a combination that creates compounding friction for users.</p>
+        <div class="cs-problem-grid">
+          <div class="cs-problem-card">
+            <div class="cs-problem-card-title">High cognitive load</div>
+            <div class="cs-problem-card-text">Users must simultaneously understand wallets, staking mechanics, bridging, and NFTs  before they can take any meaningful action.</div>
           </div>
-          <div class=”cs-problem-card”>
-            <div class=”cs-problem-card-title”>Trust gap</div>
-            <div class=”cs-problem-card-text”>Users are investing real money in “real-world environmental impact” mediated through digital abstractions — trust is not given, it must be designed.</div>
+          <div class="cs-problem-card">
+            <div class="cs-problem-card-title">Trust gap</div>
+            <div class="cs-problem-card-text">Users are investing real money in "real-world environmental impact" mediated through digital abstractions  trust is not given, it must be designed.</div>
           </div>
-          <div class=”cs-problem-card”>
-            <div class=”cs-problem-card-title”>Fragmented flows</div>
-            <div class=”cs-problem-card-text”>Most DeFi products split related actions across disconnected screens, forcing users to context-switch and lose momentum mid-journey.</div>
+          <div class="cs-problem-card">
+            <div class="cs-problem-card-title">Fragmented flows</div>
+            <div class="cs-problem-card-text">Most DeFi products split related actions across disconnected screens, forcing users to context-switch and lose momentum mid-journey.</div>
           </div>
         </div>
       </section>
 
       <!-- Goal -->
-      <section class=”cs-section”>
-        <div class=”cs-label”>02 — Goal</div>
-        <h2 class=”cs-heading”>Make complex Web3 feel simple and trustworthy</h2>
-        <div class=”cs-goals-list”>
-          <div class=”cs-goal-item”><span class=”cs-goal-num”>01</span><span class=”cs-goal-text”>Simplify Web3 interactions so non-crypto users can participate without prior knowledge</span></div>
-          <div class=”cs-goal-item”><span class=”cs-goal-num”>02</span><span class=”cs-goal-text”>Build trust through data visibility, clarity, and explainable outcomes</span></div>
-          <div class=”cs-goal-item”><span class=”cs-goal-num”>03</span><span class=”cs-goal-text”>Create a seamless loop between investing, staking, and NFT ownership</span></div>
+      <section class="cs-section">
+        <div class="cs-label">02  Goal</div>
+        <h2 class="cs-heading">Make complex Web3 feel simple and trustworthy</h2>
+        <div class="cs-goals-list">
+          <div class="cs-goal-item"><span class="cs-goal-num">01</span><span class="cs-goal-text">Simplify Web3 interactions so non-crypto users can participate without prior knowledge</span></div>
+          <div class="cs-goal-item"><span class="cs-goal-num">02</span><span class="cs-goal-text">Build trust through data visibility, clarity, and explainable outcomes</span></div>
+          <div class="cs-goal-item"><span class="cs-goal-num">03</span><span class="cs-goal-text">Create a seamless loop between investing, staking, and NFT ownership</span></div>
         </div>
       </section>
 
       <!-- Approach -->
-      <section class=”cs-section”>
-        <div class=”cs-label”>03 — Approach</div>
-        <h2 class=”cs-heading”>Three design principles that shaped every screen</h2>
-        <div class=”cs-design-grid”>
-          <div class=”cs-design-card”>
-            <div class=”cs-design-num”>01</div>
-            <div class=”cs-design-title”>System-first thinking</div>
-            <div class=”cs-design-text”>Instead of designing individual screens, I designed across states: disconnected wallet, empty states, active user states, and error states — ensuring the system felt coherent at every moment.</div>
-            <div class=”cs-design-result”>No orphaned or broken states</div>
+      <section class="cs-section">
+        <div class="cs-label">03  Approach</div>
+        <h2 class="cs-heading">Three design principles that shaped every screen</h2>
+        <div class="cs-design-grid">
+          <div class="cs-design-card">
+            <div class="cs-design-num">01</div>
+            <div class="cs-design-title">System-first thinking</div>
+            <div class="cs-design-text">Instead of designing individual screens, I designed across states: disconnected wallet, empty states, active user states, and error states  ensuring the system felt coherent at every moment.</div>
+            <div class="cs-design-result">No orphaned or broken states</div>
           </div>
-          <div class=”cs-design-card”>
-            <div class=”cs-design-num”>02</div>
-            <div class=”cs-design-title”>Reduce decision friction</div>
-            <div class=”cs-design-text”>Every screen was designed to answer three questions: What do I have? What can I do next? What will I get? This framing eliminated ambiguity at every decision point.</div>
-            <div class=”cs-design-result”>Clear path forward on every screen</div>
+          <div class="cs-design-card">
+            <div class="cs-design-num">02</div>
+            <div class="cs-design-title">Reduce decision friction</div>
+            <div class="cs-design-text">Every screen was designed to answer three questions: What do I have? What can I do next? What will I get? This framing eliminated ambiguity at every decision point.</div>
+            <div class="cs-design-result">Clear path forward on every screen</div>
           </div>
-          <div class=”cs-design-card”>
-            <div class=”cs-design-num”>03</div>
-            <div class=”cs-design-title”>Visual trust layer</div>
-            <div class=”cs-design-text”>Deep green palette for sustainability and finance. Glass + glow for premium Web3 feel. Structured cards for data clarity. Every visual choice builds confidence in the system.</div>
-            <div class=”cs-design-result”>Premium feel that earns trust</div>
+          <div class="cs-design-card">
+            <div class="cs-design-num">03</div>
+            <div class="cs-design-title">Visual trust layer</div>
+            <div class="cs-design-text">Deep green palette for sustainability and finance. Glass + glow for premium Web3 feel. Structured cards for data clarity. Every visual choice builds confidence in the system.</div>
+            <div class="cs-design-result">Premium feel that earns trust</div>
           </div>
         </div>
       </section>
 
       <!-- Key Flows -->
-      <section class=”cs-section”>
-        <div class=”cs-label”>04 — Key Flows</div>
-        <h2 class=”cs-heading”>Seven flows designed end-to-end</h2>
-        <div class=”cs-design-grid”>
-          <div class=”cs-design-card”>
-            <div class=”cs-design-num”>Dashboard</div>
-            <div class=”cs-design-title”>Clarity over complexity</div>
-            <div class=”cs-design-text”>Consolidated global metrics, personal holdings, and rewards into a single view with visual hierarchy using card grouping — so users understand their position instantly.</div>
-            <div class=”cs-design-result”>↓38% time to understand portfolio · ↑52% staking interaction from dashboard</div>
+      <section class="cs-section">
+        <div class="cs-label">04  Key Flows</div>
+        <h2 class="cs-heading">Seven flows designed end-to-end</h2>
+        <div class="cs-design-grid">
+          <div class="cs-design-card">
+            <div class="cs-design-num">Dashboard</div>
+            <div class="cs-design-title">Clarity over complexity</div>
+            <div class="cs-design-text">Consolidated global metrics, personal holdings, and rewards into a single view with visual hierarchy using card grouping  so users understand their position instantly.</div>
+            <div class="cs-design-result">"38% time to understand portfolio · "52% staking interaction from dashboard</div>
           </div>
-          <div class=”cs-design-card”>
-            <div class=”cs-design-num”>Wallet</div>
-            <div class=”cs-design-title”>Blocking uncertainty early</div>
-            <div class=”cs-design-text”>Forced wallet connection via modal with a clear CTA and zero ambiguity. Most DeFi apps fail because users don't know why things aren't working — we solved this at entry.</div>
-            <div class=”cs-design-result”>↑27% successful connections · ↓first-session drop-offs</div>
+          <div class="cs-design-card">
+            <div class="cs-design-num">Wallet</div>
+            <div class="cs-design-title">Blocking uncertainty early</div>
+            <div class="cs-design-text">Forced wallet connection via modal with a clear CTA and zero ambiguity. Most DeFi apps fail because users don't know why things aren't working  we solved this at entry.</div>
+            <div class="cs-design-result">"27% successful connections · "first-session drop-offs</div>
           </div>
-          <div class=”cs-design-card”>
-            <div class=”cs-design-num”>Staking</div>
-            <div class=”cs-design-title”>Making yield tangible</div>
-            <div class=”cs-design-text”>Simplified pools into Duration, APY, and Lock conditions. Introduced “expected rewards” visibility and a restake modal for an instant action loop after yield matures.</div>
-            <div class=”cs-design-result”>↑41% staking conversion · ↑33% repeat staking via restake flow</div>
+          <div class="cs-design-card">
+            <div class="cs-design-num">Staking</div>
+            <div class="cs-design-title">Making yield tangible</div>
+            <div class="cs-design-text">Simplified pools into Duration, APY, and Lock conditions. Introduced "expected rewards" visibility and a restake modal for an instant action loop after yield matures.</div>
+            <div class="cs-design-result">"41% staking conversion · "33% repeat staking via restake flow</div>
           </div>
-          <div class=”cs-design-card”>
-            <div class=”cs-design-num”>Bridging</div>
-            <div class=”cs-design-title”>Reducing perceived risk</div>
-            <div class=”cs-design-text”>Dual input fields with mirrored values, real-time conversion panel, and clear wallet connection states — reducing the anxiety of moving assets cross-chain.</div>
-            <div class=”cs-design-result”>↓46% bridging errors · ↑22% successful cross-chain transactions</div>
+          <div class="cs-design-card">
+            <div class="cs-design-num">Bridging</div>
+            <div class="cs-design-title">Reducing perceived risk</div>
+            <div class="cs-design-text">Dual input fields with mirrored values, real-time conversion panel, and clear wallet connection states  reducing the anxiety of moving assets cross-chain.</div>
+            <div class="cs-design-result">"46% bridging errors · "22% successful cross-chain transactions</div>
           </div>
-          <div class=”cs-design-card”>
-            <div class=”cs-design-num”>Leaderboard</div>
-            <div class=”cs-design-title”>Social proof layer</div>
-            <div class=”cs-design-text”>Public visibility of top wallets and staked amounts. Gamifies participation and builds trust — seeing others commit meaningfully reduces hesitation for new users.</div>
-            <div class=”cs-design-result”>↑19% increase in staking after leaderboard exposure</div>
+          <div class="cs-design-card">
+            <div class="cs-design-num">Leaderboard</div>
+            <div class="cs-design-title">Social proof layer</div>
+            <div class="cs-design-text">Public visibility of top wallets and staked amounts. Gamifies participation and builds trust  seeing others commit meaningfully reduces hesitation for new users.</div>
+            <div class="cs-design-result">"19% increase in staking after leaderboard exposure</div>
           </div>
-          <div class=”cs-design-card”>
-            <div class=”cs-design-num”>NFT Marketplace</div>
-            <div class=”cs-design-title”>Making impact visible</div>
-            <div class=”cs-design-text”>Translated abstract “carbon investment” into visual NFTs (trees, forests) with real metadata — location, size, certification — and tabs for Collection, Project details, Highlights, and Owned NFTs.</div>
-            <div class=”cs-design-result”>↑48% NFT exploration rate · ↑26% purchase intent</div>
+          <div class="cs-design-card">
+            <div class="cs-design-num">NFT Marketplace</div>
+            <div class="cs-design-title">Making impact visible</div>
+            <div class="cs-design-text">Translated abstract "carbon investment" into visual NFTs (trees, forests) with real metadata  location, size, certification  and tabs for Collection, Project details, Highlights, and Owned NFTs.</div>
+            <div class="cs-design-result">"48% NFT exploration rate · "26% purchase intent</div>
           </div>
-          <div class=”cs-design-card”>
-            <div class=”cs-design-num”>NFT Reveal</div>
-            <div class=”cs-design-title”>Emotional hook</div>
-            <div class=”cs-design-text”>Introduced a reveal interaction before showing metadata — creating anticipation and ownership attachment. Borrowed from collectibles UX to add emotional weight to a financial action.</div>
-            <div class=”cs-design-result”>↑31% engagement per NFT · ↑retention in marketplace sessions</div>
+          <div class="cs-design-card">
+            <div class="cs-design-num">NFT Reveal</div>
+            <div class="cs-design-title">Emotional hook</div>
+            <div class="cs-design-text">Introduced a reveal interaction before showing metadata  creating anticipation and ownership attachment. Borrowed from collectibles UX to add emotional weight to a financial action.</div>
+            <div class="cs-design-result">"31% engagement per NFT · "retention in marketplace sessions</div>
           </div>
         </div>
       </section>
 
       <!-- Design System -->
-      <section class=”cs-section”>
-        <div class=”cs-label”>05 — Design System</div>
-        <h2 class=”cs-heading”>Built for scalability across DeFi, NFTs, and data</h2>
-        <div class=”cs-band” style=”margin-top: 24px;”>
-          <div class=”cs-band-label”>System foundations</div>
-          <div class=”cs-stat-grid-3”>
-            <div class=”cs-stat-item”>
-              <div class=”cs-stat-num” style=”font-size: 18px; font-weight: 600;”>Color</div>
-              <div class=”cs-stat-label”>Deep green + neon accents — finance × sustainability. Glass + glow for premium Web3 feel.</div>
+      <section class="cs-section">
+        <div class="cs-label">05  Design System</div>
+        <h2 class="cs-heading">Built for scalability across DeFi, NFTs, and data</h2>
+        <div class="cs-band" style="margin-top: 24px;">
+          <div class="cs-band-label">System foundations</div>
+          <div class="cs-stat-grid-3">
+            <div class="cs-stat-item">
+              <div class="cs-stat-num" style="font-size: 18px; font-weight: 600;">Color</div>
+              <div class="cs-stat-label">Deep green + neon accents  finance × sustainability. Glass + glow for premium Web3 feel.</div>
             </div>
-            <div class=”cs-stat-item”>
-              <div class=”cs-stat-num” style=”font-size: 18px; font-weight: 600;”>Typography</div>
-              <div class=”cs-stat-label”>Clean, minimal, data-first. Hierarchy built for scanning dense financial information quickly.</div>
+            <div class="cs-stat-item">
+              <div class="cs-stat-num" style="font-size: 18px; font-weight: 600;">Typography</div>
+              <div class="cs-stat-label">Clean, minimal, data-first. Hierarchy built for scanning dense financial information quickly.</div>
             </div>
-            <div class=”cs-stat-item”>
-              <div class=”cs-stat-num” style=”font-size: 18px; font-weight: 600;”>Components</div>
-              <div class=”cs-stat-label”>Metric cards · Data tables · Modal system · Status indicators — all designed for reuse across flows.</div>
+            <div class="cs-stat-item">
+              <div class="cs-stat-num" style="font-size: 18px; font-weight: 600;">Components</div>
+              <div class="cs-stat-label">Metric cards · Data tables · Modal system · Status indicators  all designed for reuse across flows.</div>
             </div>
           </div>
         </div>
       </section>
 
       <!-- Impact -->
-      <section class=”cs-section”>
-        <div class=”cs-label”>06 — Impact</div>
-        <h2 class=”cs-heading”>Combined outcomes across all flows</h2>
-        <div class=”cs-impact-grid”>
-          <div class=”cs-impact-cell”>
-            <div class=”cs-impact-delta”>+40–50%</div>
-            <div class=”cs-impact-from”>Key flows</div>
-            <div class=”cs-impact-label”>Task completion improvement</div>
+      <section class="cs-section">
+        <div class="cs-label">06  Impact</div>
+        <h2 class="cs-heading">Combined outcomes across all flows</h2>
+        <div class="cs-impact-grid">
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">+4050%</div>
+            <div class="cs-impact-from">Key flows</div>
+            <div class="cs-impact-label">Task completion improvement</div>
           </div>
-          <div class=”cs-impact-cell”>
-            <div class=”cs-impact-delta”>−35%</div>
-            <div class=”cs-impact-from”>First session</div>
-            <div class=”cs-impact-label”>User drop-off</div>
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">"35%</div>
+            <div class="cs-impact-from">First session</div>
+            <div class="cs-impact-label">User drop-off</div>
           </div>
-          <div class=”cs-impact-cell”>
-            <div class=”cs-impact-delta”>2.1×</div>
-            <div class=”cs-impact-from”>Staking + NFT</div>
-            <div class=”cs-impact-label”>Engagement increase</div>
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">2.1×</div>
+            <div class="cs-impact-from">Staking + NFT</div>
+            <div class="cs-impact-label">Engagement increase</div>
           </div>
-          <div class=”cs-impact-cell”>
-            <div class=”cs-impact-delta”>↑41%</div>
-            <div class=”cs-impact-from”>Staking flow</div>
-            <div class=”cs-impact-label”>Staking conversion</div>
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">"41%</div>
+            <div class="cs-impact-from">Staking flow</div>
+            <div class="cs-impact-label">Staking conversion</div>
           </div>
-          <div class=”cs-impact-cell”>
-            <div class=”cs-impact-delta”>↓46%</div>
-            <div class=”cs-impact-from”>Bridging flow</div>
-            <div class=”cs-impact-label”>Bridging errors</div>
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">"46%</div>
+            <div class="cs-impact-from">Bridging flow</div>
+            <div class="cs-impact-label">Bridging errors</div>
           </div>
-          <div class=”cs-impact-cell”>
-            <div class=”cs-impact-delta”>↑48%</div>
-            <div class=”cs-impact-from”>Marketplace</div>
-            <div class=”cs-impact-label”>NFT exploration rate</div>
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">"48%</div>
+            <div class="cs-impact-from">Marketplace</div>
+            <div class="cs-impact-label">NFT exploration rate</div>
           </div>
-          <div class=”cs-impact-cell”>
-            <div class=”cs-impact-delta”>↑27%</div>
-            <div class=”cs-impact-from”>Entry flow</div>
-            <div class=”cs-impact-label”>Successful wallet connections</div>
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">"27%</div>
+            <div class="cs-impact-from">Entry flow</div>
+            <div class="cs-impact-label">Successful wallet connections</div>
           </div>
-          <div class=”cs-impact-cell”>
-            <div class=”cs-impact-delta”>”Clear”</div>
-            <div class=”cs-impact-from”>Qualitative feedback</div>
-            <div class=”cs-impact-label”>”Legit” · “Easy to follow”</div>
+          <div class="cs-impact-cell">
+            <div class="cs-impact-delta">"Clear"</div>
+            <div class="cs-impact-from">Qualitative feedback</div>
+            <div class="cs-impact-label">"Legit" · "Easy to follow"</div>
           </div>
         </div>
       </section>
 
       <!-- Reflection -->
-      <section class=”cs-section cs-reflection”>
-        <div class=”cs-label”>07 — Reflection</div>
-        <h2 class=”cs-heading”>What I learned</h2>
-        <p class=”cs-text”>In Web3, clarity beats innovation. Financial UX must remove fear before enabling action — and visual storytelling (like NFT reveals) can bridge the gap between abstract concepts and genuine emotional investment.</p>
-        <p class=”cs-text”>The deeper lesson: good UX hides complexity without removing capability. The system felt simple on the surface while giving power users full control underneath — that balance is the hardest thing to get right, and the most valuable when you do.</p>
+      <section class="cs-section cs-reflection">
+        <div class="cs-label">07  Reflection</div>
+        <h2 class="cs-heading">What I learned</h2>
+        <p class="cs-text">In Web3, clarity beats innovation. Financial UX must remove fear before enabling action  and visual storytelling (like NFT reveals) can bridge the gap between abstract concepts and genuine emotional investment.</p>
+        <p class="cs-text">The deeper lesson: good UX hides complexity without removing capability. The system felt simple on the surface while giving power users full control underneath  that balance is the hardest thing to get right, and the most valuable when you do.</p>
       </section>
 
     </div>
@@ -1300,7 +1317,7 @@
 
 <!-- CASE STUDY: COLROWS -->
 <div class="page-view case-study-view" id="page-colrows">
-  <button class="page-close" onclick="closePage()"><span class="page-close-icon">✕</span><span>Close</span></button>
+  <button class="page-close" onclick="closePage()"><span class="page-close-icon"></span><span>Close</span></button>
   <div class="progress-slider-cs" aria-hidden="true">
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
@@ -1320,7 +1337,7 @@
       <!-- Overview -->
       <section class="cs-section cs-overview">
         <div class="cs-label">Colrows · Freelance</div>
-        <h2 class="cs-heading">Designing an AI-first data workspace — turning complex data workflows into real-time decision systems anyone can use, not just analysts.</h2>
+        <h2 class="cs-heading">Designing an AI-first data workspace  turning complex data workflows into real-time decision systems anyone can use, not just analysts.</h2>
         <div class="cs-meta-row">
           <div class="cs-meta-item"><span class="cs-meta-label">Role</span><span class="cs-meta-value">Sole Freelance Product Designer</span></div>
           <div class="cs-meta-item"><span class="cs-meta-label">Platform</span><span class="cs-meta-value">Web App</span></div>
@@ -1331,79 +1348,79 @@
 
       <!-- Problem -->
       <section class="cs-section">
-        <div class="cs-label">01 — Problem</div>
-        <h2 class="cs-heading">Organizations don't lack data — they lack speed and clarity</h2>
+        <div class="cs-label">01  Problem</div>
+        <h2 class="cs-heading">Organizations don't lack data  they lack speed and clarity</h2>
         <div class="cs-problem-grid">
           <div class="cs-problem-card">
             <div class="cs-problem-card-title">Data is siloed</div>
-            <div class="cs-problem-card-text">Data lives across disconnected systems with no unified layer — making cross-source questions nearly impossible without analyst involvement.</div>
+            <div class="cs-problem-card-text">Data lives across disconnected systems with no unified layer  making cross-source questions nearly impossible without analyst involvement.</div>
           </div>
           <div class="cs-problem-card">
             <div class="cs-problem-card-title">Business teams depend on analysts</div>
-            <div class="cs-problem-card-text">Every question requires a data request. Queries take hours or days — slowing decisions at every level of the organization.</div>
+            <div class="cs-problem-card-text">Every question requires a data request. Queries take hours or days  slowing decisions at every level of the organization.</div>
           </div>
           <div class="cs-problem-card">
             <div class="cs-problem-card-title">BI tools are complex and fragmented</div>
-            <div class="cs-problem-card-text">Existing tools require SQL knowledge and context-switching between multiple platforms — too steep a curve for non-technical users.</div>
+            <div class="cs-problem-card-text">Existing tools require SQL knowledge and context-switching between multiple platforms  too steep a curve for non-technical users.</div>
           </div>
           <div class="cs-problem-card">
             <div class="cs-problem-card-title">Decision latency is real</div>
-            <div class="cs-problem-card-text">In one real deployment, teams took 2–3 days to answer a single business question — a direct cost to speed and competitive advantage.</div>
+            <div class="cs-problem-card-text">In one real deployment, teams took 23 days to answer a single business question  a direct cost to speed and competitive advantage.</div>
           </div>
         </div>
       </section>
 
       <!-- Goal -->
       <section class="cs-section">
-        <div class="cs-label">02 — Goal</div>
+        <div class="cs-label">02  Goal</div>
         <h2 class="cs-heading">Make data access instant and self-serve</h2>
         <div class="cs-goals-list">
-          <div class="cs-goal-item"><span class="cs-goal-num">01</span><span class="cs-goal-text">Anyone can query data instantly — no SQL, no analyst dependency</span></div>
+          <div class="cs-goal-item"><span class="cs-goal-num">01</span><span class="cs-goal-text">Anyone can query data instantly  no SQL, no analyst dependency</span></div>
           <div class="cs-goal-item"><span class="cs-goal-num">02</span><span class="cs-goal-text">AI removes the barrier between a question and an answer</span></div>
-          <div class="cs-goal-item"><span class="cs-goal-num">03</span><span class="cs-goal-text">Insights are explainable, editable, and actionable — not black-box outputs</span></div>
+          <div class="cs-goal-item"><span class="cs-goal-num">03</span><span class="cs-goal-text">Insights are explainable, editable, and actionable  not black-box outputs</span></div>
           <div class="cs-goal-item"><span class="cs-goal-num">04</span><span class="cs-goal-text">Decision-making becomes real-time across the whole organization</span></div>
         </div>
       </section>
 
       <!-- My Role -->
       <section class="cs-section">
-        <div class="cs-label">03 — My Role</div>
+        <div class="cs-label">03  My Role</div>
         <h2 class="cs-heading">Sole Freelance Product Designer</h2>
         <div class="cs-goals-list">
-          <div class="cs-goal-item"><span class="cs-goal-num">↗</span><span class="cs-goal-text">UX strategy and product thinking — shaping how the AI layer should work for different user types</span></div>
-          <div class="cs-goal-item"><span class="cs-goal-num">↗</span><span class="cs-goal-text">End-to-end UI/UX design across AI chat, querying, and insights surfaces</span></div>
-          <div class="cs-goal-item"><span class="cs-goal-num">↗</span><span class="cs-goal-text">AI interaction design — defining how users communicate with and trust the system</span></div>
-          <div class="cs-goal-item"><span class="cs-goal-num">↗</span><span class="cs-goal-text">Data visualization flows and design system foundations</span></div>
+          <div class="cs-goal-item"><span class="cs-goal-num">"</span><span class="cs-goal-text">UX strategy and product thinking  shaping how the AI layer should work for different user types</span></div>
+          <div class="cs-goal-item"><span class="cs-goal-num">"</span><span class="cs-goal-text">End-to-end UI/UX design across AI chat, querying, and insights surfaces</span></div>
+          <div class="cs-goal-item"><span class="cs-goal-num">"</span><span class="cs-goal-text">AI interaction design  defining how users communicate with and trust the system</span></div>
+          <div class="cs-goal-item"><span class="cs-goal-num">"</span><span class="cs-goal-text">Data visualization flows and design system foundations</span></div>
         </div>
       </section>
 
       <!-- Approach -->
       <section class="cs-section">
-        <div class="cs-label">04 — Approach</div>
+        <div class="cs-label">04  Approach</div>
         <h2 class="cs-heading">Five design decisions that shaped the product</h2>
         <div class="cs-design-grid">
           <div class="cs-design-card">
             <div class="cs-design-num">01</div>
             <div class="cs-design-title">One core action: Ask anything</div>
-            <div class="cs-design-text">Instead of dashboards and filters, the product centers around a single prompt: "Ask a question." This reduces friction and aligns with natural user behavior — removing the need to learn the tool's structure.</div>
+            <div class="cs-design-text">Instead of dashboards and filters, the product centers around a single prompt: "Ask a question." This reduces friction and aligns with natural user behavior  removing the need to learn the tool's structure.</div>
             <div class="cs-design-result">Zero learning curve for new users</div>
           </div>
           <div class="cs-design-card">
             <div class="cs-design-num">02</div>
             <div class="cs-design-title">AI + structured outputs (trust layer)</div>
-            <div class="cs-design-text">AI alone isn't enough in data products. I designed chat-based input with structured outputs — tables, charts, and editable SQL — so users could verify and trust what the AI returned.</div>
+            <div class="cs-design-text">AI alone isn't enough in data products. I designed chat-based input with structured outputs  tables, charts, and editable SQL  so users could verify and trust what the AI returned.</div>
             <div class="cs-design-result">Transparency at every answer</div>
           </div>
           <div class="cs-design-card">
             <div class="cs-design-num">03</div>
             <div class="cs-design-title">Explainability as a core UX principle</div>
-            <div class="cs-design-text">Users can see how answers are generated, edit queries, and rerun them. Insights are backed by visible data sources — building trust in a category where skepticism is high.</div>
+            <div class="cs-design-text">Users can see how answers are generated, edit queries, and rerun them. Insights are backed by visible data sources  building trust in a category where skepticism is high.</div>
             <div class="cs-design-result">Users act on AI outputs with confidence</div>
           </div>
           <div class="cs-design-card">
             <div class="cs-design-num">04</div>
-            <div class="cs-design-title">Question → Insight → Action</div>
-            <div class="cs-design-text">AI suggests visualizations automatically. Charts generate instantly. Users iterate without switching tools — the whole workflow lives in one continuous, uninterrupted flow.</div>
+            <div class="cs-design-title">Question " Insight " Action</div>
+            <div class="cs-design-text">AI suggests visualizations automatically. Charts generate instantly. Users iterate without switching tools  the whole workflow lives in one continuous, uninterrupted flow.</div>
             <div class="cs-design-result">End-to-end in minutes, not days</div>
           </div>
           <div class="cs-design-card">
@@ -1417,7 +1434,7 @@
 
       <!-- Key Features -->
       <section class="cs-section">
-        <div class="cs-label">05 — Features</div>
+        <div class="cs-label">05  Features</div>
         <h2 class="cs-heading">Key features designed</h2>
         <div class="cs-features-grid">
           <div class="cs-feature-item">AI-powered conversational querying</div>
@@ -1431,11 +1448,11 @@
 
       <!-- Impact -->
       <section class="cs-section">
-        <div class="cs-label">06 — Impact</div>
+        <div class="cs-label">06  Impact</div>
         <h2 class="cs-heading">From a live enterprise deployment</h2>
         <div class="cs-impact-grid">
           <div class="cs-impact-cell">
-            <div class="cs-impact-delta">−90%+</div>
+            <div class="cs-impact-delta">"90%+</div>
             <div class="cs-impact-from">Decision latency</div>
             <div class="cs-impact-label">Questions answered in minutes instead of days</div>
           </div>
@@ -1445,7 +1462,7 @@
             <div class="cs-impact-label">Business teams querying data directly</div>
           </div>
           <div class="cs-impact-cell">
-            <div class="cs-impact-delta">−80%</div>
+            <div class="cs-impact-delta">"80%</div>
             <div class="cs-impact-from">IT/data team requests</div>
             <div class="cs-impact-label">Shift to self-serve analytics</div>
           </div>
@@ -1455,12 +1472,12 @@
             <div class="cs-impact-label">Real-time optimization became possible</div>
           </div>
           <div class="cs-impact-cell">
-            <div class="cs-impact-delta">+18–24%</div>
+            <div class="cs-impact-delta">+1824%</div>
             <div class="cs-impact-from">Sales productivity</div>
-            <div class="cs-impact-label">Faster insights → faster decisions</div>
+            <div class="cs-impact-label">Faster insights " faster decisions</div>
           </div>
           <div class="cs-impact-cell">
-            <div class="cs-impact-delta">−30%</div>
+            <div class="cs-impact-delta">"30%</div>
             <div class="cs-impact-from">Supply chain</div>
             <div class="cs-impact-label">Reduction in stockouts</div>
           </div>
@@ -1471,7 +1488,7 @@
           </div>
           <div class="cs-impact-cell">
             <div class="cs-impact-delta">&lt;4 min</div>
-            <div class="cs-impact-from">Was 2–3 days</div>
+            <div class="cs-impact-from">Was 23 days</div>
             <div class="cs-impact-label">Time to answer a business question</div>
           </div>
         </div>
@@ -1479,12 +1496,12 @@
 
       <!-- Before vs After -->
       <section class="cs-section">
-        <div class="cs-label">07 — Before vs After</div>
+        <div class="cs-label">07  Before vs After</div>
         <h2 class="cs-heading">What changed</h2>
         <div class="cs-compare-table">
           <div class="cs-compare-header">Before</div>
           <div class="cs-compare-header">After</div>
-          <div class="cs-compare-cell">2–3 days to answer a business question</div>
+          <div class="cs-compare-cell">23 days to answer a business question</div>
           <div class="cs-compare-cell">Under 4 minutes</div>
           <div class="cs-compare-cell">Heavy dependency on analysts</div>
           <div class="cs-compare-cell">Self-serve by business teams</div>
@@ -1499,25 +1516,25 @@
 
       <!-- Challenges -->
       <section class="cs-section">
-        <div class="cs-label">08 — Challenges</div>
+        <div class="cs-label">08  Challenges</div>
         <h2 class="cs-heading">Hard problems this project surfaced</h2>
         <div class="cs-design-grid">
           <div class="cs-design-card">
             <div class="cs-design-num">01</div>
             <div class="cs-design-title">AI uncertainty vs data accuracy</div>
-            <div class="cs-design-text">AI outputs can feel uncertain — especially in data products where accuracy is critical. Solved through transparency (show the source), editability (let users fix queries), and structured outputs (tables before interpretation).</div>
+            <div class="cs-design-text">AI outputs can feel uncertain  especially in data products where accuracy is critical. Solved through transparency (show the source), editability (let users fix queries), and structured outputs (tables before interpretation).</div>
             <div class="cs-design-result">Trust built through control, not faith</div>
           </div>
           <div class="cs-design-card">
             <div class="cs-design-num">02</div>
             <div class="cs-design-title">Simplicity vs power</div>
-            <div class="cs-design-text">Non-technical users need simplicity. Analysts need control. Solved through progressive disclosure and a layered UX — each persona gets the right depth without overwhelming the other.</div>
+            <div class="cs-design-text">Non-technical users need simplicity. Analysts need control. Solved through progressive disclosure and a layered UX  each persona gets the right depth without overwhelming the other.</div>
             <div class="cs-design-result">One interface, no compromises</div>
           </div>
           <div class="cs-design-card">
             <div class="cs-design-num">03</div>
             <div class="cs-design-title">No existing design patterns</div>
-            <div class="cs-design-text">AI + BI is a genuinely new category. There were no established patterns to borrow from. Solution: combine chat UX conventions with data tooling patterns — familiar enough to learn, new enough to be powerful.</div>
+            <div class="cs-design-text">AI + BI is a genuinely new category. There were no established patterns to borrow from. Solution: combine chat UX conventions with data tooling patterns  familiar enough to learn, new enough to be powerful.</div>
             <div class="cs-design-result">Invented patterns that now feel obvious</div>
           </div>
         </div>
@@ -1525,10 +1542,10 @@
 
       <!-- Reflection -->
       <section class="cs-section cs-reflection">
-        <div class="cs-label">09 — Reflection</div>
+        <div class="cs-label">09  Reflection</div>
         <h2 class="cs-heading">What I learned</h2>
-        <p class="cs-text">AI products must prioritize trust and explainability above everything else. Good UX hides complexity without removing capability — and data products succeed when they reduce time-to-decision, not just improve visuals.</p>
-        <p class="cs-text">The outcome: Colrows evolved into a system where business teams can go from question → insight → action in minutes, without relying on data teams. That's the real measure of success.</p>
+        <p class="cs-text">AI products must prioritize trust and explainability above everything else. Good UX hides complexity without removing capability  and data products succeed when they reduce time-to-decision, not just improve visuals.</p>
+        <p class="cs-text">The outcome: Colrows evolved into a system where business teams can go from question " insight " action in minutes, without relying on data teams. That's the real measure of success.</p>
       </section>
 
     </div>
@@ -1629,7 +1646,7 @@
       <p class="portfolio-problem">Designing journey to buy Life Insurance for the customers</p>
       <div class="portfolio-cta" aria-hidden="true">
         <span class="portfolio-cta-label">See Project</span>
-        <span class="portfolio-cta-arrow">→</span>
+        <span class="portfolio-cta-arrow">"</span>
       </div>
     </div>
   </div>
@@ -1647,7 +1664,7 @@
       <p class="portfolio-problem">To make discovery experience more immersive</p>
       <div class="portfolio-cta" aria-hidden="true">
         <span class="portfolio-cta-label">See Project</span>
-        <span class="portfolio-cta-arrow">→</span>
+        <span class="portfolio-cta-arrow">"</span>
       </div>
     </div>
   </div>
@@ -1664,7 +1681,7 @@
       <p class="portfolio-problem">Making climate investing accessible, transparent, and on Blockchain with NFTs</p>
       <div class="portfolio-cta" aria-hidden="true">
         <span class="portfolio-cta-label">See Project</span>
-        <span class="portfolio-cta-arrow">→</span>
+        <span class="portfolio-cta-arrow">"</span>
       </div>
     </div>
   </div>
@@ -1681,7 +1698,7 @@
       <p class="portfolio-problem">Creating a collaborative color workspace for creative teams to explore and decide faster.</p>
       <div class="portfolio-cta" aria-hidden="true">
         <span class="portfolio-cta-label">See Project</span>
-        <span class="portfolio-cta-arrow">→</span>
+        <span class="portfolio-cta-arrow">"</span>
       </div>
     </div>
   </div>
@@ -1706,7 +1723,7 @@
     <p>What I really wanted was to design products that delight people and genuinely help them. So I changed my career and became a full time designer.</p>
     <p>After getting a job, I realized design is also about working with the business. Hitting numbers. Improving metrics. Fixing funnels. Reducing friction. All while still delighting and helping customers. That's what I focus on now.</p>
     <p>I learned design by practicing. By trying new products and apps. But mostly by staying curious.</p>
-    <p>With the rise of AI, I can now create what's in my head at the speed of light. Iterate → Experiment → Fail → Iterate again.</p>
+    <p>With the rise of AI, I can now create what's in my head at the speed of light. Iterate " Experiment " Fail " Iterate again.</p>
     <p><strong>Fail fast. Learn fast.</strong></p>
     <p>In my free time, I read books, create videos, work on side projects, spend time with family, and play PlayStation while creating new concept designs.</p>
   </div>
@@ -1715,7 +1732,7 @@
 <footer class="site-footer">
   <div class="footer-top">
     <div class="footer-intro">
-      <div class="footer-eyebrow">Let’s build something thoughtful</div>
+      <div class="footer-eyebrow">Lets build something thoughtful</div>
       <p class="footer-copy">Open to product design roles, collaborations, and interesting conversations around design, systems, and creative technology.</p>
     </div>
     <div class="footer-links">

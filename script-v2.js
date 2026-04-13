@@ -717,12 +717,12 @@
   });
 
   function handleTouchCursor(e) {
-    if (hasCustomCursorEffect()) return;
+    if (!hasCustomCursorEffect()) return;
     const touch = e.touches[0] || e.changedTouches[0];
     if (!touch) return;
 
-    mouseX = mx = touch.clientX;
-    mouseY = my = touch.clientY;
+    mouseX = touch.clientX;
+    mouseY = touch.clientY;
     dot.style.left = mouseX + 'px';
     dot.style.top = mouseY + 'px';
     setCursorVisibility(true);
@@ -732,7 +732,7 @@
   document.addEventListener('touchstart', handleTouchCursor, { passive: true });
   document.addEventListener('touchmove', handleTouchCursor, { passive: true });
   document.addEventListener('touchend', () => {
-    if (!hasCustomCursorEffect()) scheduleMobileCursorHide();
+    if (hasCustomCursorEffect()) scheduleMobileCursorHide();
   }, { passive: true });
 
   // Smoothly follow cursor for ring
