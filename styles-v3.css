@@ -645,23 +645,32 @@
 
     #page-work .work-tabs,
     #page-how-i-ai .work-tabs {
-      position: static;
+      position: relative;
       display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      width: auto;
-      padding: 0;
-      margin: 0 0 36px;
-      border-radius: 0;
-      background: none;
-      border: none;
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
-      box-shadow: none;
-      transform: none;
-      transition: none;
+      flex-wrap: nowrap;
+      align-items: center;
+      gap: 10px;
+      width: fit-content;
+      padding: 10px;
+      margin: 28px 0 56px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.74);
+      border: 1px solid rgba(0,0,0,0.08);
+      backdrop-filter: blur(22px) saturate(180%);
+      -webkit-backdrop-filter: blur(22px) saturate(180%);
+      box-shadow: 0 18px 60px rgba(0,0,0,0.1);
+      transform: translate3d(var(--tab-dock-x, 0px), var(--tab-dock-y, 0px), 0);
+      transition: box-shadow 0.2s ease, background 0.2s ease;
       align-self: auto;
-      will-change: auto;
+      will-change: transform;
+      z-index: 360;
+    }
+
+    html.dark #page-work .work-tabs,
+    html.dark #page-how-i-ai .work-tabs {
+      background: rgba(16,16,16,0.74);
+      border-color: rgba(255,255,255,0.12);
+      box-shadow: 0 18px 60px rgba(0,0,0,0.28);
     }
   }
 
@@ -2419,25 +2428,37 @@
   }
 
   .work-tab {
-    border: none;
-    border-bottom: 2px solid transparent;
-    background: transparent;
-    color: #aaaaaa;
-    border-radius: 0;
-    padding: 0 0 8px;
-    font: 400 14px/1 'Inter', sans-serif;
+    border: 1px solid rgba(0,0,0,0.08);
+    background: rgba(255,255,255,0.64);
+    color: #5f5f5f;
+    border-radius: 999px;
+    padding: 13px 24px;
+    font: 500 14px/1 'Inter', sans-serif;
     cursor: none;
-    transition: color 0.15s ease, border-color 0.15s ease;
+    transition: color 0.18s ease, background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
     display: inline-flex;
     align-items: center;
     gap: 5px;
+    white-space: nowrap;
   }
 
   .work-tab.is-active {
-    background: transparent;
-    color: var(--text);
-    border-bottom-color: var(--text);
+    background: #000000;
+    color: #ffffff;
+    border-color: #000000;
     font-weight: 500;
+  }
+
+  html.dark .work-tab {
+    background: rgba(10,10,10,0.72);
+    color: #F3F3F3;
+    border-color: rgba(255,255,255,0.16);
+  }
+
+  html.dark .work-tab.is-active {
+    background: #F3F3F3;
+    color: #0a0a0a;
+    border-color: #F3F3F3;
   }
 
   .work-tab-panel {
