@@ -444,13 +444,13 @@
   @media (max-width: 768px) {
     nav { padding: 16px 24px; }
     body.has-active-page nav {
-      justify-content: flex-end;
+      justify-content: space-between;
       background: transparent;
       box-shadow: none;
       padding: 16px 20px;
     }
     body.has-active-page nav .logo {
-      display: none;
+      display: inline-flex;
     }
   }
 
@@ -841,7 +841,7 @@
 
   @media (max-width: 768px) {
     .page-view {
-      padding-top: 86px;
+      padding-top: 48px;
     }
   }
 
@@ -902,8 +902,8 @@
     .global-page-close.is-visible {
       top: auto !important;
       left: auto !important;
-      right: 30px !important;
-      bottom: calc(env(safe-area-inset-bottom, 0px) + 72px) !important;
+      right: 32px !important;
+      bottom: calc(env(safe-area-inset-bottom, 0px) + 32px) !important;
       transform: none !important;
       width: 56px;
       height: 56px;
@@ -2702,7 +2702,7 @@
       padding-left: 0;
     }
     #page-work .page-title {
-      margin-bottom: 16px;
+      margin-bottom: 24px;
       padding-left: 0;
     }
     .contact-page {
@@ -2894,9 +2894,14 @@
       font-weight: 500;
     }
     html.dark .page-view .work-tab {
-      color: #666666;
+      background: none;
+      border-color: transparent;
+      border-bottom-color: transparent;
+      color: #8c8c8c;
     }
     html.dark .page-view .work-tab.is-active {
+      background: none;
+      border-color: transparent;
       border-bottom-color: #ffffff;
       color: #ffffff;
     }
