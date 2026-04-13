@@ -345,6 +345,17 @@
     const navHeight = isMobile ? 58 : 74;
     bottomOffset = 0;
 
+    if (isMobile) {
+      wrapper.style.display = 'none';
+      wrapper.style.position = 'absolute';
+      heroCenter.style.top = '50%';
+      heroCenter.style.transform = 'translate(-50%, -50%)';
+      return;
+    }
+
+    wrapper.style.display = '';
+    heroCenter.style.transform = 'translateX(-50%)';
+
     const svgW = W + SIDE_PAD * 2;
     svg.setAttribute('width', svgW);
     svg.setAttribute('height', '400');
