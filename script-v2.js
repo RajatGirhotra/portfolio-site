@@ -746,8 +746,8 @@
   animateRing();
 
   // Magnetic effect on interactive elements
-  const magneticEls = document.querySelectorAll('.logo, .nav-link');
-  const pointerSelector = '.logo, .nav-link';
+  const magneticEls = document.querySelectorAll('.nav-link');
+  const pointerSelector = '.nav-link';
 
   magneticEls.forEach(el => {
     el.addEventListener('mouseenter', () => {

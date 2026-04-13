@@ -1735,8 +1735,17 @@
     font-size: 32px;
     font-weight: 600;
     color: #000000;
-    margin-bottom: 44px;
+    margin-bottom: 12px;
     padding: 0 48px;
+  }
+
+  .portfolio-description {
+    max-width: 560px;
+    padding: 0 48px;
+    margin: 0 0 44px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-muted);
   }
 
   .portfolio-container {
@@ -1843,66 +1852,49 @@
   .portfolio-cta {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    color: #7a7a7a;
+    justify-content: center;
+    width: fit-content;
+    color: #111111;
+    background: #ffffff;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 999px;
+    padding: 9px 16px;
     font-size: 12px;
     line-height: 1;
-    letter-spacing: -0.03em;
+    letter-spacing: 0;
     text-transform: none;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
   }
 
-  .portfolio-cta-arrow {
-    display: inline-block;
-    position: relative;
-    width: 18px;
-    height: 12px;
-    flex: 0 0 18px;
-    transform-origin: left center;
-    transition: transform 0.24s ease;
+  .portfolio-cta:hover,
+  .portfolio-cta:focus-visible {
+    background: #000000;
+    color: #ffffff;
+    border-color: #000000;
   }
 
-  .portfolio-cta-arrow::before,
-  .portfolio-cta-arrow::after {
-    content: '';
-    position: absolute;
-    display: block;
-    background: currentColor;
+  html.dark .portfolio-cta {
+    background: rgba(255,255,255,0.08);
+    color: #F3F3F3;
+    border-color: rgba(255,255,255,0.16);
   }
 
-  .portfolio-cta-arrow::before {
-    left: 0;
-    top: 50%;
-    width: 100%;
-    height: 1.5px;
-    transform: translateY(-50%);
-    transform-origin: left center;
-    transition: transform 0.24s ease;
-  }
-
-  .portfolio-cta-arrow::after {
-    right: 0;
-    top: 50%;
-    width: 8px;
-    height: 8px;
-    border-top: 1.5px solid currentColor;
-    border-right: 1.5px solid currentColor;
-    background: transparent;
-    transform: translateY(-50%) rotate(45deg);
-  }
-
-  .portfolio-container-clickable:hover .portfolio-cta-arrow,
-  .portfolio-container-clickable:focus-visible .portfolio-cta-arrow {
-    transform: translateX(3px);
-  }
-
-  .portfolio-container-clickable:hover .portfolio-cta-arrow::before,
-  .portfolio-container-clickable:focus-visible .portfolio-cta-arrow::before {
-    transform: translateY(-50%) scaleX(1.28);
+  html.dark .portfolio-cta:hover,
+  html.dark .portfolio-cta:focus-visible {
+    background: #F3F3F3;
+    color: #0a0a0a;
+    border-color: #F3F3F3;
   }
 
   @media (max-width: 768px) {
     .portfolio-section { padding: 80px 0 0; }
-    .portfolio-title    { padding: 0 20px; margin-bottom: 24px; }
+    .portfolio-title    { padding: 0 20px; margin-bottom: 10px; }
+    .portfolio-description {
+      padding: 0 20px;
+      margin-bottom: 28px;
+      font-size: 15px;
+      line-height: 1.65;
+    }
     .portfolio-container {
       padding: 80px 20px 40px;
       display: block;
@@ -2145,50 +2137,52 @@
 
   .resume-page {
     max-width: 100%;
-    padding: 0;
-    height: 100%;
-    display: flex;
-    align-items: stretch;
+    padding: 96px 60px 120px;
+    min-height: 100%;
   }
 
   .resume-layout {
     display: grid;
-    grid-template-columns: 1fr 320px;
+    grid-template-columns: minmax(240px, 320px) minmax(0, 1fr);
+    align-items: start;
+    gap: 56px;
     width: 100%;
-    height: 100%;
   }
 
   .resume-image-col {
-    padding: 48px 40px 48px 80px;
     display: flex;
     align-items: flex-start;
-    overflow-y: auto;
+    justify-content: center;
+    min-width: 0;
   }
 
   .resume-preview {
-    width: 100%;
+    width: fit-content;
+    max-width: 100%;
     border: 1px solid rgba(0,0,0,0.08);
     background: #f8f8f8;
+    display: flex;
+    justify-content: center;
   }
 
   .resume-preview img {
     display: block;
-    width: 100%;
+    width: auto;
+    max-width: 100%;
     height: auto;
-    max-height: calc(100vh - 60px - 96px);
+    max-height: calc(100svh - 180px);
     object-fit: contain;
     object-position: top;
   }
 
   .resume-info-col {
-    padding: 60px 48px 48px 40px;
-    border-left: 1px solid var(--border);
+    padding: 0;
     display: flex;
     flex-direction: column;
     gap: 20px;
     position: sticky;
-    top: 0;
-    height: 100%;
+    top: 96px;
+    height: auto;
   }
 
   .resume-info-col .page-title {
@@ -2201,7 +2195,7 @@
     font-size: 15px;
     line-height: 1.75;
     color: var(--text-muted);
-    flex: 1;
+    flex: 0 0 auto;
   }
 
   .resume-download-button {
@@ -2464,6 +2458,14 @@
     display: block;
   }
 
+  .work-tab-description {
+    max-width: 620px;
+    margin: 0 0 48px;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--text-muted);
+  }
+
   .work-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2677,6 +2679,11 @@
     .work-tab-showcase .portfolio-container {
       margin-bottom: 48px;
     }
+    .work-tab-description {
+      margin-bottom: 28px;
+      font-size: 15px;
+      line-height: 1.65;
+    }
     .work-tab-showcase .portfolio-meta {
       top: auto;
     }
@@ -2698,23 +2705,29 @@
       padding-bottom: 96px;
     }
     .resume-page {
-      padding: 0;
+      padding: 32px 20px 96px;
       height: auto;
     }
     .resume-layout {
       grid-template-columns: 1fr;
+      gap: 28px;
       height: auto;
     }
     .resume-image-col {
-      padding: 24px 20px 16px;
+      padding: 0;
+    }
+    .resume-preview {
+      width: 100%;
     }
     .resume-preview img {
-      max-height: none;
+      max-height: calc(100svh - 220px);
+      width: auto;
+      max-width: 100%;
+      margin: 0 auto;
     }
     .resume-info-col {
-      padding: 20px 20px 48px;
+      padding: 0;
       border-left: none;
-      border-top: 1px solid var(--border);
       position: static;
       height: auto;
     }
