@@ -308,6 +308,7 @@
         document.body.classList.remove('is-loading');
         syncCursorMode();
         initializeNameEffects();
+        initMobileHeroNameEffect();
 
         if (siteLoader) {
           window.setTimeout(() => {
@@ -348,7 +349,7 @@
     if (isMobile) {
       wrapper.style.display = 'none';
       wrapper.style.position = 'absolute';
-      heroCenter.style.top = '50%';
+      heroCenter.style.top = 'calc(50% + 32px)';
       heroCenter.style.transform = 'translate(-50%, -50%)';
       return;
     }
@@ -413,7 +414,8 @@
       wrapper.style.bottom = '0';
       wrapper.style.left = '-200px';
       wrapper.style.right = '-200px';
-      wrapper.style.transition = 'opacity 0.18s linear, filter 0.18s linear';
+      wrapper.style.pointerEvents = 'auto';
+      wrapper.style.transition = 'filter 0.12s linear';
       update();
     }
   }
@@ -464,14 +466,16 @@
       const rect = portfolioSection.getBoundingClientRect();
       const nameTopInViewport = H - nameHeight - bottomOffset;
       const nameBottomInViewport = H - bottomOffset;
-      const revealGap = 160;
-      const overlapStart = nameTopInViewport - revealGap;
-      const overlapEnd = nameBottomInViewport + revealGap;
-      const overlapDistance = Math.max(0, Math.min(rect.bottom, overlapEnd) - Math.max(rect.top, overlapStart));
-      const opacityRatio = 1 - Math.min(1, overlapDistance / (nameHeight + revealGap * 2));
-      wrapper.style.opacity = opacityRatio.toFixed(3);
+      const fadeStart = nameBottomInViewport + 120;
+      const fadeEnd = nameTopInViewport - Math.max(180, nameHeight * 0.32);
+      const fadeRange = Math.max(1, fadeStart - fadeEnd);
+      const rawFade = Math.max(0, Math.min(1, (fadeStart - rect.top) / fadeRange));
+      const easedFade = rawFade * rawFade * (3 - 2 * rawFade);
+      const nameOpacity = 1 - easedFade;
+      wrapper.style.opacity = nameOpacity.toFixed(3);
+      wrapper.style.pointerEvents = nameOpacity > 0.08 ? 'auto' : 'none';
 
-      if (rect.bottom > H / 2) {
+      if (rect.bottom > H / 2 || nameOpacity > 0.02) {
         // Portfolio bottom still in upper half — stay fixed
         wrapper.style.bottom = bottomOffset + 'px';
         triggerScrollY = scrollY;
@@ -483,6 +487,7 @@
     } else {
       wrapper.style.bottom = bottomOffset + 'px';
       wrapper.style.opacity = '1';
+      wrapper.style.pointerEvents = 'auto';
     }
 
     // Blur logic
@@ -602,6 +607,12 @@
     }
   }
 
+  function updateNavFillState(activePage) {
+    const pageScrollTop = activePage ? activePage.scrollTop : 0;
+    const shouldFillNav = pageScrollTop > 2 || window.scrollY > 2;
+    document.body.classList.toggle('nav-filled', shouldFillNav);
+  }
+
   function getOverlayProgress(pageEl) {
     if (!pageEl) return 0;
     const scrollTop = pageEl.scrollTop;
@@ -614,6 +625,7 @@
     syncGlobalProgressVisibility();
     syncGlobalCloseButton();
     syncDesktopTabFloat(activePage);
+    updateNavFillState(activePage);
     if (activePage) {
       setGlobalProgress(getOverlayProgress(activePage));
       return;
@@ -628,6 +640,7 @@
   function updateCsProgressSlider(pageEl) {
     if (!pageEl || !pageEl.classList.contains('active')) return;
     syncGlobalProgressVisibility();
+    updateNavFillState(pageEl);
     setGlobalProgress(getOverlayProgress(pageEl));
     syncDesktopTabFloat(pageEl);
   }
@@ -918,6 +931,40 @@
   let activeIdx = -1;
   let footerTspans = [];
   let activeFooterIdx = -1;
+
+  function initMobileHeroNameEffect() {
+    const nameEl = document.querySelector('.mobile-hero-name');
+    if (!nameEl || nameEl.dataset.colorReady === 'true') return;
+
+    nameEl.dataset.colorReady = 'true';
+    const lines = ['RAJAT', 'GIRHOTRA'];
+    nameEl.innerHTML = lines.map(line => (
+      `<span class="mobile-hero-line">${[...line].map(char => (
+        `<span class="mobile-hero-letter">${char}</span>`
+      )).join('')}</span>`
+    )).join('');
+
+    const letters = [...nameEl.querySelectorAll('.mobile-hero-letter')];
+    const flashLetter = letter => {
+      const [c1, c2] = GRADIENTS[Math.floor(Math.random() * GRADIENTS.length)];
+      letter.style.backgroundImage = `linear-gradient(135deg, ${c1}, ${c2})`;
+      letter.classList.add('is-gradient');
+      window.setTimeout(() => {
+        letter.classList.remove('is-gradient');
+        letter.style.backgroundImage = '';
+      }, 420);
+    };
+
+    const runWave = () => {
+      letters.forEach((letter, index) => {
+        window.setTimeout(() => flashLetter(letter), index * 38);
+      });
+    };
+
+    nameEl.addEventListener('touchstart', runWave, { passive: true });
+    nameEl.addEventListener('mouseenter', runWave);
+    window.setTimeout(runWave, 450);
+  }
 
   function splitIntoLetters() {
     const textEl = document.getElementById('bigNameText');
