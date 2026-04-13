@@ -473,9 +473,12 @@
     nav { padding: 16px 24px; }
     body.has-active-page nav {
       justify-content: space-between;
-      background: transparent;
-      box-shadow: none;
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.03);
       padding: 16px 20px;
+    }
+    html.dark body.has-active-page nav {
+      background: rgba(10, 10, 10, 0.94);
     }
     body.has-active-page.nav-filled nav {
       background: rgba(255, 255, 255, 0.94);
