@@ -716,9 +716,13 @@
     html,
     body {
       overflow-x: hidden;
+      overflow-y: auto;
       width: 100%;
       max-width: 100vw;
       position: relative;
+      overscroll-behavior-y: auto;
+      touch-action: pan-y;
+      -webkit-overflow-scrolling: touch;
     }
 
     nav,
@@ -2178,10 +2182,11 @@
     }
 
     .hero {
-      height: calc(100dvh + 2px);
+      height: auto;
       min-height: calc(100svh + 2px);
       justify-content: center;
       overflow: hidden;
+      touch-action: pan-y;
     }
 
     #bigNameWrapper {
