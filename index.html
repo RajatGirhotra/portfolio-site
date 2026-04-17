@@ -182,6 +182,14 @@
     <div class="mac-scroll-page"></div>
     <div class="mac-scroll-page mac-empty-page"></div>
   </div>
+  <div id="macFinderWindow" class="mac-window" aria-hidden="true">
+    <div class="mac-window-chrome">
+      <button class="mac-window-control mac-window-close mac-clickable" type="button" onclick="closeMacFinderWindow()" aria-label="Close window"></button>
+      <button class="mac-window-control mac-window-minimize mac-clickable" type="button" onclick="closeMacFinderWindow()" aria-label="Minimize window"></button>
+      <button class="mac-window-control mac-window-maximize mac-clickable" type="button" onclick="toggleMacFinderWindowMaximize()" aria-label="Maximize window"></button>
+    </div>
+    <div id="macFinderWindowContent" class="mac-window-content"></div>
+  </div>
 </section>
 
 <!-- WORK PAGE -->

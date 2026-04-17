@@ -67,12 +67,16 @@
     applyThemeState(!document.documentElement.classList.contains('dark'));
   }
 
-  function setMacFinderMode(isActive) {
+  function setMacFinderMode(isActive, options = {}) {
+    const shouldPersist = options.persist !== false;
     const enabled = Boolean(isActive);
     const toggles = document.querySelectorAll('.mac-transform-toggle');
     const finderMode = document.getElementById('macFinderMode');
     const finderScroller = document.querySelector('.mac-mobile-scroll-pages');
     document.body.classList.toggle('mac-finder-active', enabled);
+    if (shouldPersist) {
+      sessionStorage.setItem(STORAGE_KEYS.homeMode, enabled ? 'finder' : 'normal');
+    }
     toggles.forEach(toggle => {
       toggle.setAttribute('aria-pressed', enabled ? 'true' : 'false');
     });
@@ -102,18 +106,107 @@
   }
 
   function openMacShortcut(id) {
-    setMacFinderMode(false);
+    if (window.innerWidth > 768 && id !== 'home') {
+      setMacFinderMode(true, { persist: false });
+      openMacFinderWindow(id);
+      return;
+    }
+
+    setMacFinderMode(false, { persist: false });
     if (id === 'home') {
+      closeMacFinderWindow();
       closePage();
       return;
     }
-    openPage(id);
+    openPage(id, { homeMode: 'finder' });
+  }
+
+  const MAC_WINDOW_TITLES = {
+    work: 'Some of my work',
+    'how-i-ai': 'How I AI',
+    resume: 'Resume',
+    contact: 'Contact',
+    about: 'About me',
+    'life-insurance': 'Life Insurance',
+    'go-leap': 'Go Leap',
+    colrows: 'Colrows',
+    'refi-nft-dashboard': 'ReFi NFT Dashboard',
+    'health-insurance': 'Health Insurance',
+    'car-insurance': 'Car Insurance'
+  };
+
+  function getMacWindowSource(pageId) {
+    const page = document.getElementById('page-' + pageId);
+    if (!page) return null;
+    return page.querySelector('.page-inner, .case-study-page') || page;
+  }
+
+  function openMacFinderWindow(pageId, options = {}) {
+    const win = document.getElementById('macFinderWindow');
+    const content = document.getElementById('macFinderWindowContent');
+    const page = document.getElementById('page-' + pageId);
+    const source = getMacWindowSource(pageId);
+    if (!win || !content || !source) return;
+
+    content.innerHTML = '';
+    const clone = source.cloneNode(true);
+    clone.querySelectorAll('.page-close, .global-page-close, .progress-slider-cs').forEach(el => el.remove());
+    clone.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
+    clone.querySelectorAll('.image-skeleton-host').forEach(el => el.classList.add('is-loaded'));
+    clone.querySelectorAll('img').forEach(img => {
+      img.classList.add('is-loaded');
+      img.loading = 'eager';
+    });
+    clone.classList.add('mac-window-clone');
+    clone.dataset.sourcePage = pageId;
+
+    const isCaseStudy = Boolean(page && page.classList.contains('case-study-view'));
+    if (!isCaseStudy) {
+      win.dataset.folderPage = pageId;
+    } else {
+      const returnTo = options.returnTo || win.dataset.folderPage || 'work';
+      clone.dataset.returnTo = returnTo;
+      const backButton = document.createElement('button');
+      backButton.type = 'button';
+      backButton.className = 'mac-window-back mac-clickable';
+      backButton.textContent = 'Back';
+      backButton.setAttribute('aria-label', `Back to ${MAC_WINDOW_TITLES[returnTo] || 'folder items'}`);
+      backButton.addEventListener('click', () => openMacFinderWindow(returnTo));
+      clone.prepend(backButton);
+    }
+
+    const pageTitle = clone.querySelector('.page-title');
+    if (pageTitle && MAC_WINDOW_TITLES[pageId]) {
+      pageTitle.textContent = MAC_WINDOW_TITLES[pageId];
+    }
+
+    content.appendChild(clone);
+    win.classList.add('is-open');
+    win.classList.remove('is-maximized');
+    win.setAttribute('aria-hidden', 'false');
+    ensureImagesLoad(content);
+  }
+
+  function closeMacFinderWindow() {
+    const win = document.getElementById('macFinderWindow');
+    const content = document.getElementById('macFinderWindowContent');
+    if (!win) return;
+    win.classList.remove('is-open', 'is-maximized');
+    win.setAttribute('aria-hidden', 'true');
+    if (content) content.innerHTML = '';
+  }
+
+  function toggleMacFinderWindowMaximize() {
+    const win = document.getElementById('macFinderWindow');
+    if (!win || !win.classList.contains('is-open')) return;
+    win.classList.toggle('is-maximized');
   }
 
   const STORAGE_KEYS = {
     page: 'portfolio-active-page',
     workTab: 'portfolio-work-tab',
-    howAiTab: 'portfolio-how-ai-tab'
+    howAiTab: 'portfolio-how-ai-tab',
+    homeMode: 'portfolio-home-mode'
   };
 
   function getPageIdFromElement(pageEl) {
@@ -136,19 +229,28 @@
     }
   }
 
-  function openPage(id) {
+  function getCurrentHomeMode() {
+    return document.body.classList.contains('mac-finder-active') ? 'finder' : 'normal';
+  }
+
+  function openPage(id, options = {}) {
     closeMobileMenu();
     const currentActivePage = document.querySelector('.page-view.active');
+    const homeMode = options.homeMode || (currentActivePage && currentActivePage.dataset.homeMode) || getCurrentHomeMode();
+    setMacFinderMode(false, { persist: false });
     document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
     const page = document.getElementById('page-' + id);
     if (page) {
       if (page.classList.contains('case-study-view') && currentActivePage) {
         page.dataset.returnTo = getPageIdFromElement(currentActivePage);
+        page.dataset.homeMode = currentActivePage.dataset.homeMode || homeMode;
       } else if (!page.classList.contains('case-study-view')) {
         document.querySelectorAll('.case-study-view').forEach(caseStudy => {
           delete caseStudy.dataset.returnTo;
+          delete caseStudy.dataset.homeMode;
         });
+        page.dataset.homeMode = homeMode;
       }
       page.classList.add('active');
       ensureImagesLoad(page);
@@ -210,6 +312,7 @@
     closeMobileMenu();
     const activePage = document.querySelector('.page-view.active');
     const returnTo = activePage && activePage.classList.contains('case-study-view') ? activePage.dataset.returnTo : '';
+    const homeMode = activePage && activePage.dataset.homeMode ? activePage.dataset.homeMode : sessionStorage.getItem(STORAGE_KEYS.homeMode) || 'finder';
 
     document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
@@ -218,6 +321,7 @@
       const returnPage = document.getElementById('page-' + returnTo);
       if (returnPage) {
         returnPage.classList.add('active');
+        returnPage.dataset.homeMode = homeMode;
         ensureImagesLoad(returnPage);
         updateCsProgressSlider(returnPage);
         document.querySelectorAll('.nav-link').forEach(l => {
@@ -229,6 +333,7 @@
       }
     }
 
+    setMacFinderMode(homeMode === 'finder');
     syncGlobalCloseButton();
     persistViewState('');
     updateProgressSlider();
@@ -761,6 +866,36 @@
   document.querySelectorAll('.page-view').forEach(pageView => {
     pageView.addEventListener('scroll', () => updateCsProgressSlider(pageView), { passive: true });
   });
+  const macWindowContent = document.getElementById('macFinderWindowContent');
+  if (macWindowContent) {
+    macWindowContent.addEventListener('click', event => {
+      const actionEl = event.target.closest('[onclick]');
+      if (!actionEl) return;
+      const action = actionEl.getAttribute('onclick') || '';
+      const match = action.match(/openPage\('([^']+)'\)/);
+      if (!match) return;
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+      const currentClone = macWindowContent.querySelector('.mac-window-clone');
+      const returnTo = currentClone ? (currentClone.dataset.returnTo || currentClone.dataset.sourcePage) : undefined;
+      openMacFinderWindow(match[1], { returnTo });
+    }, true);
+
+    macWindowContent.addEventListener('keydown', event => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      const actionEl = event.target.closest('[onclick]');
+      if (!actionEl) return;
+      const action = actionEl.getAttribute('onclick') || '';
+      const match = action.match(/openPage\('([^']+)'\)/);
+      if (!match) return;
+      event.preventDefault();
+      event.stopPropagation();
+      const currentClone = macWindowContent.querySelector('.mac-window-clone');
+      const returnTo = currentClone ? (currentClone.dataset.returnTo || currentClone.dataset.sourcePage) : undefined;
+      openMacFinderWindow(match[1], { returnTo });
+    }, true);
+  }
   const macMobileScroller = document.querySelector('.mac-mobile-scroll-pages');
   const macFinderMode = document.getElementById('macFinderMode');
   if (macMobileScroller && macFinderMode) {
@@ -844,7 +979,7 @@
   syncGlobalCloseButton();
   syncDesktopTabFloat();
   updateProgressSlider();
-  setMacFinderMode(true);
+  setMacFinderMode((sessionStorage.getItem(STORAGE_KEYS.homeMode) || 'finder') === 'finder');
 
   afterDomReady().then(() => {
     const savedWorkTab = sessionStorage.getItem(STORAGE_KEYS.workTab);
@@ -859,7 +994,7 @@
 
     const savedPage = sessionStorage.getItem(STORAGE_KEYS.page);
     if (savedPage) {
-      openPage(savedPage);
+      openPage(savedPage, { homeMode: sessionStorage.getItem(STORAGE_KEYS.homeMode) || 'finder' });
     }
   });
 
