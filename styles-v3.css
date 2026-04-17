@@ -961,6 +961,21 @@
       border-color: rgba(255, 255, 255, 0.12);
     }
 
+    html:not(.dark) .hero-transform-toggle {
+      color: #111111 !important;
+      background: rgba(255, 255, 255, 0.82);
+      border-color: rgba(0, 0, 0, 0.12);
+      box-shadow: none;
+    }
+
+    html:not(.dark) .hero-transform-toggle .mac-transform-label {
+      color: #111111 !important;
+    }
+
+    html:not(.dark) .hero-transform-toggle .mac-transform-switch {
+      background: rgba(0, 0, 0, 0.16);
+    }
+
     .mac-finder-mode {
       position: fixed;
       inset: 0;
@@ -2104,6 +2119,22 @@
 
     .mac-transform-toggle[aria-pressed="true"] .mac-transform-switch span {
       transform: translateX(20px);
+    }
+
+    html:not(.dark) .hero-transform-toggle {
+      color: #111111 !important;
+      background: rgba(255,255,255,0.92) !important;
+      border-color: rgba(0,0,0,0.1) !important;
+      box-shadow: none !important;
+      text-shadow: none !important;
+    }
+
+    html:not(.dark) .hero-transform-toggle .mac-transform-label {
+      color: #111111 !important;
+    }
+
+    html:not(.dark) .hero-transform-toggle .mac-transform-switch {
+      background: rgba(0,0,0,0.12) !important;
     }
 
     .mac-dock {
