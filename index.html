@@ -121,11 +121,47 @@
   <div class="mac-menu-bar">
     <div class="mac-menu-left">
       <span class="mac-apple-dot" aria-hidden="true"></span>
-      <strong>Finder</strong>
-      <span>File</span>
-      <span>Edit</span>
-      <span>View</span>
-      <span>Go</span>
+      <div class="mac-menu-item">
+        <button class="mac-menu-trigger mac-clickable" type="button">Finder</button>
+        <div class="mac-menu-dropdown" role="menu">
+          <button type="button" onclick="toggleMacFinderMode()">Surprise me</button>
+          <button type="button" onclick="openMacShortcut('about')">About Rajat</button>
+          <button type="button" onclick="openMacShortcut('contact')">Contact</button>
+        </div>
+      </div>
+      <div class="mac-menu-item">
+        <button class="mac-menu-trigger mac-clickable" type="button">File</button>
+        <div class="mac-menu-dropdown" role="menu">
+          <button type="button" onclick="openMacShortcut('work')">Open Work</button>
+          <button type="button" onclick="openMacShortcut('how-i-ai')">Open How I AI</button>
+          <button type="button" onclick="openMacShortcut('resume')">Open Resume</button>
+          <span class="mac-menu-separator"></span>
+          <button type="button" onclick="closeMacFinderWindow()">Close Window</button>
+        </div>
+      </div>
+      <div class="mac-menu-item">
+        <button class="mac-menu-trigger mac-clickable" type="button">Edit</button>
+        <div class="mac-menu-dropdown" role="menu">
+          <button type="button" onclick="toggleTheme()">Switch Theme</button>
+          <button type="button" onclick="setMacFinderMode(true)">Reset Finder</button>
+        </div>
+      </div>
+      <div class="mac-menu-item">
+        <button class="mac-menu-trigger mac-clickable" type="button">View</button>
+        <div class="mac-menu-dropdown" role="menu">
+          <button type="button" onclick="toggleMacFinderWindowMaximize()">Zoom Window</button>
+          <button type="button" onclick="minimizeMacFinderWindow()">Minimize Window</button>
+        </div>
+      </div>
+      <div class="mac-menu-item">
+        <button class="mac-menu-trigger mac-clickable" type="button">Go</button>
+        <div class="mac-menu-dropdown" role="menu">
+          <button type="button" onclick="openMacShortcut('work')">Work</button>
+          <button type="button" onclick="openMacShortcut('how-i-ai')">How I AI</button>
+          <button type="button" onclick="openMacShortcut('about')">Notes</button>
+          <button type="button" onclick="openMacShortcut('contact')">Contact</button>
+        </div>
+      </div>
     </div>
     <div class="mac-menu-right">
       <span>Rajat Girhotra</span>
@@ -134,10 +170,9 @@
   </div>
 
   <div class="mac-welcome">
-    <h2>Hi, Welcome to a kind of portfolio,<br>feel free to browse around</h2>
-    <p>Rajat Girhotra</p>
+    <h2>Hi,<br>Welcome to a different kind of portfolio.<br><br>My name is Rajat Girhotra.<br>Feel free to browse around</h2>
     <button class="mac-transform-toggle mac-clickable" type="button" onclick="toggleMacFinderMode()" aria-pressed="true" aria-label="Toggle Finder view">
-      <span class="mac-transform-label">Reality Shift</span>
+      <span class="mac-transform-label">Surprise me</span>
       <span class="mac-transform-switch" aria-hidden="true"><span></span></span>
     </button>
   </div>
@@ -173,19 +208,27 @@
       <img class="mac-dock-icon" src="settings.png" alt="" width="46" height="46" loading="eager" decoding="async" fetchpriority="high" aria-hidden="true">
       <span class="mac-dock-label">Settings</span>
     </button>
-    <button class="mac-dock-item mac-clickable" type="button" onclick="openMacShortcut('how-i-ai')" aria-label="Open Notes">
+    <button class="mac-dock-item mac-clickable" type="button" onclick="openMacShortcut('about')" aria-label="Open Notes">
       <img class="mac-dock-icon" src="notes.png" alt="" width="46" height="46" loading="eager" decoding="async" fetchpriority="high" aria-hidden="true">
       <span class="mac-dock-label">Notes</span>
+    </button>
+    <button id="macMinimizedWindow" class="mac-dock-item mac-dock-minimized mac-clickable" type="button" onclick="restoreMacFinderWindow()" aria-label="Restore minimized window" hidden>
+      <img id="macMinimizedWindowIcon" class="mac-dock-icon" src="folderwork.png" alt="" width="46" height="46" loading="eager" decoding="async" aria-hidden="true">
+      <span id="macMinimizedWindowLabel" class="mac-dock-label">Window</span>
     </button>
   </div>
   <div class="mac-mobile-scroll-pages" aria-hidden="true">
     <div class="mac-scroll-page"></div>
     <div class="mac-scroll-page mac-empty-page"></div>
   </div>
+  <div class="mac-page-dots" aria-hidden="true">
+    <span class="mac-page-dot is-active"></span>
+    <span class="mac-page-dot"></span>
+  </div>
   <div id="macFinderWindow" class="mac-window" aria-hidden="true">
     <div class="mac-window-chrome">
       <button class="mac-window-control mac-window-close mac-clickable" type="button" onclick="closeMacFinderWindow()" aria-label="Close window"></button>
-      <button class="mac-window-control mac-window-minimize mac-clickable" type="button" onclick="closeMacFinderWindow()" aria-label="Minimize window"></button>
+      <button class="mac-window-control mac-window-minimize mac-clickable" type="button" onclick="minimizeMacFinderWindow()" aria-label="Minimize window"></button>
       <button class="mac-window-control mac-window-maximize mac-clickable" type="button" onclick="toggleMacFinderWindowMaximize()" aria-label="Maximize window"></button>
     </div>
     <div id="macFinderWindowContent" class="mac-window-content"></div>
@@ -1691,7 +1734,7 @@
     </div>
     <p class="fun-fact">Fun fact - This website is fully vibe coded by me.</p>
     <button class="mac-transform-toggle hero-transform-toggle mac-clickable" type="button" onclick="toggleMacFinderMode()" aria-pressed="false" aria-label="Toggle Finder view">
-      <span class="mac-transform-label">Reality Shift</span>
+      <span class="mac-transform-label">Surprise me</span>
       <span class="mac-transform-switch" aria-hidden="true"><span></span></span>
     </button>
   </div>

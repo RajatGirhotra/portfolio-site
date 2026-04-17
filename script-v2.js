@@ -99,10 +99,31 @@
     if (!finderMode) return;
     const x = Number(finderMode.dataset.pageOffset || 0);
     finderMode.style.setProperty('--mac-page-x', `${-x}px`);
+    finderMode.dataset.pageIndex = x > window.innerWidth * 0.5 ? '1' : '0';
+    finderMode.querySelectorAll('.mac-page-dot').forEach((dot, index) => {
+      dot.classList.toggle('is-active', index === Number(finderMode.dataset.pageIndex || 0));
+    });
   }
 
   function toggleMacFinderMode() {
-    setMacFinderMode(!document.body.classList.contains('mac-finder-active'));
+    const isFinderActive = document.body.classList.contains('mac-finder-active');
+    if (!isFinderActive) {
+      setMacFinderMode(true);
+      return;
+    }
+
+    closeMacFinderWindow();
+    document.querySelectorAll('.page-view').forEach(page => page.classList.remove('active'));
+    document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+    setMacFinderMode(false);
+    persistViewState('');
+    syncGlobalCloseButton();
+    updateProgressSlider();
+    requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    });
   }
 
   function openMacShortcut(id) {
@@ -135,6 +156,20 @@
     'car-insurance': 'Car Insurance'
   };
 
+  const MAC_WINDOW_ICONS = {
+    work: 'folderwork.png',
+    'how-i-ai': 'folderhowiai.png',
+    resume: 'folderresume.png',
+    contact: 'folderwork.png',
+    about: 'folderwork.png',
+    'life-insurance': 'folderwork.png',
+    'go-leap': 'folderwork.png',
+    colrows: 'folderwork.png',
+    'refi-nft-dashboard': 'folderwork.png',
+    'health-insurance': 'folderwork.png',
+    'car-insurance': 'folderwork.png'
+  };
+
   function getMacWindowSource(pageId) {
     const page = document.getElementById('page-' + pageId);
     if (!page) return null;
@@ -159,6 +194,7 @@
     });
     clone.classList.add('mac-window-clone');
     clone.dataset.sourcePage = pageId;
+    win.dataset.currentPage = pageId;
 
     const isCaseStudy = Boolean(page && page.classList.contains('case-study-view'));
     if (!isCaseStudy) {
@@ -182,24 +218,151 @@
 
     content.appendChild(clone);
     win.classList.add('is-open');
-    win.classList.remove('is-maximized');
+    win.classList.remove('is-maximized', 'is-minimized');
     win.setAttribute('aria-hidden', 'false');
+    syncMacMinimizedWindow(null);
+    constrainMacFinderWindow();
     ensureImagesLoad(content);
+  }
+
+  function syncMacMinimizedWindow(pageId) {
+    const item = document.getElementById('macMinimizedWindow');
+    const icon = document.getElementById('macMinimizedWindowIcon');
+    const label = document.getElementById('macMinimizedWindowLabel');
+    if (!item) return;
+
+    if (!pageId) {
+      item.hidden = true;
+      return;
+    }
+
+    if (icon) icon.src = MAC_WINDOW_ICONS[pageId] || 'folderwork.png';
+    if (label) label.textContent = MAC_WINDOW_TITLES[pageId] || 'Window';
+    item.hidden = false;
+  }
+
+  function minimizeMacFinderWindow() {
+    const win = document.getElementById('macFinderWindow');
+    if (!win || !win.classList.contains('is-open')) return;
+
+    const pageId = win.dataset.currentPage || win.dataset.folderPage || 'work';
+    win.classList.add('is-minimized');
+    win.classList.remove('is-open');
+    win.setAttribute('aria-hidden', 'true');
+    syncMacMinimizedWindow(pageId);
+  }
+
+  function restoreMacFinderWindow() {
+    const win = document.getElementById('macFinderWindow');
+    if (!win) return;
+    win.classList.remove('is-minimized');
+    win.classList.add('is-open');
+    win.setAttribute('aria-hidden', 'false');
+    syncMacMinimizedWindow(null);
+    constrainMacFinderWindow();
   }
 
   function closeMacFinderWindow() {
     const win = document.getElementById('macFinderWindow');
     const content = document.getElementById('macFinderWindowContent');
     if (!win) return;
-    win.classList.remove('is-open', 'is-maximized');
+    win.classList.remove('is-open', 'is-maximized', 'is-minimized');
     win.setAttribute('aria-hidden', 'true');
+    delete win.dataset.currentPage;
     if (content) content.innerHTML = '';
+    syncMacMinimizedWindow(null);
   }
 
   function toggleMacFinderWindowMaximize() {
     const win = document.getElementById('macFinderWindow');
     if (!win || !win.classList.contains('is-open')) return;
-    win.classList.toggle('is-maximized');
+    if (win.classList.contains('is-maximized')) {
+      win.classList.remove('is-maximized');
+      win.style.left = win.dataset.restoreLeft || win.style.left;
+      win.style.top = win.dataset.restoreTop || win.style.top;
+      constrainMacFinderWindow();
+      return;
+    }
+
+    const rect = win.getBoundingClientRect();
+    win.dataset.restoreLeft = win.style.left || `${rect.left}px`;
+    win.dataset.restoreTop = win.style.top || `${rect.top}px`;
+    win.style.left = '';
+    win.style.top = '';
+    win.classList.add('is-maximized');
+  }
+
+  function constrainMacFinderWindow() {
+    const win = document.getElementById('macFinderWindow');
+    if (!win || !win.classList.contains('is-open') || win.classList.contains('is-maximized')) return;
+
+    const rect = win.getBoundingClientRect();
+    const margin = 12;
+    const left = Number.parseFloat(win.style.left || rect.left);
+    const top = Number.parseFloat(win.style.top || rect.top);
+    const maxLeft = Math.max(margin, window.innerWidth - rect.width - margin);
+    const maxTop = Math.max(margin, window.innerHeight - rect.height - margin);
+    win.style.left = `${Math.min(Math.max(left, margin), maxLeft)}px`;
+    win.style.top = `${Math.min(Math.max(top, margin), maxTop)}px`;
+  }
+
+  function setupMacFinderWindowDrag() {
+    const win = document.getElementById('macFinderWindow');
+    const chrome = win ? win.querySelector('.mac-window-chrome') : null;
+    if (!win || !chrome) return;
+
+    let startX = 0;
+    let startY = 0;
+    let startLeft = 0;
+    let startTop = 0;
+    let isDragging = false;
+
+    chrome.addEventListener('pointerdown', event => {
+      if (window.innerWidth <= 768 || event.button !== 0) return;
+      if (event.target.closest('.mac-window-control')) return;
+
+      if (win.classList.contains('is-maximized')) {
+        win.classList.remove('is-maximized');
+        win.style.left = win.dataset.restoreLeft || '40px';
+        win.style.top = win.dataset.restoreTop || '56px';
+      }
+
+      const rect = win.getBoundingClientRect();
+      startX = event.clientX;
+      startY = event.clientY;
+      startLeft = rect.left;
+      startTop = rect.top;
+      isDragging = true;
+      win.classList.add('is-dragging');
+      chrome.setPointerCapture(event.pointerId);
+      event.preventDefault();
+    });
+
+    chrome.addEventListener('pointermove', event => {
+      if (!isDragging) return;
+
+      const rect = win.getBoundingClientRect();
+      const margin = 12;
+      const nextLeft = startLeft + event.clientX - startX;
+      const nextTop = startTop + event.clientY - startY;
+      const maxLeft = Math.max(margin, window.innerWidth - rect.width - margin);
+      const maxTop = Math.max(margin, window.innerHeight - rect.height - margin);
+      win.style.left = `${Math.min(Math.max(nextLeft, margin), maxLeft)}px`;
+      win.style.top = `${Math.min(Math.max(nextTop, margin), maxTop)}px`;
+    });
+
+    const endDrag = event => {
+      if (!isDragging) return;
+      isDragging = false;
+      win.classList.remove('is-dragging');
+      if (chrome.hasPointerCapture(event.pointerId)) {
+        chrome.releasePointerCapture(event.pointerId);
+      }
+    };
+
+    chrome.addEventListener('pointerup', endDrag);
+    chrome.addEventListener('pointercancel', endDrag);
+    window.addEventListener('resize', constrainMacFinderWindow, { passive: true });
   }
 
   const STORAGE_KEYS = {
@@ -917,7 +1080,9 @@
     };
 
     const snapMacPager = () => {
-      const target = macCurrentOffset > window.innerWidth * 0.35 ? window.innerWidth : 0;
+      const wasOnSecondPage = macStartOffset > window.innerWidth * 0.5;
+      const threshold = wasOnSecondPage ? window.innerWidth * 0.82 : window.innerWidth * 0.32;
+      const target = macCurrentOffset > threshold ? window.innerWidth : 0;
       setMacOffset(target, true);
       window.setTimeout(() => {
         macFinderMode.classList.remove('is-pager-animating');
@@ -975,6 +1140,7 @@
     }
   }
 
+  setupMacFinderWindowDrag();
   syncThemeImages();
   syncGlobalCloseButton();
   syncDesktopTabFloat();
