@@ -67,6 +67,49 @@
     applyThemeState(!document.documentElement.classList.contains('dark'));
   }
 
+  function setMacFinderMode(isActive) {
+    const enabled = Boolean(isActive);
+    const toggles = document.querySelectorAll('.mac-transform-toggle');
+    const finderMode = document.getElementById('macFinderMode');
+    const finderScroller = document.querySelector('.mac-mobile-scroll-pages');
+    document.body.classList.toggle('mac-finder-active', enabled);
+    toggles.forEach(toggle => {
+      toggle.setAttribute('aria-pressed', enabled ? 'true' : 'false');
+    });
+    if (enabled && finderMode) {
+      finderMode.dataset.pageOffset = '0';
+      finderMode.classList.remove('is-pager-animating');
+      finderMode.scrollTo({ left: 0, top: 0, behavior: 'auto' });
+      if (finderScroller) finderScroller.scrollTo({ left: 0, top: 0, behavior: 'auto' });
+      syncMacMobilePager();
+      requestAnimationFrame(() => {
+        finderMode.scrollTo({ left: 0, top: 0, behavior: 'auto' });
+        if (finderScroller) finderScroller.scrollTo({ left: 0, top: 0, behavior: 'auto' });
+        syncMacMobilePager();
+      });
+    }
+  }
+
+  function syncMacMobilePager() {
+    const finderMode = document.getElementById('macFinderMode');
+    if (!finderMode) return;
+    const x = Number(finderMode.dataset.pageOffset || 0);
+    finderMode.style.setProperty('--mac-page-x', `${-x}px`);
+  }
+
+  function toggleMacFinderMode() {
+    setMacFinderMode(!document.body.classList.contains('mac-finder-active'));
+  }
+
+  function openMacShortcut(id) {
+    setMacFinderMode(false);
+    if (id === 'home') {
+      closePage();
+      return;
+    }
+    openPage(id);
+  }
+
   const STORAGE_KEYS = {
     page: 'portfolio-active-page',
     workTab: 'portfolio-work-tab',
@@ -226,6 +269,19 @@
         window.setTimeout(resolve, 1200);
       });
     }));
+  }
+
+  function waitForFinderAssets() {
+    const assets = window.innerWidth <= 768
+      ? ['movbilebackground.jpg', 'workmobile.png', 'howiaimobile.png', 'resumemobile.png', 'safari.png', 'contacts.png', 'settings.png', 'notes.png']
+      : ['background-1800.jpg', 'folderwork.png', 'folderhowiai.png', 'folderresume.png', 'safari.png', 'contacts.png', 'settings.png', 'notes.png'];
+
+    return Promise.all(assets.map(src => new Promise(resolve => {
+      const img = new Image();
+      img.onload = resolve;
+      img.onerror = resolve;
+      img.src = src;
+    })));
   }
 
   function isMobileImageRuntime() {
@@ -705,6 +761,71 @@
   document.querySelectorAll('.page-view').forEach(pageView => {
     pageView.addEventListener('scroll', () => updateCsProgressSlider(pageView), { passive: true });
   });
+  const macMobileScroller = document.querySelector('.mac-mobile-scroll-pages');
+  const macFinderMode = document.getElementById('macFinderMode');
+  if (macMobileScroller && macFinderMode) {
+    let macTouchStartX = 0;
+    let macTouchStartY = 0;
+    let macStartOffset = 0;
+    let macCurrentOffset = 0;
+    let macPagerRaf = 0;
+    let macIsDragging = false;
+
+    const setMacOffset = (offset, shouldAnimate = false) => {
+      const maxOffset = window.innerWidth;
+      macCurrentOffset = Math.max(0, Math.min(offset, maxOffset));
+      macFinderMode.dataset.pageOffset = String(macCurrentOffset);
+      macFinderMode.classList.toggle('is-pager-animating', shouldAnimate);
+
+      if (macPagerRaf) cancelAnimationFrame(macPagerRaf);
+      macPagerRaf = requestAnimationFrame(syncMacMobilePager);
+    };
+
+    const snapMacPager = () => {
+      const target = macCurrentOffset > window.innerWidth * 0.35 ? window.innerWidth : 0;
+      setMacOffset(target, true);
+      window.setTimeout(() => {
+        macFinderMode.classList.remove('is-pager-animating');
+      }, 280);
+    };
+
+    macFinderMode.addEventListener('touchstart', event => {
+      const touch = event.touches[0];
+      if (!touch) return;
+      macCurrentOffset = Number(macFinderMode.dataset.pageOffset || 0);
+      macTouchStartX = touch.clientX;
+      macTouchStartY = touch.clientY;
+      macStartOffset = macCurrentOffset;
+      macIsDragging = false;
+      macFinderMode.classList.remove('is-pager-animating');
+    }, { passive: true });
+
+    macFinderMode.addEventListener('touchmove', event => {
+      if (!document.body.classList.contains('mac-finder-active')) return;
+      const touch = event.touches[0];
+      if (!touch) return;
+      const deltaX = macTouchStartX - touch.clientX;
+      const deltaY = macTouchStartY - touch.clientY;
+      if (!macIsDragging && Math.abs(deltaX) < 8) return;
+      if (!macIsDragging && Math.abs(deltaY) > Math.abs(deltaX)) return;
+      macIsDragging = true;
+      setMacOffset(macStartOffset + deltaX);
+    }, { passive: true });
+
+    macFinderMode.addEventListener('touchend', () => {
+      if (!macIsDragging) return;
+      macIsDragging = false;
+      snapMacPager();
+    }, { passive: true });
+
+    macFinderMode.addEventListener('wheel', event => {
+      if (!document.body.classList.contains('mac-finder-active') || window.innerWidth > 768) return;
+      const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+      setMacOffset(macCurrentOffset + delta, true);
+      window.clearTimeout(macFinderMode._wheelSnapTimer);
+      macFinderMode._wheelSnapTimer = window.setTimeout(snapMacPager, 140);
+    }, { passive: true });
+  }
   const systemThemeQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
 
   if (systemThemeQuery) {
@@ -723,6 +844,7 @@
   syncGlobalCloseButton();
   syncDesktopTabFloat();
   updateProgressSlider();
+  setMacFinderMode(true);
 
   afterDomReady().then(() => {
     const savedWorkTab = sessionStorage.getItem(STORAGE_KEYS.workTab);
@@ -741,11 +863,14 @@
     }
   });
 
-  window.addEventListener('resize', () => syncDesktopTabFloat(), { passive: true });
+  window.addEventListener('resize', () => {
+    syncDesktopTabFloat();
+  }, { passive: true });
 
   Promise.all([
     afterDomReady(),
     withTimeout(waitForImages(), 1200),
+    withTimeout(waitForFinderAssets(), 1200),
     new Promise(resolve => window.setTimeout(resolve, 350))
   ]).then(revealSite).catch(revealSite);
 
@@ -830,7 +955,7 @@
 
   // Magnetic effect on interactive elements
   const magneticEls = document.querySelectorAll('.nav-link');
-  const pointerSelector = '.nav-link';
+  const pointerSelector = '.nav-link, .mac-clickable';
 
   magneticEls.forEach(el => {
     el.addEventListener('mouseenter', () => {

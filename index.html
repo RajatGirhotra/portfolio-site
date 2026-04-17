@@ -10,6 +10,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="movbilebackground.jpg" media="(max-width: 768px)">
+<link rel="preload" as="image" href="background-1800.jpg" media="(min-width: 769px)">
+<link rel="preload" as="image" href="workmobile.png" media="(max-width: 768px)">
+<link rel="preload" as="image" href="howiaimobile.png" media="(max-width: 768px)">
+<link rel="preload" as="image" href="resumemobile.png" media="(max-width: 768px)">
+<link rel="preload" as="image" href="safari.png">
+<link rel="preload" as="image" href="contacts.png">
+<link rel="preload" as="image" href="settings.png">
+<link rel="preload" as="image" href="notes.png">
 <link rel="stylesheet" href="styles-v3.css">
 
 
@@ -107,6 +116,73 @@
 <button id="globalPageClose" class="page-close global-page-close" onclick="closePage()">
   <span class="page-close-icon"></span><span>Close</span>
 </button>
+
+<section id="macFinderMode" class="mac-finder-mode" aria-label="Finder mode desktop">
+  <div class="mac-menu-bar">
+    <div class="mac-menu-left">
+      <span class="mac-apple-dot" aria-hidden="true"></span>
+      <strong>Finder</strong>
+      <span>File</span>
+      <span>Edit</span>
+      <span>View</span>
+      <span>Go</span>
+    </div>
+    <div class="mac-menu-right">
+      <span>Rajat Girhotra</span>
+      <span id="macMenuClock">Portfolio</span>
+    </div>
+  </div>
+
+  <div class="mac-welcome">
+    <h2>Hi, Welcome to a kind of portfolio,<br>feel free to browse around</h2>
+    <p>Rajat Girhotra</p>
+    <button class="mac-transform-toggle mac-clickable" type="button" onclick="toggleMacFinderMode()" aria-pressed="true" aria-label="Toggle Finder view">
+      <span class="mac-transform-label">Reality Shift</span>
+      <span class="mac-transform-switch" aria-hidden="true"><span></span></span>
+    </button>
+  </div>
+
+  <div class="mac-desktop" role="group" aria-label="Desktop folders">
+    <button class="mac-folder mac-clickable" type="button" onclick="openMacShortcut('work')" aria-label="Open Work">
+      <img class="mac-folder-icon mac-folder-icon-desktop" src="folderwork.png" alt="" width="69" height="52" loading="eager" decoding="async" fetchpriority="high" aria-hidden="true">
+      <img class="mac-folder-icon mac-folder-icon-mobile" src="workmobile.png" alt="" width="58" height="58" loading="eager" decoding="sync" fetchpriority="high" aria-hidden="true">
+      <span class="mac-folder-label">Work</span>
+    </button>
+    <button class="mac-folder mac-clickable" type="button" onclick="openMacShortcut('how-i-ai')" aria-label="Open How I AI">
+      <img class="mac-folder-icon mac-folder-icon-desktop" src="folderhowiai.png" alt="" width="69" height="52" loading="eager" decoding="async" fetchpriority="high" aria-hidden="true">
+      <img class="mac-folder-icon mac-folder-icon-mobile" src="howiaimobile.png" alt="" width="58" height="58" loading="eager" decoding="sync" fetchpriority="high" aria-hidden="true">
+      <span class="mac-folder-label">How I AI</span>
+    </button>
+    <button class="mac-folder mac-clickable" type="button" onclick="openMacShortcut('resume')" aria-label="Open Resume">
+      <img class="mac-folder-icon mac-folder-icon-desktop" src="folderresume.png" alt="" width="69" height="52" loading="eager" decoding="async" fetchpriority="high" aria-hidden="true">
+      <img class="mac-folder-icon mac-folder-icon-mobile" src="resumemobile.png" alt="" width="58" height="58" loading="eager" decoding="sync" fetchpriority="high" aria-hidden="true">
+      <span class="mac-folder-label">Resume</span>
+    </button>
+  </div>
+
+  <div class="mac-dock" aria-label="Finder mode dock">
+    <button class="mac-dock-item mac-clickable" type="button" onclick="openMacShortcut('home')" aria-label="Open Safari">
+      <img class="mac-dock-icon" src="safari.png" alt="" width="46" height="46" loading="eager" decoding="async" fetchpriority="high" aria-hidden="true">
+      <span class="mac-dock-label">Safari</span>
+    </button>
+    <button class="mac-dock-item mac-clickable" type="button" onclick="openMacShortcut('contact')" aria-label="Open Contact">
+      <img class="mac-dock-icon" src="contacts.png" alt="" width="46" height="46" loading="eager" decoding="async" fetchpriority="high" aria-hidden="true">
+      <span class="mac-dock-label">Contact</span>
+    </button>
+    <button class="mac-dock-item mac-clickable" type="button" onclick="toggleTheme()" aria-label="Open Settings">
+      <img class="mac-dock-icon" src="settings.png" alt="" width="46" height="46" loading="eager" decoding="async" fetchpriority="high" aria-hidden="true">
+      <span class="mac-dock-label">Settings</span>
+    </button>
+    <button class="mac-dock-item mac-clickable" type="button" onclick="openMacShortcut('how-i-ai')" aria-label="Open Notes">
+      <img class="mac-dock-icon" src="notes.png" alt="" width="46" height="46" loading="eager" decoding="async" fetchpriority="high" aria-hidden="true">
+      <span class="mac-dock-label">Notes</span>
+    </button>
+  </div>
+  <div class="mac-mobile-scroll-pages" aria-hidden="true">
+    <div class="mac-scroll-page"></div>
+    <div class="mac-scroll-page mac-empty-page"></div>
+  </div>
+</section>
 
 <!-- WORK PAGE -->
 <div class="page-view" id="page-work">
@@ -438,7 +514,7 @@
       </div>
       <div class="resume-image-col">
         <div class="resume-preview">
-          <img src="resume-1800.jpg" alt="Rajat Girhotra resume" decoding="async" fetchpriority="high">
+          <img src="resume-1800.jpg" alt="Rajat Girhotra resume" loading="lazy" decoding="async" fetchpriority="low">
         </div>
       </div>
     </div>
@@ -1606,6 +1682,10 @@
       </div>
     </div>
     <p class="fun-fact">Fun fact - This website is fully vibe coded by me.</p>
+    <button class="mac-transform-toggle hero-transform-toggle mac-clickable" type="button" onclick="toggleMacFinderMode()" aria-pressed="false" aria-label="Toggle Finder view">
+      <span class="mac-transform-label">Reality Shift</span>
+      <span class="mac-transform-switch" aria-hidden="true"><span></span></span>
+    </button>
   </div>
 
   <!-- Blur wrapper: filter applied here, extends beyond viewport so blur never clips -->
@@ -1667,9 +1747,9 @@
           data-light-src="LifeDesktopLightMode-2400.jpg"
           data-dark-src="LifeDesktopDarkMode-2400.jpg"
           alt="Life Insurance, Bajaj Finserv project preview"
-          loading="eager"
+          loading="lazy"
           decoding="async"
-          fetchpriority="high">
+          fetchpriority="low">
       </picture>
     </div>
     <div class="portfolio-meta">
