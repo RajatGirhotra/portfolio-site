@@ -105,6 +105,28 @@
     });
   }
 
+  function updateMacMenuDateTime() {
+    const dateEl = document.getElementById('macMenuDate');
+    const clockEl = document.getElementById('macMenuClock');
+    if (!dateEl || !clockEl) return;
+
+    const now = new Date();
+    const timeZone = 'Asia/Kolkata';
+    dateEl.textContent = new Intl.DateTimeFormat('en-US', {
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric',
+      timeZone
+    }).format(now);
+    const puneTime = new Intl.DateTimeFormat('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+      timeZone
+    }).format(now);
+    clockEl.textContent = `Pune ${puneTime}`;
+  }
+
   function toggleMacFinderMode() {
     const isFinderActive = document.body.classList.contains('mac-finder-active');
     if (!isFinderActive) {
@@ -126,6 +148,34 @@
     });
   }
 
+  const MAC_APP_SPLASH = {
+    work: { name: 'Work', icon: 'workmobile.png' },
+    'how-i-ai': { name: 'How I AI', icon: 'howiaimobile.png' },
+    resume: { name: 'Resume', icon: 'resumemobile.png' },
+    contact: { name: 'Contact', icon: 'contacts.png' },
+    about: { name: 'Notes', icon: 'notes.png' }
+  };
+
+  function showMacAppSplash(id, onComplete) {
+    const splash = document.getElementById('macAppSplash');
+    const icon = document.getElementById('macAppSplashIcon');
+    const name = document.getElementById('macAppSplashName');
+    const app = MAC_APP_SPLASH[id] || { name: MAC_WINDOW_TITLES[id] || 'App', icon: 'workmobile.png' };
+
+    if (!splash || window.innerWidth > 768) {
+      onComplete();
+      return;
+    }
+
+    if (icon) icon.src = app.icon;
+    if (name) name.textContent = app.name;
+    splash.classList.add('is-visible');
+    window.setTimeout(() => {
+      splash.classList.remove('is-visible');
+      onComplete();
+    }, 520);
+  }
+
   function openMacShortcut(id) {
     if (window.innerWidth > 768 && id !== 'home') {
       setMacFinderMode(true, { persist: false });
@@ -133,13 +183,17 @@
       return;
     }
 
-    setMacFinderMode(false, { persist: false });
     if (id === 'home') {
+      setMacFinderMode(false, { persist: false });
       closeMacFinderWindow();
       closePage();
       return;
     }
-    openPage(id, { homeMode: 'finder' });
+
+    showMacAppSplash(id, () => {
+      setMacFinderMode(false, { persist: false });
+      openPage(id, { homeMode: 'finder' });
+    });
   }
 
   const MAC_WINDOW_TITLES = {
@@ -1141,6 +1195,8 @@
   }
 
   setupMacFinderWindowDrag();
+  updateMacMenuDateTime();
+  window.setInterval(updateMacMenuDateTime, 30000);
   syncThemeImages();
   syncGlobalCloseButton();
   syncDesktopTabFloat();

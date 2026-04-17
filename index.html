@@ -12,6 +12,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="movbilebackground.jpg" media="(max-width: 768px)">
 <link rel="preload" as="image" href="background-1800.jpg" media="(min-width: 769px)">
+<link rel="preload" as="image" href="note.png?v=2" media="(min-width: 769px)">
 <link rel="preload" as="image" href="workmobile.png" media="(max-width: 768px)">
 <link rel="preload" as="image" href="howiaimobile.png" media="(max-width: 768px)">
 <link rel="preload" as="image" href="resumemobile.png" media="(max-width: 768px)">
@@ -165,11 +166,13 @@
     </div>
     <div class="mac-menu-right">
       <span>Rajat Girhotra</span>
-      <span id="macMenuClock">Portfolio</span>
+      <span id="macMenuDate">Fri Apr 17</span>
+      <span id="macMenuClock">Pune 12:00 PM</span>
     </div>
   </div>
 
   <div class="mac-welcome">
+    <img class="mac-note-image" src="note.png?v=2" alt="Hi, welcome to a different kind of portfolio. My name is Rajat Girhotra. Feel free to browse around" width="1240" height="1480" loading="eager" decoding="async" fetchpriority="high">
     <h2>Hi,<br>Welcome to a different kind of portfolio.<br><br>My name is Rajat Girhotra.<br>Feel free to browse around</h2>
     <button class="mac-transform-toggle mac-clickable" type="button" onclick="toggleMacFinderMode()" aria-pressed="true" aria-label="Toggle Finder view">
       <span class="mac-transform-label">Surprise me</span>
@@ -224,6 +227,10 @@
   <div class="mac-page-dots" aria-hidden="true">
     <span class="mac-page-dot is-active"></span>
     <span class="mac-page-dot"></span>
+  </div>
+  <div id="macAppSplash" class="mac-app-splash" aria-hidden="true">
+    <img id="macAppSplashIcon" src="workmobile.png" alt="" width="96" height="96" aria-hidden="true">
+    <span id="macAppSplashName">Work</span>
   </div>
   <div id="macFinderWindow" class="mac-window" aria-hidden="true">
     <div class="mac-window-chrome">
