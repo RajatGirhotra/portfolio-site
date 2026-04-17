@@ -149,11 +149,13 @@
   }
 
   const MAC_APP_SPLASH = {
+    home: { name: 'Safari', icon: 'safari.png' },
     work: { name: 'Work', icon: 'workmobile.png' },
     'how-i-ai': { name: 'How I AI', icon: 'howiaimobile.png' },
     resume: { name: 'Resume', icon: 'resumemobile.png' },
     contact: { name: 'Contact', icon: 'contacts.png' },
-    about: { name: 'Notes', icon: 'notes.png' }
+    about: { name: 'Notes', icon: 'notes.png' },
+    settings: { name: 'Settings', icon: 'settings.png' }
   };
 
   function showMacAppSplash(id, onComplete) {
@@ -176,17 +178,134 @@
     }, 520);
   }
 
+  function showMacComingSoonToast() {
+    let toast = document.getElementById('macComingSoonToast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'macComingSoonToast';
+      toast.className = 'mac-coming-soon-toast';
+      toast.textContent = 'Coming soon';
+      document.body.appendChild(toast);
+    }
+
+    toast.classList.add('is-visible');
+    window.clearTimeout(showMacComingSoonToast.timer);
+    showMacComingSoonToast.timer = window.setTimeout(() => {
+      toast.classList.remove('is-visible');
+    }, 1500);
+  }
+
+  function stripDuplicateIds(root) {
+    root.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
+  }
+
+  function createMacSafariNameBlock() {
+    const nameBlock = document.createElement('div');
+    nameBlock.className = 'mac-safari-big-name mac-safari-home-section';
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    svg.setAttribute('viewBox', '0 0 1200 240');
+    svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+    text.setAttribute('x', '600');
+    text.setAttribute('y', '174');
+    text.setAttribute('text-anchor', 'middle');
+    text.setAttribute('textLength', '1120');
+    text.setAttribute('lengthAdjust', 'spacingAndGlyphs');
+    text.textContent = 'Rajat Girhotra';
+    svg.appendChild(text);
+    nameBlock.appendChild(svg);
+    return nameBlock;
+  }
+
+  function buildMacSafariHome() {
+    const content = document.getElementById('macSafariContent');
+    if (!content) return;
+
+    content.innerHTML = '';
+    const page = document.createElement('div');
+    page.className = 'mac-safari-page';
+
+    const homeSections = [
+      document.querySelector('body > .hero'),
+      document.querySelector('body > .mobile-home-experience'),
+      ...document.querySelectorAll('body > .work-section-wrapper'),
+      document.querySelector('body > .site-footer')
+    ].filter(Boolean);
+
+    homeSections.forEach(source => {
+      if (!source) return;
+
+      const clone = source.cloneNode(true);
+      if (source.classList && source.classList.contains('hero')) {
+        clone.querySelector('#bigNameWrapper')?.remove();
+        clone.appendChild(createMacSafariNameBlock());
+      }
+
+      stripDuplicateIds(clone);
+      clone.querySelectorAll('.hero-transform-toggle, .floating-transform-toggle, script, canvas').forEach(el => el.remove());
+
+      clone.classList.add('mac-safari-home-section');
+      page.appendChild(clone);
+    });
+
+    content.appendChild(page);
+    ensureImagesLoad(content);
+  }
+
+  function openMacSafariWindow() {
+    const win = document.getElementById('macSafariWindow');
+    if (!win) return;
+    setMacFinderMode(true, { persist: false });
+    buildMacSafariHome();
+    win.classList.add('is-open');
+    win.classList.remove('is-maximized', 'is-minimized');
+    win.setAttribute('aria-hidden', 'false');
+    syncMacMinimizedWindow(null);
+  }
+
+  function closeMacSafariWindow() {
+    const win = document.getElementById('macSafariWindow');
+    const content = document.getElementById('macSafariContent');
+    if (!win) return;
+    win.classList.remove('is-open', 'is-maximized', 'is-minimized');
+    win.setAttribute('aria-hidden', 'true');
+    if (content) content.innerHTML = '';
+    syncMacMinimizedWindow(null);
+  }
+
+  function minimizeMacSafariWindow() {
+    const win = document.getElementById('macSafariWindow');
+    if (!win || !win.classList.contains('is-open')) return;
+    win.classList.add('is-minimized');
+    win.classList.remove('is-open');
+    win.setAttribute('aria-hidden', 'true');
+    syncMacMinimizedWindow('home', 'safari');
+  }
+
+  function toggleMacSafariWindowMaximize() {
+    const win = document.getElementById('macSafariWindow');
+    if (!win || !win.classList.contains('is-open')) return;
+    win.classList.toggle('is-maximized');
+  }
+
   function openMacShortcut(id) {
-    if (window.innerWidth > 768 && id !== 'home') {
-      setMacFinderMode(true, { persist: false });
-      openMacFinderWindow(id);
+    if (id === 'settings') {
+      if (window.innerWidth <= 768) showMacComingSoonToast();
       return;
     }
 
     if (id === 'home') {
-      setMacFinderMode(false, { persist: false });
-      closeMacFinderWindow();
-      closePage();
+      if (window.innerWidth <= 768) {
+        showMacAppSplash('home', openMacSafariWindow);
+      } else {
+        openMacSafariWindow();
+      }
+      return;
+    }
+
+    if (window.innerWidth > 768 && id !== 'home') {
+      setMacFinderMode(true, { persist: false });
+      openMacFinderWindow(id);
       return;
     }
 
@@ -197,11 +316,12 @@
   }
 
   const MAC_WINDOW_TITLES = {
+    home: 'Safari',
     work: 'Some of my work',
     'how-i-ai': 'How I AI',
     resume: 'Resume',
     contact: 'Contact',
-    about: 'About me',
+    about: 'Notes',
     'life-insurance': 'Life Insurance',
     'go-leap': 'Go Leap',
     colrows: 'Colrows',
@@ -211,11 +331,12 @@
   };
 
   const MAC_WINDOW_ICONS = {
+    home: 'safari.png',
     work: 'folderwork.png',
     'how-i-ai': 'folderhowiai.png',
     resume: 'folderresume.png',
-    contact: 'folderwork.png',
-    about: 'folderwork.png',
+    contact: 'contacts.png',
+    about: 'notes.png',
     'life-insurance': 'folderwork.png',
     'go-leap': 'folderwork.png',
     colrows: 'folderwork.png',
@@ -237,6 +358,7 @@
     const source = getMacWindowSource(pageId);
     if (!win || !content || !source) return;
 
+    closeMacSafariWindow();
     content.innerHTML = '';
     const clone = source.cloneNode(true);
     clone.querySelectorAll('.page-close, .global-page-close, .progress-slider-cs').forEach(el => el.remove());
@@ -253,16 +375,6 @@
     const isCaseStudy = Boolean(page && page.classList.contains('case-study-view'));
     if (!isCaseStudy) {
       win.dataset.folderPage = pageId;
-    } else {
-      const returnTo = options.returnTo || win.dataset.folderPage || 'work';
-      clone.dataset.returnTo = returnTo;
-      const backButton = document.createElement('button');
-      backButton.type = 'button';
-      backButton.className = 'mac-window-back mac-clickable';
-      backButton.textContent = 'Back';
-      backButton.setAttribute('aria-label', `Back to ${MAC_WINDOW_TITLES[returnTo] || 'folder items'}`);
-      backButton.addEventListener('click', () => openMacFinderWindow(returnTo));
-      clone.prepend(backButton);
     }
 
     const pageTitle = clone.querySelector('.page-title');
@@ -279,7 +391,35 @@
     ensureImagesLoad(content);
   }
 
-  function syncMacMinimizedWindow(pageId) {
+  function openMacCaseWindow(pageId) {
+    const win = document.getElementById('macCaseWindow');
+    const content = document.getElementById('macCaseWindowContent');
+    const source = getMacWindowSource(pageId);
+    if (!win || !content || !source) return;
+
+    content.innerHTML = '';
+    const clone = source.cloneNode(true);
+    clone.querySelectorAll('.page-close, .global-page-close, .progress-slider-cs, .mac-window-back').forEach(el => el.remove());
+    clone.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
+    clone.querySelectorAll('.image-skeleton-host').forEach(el => el.classList.add('is-loaded'));
+    clone.querySelectorAll('img').forEach(img => {
+      img.classList.add('is-loaded');
+      img.loading = 'eager';
+    });
+    clone.classList.add('mac-window-clone', 'mac-case-window-clone');
+    clone.dataset.sourcePage = pageId;
+    win.dataset.currentPage = pageId;
+
+    content.appendChild(clone);
+    win.classList.add('is-open');
+    win.classList.remove('is-maximized', 'is-minimized');
+    win.setAttribute('aria-hidden', 'false');
+    syncMacMinimizedWindow(null);
+    constrainMacCaseWindow();
+    ensureImagesLoad(content);
+  }
+
+  function syncMacMinimizedWindow(pageId, windowType = 'finder') {
     const item = document.getElementById('macMinimizedWindow');
     const icon = document.getElementById('macMinimizedWindowIcon');
     const label = document.getElementById('macMinimizedWindowLabel');
@@ -287,9 +427,13 @@
 
     if (!pageId) {
       item.hidden = true;
+      delete item.dataset.windowType;
+      delete item.dataset.pageId;
       return;
     }
 
+    item.dataset.windowType = windowType;
+    item.dataset.pageId = pageId;
     if (icon) icon.src = MAC_WINDOW_ICONS[pageId] || 'folderwork.png';
     if (label) label.textContent = MAC_WINDOW_TITLES[pageId] || 'Window';
     item.hidden = false;
@@ -303,10 +447,37 @@
     win.classList.add('is-minimized');
     win.classList.remove('is-open');
     win.setAttribute('aria-hidden', 'true');
-    syncMacMinimizedWindow(pageId);
+    syncMacMinimizedWindow(pageId, 'finder');
+  }
+
+  function minimizeMacCaseWindow() {
+    const win = document.getElementById('macCaseWindow');
+    if (!win || !win.classList.contains('is-open')) return;
+
+    const pageId = win.dataset.currentPage || 'work';
+    win.classList.add('is-minimized');
+    win.classList.remove('is-open');
+    win.setAttribute('aria-hidden', 'true');
+    syncMacMinimizedWindow(pageId, 'case');
   }
 
   function restoreMacFinderWindow() {
+    const item = document.getElementById('macMinimizedWindow');
+    const windowType = item ? item.dataset.windowType : '';
+    if (windowType === 'safari') {
+      const win = document.getElementById('macSafariWindow');
+      if (!win) return;
+      win.classList.remove('is-minimized');
+      win.classList.add('is-open');
+      win.setAttribute('aria-hidden', 'false');
+      syncMacMinimizedWindow(null);
+      return;
+    }
+    if (windowType === 'case') {
+      restoreMacCaseWindow();
+      return;
+    }
+
     const win = document.getElementById('macFinderWindow');
     if (!win) return;
     win.classList.remove('is-minimized');
@@ -316,9 +487,30 @@
     constrainMacFinderWindow();
   }
 
+  function restoreMacCaseWindow() {
+    const win = document.getElementById('macCaseWindow');
+    if (!win) return;
+    win.classList.remove('is-minimized');
+    win.classList.add('is-open');
+    win.setAttribute('aria-hidden', 'false');
+    syncMacMinimizedWindow(null);
+    constrainMacCaseWindow();
+  }
+
   function closeMacFinderWindow() {
     const win = document.getElementById('macFinderWindow');
     const content = document.getElementById('macFinderWindowContent');
+    if (!win) return;
+    win.classList.remove('is-open', 'is-maximized', 'is-minimized');
+    win.setAttribute('aria-hidden', 'true');
+    delete win.dataset.currentPage;
+    if (content) content.innerHTML = '';
+    syncMacMinimizedWindow(null);
+  }
+
+  function closeMacCaseWindow() {
+    const win = document.getElementById('macCaseWindow');
+    const content = document.getElementById('macCaseWindowContent');
     if (!win) return;
     win.classList.remove('is-open', 'is-maximized', 'is-minimized');
     win.setAttribute('aria-hidden', 'true');
@@ -346,8 +538,27 @@
     win.classList.add('is-maximized');
   }
 
-  function constrainMacFinderWindow() {
-    const win = document.getElementById('macFinderWindow');
+  function toggleMacCaseWindowMaximize() {
+    const win = document.getElementById('macCaseWindow');
+    if (!win || !win.classList.contains('is-open')) return;
+    if (win.classList.contains('is-maximized')) {
+      win.classList.remove('is-maximized');
+      win.style.left = win.dataset.restoreLeft || win.style.left;
+      win.style.top = win.dataset.restoreTop || win.style.top;
+      constrainMacCaseWindow();
+      return;
+    }
+
+    const rect = win.getBoundingClientRect();
+    win.dataset.restoreLeft = win.style.left || `${rect.left}px`;
+    win.dataset.restoreTop = win.style.top || `${rect.top}px`;
+    win.style.left = '';
+    win.style.top = '';
+    win.classList.add('is-maximized');
+  }
+
+  function constrainMacWindowById(windowId) {
+    const win = document.getElementById(windowId);
     if (!win || !win.classList.contains('is-open') || win.classList.contains('is-maximized')) return;
 
     const rect = win.getBoundingClientRect();
@@ -360,8 +571,16 @@
     win.style.top = `${Math.min(Math.max(top, margin), maxTop)}px`;
   }
 
-  function setupMacFinderWindowDrag() {
-    const win = document.getElementById('macFinderWindow');
+  function constrainMacFinderWindow() {
+    constrainMacWindowById('macFinderWindow');
+  }
+
+  function constrainMacCaseWindow() {
+    constrainMacWindowById('macCaseWindow');
+  }
+
+  function setupMacWindowDrag(windowId, constrainFn) {
+    const win = document.getElementById(windowId);
     const chrome = win ? win.querySelector('.mac-window-chrome') : null;
     if (!win || !chrome) return;
 
@@ -416,7 +635,12 @@
 
     chrome.addEventListener('pointerup', endDrag);
     chrome.addEventListener('pointercancel', endDrag);
-    window.addEventListener('resize', constrainMacFinderWindow, { passive: true });
+    window.addEventListener('resize', constrainFn, { passive: true });
+  }
+
+  function setupMacFinderWindowDrag() {
+    setupMacWindowDrag('macFinderWindow', constrainMacFinderWindow);
+    setupMacWindowDrag('macCaseWindow', constrainMacCaseWindow);
   }
 
   const STORAGE_KEYS = {
@@ -1047,6 +1271,18 @@
     document.body.classList.toggle('nav-filled', shouldFillNav);
   }
 
+  function syncTransformCtaFloat(activePage) {
+    const hero = document.querySelector('.hero');
+    const isFinderActive = document.body.classList.contains('mac-finder-active');
+    const shouldFloat = Boolean(
+      hero &&
+      !activePage &&
+      !isFinderActive &&
+      window.scrollY > Math.max(160, hero.offsetHeight * 0.72)
+    );
+    document.body.classList.toggle('show-transform-fab', shouldFloat);
+  }
+
   function getOverlayProgress(pageEl) {
     if (!pageEl) return 0;
     const scrollTop = pageEl.scrollTop;
@@ -1060,6 +1296,7 @@
     syncGlobalCloseButton();
     syncDesktopTabFloat(activePage);
     updateNavFillState(activePage);
+    syncTransformCtaFloat(activePage);
     if (activePage) {
       setGlobalProgress(getOverlayProgress(activePage));
       return;
@@ -1075,6 +1312,7 @@
     if (!pageEl || !pageEl.classList.contains('active')) return;
     syncGlobalProgressVisibility();
     updateNavFillState(pageEl);
+    syncTransformCtaFloat(pageEl);
     setGlobalProgress(getOverlayProgress(pageEl));
     syncDesktopTabFloat(pageEl);
   }
@@ -1094,9 +1332,7 @@
       event.preventDefault();
       event.stopPropagation();
       event.stopImmediatePropagation();
-      const currentClone = macWindowContent.querySelector('.mac-window-clone');
-      const returnTo = currentClone ? (currentClone.dataset.returnTo || currentClone.dataset.sourcePage) : undefined;
-      openMacFinderWindow(match[1], { returnTo });
+      openMacCaseWindow(match[1]);
     }, true);
 
     macWindowContent.addEventListener('keydown', event => {
@@ -1108,9 +1344,7 @@
       if (!match) return;
       event.preventDefault();
       event.stopPropagation();
-      const currentClone = macWindowContent.querySelector('.mac-window-clone');
-      const returnTo = currentClone ? (currentClone.dataset.returnTo || currentClone.dataset.sourcePage) : undefined;
-      openMacFinderWindow(match[1], { returnTo });
+      openMacCaseWindow(match[1]);
     }, true);
   }
   const macMobileScroller = document.querySelector('.mac-mobile-scroll-pages');
@@ -1201,7 +1435,9 @@
   syncGlobalCloseButton();
   syncDesktopTabFloat();
   updateProgressSlider();
-  setMacFinderMode((sessionStorage.getItem(STORAGE_KEYS.homeMode) || 'finder') === 'finder');
+  const bootSavedPage = sessionStorage.getItem(STORAGE_KEYS.page);
+  const bootHomeMode = bootSavedPage ? (sessionStorage.getItem(STORAGE_KEYS.homeMode) || 'finder') : 'finder';
+  setMacFinderMode(bootHomeMode === 'finder', { persist: false });
 
   afterDomReady().then(() => {
     const savedWorkTab = sessionStorage.getItem(STORAGE_KEYS.workTab);

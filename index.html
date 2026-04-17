@@ -207,9 +207,9 @@
       <img class="mac-dock-icon" src="contacts.png" alt="" width="46" height="46" loading="eager" decoding="async" fetchpriority="high" aria-hidden="true">
       <span class="mac-dock-label">Contact</span>
     </button>
-    <button class="mac-dock-item mac-clickable" type="button" onclick="toggleTheme()" aria-label="Open Settings">
+    <button class="mac-dock-item mac-clickable mac-coming-soon" type="button" onclick="openMacShortcut('settings')" aria-label="Settings coming soon">
       <img class="mac-dock-icon" src="settings.png" alt="" width="46" height="46" loading="eager" decoding="async" fetchpriority="high" aria-hidden="true">
-      <span class="mac-dock-label">Settings</span>
+      <span class="mac-dock-label">Coming soon</span>
     </button>
     <button class="mac-dock-item mac-clickable" type="button" onclick="openMacShortcut('about')" aria-label="Open Notes">
       <img class="mac-dock-icon" src="notes.png" alt="" width="46" height="46" loading="eager" decoding="async" fetchpriority="high" aria-hidden="true">
@@ -232,6 +232,18 @@
     <img id="macAppSplashIcon" src="workmobile.png" alt="" width="96" height="96" aria-hidden="true">
     <span id="macAppSplashName">Work</span>
   </div>
+  <div id="macSafariWindow" class="mac-safari-window" aria-hidden="true">
+    <div class="mac-safari-chrome">
+      <div class="mac-safari-controls" aria-hidden="true">
+        <button class="mac-window-control mac-window-close mac-clickable" type="button" onclick="closeMacSafariWindow()" aria-label="Close Safari"></button>
+        <button class="mac-window-control mac-window-minimize mac-clickable" type="button" onclick="minimizeMacSafariWindow()" aria-label="Minimize Safari"></button>
+        <button class="mac-window-control mac-window-maximize mac-clickable" type="button" onclick="toggleMacSafariWindowMaximize()" aria-label="Maximize Safari"></button>
+      </div>
+      <div class="mac-safari-url" aria-label="Safari URL">home.com</div>
+      <button class="mac-safari-mobile-close mac-clickable" type="button" onclick="closeMacSafariWindow()" aria-label="Close Safari">×</button>
+    </div>
+    <div id="macSafariContent" class="mac-safari-content"></div>
+  </div>
   <div id="macFinderWindow" class="mac-window" aria-hidden="true">
     <div class="mac-window-chrome">
       <button class="mac-window-control mac-window-close mac-clickable" type="button" onclick="closeMacFinderWindow()" aria-label="Close window"></button>
@@ -239,6 +251,14 @@
       <button class="mac-window-control mac-window-maximize mac-clickable" type="button" onclick="toggleMacFinderWindowMaximize()" aria-label="Maximize window"></button>
     </div>
     <div id="macFinderWindowContent" class="mac-window-content"></div>
+  </div>
+  <div id="macCaseWindow" class="mac-window mac-case-window" aria-hidden="true">
+    <div class="mac-window-chrome">
+      <button class="mac-window-control mac-window-close mac-clickable" type="button" onclick="closeMacCaseWindow()" aria-label="Close case study"></button>
+      <button class="mac-window-control mac-window-minimize mac-clickable" type="button" onclick="minimizeMacCaseWindow()" aria-label="Minimize case study"></button>
+      <button class="mac-window-control mac-window-maximize mac-clickable" type="button" onclick="toggleMacCaseWindowMaximize()" aria-label="Maximize case study"></button>
+    </div>
+    <div id="macCaseWindowContent" class="mac-window-content"></div>
   </div>
 </section>
 
@@ -1753,6 +1773,10 @@
     </svg>
   </div>
 </section>
+<button class="mac-transform-toggle floating-transform-toggle mac-clickable" type="button" onclick="toggleMacFinderMode()" aria-pressed="false" aria-label="Toggle Finder view">
+  <span class="mac-transform-label">Surprise me</span>
+  <span class="mac-transform-switch" aria-hidden="true"><span></span></span>
+</button>
 <div class="mobile-home-experience" aria-label="Bajaj Finserv experience">
   <section style="display:flex; justify-content:center; background:var(--work-bg); -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 120px, black calc(100% - 100px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0%, black 120px, black calc(100% - 100px), transparent 100%);">
       <div class="work-section">

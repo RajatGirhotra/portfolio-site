@@ -875,6 +875,7 @@
   .mac-transform-toggle,
   .mac-finder-mode,
   .mac-window,
+  .mac-safari-window,
   .mac-page-dots,
   .mac-app-splash {
     display: none;
@@ -953,6 +954,28 @@
       background: rgba(255, 255, 255, 0.66);
       border-color: rgba(0, 0, 0, 0.08);
       box-shadow: 0 16px 40px rgba(0,0,0,0.08);
+    }
+
+    .floating-transform-toggle {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      z-index: 80;
+      margin-top: 0;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(12px);
+      box-shadow: 0 18px 48px rgba(0,0,0,0.16);
+    }
+
+    body.show-transform-fab:not(.mac-finder-active):not(.has-active-page) .floating-transform-toggle {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    body.show-transform-fab:not(.mac-finder-active):not(.has-active-page) .floating-transform-toggle:hover {
+      transform: translateY(-2px);
     }
 
     html.dark .hero-transform-toggle {
@@ -1347,6 +1370,25 @@
       border-radius: 18px;
     }
 
+    .mac-case-window {
+      left: 17vw;
+      top: 10vh;
+      z-index: 7;
+      width: min(900px, 78vw);
+      height: min(680px, 80vh);
+    }
+
+    .mac-settings-panel {
+      max-width: 520px;
+      padding: 22px 8px;
+    }
+
+    .mac-settings-panel .resume-download-button {
+      margin: 18px 0 12px;
+      width: auto;
+      min-width: 220px;
+    }
+
     @keyframes macWindowIn {
       from { opacity: 0; transform: translateY(12px) scale(0.985); }
       to { opacity: 1; transform: translateY(0) scale(1); }
@@ -1370,6 +1412,7 @@
     }
 
     .mac-window-control {
+      position: relative;
       width: 13px;
       height: 13px;
       border: 0;
@@ -1378,9 +1421,253 @@
       cursor: none;
     }
 
+    .mac-window-control::before,
+    .mac-window-control::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 7px;
+      height: 1.4px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.56);
+      opacity: 0;
+      transform: translate(-50%, -50%);
+      transition: opacity 0.12s ease;
+    }
+
+    .mac-window-control:hover::before,
+    .mac-window-control:hover::after {
+      opacity: 1;
+    }
+
     .mac-window-close { background: #ff5f57; }
     .mac-window-minimize { background: #ffbd2e; }
     .mac-window-maximize { background: #28c840; }
+
+    .mac-window-close::before {
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    .mac-window-close::after {
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
+
+    .mac-window-minimize::after {
+      display: none;
+    }
+
+    .mac-window-maximize::before {
+      width: 6px;
+      height: 6px;
+      border: 1.4px solid rgba(0, 0, 0, 0.56);
+      border-radius: 1.5px;
+      background: transparent;
+    }
+
+    .mac-window-maximize::after {
+      display: none;
+    }
+
+    .mac-safari-window {
+      position: absolute;
+      left: 9vw;
+      top: 7vh;
+      z-index: 5;
+      width: min(980px, 78vw);
+      height: min(680px, 82vh);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      border-radius: 18px;
+      background: #ffffff;
+      box-shadow: 0 38px 130px rgba(0,0,0,0.42);
+      animation: macWindowIn 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .mac-safari-window.is-open {
+      display: flex;
+    }
+
+    .mac-safari-window.is-maximized {
+      left: 20px;
+      right: 20px;
+      top: 48px;
+      bottom: 20px;
+      width: auto;
+      height: auto;
+    }
+
+    .mac-safari-chrome {
+      min-height: 48px;
+      display: grid;
+      grid-template-columns: auto minmax(240px, 1fr) auto;
+      align-items: center;
+      gap: 16px;
+      padding: 0 16px;
+      background: #f2f2f2;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .mac-safari-controls {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .mac-safari-url {
+      grid-column: 2;
+      min-height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 9px;
+      background: #ffffff;
+      color: #444444;
+      font: 500 13px/1 'Inter', sans-serif;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
+    }
+
+    .mac-safari-mobile-close {
+      display: none;
+    }
+
+    .mac-safari-content {
+      flex: 1;
+      overflow: auto;
+      background: #ffffff;
+      color: #000000;
+      --bg: #ffffff;
+      --text: #000000;
+      --text-muted: #575757;
+      --black: #000000;
+      --gray: #888888;
+      --light-gray: #c0c0c0;
+      --work-bg: rgba(250,250,250,0.45);
+    }
+
+    .mac-safari-content .mac-safari-page {
+      min-height: 100%;
+      overflow: hidden;
+      background: #ffffff;
+      color: #000000;
+      container-type: inline-size;
+      zoom: 0.82;
+    }
+
+    .mac-safari-content .mac-safari-home-section,
+    .mac-safari-content .work-section-wrapper,
+    .mac-safari-content .mobile-home-experience,
+    .mac-safari-content .site-footer {
+      background: #ffffff !important;
+      color: #000000 !important;
+    }
+
+    .mac-safari-content .hero {
+      position: relative;
+      min-height: 640px;
+      height: 100%;
+      overflow: hidden;
+      background: #ffffff !important;
+    }
+
+    .mac-safari-content .hero::before {
+      opacity: 0.08;
+    }
+
+    .mac-safari-content .hero::after {
+      display: none;
+    }
+
+    .mac-safari-content .hero-center {
+      position: absolute;
+      top: 44% !important;
+      left: 50%;
+      transform: translate(-50%, -50%) !important;
+    }
+
+    .mac-safari-content .tagline,
+    .mac-safari-content .sub-tagline,
+    .mac-safari-content .stats,
+    .mac-safari-content .fun-fact {
+      opacity: 1;
+      animation: none;
+    }
+
+    .mac-safari-content .tagline,
+    .mac-safari-content .stat-num,
+    .mac-safari-content .company-name,
+    .mac-safari-content .portfolio-title,
+    .mac-safari-content .portfolio-project-name,
+    .mac-safari-content .site-footer strong,
+    .mac-safari-content .footer-column-title,
+    .mac-safari-content .footer-link {
+      color: #000000 !important;
+    }
+
+    .mac-safari-content .sub-tagline,
+    .mac-safari-content .stat-label,
+    .mac-safari-content .fun-fact,
+    .mac-safari-content .company-role,
+    .mac-safari-content .company-period,
+    .mac-safari-content .portfolio-description,
+    .mac-safari-content .portfolio-problem,
+    .mac-safari-content .portfolio-support-line,
+    .mac-safari-content .footer-kicker,
+    .mac-safari-content .footer-intro,
+    .mac-safari-content .footer-location {
+      color: #575757 !important;
+    }
+
+    .mac-safari-content .mac-safari-big-name {
+      position: relative !important;
+      z-index: 1 !important;
+      pointer-events: none !important;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 88px 48px 42px;
+      overflow: visible;
+      color: #000000 !important;
+      font-family: 'Inter', sans-serif;
+      background: #ffffff !important;
+    }
+
+    .mac-safari-content .mac-safari-big-name svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      overflow: visible;
+    }
+
+    .mac-safari-content .mac-safari-big-name text {
+      fill: #000000 !important;
+      font-family: 'Inter', sans-serif;
+      font-size: 190px;
+      font-weight: 700;
+      letter-spacing: -9px;
+    }
+
+    .mac-safari-content .hero .mac-safari-big-name {
+      position: absolute !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      padding: 0 44px 28px;
+      background: transparent !important;
+    }
+
+    .mac-safari-content .hero .mac-safari-big-name svg {
+      max-height: 34vh;
+    }
+
+    .mac-safari-content .footer-name-svg text,
+    .mac-safari-content .footer-name-svg tspan {
+      fill: #000000 !important;
+    }
+
+    .mac-safari-content .mobile-home-experience {
+      display: none;
+    }
 
     .mac-window-content {
       flex: 1;
@@ -1440,6 +1727,12 @@
     .mac-window-content .ai-designs-showcase {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 24px 20px;
+    }
+
+    .mac-window-content .mac-window-clone[data-source-page="how-i-ai"] .ai-designs-showcase {
+      grid-template-columns: minmax(0, 1fr);
+      max-width: 100%;
+      gap: 26px;
     }
 
     .mac-window-content .portfolio-container {
@@ -1544,6 +1837,10 @@
       border-radius: 5px;
     }
 
+    .mac-window-content .mac-window-clone[data-source-page="how-i-ai"] .ai-design-figure img {
+      height: 360px;
+    }
+
     .mac-window-content .artwork-caption,
     .mac-window-content .ai-design-figure .artwork-caption {
       position: static;
@@ -1555,6 +1852,10 @@
     .mac-window-content .artwork-caption-text {
       font-size: 12px;
       line-height: 1.35;
+    }
+
+    .mac-window-content .mac-window-clone[data-source-page="how-i-ai"] .ai-design-figure .artwork-caption {
+      padding-top: 10px;
     }
 
     .mac-window-content .resume-page {
@@ -2137,6 +2438,24 @@
       background: rgba(0,0,0,0.12) !important;
     }
 
+    .floating-transform-toggle {
+      position: fixed;
+      right: 24px;
+      bottom: calc(env(safe-area-inset-bottom) + 24px);
+      z-index: 80;
+      margin-top: 0;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(12px);
+      box-shadow: 0 16px 42px rgba(0,0,0,0.22);
+    }
+
+    body.show-transform-fab:not(.mac-finder-active):not(.has-active-page) .floating-transform-toggle {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
     .mac-dock {
       position: absolute;
       left: 14px;
@@ -2217,6 +2536,252 @@
       font: 500 15px/1.2 'Inter', sans-serif;
       text-shadow: 0 2px 14px rgba(0,0,0,0.42);
     }
+
+    .mac-safari-window {
+      position: absolute;
+      inset: 0;
+      z-index: 11;
+      display: none;
+      flex-direction: column;
+      background: #ffffff;
+      color: #000000;
+    }
+
+    .mac-safari-window.is-open {
+      display: flex;
+    }
+
+    .mac-safari-chrome {
+      min-height: calc(env(safe-area-inset-top) + 58px);
+      padding: calc(env(safe-area-inset-top) + 10px) 14px 10px;
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      background: #f3f3f3;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .mac-safari-controls {
+      display: none;
+    }
+
+    .mac-safari-url {
+      flex: 1;
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 19px;
+      background: #ffffff;
+      color: #333333;
+      font: 600 14px/1 'Inter', sans-serif;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
+    }
+
+    .mac-safari-mobile-close {
+      width: 38px;
+      height: 38px;
+      border: 0;
+      border-radius: 50%;
+      background: #ffffff;
+      color: #111111;
+      font: 400 24px/1 'Inter', sans-serif;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
+    }
+
+    .mac-safari-content {
+      flex: 1;
+      overflow: auto;
+      background: #ffffff;
+      color: #000000;
+      --bg: #ffffff;
+      --text: #000000;
+      --text-muted: #575757;
+      --black: #000000;
+      --gray: #888888;
+      --light-gray: #c0c0c0;
+      --work-bg: rgba(250,250,250,0.45);
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .mac-safari-content .mac-safari-page {
+      min-height: 100%;
+      overflow: hidden;
+      background: #ffffff;
+      color: #000000;
+    }
+
+    .mac-safari-content .mac-safari-home-section,
+    .mac-safari-content .work-section-wrapper,
+    .mac-safari-content .mobile-home-experience,
+    .mac-safari-content .site-footer {
+      background: #ffffff !important;
+      color: #000000 !important;
+    }
+
+    .mac-safari-content .hero {
+      position: relative;
+      height: calc(100svh - env(safe-area-inset-top) - 58px);
+      min-height: 620px;
+      overflow: hidden;
+      background: #ffffff !important;
+    }
+
+    .mac-safari-content .hero::before {
+      opacity: 0.08;
+    }
+
+    .mac-safari-content .hero::after {
+      display: none;
+    }
+
+    .mac-safari-content .hero-center {
+      position: absolute;
+      top: 50% !important;
+      left: 50%;
+      transform: translate(-50%, -50%) !important;
+    }
+
+    .mac-safari-content .tagline,
+    .mac-safari-content .sub-tagline,
+    .mac-safari-content .stats,
+    .mac-safari-content .fun-fact {
+      opacity: 1;
+      animation: none;
+    }
+
+    .mac-safari-content .mobile-hero-name,
+    .mac-safari-content .mobile-hero-letter,
+    .mac-safari-content .tagline,
+    .mac-safari-content .stat-num,
+    .mac-safari-content .company-name,
+    .mac-safari-content .portfolio-title,
+    .mac-safari-content .portfolio-project-name,
+    .mac-safari-content .site-footer strong,
+    .mac-safari-content .footer-column-title,
+    .mac-safari-content .footer-link {
+      color: #000000 !important;
+      -webkit-text-fill-color: #000000 !important;
+    }
+
+    .mac-safari-content .sub-tagline,
+    .mac-safari-content .stat-label,
+    .mac-safari-content .fun-fact,
+    .mac-safari-content .company-role,
+    .mac-safari-content .company-period,
+    .mac-safari-content .portfolio-description,
+    .mac-safari-content .portfolio-problem,
+    .mac-safari-content .portfolio-support-line,
+    .mac-safari-content .footer-kicker,
+    .mac-safari-content .footer-intro,
+    .mac-safari-content .footer-location {
+      color: #575757 !important;
+      -webkit-text-fill-color: #575757 !important;
+    }
+
+    .mac-safari-content .mac-safari-big-name {
+      display: none !important;
+    }
+
+    .mac-safari-content .footer-name-svg text,
+    .mac-safari-content .footer-name-svg tspan {
+      fill: #000000 !important;
+    }
+
+    .mac-safari-content .mobile-home-experience {
+      display: block;
+    }
+  }
+
+  .mac-safari-window .mac-safari-content,
+  .mac-safari-window .mac-safari-content .mac-safari-page,
+  .mac-safari-window .mac-safari-content .mac-safari-page * {
+    color: #000000 !important;
+    -webkit-text-fill-color: #000000 !important;
+  }
+
+  .mac-safari-window .mac-safari-content svg,
+  .mac-safari-window .mac-safari-content svg *,
+  .mac-safari-window .mac-safari-content .footer-name-svg text,
+  .mac-safari-window .mac-safari-content .footer-name-svg tspan {
+    fill: #000000 !important;
+  }
+
+  .mac-safari-window .mac-safari-content .sub-tagline,
+  .mac-safari-window .mac-safari-content .stat-label,
+  .mac-safari-window .mac-safari-content .fun-fact,
+  .mac-safari-window .mac-safari-content .company-role,
+  .mac-safari-window .mac-safari-content .company-period,
+  .mac-safari-window .mac-safari-content .portfolio-description,
+  .mac-safari-window .mac-safari-content .portfolio-problem,
+  .mac-safari-window .mac-safari-content .portfolio-support-line,
+  .mac-safari-window .mac-safari-content .footer-kicker,
+  .mac-safari-window .mac-safari-content .footer-intro,
+  .mac-safari-window .mac-safari-content .footer-location,
+  .mac-safari-window .mac-safari-content .footer-copy,
+  .mac-safari-window .mac-safari-content .footer-meta-inline {
+    color: #575757 !important;
+    -webkit-text-fill-color: #575757 !important;
+  }
+
+  .mac-safari-window .mac-safari-content .portfolio-cta {
+    color: #111111 !important;
+    -webkit-text-fill-color: #111111 !important;
+    background: #ffffff !important;
+    border: 1px solid rgba(0, 0, 0, 0.18) !important;
+  }
+
+  .mac-safari-window .mac-safari-content .portfolio-cta:hover,
+  .mac-safari-window .mac-safari-content .portfolio-cta:focus-visible {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    background: #000000 !important;
+    border-color: #000000 !important;
+  }
+
+  .mac-safari-window .mac-safari-content .site-footer {
+    background: #f1f1f1 !important;
+    border-top-color: rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .mac-safari-window .mac-safari-content .footer-eyebrow,
+  .mac-safari-window .mac-safari-content .footer-column-title,
+  .mac-safari-window .mac-safari-content .footer-link,
+  .mac-safari-window .mac-safari-content .footer-link-button {
+    color: #111111 !important;
+    -webkit-text-fill-color: #111111 !important;
+  }
+
+  .mac-safari-window .mac-safari-content .footer-copy,
+  .mac-safari-window .mac-safari-content .footer-meta,
+  .mac-safari-window .mac-safari-content .footer-meta-inline {
+    color: #5f5f5f !important;
+    -webkit-text-fill-color: #5f5f5f !important;
+  }
+
+  .mac-safari-window .mac-safari-content .mac-safari-big-name text {
+    fill: #000000 !important;
+  }
+
+  .mac-coming-soon-toast {
+    position: fixed;
+    left: 50%;
+    bottom: calc(env(safe-area-inset-bottom) + 96px);
+    z-index: 9999;
+    padding: 10px 14px;
+    border-radius: 999px;
+    background: rgba(20, 20, 20, 0.88);
+    color: #ffffff;
+    font: 600 13px/1 'Inter', sans-serif;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, 10px);
+    transition: opacity 0.18s ease, transform 0.18s ease;
+  }
+
+  .mac-coming-soon-toast.is-visible {
+    opacity: 1;
+    transform: translate(-50%, 0);
   }
 
   .mobile-menu-close,
