@@ -12,7 +12,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="movbilebackground.jpg" media="(max-width: 768px)">
 <link rel="preload" as="image" href="background-1800.jpg" media="(min-width: 769px)">
-<link rel="preload" as="image" href="note.png?v=2" media="(min-width: 769px)">
+<link rel="preload" as="image" href="noteweb.png" media="(min-width: 769px)">
+<link rel="preload" as="image" href="note.png" media="(max-width: 768px)">
 <link rel="preload" as="image" href="workmobile.png" media="(max-width: 768px)">
 <link rel="preload" as="image" href="howiaimobile.png" media="(max-width: 768px)">
 <link rel="preload" as="image" href="resumemobile.png" media="(max-width: 768px)">
@@ -133,51 +134,66 @@
       <div class="mac-menu-item">
         <button class="mac-menu-trigger mac-clickable" type="button">File</button>
         <div class="mac-menu-dropdown" role="menu">
-          <button type="button" onclick="openMacShortcut('work')">Open Work</button>
+          <button type="button" onclick="openMacWorkTab('office')">New Work Window</button>
           <button type="button" onclick="openMacShortcut('how-i-ai')">Open How I AI</button>
           <button type="button" onclick="openMacShortcut('resume')">Open Resume</button>
-          <span class="mac-menu-separator"></span>
-          <button type="button" onclick="closeMacFinderWindow()">Close Window</button>
-        </div>
-      </div>
-      <div class="mac-menu-item">
-        <button class="mac-menu-trigger mac-clickable" type="button">Edit</button>
-        <div class="mac-menu-dropdown" role="menu">
-          <button type="button" onclick="toggleTheme()">Switch Theme</button>
-          <button type="button" onclick="setMacFinderMode(true)">Reset Finder</button>
-        </div>
-      </div>
-      <div class="mac-menu-item">
-        <button class="mac-menu-trigger mac-clickable" type="button">View</button>
-        <div class="mac-menu-dropdown" role="menu">
-          <button type="button" onclick="toggleMacFinderWindowMaximize()">Zoom Window</button>
-          <button type="button" onclick="minimizeMacFinderWindow()">Minimize Window</button>
+          <button type="button" onclick="openMacShortcut('home')">Open Safari</button>
         </div>
       </div>
       <div class="mac-menu-item">
         <button class="mac-menu-trigger mac-clickable" type="button">Go</button>
         <div class="mac-menu-dropdown" role="menu">
-          <button type="button" onclick="openMacShortcut('work')">Work</button>
+          <button type="button" onclick="openMacWorkTab('office')">Work - Office</button>
+          <button type="button" onclick="openMacWorkTab('freelance')">Work - Freelance</button>
+          <button type="button" onclick="openMacWorkTab('playground')">Work - Playground</button>
+          <button type="button" onclick="openMacWorkTab('artwork')">Work - Artwork</button>
+          <span class="mac-menu-separator"></span>
           <button type="button" onclick="openMacShortcut('how-i-ai')">How I AI</button>
+          <button type="button" onclick="openMacShortcut('resume')">Resume</button>
           <button type="button" onclick="openMacShortcut('about')">Notes</button>
           <button type="button" onclick="openMacShortcut('contact')">Contact</button>
         </div>
       </div>
     </div>
     <div class="mac-menu-right">
+      <button class="mac-menu-theme-icon theme-toggle mac-clickable" type="button" onclick="toggleTheme()" aria-label="Toggle Finder theme">
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
       <span>Rajat Girhotra</span>
       <span id="macMenuDate">Fri Apr 17</span>
       <span id="macMenuClock">Pune 12:00 PM</span>
+      <button class="mac-menu-normal-toggle mac-clickable" type="button" onclick="setMacFinderMode(false)" aria-pressed="true" aria-label="Switch to normal website">
+        <span class="mac-menu-normal-track" aria-hidden="true"><span></span></span>
+      </button>
     </div>
   </div>
 
   <div class="mac-welcome">
-    <img class="mac-note-image" src="note.png?v=2" alt="Hi, welcome to a different kind of portfolio. My name is Rajat Girhotra. Feel free to browse around" width="1240" height="1480" loading="eager" decoding="async" fetchpriority="high">
+    <picture>
+      <source media="(max-width: 768px)" srcset="note.png">
+      <img class="mac-note-image" src="noteweb.png" alt="Hi, welcome to a different kind of portfolio. My name is Rajat Girhotra. Feel free to browse around" width="1240" height="1480" loading="eager" decoding="async" fetchpriority="high">
+    </picture>
     <h2>Hi,<br>Welcome to a different kind of portfolio.<br><br>My name is Rajat Girhotra.<br>Feel free to browse around</h2>
-    <button class="mac-transform-toggle mac-clickable" type="button" onclick="toggleMacFinderMode()" aria-pressed="true" aria-label="Toggle Finder view">
+    <button class="mac-transform-toggle mac-clickable" type="button" onclick="pressSurpriseMe(event)" aria-pressed="true" aria-label="Toggle Finder view">
       <span class="mac-transform-label">Surprise me</span>
       <span class="mac-transform-switch" aria-hidden="true"><span></span></span>
     </button>
+  </div>
+  <div class="mac-second-page-note" aria-hidden="true">
+    <img src="note.png" alt="" width="1240" height="1480" loading="eager" decoding="async">
   </div>
 
   <div class="mac-desktop" role="group" aria-label="Desktop folders">
@@ -207,9 +223,9 @@
       <img class="mac-dock-icon" src="contacts.png" alt="" width="46" height="46" loading="eager" decoding="async" fetchpriority="high" aria-hidden="true">
       <span class="mac-dock-label">Contact</span>
     </button>
-    <button class="mac-dock-item mac-clickable mac-coming-soon" type="button" onclick="openMacShortcut('settings')" aria-label="Settings coming soon">
+    <button class="mac-dock-item mac-clickable mac-coming-soon" type="button" onclick="openMacShortcut('settings')" aria-label="Setting coming soon">
       <img class="mac-dock-icon" src="settings.png" alt="" width="46" height="46" loading="eager" decoding="async" fetchpriority="high" aria-hidden="true">
-      <span class="mac-dock-label">Coming soon</span>
+      <span class="mac-dock-label">Setting coming soon</span>
     </button>
     <button class="mac-dock-item mac-clickable" type="button" onclick="openMacShortcut('about')" aria-label="Open Notes">
       <img class="mac-dock-icon" src="notes.png" alt="" width="46" height="46" loading="eager" decoding="async" fetchpriority="high" aria-hidden="true">
@@ -272,6 +288,10 @@
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
   </div>
   <div class="page-inner work-page-inner">
+    <div class="mobile-work-topbar">
+      <button class="mobile-work-back mac-clickable" type="button" onclick="mobileWorkBack()">Back</button>
+      <button class="mobile-work-close mac-clickable" type="button" onclick="closePage()" aria-label="Close Work"><span class="page-close-icon"></span></button>
+    </div>
     <div class="page-title">Work</div>
     <div class="work-tabs" role="tablist" aria-label="Work categories">
       <button class="work-tab is-active" type="button" role="tab" aria-selected="true" data-work-tab="office" onclick="setWorkTab('office', this)"><span class="tab-icon">🏢</span><span class="tab-label">Office</span></button>
@@ -358,6 +378,54 @@
           <div class="portfolio-meta">
             <div class="portfolio-project-name">Life Insurance, Bajaj Finserv</div>
             <p class="portfolio-problem">Designing journey to buy Life Insurance for the customers</p>
+            <div class="portfolio-cta" aria-hidden="true">
+              <span class="portfolio-cta-label">See Project</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="portfolio-container portfolio-container-clickable goleap-mobile-edge-card" onclick="openPage('go-leap')" onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openPage('go-leap'); }" role="button" tabindex="0" aria-label="Open Go Leap case study">
+          <div class="portfolio-card">
+            <picture class="portfolio-project-image">
+              <source media="(max-width: 768px)" srcset="GoLeapMobile-1400.jpg">
+              <img src="GoLeapDesktop-2400.jpg" alt="Go Leap project preview" loading="lazy" decoding="async" fetchpriority="low">
+            </picture>
+          </div>
+          <div class="portfolio-meta">
+            <div class="portfolio-project-name">Go Leap</div>
+            <p class="portfolio-problem">To make discovery experience more immersive</p>
+            <div class="portfolio-cta" aria-hidden="true">
+              <span class="portfolio-cta-label">See Project</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="portfolio-container portfolio-container-clickable refi-mobile-edge-card" onclick="openPage('refi-nft-dashboard')" onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openPage('refi-nft-dashboard'); }" role="button" tabindex="0" aria-label="Open ReFi NFT Dashboard case study">
+          <div class="portfolio-card">
+            <picture class="portfolio-project-image">
+              <source media="(max-width: 768px)" srcset="RefiMobile-1400.jpg">
+              <img src="RefiDesktopDarkMode-2400.jpg" alt="ReFi NFT Dashboard project preview" loading="lazy" decoding="async" fetchpriority="low">
+            </picture>
+          </div>
+          <div class="portfolio-meta">
+            <div class="portfolio-project-name">ReFi NFT Dashboard</div>
+            <p class="portfolio-problem">Making climate investing accessible, transparent, and on Blockchain with NFTs</p>
+            <div class="portfolio-cta" aria-hidden="true">
+              <span class="portfolio-cta-label">See Project</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="portfolio-container portfolio-container-clickable colrows-mobile-edge-card" onclick="openPage('colrows')" onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openPage('colrows'); }" role="button" tabindex="0" aria-label="Open Colrows case study">
+          <div class="portfolio-card">
+            <picture class="portfolio-project-image">
+              <source media="(max-width: 768px)" srcset="ColrowsMobile-1400.jpg">
+              <img src="ColrowsDesktopLightMode-2400.jpg" alt="Colrows project preview" loading="lazy" decoding="async" fetchpriority="low">
+            </picture>
+          </div>
+          <div class="portfolio-meta">
+            <div class="portfolio-project-name">Colrows</div>
+            <p class="portfolio-problem">A bright brand and product direction for a more expressive digital experience</p>
             <div class="portfolio-cta" aria-hidden="true">
               <span class="portfolio-cta-label">See Project</span>
             </div>
@@ -1760,7 +1828,7 @@
       </div>
     </div>
     <p class="fun-fact">Fun fact - This website is fully vibe coded by me.</p>
-    <button class="mac-transform-toggle hero-transform-toggle mac-clickable" type="button" onclick="toggleMacFinderMode()" aria-pressed="false" aria-label="Toggle Finder view">
+    <button class="mac-transform-toggle hero-transform-toggle mac-clickable" type="button" onclick="pressSurpriseMe(event)" aria-pressed="false" aria-label="Toggle Finder view">
       <span class="mac-transform-label">Surprise me</span>
       <span class="mac-transform-switch" aria-hidden="true"><span></span></span>
     </button>
@@ -1773,7 +1841,7 @@
     </svg>
   </div>
 </section>
-<button class="mac-transform-toggle floating-transform-toggle mac-clickable" type="button" onclick="toggleMacFinderMode()" aria-pressed="false" aria-label="Toggle Finder view">
+<button class="mac-transform-toggle floating-transform-toggle mac-clickable" type="button" onclick="pressSurpriseMe(event)" aria-pressed="false" aria-label="Toggle Finder view">
   <span class="mac-transform-label">Surprise me</span>
   <span class="mac-transform-switch" aria-hidden="true"><span></span></span>
 </button>

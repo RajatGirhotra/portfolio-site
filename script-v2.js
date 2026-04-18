@@ -67,13 +67,79 @@
     applyThemeState(!document.documentElement.classList.contains('dark'));
   }
 
+  function pressSurpriseMe(event) {
+    const button = event && event.currentTarget ? event.currentTarget : null;
+    if (!button) {
+      toggleMacFinderMode();
+      return;
+    }
+
+    event.preventDefault();
+    if (button.dataset.isPressing === 'true') return;
+    button.dataset.isPressing = 'true';
+    button.classList.add('is-pressing');
+    window.setTimeout(() => {
+      toggleMacFinderMode();
+      window.setTimeout(() => {
+        button.classList.remove('is-pressing');
+        delete button.dataset.isPressing;
+      }, 260);
+    }, 140);
+  }
+
+  let macFinderCloseTimer;
+  let macFinderBootTimer;
+  let macFinderOpenTimer;
+
   function setMacFinderMode(isActive, options = {}) {
     const shouldPersist = options.persist !== false;
+    const shouldAnimate = options.animate !== false;
     const enabled = Boolean(isActive);
     const toggles = document.querySelectorAll('.mac-transform-toggle');
     const finderMode = document.getElementById('macFinderMode');
     const finderScroller = document.querySelector('.mac-mobile-scroll-pages');
-    document.body.classList.toggle('mac-finder-active', enabled);
+    const shouldUseTvTransition = window.innerWidth > 768 && finderMode;
+    const shouldUseMobileTransition = window.innerWidth <= 768 && finderMode;
+    const wasFinderActive = document.body.classList.contains('mac-finder-active');
+    window.clearTimeout(macFinderCloseTimer);
+    window.clearTimeout(macFinderBootTimer);
+    window.clearTimeout(macFinderOpenTimer);
+
+    if (enabled) {
+      document.body.classList.remove('mac-finder-closing', 'mac-finder-mobile-closing', 'mac-finder-booting', 'mac-finder-opening');
+      document.body.classList.add('mac-finder-active');
+      if (!shouldAnimate && finderMode) finderMode.classList.remove('tv-open');
+      if (!wasFinderActive && shouldAnimate && shouldUseTvTransition) {
+        document.body.classList.add('mac-finder-opening');
+        finderMode.classList.remove('tv-open');
+        void finderMode.offsetWidth;
+        finderMode.classList.add('tv-open');
+        macFinderOpenTimer = window.setTimeout(() => {
+          document.body.classList.remove('mac-finder-opening');
+        }, 920);
+      } else if (!wasFinderActive && shouldAnimate && shouldUseMobileTransition) {
+        document.body.classList.add('mac-finder-opening', 'mac-finder-booting');
+        macFinderBootTimer = window.setTimeout(() => {
+          document.body.classList.remove('mac-finder-opening', 'mac-finder-booting');
+        }, 2500);
+      }
+    } else if (shouldAnimate && shouldUseTvTransition && document.body.classList.contains('mac-finder-active')) {
+      finderMode.classList.remove('tv-open');
+      document.body.classList.add('mac-finder-closing');
+      macFinderCloseTimer = window.setTimeout(() => {
+        document.body.classList.remove('mac-finder-active', 'mac-finder-closing');
+      }, 820);
+    } else if (shouldAnimate && shouldUseMobileTransition && document.body.classList.contains('mac-finder-active')) {
+      document.body.classList.remove('mac-finder-booting');
+      document.body.classList.add('mac-finder-mobile-closing');
+      macFinderCloseTimer = window.setTimeout(() => {
+        document.body.classList.remove('mac-finder-active', 'mac-finder-mobile-closing');
+      }, 720);
+    } else {
+      document.body.classList.remove('mac-finder-active', 'mac-finder-closing', 'mac-finder-opening', 'mac-finder-booting', 'mac-finder-mobile-closing');
+      if (finderMode) finderMode.classList.remove('tv-open');
+    }
+
     if (shouldPersist) {
       sessionStorage.setItem(STORAGE_KEYS.homeMode, enabled ? 'finder' : 'normal');
     }
@@ -98,7 +164,17 @@
     const finderMode = document.getElementById('macFinderMode');
     if (!finderMode) return;
     const x = Number(finderMode.dataset.pageOffset || 0);
-    finderMode.style.setProperty('--mac-page-x', `${-x}px`);
+    const pageX = `${-x}px`;
+    finderMode.style.setProperty('--mac-page-x', pageX);
+    if (window.innerWidth <= 768) {
+      finderMode.querySelectorAll('.mac-desktop, .mac-welcome, .mac-second-page-note').forEach(layer => {
+        layer.style.transform = `translate3d(${pageX}, 0, 0)`;
+      });
+    } else {
+      finderMode.querySelectorAll('.mac-desktop, .mac-welcome, .mac-second-page-note').forEach(layer => {
+        layer.style.transform = '';
+      });
+    }
     finderMode.dataset.pageIndex = x > window.innerWidth * 0.5 ? '1' : '0';
     finderMode.querySelectorAll('.mac-page-dot').forEach((dot, index) => {
       dot.classList.toggle('is-active', index === Number(finderMode.dataset.pageIndex || 0));
@@ -184,10 +260,10 @@
       toast = document.createElement('div');
       toast.id = 'macComingSoonToast';
       toast.className = 'mac-coming-soon-toast';
-      toast.textContent = 'Coming soon';
       document.body.appendChild(toast);
     }
 
+    toast.textContent = 'Setting coming soon';
     toast.classList.add('is-visible');
     window.clearTimeout(showMacComingSoonToast.timer);
     showMacComingSoonToast.timer = window.setTimeout(() => {
@@ -310,9 +386,14 @@
     }
 
     showMacAppSplash(id, () => {
-      setMacFinderMode(false, { persist: false });
+      setMacFinderMode(false, { persist: false, animate: false });
       openPage(id, { homeMode: 'finder' });
     });
+  }
+
+  function openMacWorkTab(tabId) {
+    setWorkTab(tabId || 'office');
+    openMacShortcut('work');
   }
 
   const MAC_WINDOW_TITLES = {
@@ -579,9 +660,13 @@
     constrainMacWindowById('macCaseWindow');
   }
 
-  function setupMacWindowDrag(windowId, constrainFn) {
+  function constrainMacSafariWindow() {
+    constrainMacWindowById('macSafariWindow');
+  }
+
+  function setupMacWindowDrag(windowId, constrainFn, chromeSelector = '.mac-window-chrome') {
     const win = document.getElementById(windowId);
-    const chrome = win ? win.querySelector('.mac-window-chrome') : null;
+    const chrome = win ? win.querySelector(chromeSelector) : null;
     if (!win || !chrome) return;
 
     let startX = 0;
@@ -641,6 +726,7 @@
   function setupMacFinderWindowDrag() {
     setupMacWindowDrag('macFinderWindow', constrainMacFinderWindow);
     setupMacWindowDrag('macCaseWindow', constrainMacCaseWindow);
+    setupMacWindowDrag('macSafariWindow', constrainMacSafariWindow, '.mac-safari-chrome');
   }
 
   const STORAGE_KEYS = {
@@ -678,7 +764,7 @@
     closeMobileMenu();
     const currentActivePage = document.querySelector('.page-view.active');
     const homeMode = options.homeMode || (currentActivePage && currentActivePage.dataset.homeMode) || getCurrentHomeMode();
-    setMacFinderMode(false, { persist: false });
+    setMacFinderMode(false, { persist: false, animate: false });
     document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
     const page = document.getElementById('page-' + id);
@@ -774,10 +860,18 @@
       }
     }
 
-    setMacFinderMode(homeMode === 'finder');
+    setMacFinderMode(homeMode === 'finder', { animate: false });
     syncGlobalCloseButton();
     persistViewState('');
     updateProgressSlider();
+  }
+
+  function mobileWorkBack() {
+    if (window.history.length > 1 && document.referrer) {
+      window.history.back();
+      return;
+    }
+    closePage();
   }
 
   const siteLoader = document.getElementById('site-loader');
@@ -1217,6 +1311,7 @@
     if (!globalPageClose) return;
     const activePage = document.querySelector('.page-view.active');
     document.body.classList.toggle('has-active-page', Boolean(activePage));
+    document.body.classList.toggle('active-work-page', Boolean(activePage && activePage.id === 'page-work'));
     globalPageClose.classList.toggle('is-visible', Boolean(activePage));
   }
 
@@ -1377,7 +1472,9 @@
       }, 280);
     };
 
-    macFinderMode.addEventListener('touchstart', event => {
+    const pagerInputTarget = macFinderMode;
+
+    pagerInputTarget.addEventListener('touchstart', event => {
       const touch = event.touches[0];
       if (!touch) return;
       macCurrentOffset = Number(macFinderMode.dataset.pageOffset || 0);
@@ -1388,7 +1485,7 @@
       macFinderMode.classList.remove('is-pager-animating');
     }, { passive: true });
 
-    macFinderMode.addEventListener('touchmove', event => {
+    pagerInputTarget.addEventListener('touchmove', event => {
       if (!document.body.classList.contains('mac-finder-active')) return;
       const touch = event.touches[0];
       if (!touch) return;
@@ -1398,21 +1495,174 @@
       if (!macIsDragging && Math.abs(deltaY) > Math.abs(deltaX)) return;
       macIsDragging = true;
       setMacOffset(macStartOffset + deltaX);
-    }, { passive: true });
+      event.preventDefault();
+    }, { passive: false });
 
-    macFinderMode.addEventListener('touchend', () => {
+    pagerInputTarget.addEventListener('touchend', () => {
       if (!macIsDragging) return;
       macIsDragging = false;
       snapMacPager();
     }, { passive: true });
 
-    macFinderMode.addEventListener('wheel', event => {
+    pagerInputTarget.addEventListener('wheel', event => {
       if (!document.body.classList.contains('mac-finder-active') || window.innerWidth > 768) return;
       const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
       setMacOffset(macCurrentOffset + delta, true);
       window.clearTimeout(macFinderMode._wheelSnapTimer);
       macFinderMode._wheelSnapTimer = window.setTimeout(snapMacPager, 140);
     }, { passive: true });
+  }
+
+  function setupMobileFinderItemDrag() {
+    const finderMode = document.getElementById('macFinderMode');
+    if (!finderMode) return;
+
+    const getTranslate = item => ({
+      x: Number.parseFloat(item.style.getPropertyValue('--mac-item-x') || '0') || 0,
+      y: Number.parseFloat(item.style.getPropertyValue('--mac-item-y') || '0') || 0
+    });
+
+    const clampItem = (item, nextX, nextY) => {
+      const rect = item.getBoundingClientRect();
+      const current = getTranslate(item);
+      const baseLeft = rect.left - current.x;
+      const baseTop = rect.top - current.y;
+      const margin = 8;
+      const maxX = window.innerWidth - margin - rect.width - baseLeft;
+      const minX = margin - baseLeft;
+      const maxY = window.innerHeight - margin - rect.height - baseTop;
+      const minY = margin - baseTop;
+      return {
+        x: Math.min(Math.max(nextX, minX), maxX),
+        y: Math.min(Math.max(nextY, minY), maxY)
+      };
+    };
+
+    const draggableSelector = '.mac-folder, .mac-second-page-note img';
+    finderMode.addEventListener('pointerdown', event => {
+      if (window.innerWidth > 768 || !document.body.classList.contains('mac-finder-active')) return;
+      const item = event.target.closest(draggableSelector);
+      if (!item || !finderMode.contains(item)) return;
+
+      const start = getTranslate(item);
+      const startX = event.clientX;
+      const startY = event.clientY;
+      let didDrag = false;
+
+      const move = moveEvent => {
+        const deltaX = moveEvent.clientX - startX;
+        const deltaY = moveEvent.clientY - startY;
+        if (!didDrag && Math.hypot(deltaX, deltaY) < 8) return;
+        didDrag = true;
+        item.dataset.wasDragged = 'true';
+        const next = clampItem(item, start.x + deltaX, start.y + deltaY);
+        item.style.setProperty('--mac-item-x', `${next.x.toFixed(1)}px`);
+        item.style.setProperty('--mac-item-y', `${next.y.toFixed(1)}px`);
+        moveEvent.preventDefault();
+      };
+
+      const up = () => {
+        window.removeEventListener('pointermove', move);
+        window.removeEventListener('pointerup', up);
+        window.removeEventListener('pointercancel', up);
+        if (didDrag) {
+          window.setTimeout(() => {
+            delete item.dataset.wasDragged;
+          }, 0);
+        }
+      };
+
+      window.addEventListener('pointermove', move, { passive: false });
+      window.addEventListener('pointerup', up, { once: true });
+      window.addEventListener('pointercancel', up, { once: true });
+    });
+
+    finderMode.addEventListener('click', event => {
+      const item = event.target.closest(draggableSelector);
+      if (!item || item.dataset.wasDragged !== 'true') return;
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+    }, true);
+  }
+
+  function setupDesktopFinderItemDrag() {
+    const finderMode = document.getElementById('macFinderMode');
+    if (!finderMode) return;
+
+    const draggableSelector = '.mac-welcome, .mac-folder, .mac-dock-item';
+
+    const getTranslate = item => ({
+      x: Number.parseFloat(item.style.getPropertyValue('--mac-item-x') || '0') || 0,
+      y: Number.parseFloat(item.style.getPropertyValue('--mac-item-y') || '0') || 0
+    });
+
+    const clampItem = (item, nextX, nextY) => {
+      const rect = item.getBoundingClientRect();
+      const current = getTranslate(item);
+      const baseLeft = rect.left - current.x;
+      const baseTop = rect.top - current.y;
+      const margin = 12;
+      const maxX = window.innerWidth - margin - rect.width - baseLeft;
+      const minX = margin - baseLeft;
+      const maxY = window.innerHeight - margin - rect.height - baseTop;
+      const minY = margin - baseTop;
+      return {
+        x: Math.min(Math.max(nextX, minX), maxX),
+        y: Math.min(Math.max(nextY, minY), maxY)
+      };
+    };
+
+    finderMode.addEventListener('pointerdown', event => {
+      if (window.innerWidth <= 768 || !document.body.classList.contains('mac-finder-active')) return;
+      if (event.button !== 0) return;
+      if (event.target.closest('.mac-window, .mac-safari-window')) return;
+
+      const item = event.target.closest(draggableSelector);
+      if (!item || !finderMode.contains(item) || item.hidden) return;
+
+      const start = getTranslate(item);
+      const startX = event.clientX;
+      const startY = event.clientY;
+      let didDrag = false;
+
+      const move = moveEvent => {
+        const deltaX = moveEvent.clientX - startX;
+        const deltaY = moveEvent.clientY - startY;
+        if (!didDrag && Math.hypot(deltaX, deltaY) < 6) return;
+        didDrag = true;
+        item.dataset.wasDragged = 'true';
+        item.classList.add('is-dragging');
+        const next = clampItem(item, start.x + deltaX, start.y + deltaY);
+        item.style.setProperty('--mac-item-x', `${next.x.toFixed(1)}px`);
+        item.style.setProperty('--mac-item-y', `${next.y.toFixed(1)}px`);
+        moveEvent.preventDefault();
+      };
+
+      const up = () => {
+        item.classList.remove('is-dragging');
+        window.removeEventListener('pointermove', move);
+        window.removeEventListener('pointerup', up);
+        window.removeEventListener('pointercancel', up);
+        if (didDrag) {
+          window.setTimeout(() => {
+            delete item.dataset.wasDragged;
+          }, 0);
+        }
+      };
+
+      window.addEventListener('pointermove', move, { passive: false });
+      window.addEventListener('pointerup', up, { once: true });
+      window.addEventListener('pointercancel', up, { once: true });
+    });
+
+    finderMode.addEventListener('click', event => {
+      const item = event.target.closest(draggableSelector);
+      if (!item || item.dataset.wasDragged !== 'true') return;
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+    }, true);
   }
   const systemThemeQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
 
@@ -1429,6 +1679,8 @@
   }
 
   setupMacFinderWindowDrag();
+  setupMobileFinderItemDrag();
+  setupDesktopFinderItemDrag();
   updateMacMenuDateTime();
   window.setInterval(updateMacMenuDateTime, 30000);
   syncThemeImages();
@@ -1548,7 +1800,7 @@
 
   // Magnetic effect on interactive elements
   const magneticEls = document.querySelectorAll('.nav-link');
-  const pointerSelector = '.nav-link, .mac-clickable';
+  const pointerSelector = '.nav-link, .mac-clickable, .mac-welcome';
 
   magneticEls.forEach(el => {
     el.addEventListener('mouseenter', () => {

@@ -877,7 +877,9 @@
   .mac-window,
   .mac-safari-window,
   .mac-page-dots,
-  .mac-app-splash {
+  .mac-app-splash,
+  .mac-second-page-note,
+  .mobile-work-topbar {
     display: none;
   }
 
@@ -1041,7 +1043,7 @@
 
     .mac-menu-bar {
       position: relative;
-      z-index: 2;
+      z-index: 50;
       height: 32px;
       display: flex;
       align-items: center;
@@ -1102,7 +1104,7 @@
       position: absolute;
       left: 0;
       top: calc(100% + 4px);
-      z-index: 8;
+      z-index: 80;
       min-width: 190px;
       padding: 7px;
       border: 1px solid rgba(0, 0, 0, 0.08);
@@ -1167,13 +1169,18 @@
 
     .mac-welcome {
       position: absolute;
-      left: 15.8vw;
-      top: 18.2vh;
+      left: calc(18.8vw + 80px);
+      top: calc(18.2vh - 40px);
       z-index: 2;
       width: 286px;
       max-width: 24vw;
       color: #f3f3f3;
       text-shadow: 0 2px 18px rgba(0, 0, 0, 0.34);
+      cursor: grab;
+    }
+
+    .mac-welcome.is-dragging {
+      cursor: grabbing;
     }
 
     .mac-note-image {
@@ -1340,7 +1347,7 @@
 
     .mac-window {
       position: absolute;
-      left: 12.4vw;
+      left: calc(12.4vw + 200px);
       top: 8vh;
       z-index: 4;
       width: min(760px, 72vw);
@@ -1371,7 +1378,7 @@
     }
 
     .mac-case-window {
-      left: 17vw;
+      left: calc(17vw + 130px);
       top: 10vh;
       z-index: 7;
       width: min(900px, 78vw);
@@ -1471,7 +1478,7 @@
 
     .mac-safari-window {
       position: absolute;
-      left: 9vw;
+      left: calc(9vw + 130px);
       top: 7vh;
       z-index: 5;
       width: min(980px, 78vw);
@@ -1507,6 +1514,13 @@
       padding: 0 16px;
       background: #f2f2f2;
       border-bottom: 1px solid rgba(0,0,0,0.08);
+      cursor: grab;
+      touch-action: none;
+      user-select: none;
+    }
+
+    .mac-safari-window.is-dragging .mac-safari-chrome {
+      cursor: grabbing;
     }
 
     .mac-safari-controls {
@@ -2221,11 +2235,12 @@
     .mac-mobile-scroll-pages {
       position: absolute;
       inset: 0;
-      z-index: 2;
+      z-index: 1;
       display: flex;
       overflow: hidden;
-      touch-action: pan-x;
+      touch-action: none;
       opacity: 0.01;
+      pointer-events: none;
     }
 
     .mac-mobile-scroll-pages::-webkit-scrollbar {
@@ -2236,7 +2251,7 @@
       position: absolute;
       left: 50%;
       bottom: calc(env(safe-area-inset-bottom) + 118px);
-      z-index: 4;
+      z-index: 6;
       display: flex;
       align-items: center;
       gap: 7px;
@@ -2296,7 +2311,8 @@
     }
 
     .mac-finder-mode.is-pager-animating .mac-desktop,
-    .mac-finder-mode.is-pager-animating .mac-welcome {
+    .mac-finder-mode.is-pager-animating .mac-welcome,
+    .mac-finder-mode.is-pager-animating .mac-second-page-note {
       transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
@@ -2313,12 +2329,16 @@
       font: 400 14px/1.25 'Inter', sans-serif;
       text-shadow: 0 2px 14px rgba(0, 0, 0, 0.42);
       pointer-events: auto;
+      transform: translate3d(var(--mac-item-x, 0px), var(--mac-item-y, 0px), 0);
+      touch-action: none;
+      user-select: none;
+      will-change: transform;
     }
 
     .mac-folder-art,
     .mac-folder-icon {
-      width: 58px;
-      height: 58px;
+      width: 70px;
+      height: 70px;
       display: block;
       object-fit: contain;
       filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.34));
@@ -2355,6 +2375,36 @@
 
     .mac-note-image {
       display: none;
+    }
+
+    .mac-second-page-note {
+      position: absolute;
+      left: 100vw;
+      width: 100vw;
+      top: calc(env(safe-area-inset-top) + 88px);
+      bottom: calc(env(safe-area-inset-bottom) + 118px);
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      transform: translate3d(var(--mac-page-x), 0, 0);
+      will-change: transform;
+    }
+
+    .mac-second-page-note img {
+      display: block;
+      width: min(78vw, 320px);
+      height: auto;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 6px;
+      box-shadow: 0 22px 72px rgba(0,0,0,0.28);
+      pointer-events: auto;
+      touch-action: none;
+      user-select: none;
+      transform: translate3d(var(--mac-item-x, 0px), var(--mac-item-y, 0px), 0);
+      will-change: transform;
     }
 
     .mac-welcome h2 {
@@ -2765,7 +2815,7 @@
 
   .mac-coming-soon-toast {
     position: fixed;
-    left: 50%;
+    left: 48%;
     bottom: calc(env(safe-area-inset-bottom) + 96px);
     z-index: 9999;
     padding: 10px 14px;
@@ -3282,7 +3332,7 @@
   .cs-stat-item {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
   }
 
   .cs-stat-num {
@@ -4921,6 +4971,49 @@
     .work-page-inner {
       padding: 32px 16px 96px;
     }
+    .mobile-work-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+      min-height: 44px;
+    }
+    .mobile-work-back,
+    .mobile-work-close {
+      appearance: none;
+      border: 1px solid rgba(0,0,0,0.1);
+      background: rgba(255,255,255,0.72);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      backdrop-filter: blur(18px) saturate(160%);
+      -webkit-backdrop-filter: blur(18px) saturate(160%);
+    }
+    .mobile-work-back {
+      min-height: 40px;
+      padding: 0 16px;
+      border-radius: 999px;
+      font-size: 13px;
+    }
+    .mobile-work-close {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+    html.dark .mobile-work-back,
+    html.dark .mobile-work-close {
+      border-color: rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.08);
+      color: #F3F3F3;
+    }
+    body.active-work-page .global-page-close {
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
     .about-page-inner {
       padding-top: 32px;
     }
@@ -5374,6 +5467,33 @@
     background: #ffffff;
   }
 
+  body.mac-finder-active #cursor-dot,
+  body.mac-finder-active #cursor-dot.expanded,
+  body.mac-finder-active #cursor-dot.is-pointer {
+    width: 28px;
+    height: 28px;
+    border-radius: 0;
+    background: transparent url("cursor.svg") 0 0 / contain no-repeat;
+    color: #ffffff;
+    transform: translate(-30%, -14%);
+    clip-path: none;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.42));
+    transition: none;
+  }
+
+  body.mac-finder-active #cursor-dot::after {
+    display: none;
+  }
+
+  body.mac-finder-active #cursor-ring {
+    display: block !important;
+    border-color: rgba(255, 255, 255, 0.36);
+  }
+
+  body.mac-finder-active #cursor-dot .cursor-hand {
+    display: none !important;
+  }
+
   @media (max-width: 1024px) {
     * {
       cursor: auto !important;
@@ -5383,5 +5503,778 @@
     #cursor-ring,
     #neonCanvas {
       display: none !important;
+    }
+  }
+
+  .mac-transform-toggle {
+    isolation: isolate;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.28) !important;
+    border-radius: 14px !important;
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0.08)) !important;
+    color: #ffffff !important;
+    text-shadow: none !important;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.34),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.08),
+      0 18px 42px rgba(0, 0, 0, 0.16) !important;
+    backdrop-filter: blur(22px) saturate(170%) !important;
+    -webkit-backdrop-filter: blur(22px) saturate(170%) !important;
+  }
+
+  .mac-transform-toggle::before {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    z-index: -1;
+    border-radius: inherit;
+    background:
+      radial-gradient(circle at 18% 0%, rgba(255, 255, 255, 0.34), transparent 34%),
+      linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent 56%);
+    pointer-events: none;
+  }
+
+  .mac-transform-toggle:hover {
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.12)) !important;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.42),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.1),
+      0 22px 52px rgba(0, 0, 0, 0.18) !important;
+  }
+
+  .mac-transform-label {
+    color: currentColor !important;
+    position: relative;
+    z-index: 1;
+  }
+
+  .mac-transform-switch {
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.82) !important;
+    box-shadow:
+      inset 0 1px 2px rgba(0, 0, 0, 0.18),
+      0 1px 0 rgba(255, 255, 255, 0.28) !important;
+  }
+
+  .mac-transform-switch span {
+    background: #ffffff !important;
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.12),
+      0 5px 14px rgba(0, 0, 0, 0.2) !important;
+  }
+
+  .mac-transform-toggle[aria-pressed="true"] .mac-transform-switch {
+    background: rgba(23, 196, 33, 0.92) !important;
+  }
+
+  html:not(.dark) .hero-transform-toggle,
+  html:not(.dark) .floating-transform-toggle {
+    border-color: rgba(0, 0, 0, 0.08) !important;
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.38)) !important;
+    color: #111111 !important;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.82),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.38),
+      0 14px 34px rgba(0, 0, 0, 0.08) !important;
+  }
+
+  html:not(.dark) .hero-transform-toggle:hover,
+  html:not(.dark) .floating-transform-toggle:hover {
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.52)) !important;
+  }
+
+  html.dark .hero-transform-toggle,
+  html.dark .floating-transform-toggle {
+    border-color: rgba(255, 255, 255, 0.18) !important;
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.06)) !important;
+    color: #f3f3f3 !important;
+  }
+
+  @media (min-width: 769px) {
+    .mac-welcome,
+    .mac-folder,
+    .mac-dock-item {
+      touch-action: none;
+      user-select: none;
+      transform: translate3d(var(--mac-item-x, 0px), var(--mac-item-y, 0px), 0);
+      will-change: transform;
+    }
+
+    .mac-folder:hover {
+      transform: translate3d(var(--mac-item-x, 0px), calc(var(--mac-item-y, 0px) - 4px), 0);
+    }
+
+    .mac-dock-item:hover {
+      transform: translate3d(var(--mac-item-x, 0px), calc(var(--mac-item-y, 0px) - 8px), 0) scale(1.08);
+    }
+
+    .mac-welcome.is-dragging,
+    .mac-folder.is-dragging,
+    .mac-dock-item.is-dragging {
+      transition: none !important;
+      z-index: 10;
+    }
+  }
+
+  @media (min-width: 769px) {
+    .mac-menu-normal-toggle {
+      appearance: none;
+      width: 42px;
+      height: 24px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      cursor: none;
+    }
+
+    .mac-menu-normal-track {
+      position: relative;
+      width: 42px;
+      height: 24px;
+      display: block;
+      border-radius: 999px;
+      background: #17c421;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+      transition: background 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .mac-menu-normal-track span {
+      position: absolute;
+      left: 3px;
+      top: 3px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.24);
+      transform: translateX(18px);
+      transition: transform 0.2s ease;
+    }
+
+    .mac-menu-theme-icon {
+      flex: 0 0 auto;
+      color: inherit;
+      margin-left: 2px;
+    }
+
+    .mac-menu-theme-icon svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    html.dark .mac-menu-bar {
+      background: #2b2b2d;
+      border-bottom-color: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      color: #f3f3f3;
+    }
+
+    html.dark .mac-menu-trigger {
+      color: #f3f3f3;
+    }
+
+    html.dark .mac-menu-item:hover .mac-menu-trigger,
+    html.dark .mac-menu-item:focus-within .mac-menu-trigger {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    html.dark .mac-menu-dropdown {
+      border-color: rgba(255, 255, 255, 0.12);
+      background: rgba(44, 44, 46, 0.92);
+      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.36);
+    }
+
+    html.dark .mac-menu-dropdown button {
+      color: #f3f3f3;
+    }
+
+    html.dark .mac-menu-separator {
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    html.dark .mac-apple-dot {
+      background: linear-gradient(135deg, #f3f3f3, #9a9a9a);
+    }
+
+    html.dark .mac-folder {
+      color: #f3f3f3;
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.7);
+    }
+
+    html.dark .mac-folder:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    html.dark .mac-dock {
+      border-color: rgba(255, 255, 255, 0.18);
+      background: rgba(35, 35, 37, 0.58);
+      box-shadow: 0 22px 70px rgba(0, 0, 0, 0.44);
+    }
+
+    html.dark .mac-window,
+    html.dark .mac-window-content {
+      background: #202023;
+      color: #f3f3f3;
+    }
+
+    html.dark .mac-window-chrome {
+      background: #2b2b2d;
+    }
+
+    html.dark .mac-window-content .page-inner,
+    html.dark .mac-window-content .case-study-page,
+    html.dark .mac-window-content .page-title,
+    html.dark .mac-window-content .portfolio-title,
+    html.dark .mac-window-content .portfolio-project-name,
+    html.dark .mac-window-content .work-card-title,
+    html.dark .mac-window-content .cs-hero-title,
+    html.dark .mac-window-content .cs-heading {
+      color: #f3f3f3 !important;
+    }
+
+    html.dark .mac-window-content .portfolio-problem,
+    html.dark .mac-window-content .work-card-copy,
+    html.dark .mac-window-content .cs-text,
+    html.dark .mac-window-content .cs-meta-value {
+      color: rgba(243, 243, 243, 0.72) !important;
+    }
+
+    html.dark .mac-safari-window {
+      background: #111111;
+      color: #f3f3f3;
+    }
+
+    html.dark .mac-safari-chrome {
+      background: #2b2b2d;
+      border-bottom-color: rgba(255, 255, 255, 0.1);
+    }
+
+    html.dark .mac-safari-url {
+      background: #1c1c1e;
+      color: #f3f3f3;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+    }
+
+    html.dark .mac-safari-window .mac-safari-content,
+    html.dark .mac-safari-window .mac-safari-content .mac-safari-page,
+    html.dark .mac-safari-window .mac-safari-content .mac-safari-home-section,
+    html.dark .mac-safari-window .mac-safari-content .work-section-wrapper,
+    html.dark .mac-safari-window .mac-safari-content .site-footer,
+    html.dark .mac-safari-window .mac-safari-content .hero {
+      background: #050505 !important;
+      color: #f3f3f3 !important;
+      --bg: #050505;
+      --text: #f3f3f3;
+      --text-muted: rgba(243, 243, 243, 0.72);
+      --black: #f3f3f3;
+      --gray: rgba(243, 243, 243, 0.72);
+    }
+
+    html.dark .mac-safari-window .mac-safari-content .mac-safari-page *,
+    html.dark .mac-safari-window .mac-safari-content .tagline,
+    html.dark .mac-safari-window .mac-safari-content .stat-num,
+    html.dark .mac-safari-window .mac-safari-content .company-name,
+    html.dark .mac-safari-window .mac-safari-content .portfolio-title,
+    html.dark .mac-safari-window .mac-safari-content .portfolio-project-name,
+    html.dark .mac-safari-window .mac-safari-content .footer-column-title,
+    html.dark .mac-safari-window .mac-safari-content .footer-link {
+      color: #f3f3f3 !important;
+      -webkit-text-fill-color: #f3f3f3 !important;
+    }
+
+    html.dark .mac-safari-window .mac-safari-content .sub-tagline,
+    html.dark .mac-safari-window .mac-safari-content .stat-label,
+    html.dark .mac-safari-window .mac-safari-content .fun-fact,
+    html.dark .mac-safari-window .mac-safari-content .company-role,
+    html.dark .mac-safari-window .mac-safari-content .company-period,
+    html.dark .mac-safari-window .mac-safari-content .portfolio-description,
+    html.dark .mac-safari-window .mac-safari-content .portfolio-problem,
+    html.dark .mac-safari-window .mac-safari-content .footer-copy,
+    html.dark .mac-safari-window .mac-safari-content .footer-meta-inline {
+      color: rgba(243, 243, 243, 0.72) !important;
+      -webkit-text-fill-color: rgba(243, 243, 243, 0.72) !important;
+    }
+
+    html.dark .mac-safari-window .mac-safari-content svg,
+    html.dark .mac-safari-window .mac-safari-content svg *,
+    html.dark .mac-safari-window .mac-safari-content .footer-name-svg text,
+    html.dark .mac-safari-window .mac-safari-content .footer-name-svg tspan {
+      fill: #f3f3f3 !important;
+    }
+
+    html.dark .mac-safari-window .mac-safari-content .portfolio-cta {
+      color: #f3f3f3 !important;
+      -webkit-text-fill-color: #f3f3f3 !important;
+      background: #050505 !important;
+      border-color: rgba(243, 243, 243, 0.24) !important;
+    }
+  }
+
+  .mac-transform-toggle,
+  html:not(.dark) .hero-transform-toggle,
+  html.dark .hero-transform-toggle,
+  html:not(.dark) .floating-transform-toggle,
+  html.dark .floating-transform-toggle {
+    position: relative;
+    isolation: isolate;
+    overflow: visible;
+    min-width: 246px;
+    height: 54px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 34px;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background:
+      linear-gradient(90deg, rgba(0, 0, 0, 0.1), transparent 12%, transparent 88%, rgba(0, 0, 0, 0.1)),
+      linear-gradient(180deg, #fff45a 0%, #f7e637 62%, #d6c81e 100%) !important;
+    color: #111111 !important;
+    -webkit-text-fill-color: #111111 !important;
+    clip-path: polygon(4% 0, 96% 0, 100% 100%, 0 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.72),
+      inset 0 -8px 0 rgba(119, 106, 0, 0.28),
+      0 10px 0 #9e9316,
+      0 18px 0 rgba(66, 56, 0, 0.18),
+      0 28px 44px rgba(0, 0, 0, 0.28) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    text-shadow: none !important;
+    transform: translateY(0);
+    transition:
+      transform 0.1s ease-out,
+      box-shadow 0.1s ease-out,
+      background 0.16s ease;
+  }
+
+  .mac-transform-toggle::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: auto;
+    border-radius: 0;
+    background:
+      linear-gradient(90deg,
+        transparent 0%,
+        transparent 16%,
+        rgba(255, 205, 24, 0.16) 28%,
+        rgba(255, 251, 139, 0.88) 39%,
+        rgba(255, 220, 34, 0.94) 46%,
+        rgba(255, 255, 184, 0.9) 53%,
+        rgba(255, 205, 24, 0.2) 66%,
+        transparent 78%,
+        transparent 100%);
+    background-size: 230% 100%;
+    background-position: 145% 0;
+    mix-blend-mode: screen;
+    opacity: 0.9;
+    clip-path: inherit;
+    animation: surpriseGoldSweep 2.35s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+    pointer-events: none;
+  }
+
+  .mac-transform-toggle::before,
+  .mac-transform-label,
+  .mac-transform-label::before,
+  .mac-transform-label::after {
+    transform-style: preserve-3d;
+  }
+
+  .mac-transform-toggle .mac-transform-label::before {
+    display: none;
+  }
+
+  .mac-transform-toggle::after {
+    content: none;
+  }
+
+  .mac-transform-toggle:hover,
+  body.show-transform-fab:not(.mac-finder-active):not(.has-active-page) .floating-transform-toggle:hover {
+    background:
+      linear-gradient(90deg, rgba(0, 0, 0, 0.1), transparent 12%, transparent 88%, rgba(0, 0, 0, 0.1)),
+      linear-gradient(180deg, #fff767 0%, #f8e93e 62%, #d6c81e 100%) !important;
+    transform: translateY(2px) !important;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.7),
+      inset 0 -6px 0 rgba(119, 106, 0, 0.26),
+      0 8px 0 #9e9316,
+      0 15px 0 rgba(66, 56, 0, 0.16),
+      0 22px 34px rgba(0, 0, 0, 0.24) !important;
+  }
+
+  .mac-transform-toggle.is-pressing,
+  body.show-transform-fab:not(.mac-finder-active):not(.has-active-page) .floating-transform-toggle.is-pressing {
+    transform: translateY(10px) !important;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.48),
+      inset 0 -2px 0 rgba(119, 106, 0, 0.22),
+      0 1px 0 #9e9316,
+      0 5px 13px rgba(0, 0, 0, 0.16) !important;
+  }
+
+  .mac-transform-label {
+    position: absolute;
+    left: 49%;
+    top: 45%;
+    z-index: 1;
+    color: #111111 !important;
+    -webkit-text-fill-color: #111111 !important;
+    font: 500 18px/1 'Inter', sans-serif;
+    letter-spacing: -0.02em;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+  }
+
+  .mac-transform-switch {
+    display: none !important;
+  }
+
+  @keyframes surpriseGoldSweep {
+    0%, 18% {
+      background-position: 145% 0;
+      opacity: 0;
+    }
+    28% {
+      opacity: 1;
+    }
+    72% {
+      opacity: 1;
+    }
+    100% {
+      background-position: -145% 0;
+      opacity: 0;
+    }
+  }
+
+  .mac-welcome .mac-transform-toggle {
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  @media (max-width: 768px) {
+    .mac-finder-mode .mac-desktop,
+    .mac-finder-mode .mac-welcome,
+    .mac-finder-mode .mac-second-page-note {
+      transform: translate3d(var(--mac-page-x, 0px), 0, 0) !important;
+      will-change: transform;
+    }
+
+    .mac-transform-toggle,
+    html:not(.dark) .hero-transform-toggle,
+    html.dark .hero-transform-toggle,
+    html:not(.dark) .floating-transform-toggle,
+    html.dark .floating-transform-toggle {
+      min-width: 190px;
+      height: 46px;
+      padding: 0 28px;
+    }
+
+    .mac-transform-label {
+      font-size: 16px;
+    }
+
+  }
+
+  @media (min-width: 769px) {
+    .mac-finder-mode {
+      transform-origin: 50% 50%;
+      transform: scaleY(0.01) scaleX(0.72);
+      filter: brightness(1.35);
+    }
+
+    body.mac-finder-active .mac-finder-mode {
+      transform: scaleY(1) scaleX(1);
+      filter: none;
+    }
+
+    body.mac-finder-opening.mac-finder-active .mac-finder-mode.tv-open {
+      animation: finderTvOpen 920ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    body.mac-finder-closing .mac-finder-mode {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: none;
+      animation: finderTvClose 820ms cubic-bezier(0.7, 0, 0.84, 0) both;
+    }
+
+    body.mac-finder-closing .mac-finder-mode::before {
+      background:
+        radial-gradient(ellipse at center, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.04) 38%, transparent 68%),
+        linear-gradient(180deg, rgba(0,0,0,0.14), transparent 24%, rgba(0,0,0,0.12));
+    }
+  }
+
+  @keyframes finderTvOpen {
+    0% {
+      opacity: 0;
+      transform: scaleY(0.01) scaleX(0.54);
+      filter: brightness(2.4) blur(2px);
+    }
+    18% {
+      opacity: 1;
+      transform: scaleY(0.035) scaleX(0.86);
+      filter: brightness(2.05) blur(1px);
+    }
+    54% {
+      transform: scaleY(1.035) scaleX(1);
+      filter: brightness(1.12) blur(0);
+    }
+    100% {
+      opacity: 1;
+      transform: scaleY(1) scaleX(1);
+      filter: brightness(1) blur(0);
+    }
+  }
+
+  @keyframes finderTvClose {
+    0% {
+      opacity: 1;
+      transform: scaleY(1) scaleX(1);
+      filter: brightness(1) blur(0);
+    }
+    56% {
+      opacity: 1;
+      transform: scaleY(0.035) scaleX(0.86);
+      filter: brightness(2.2) blur(1px);
+    }
+    100% {
+      opacity: 0;
+      transform: scaleY(0.002) scaleX(0.42);
+      filter: brightness(3) blur(2px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    body.mac-finder-opening.mac-finder-active .mac-finder-mode.tv-open,
+    body.mac-finder-closing .mac-finder-mode {
+      animation: none;
+      transform: none;
+      filter: none;
+    }
+  }
+
+  @media (max-width: 768px) {
+    body.mac-finder-opening.mac-finder-active .mac-finder-mode {
+      animation: mobileFinderBootIn 760ms cubic-bezier(0.16, 1, 0.3, 1) both;
+      transform-origin: 50% 50%;
+    }
+
+    body.mac-finder-booting .mac-finder-mode > :not(.mac-app-splash) {
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(0.985);
+      transition: opacity 0.34s ease, visibility 0.34s ease, transform 0.34s ease;
+    }
+
+    body.mac-finder-active:not(.mac-finder-booting) .mac-finder-mode > :not(.mac-app-splash) {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1);
+      transition: opacity 0.46s ease, visibility 0.46s ease, transform 0.46s ease;
+    }
+
+    body.mac-finder-active:not(.mac-finder-booting) .mac-finder-mode .mac-mobile-scroll-pages {
+      opacity: 0.01;
+    }
+
+    body.mac-finder-booting .mac-finder-mode::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: 20;
+      width: min(46vw, 180px);
+      height: 4px;
+      margin: -2px 0 0 calc(min(46vw, 180px) / -2);
+      border-radius: 999px;
+      background:
+        linear-gradient(#ffffff, #ffffff) left center / 0% 100% no-repeat,
+        rgba(255, 255, 255, 0.18);
+      opacity: 1;
+      animation: mobileFinderClassicLoad 2.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+      pointer-events: none;
+    }
+
+    body.mac-finder-booting .mac-finder-mode::before {
+      z-index: 19;
+      background: #000000;
+      opacity: 1;
+    }
+
+    body.mac-finder-mobile-closing .mac-finder-mode {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: none;
+      animation: mobileFinderForceClose 720ms cubic-bezier(0.32, 0, 0.67, 0) both;
+      transform-origin: 50% 0;
+    }
+  }
+
+  @keyframes mobileFinderBootIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.96);
+      filter: blur(8px) brightness(0.7);
+    }
+    62% {
+      opacity: 1;
+      transform: scale(1.012);
+      filter: blur(0) brightness(1.08);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+      filter: blur(0) brightness(1);
+    }
+  }
+
+  @keyframes mobileFinderForceClose {
+    0% {
+      opacity: 1;
+      border-radius: 0;
+      transform: scale(1);
+      filter: blur(0) brightness(1);
+    }
+    58% {
+      opacity: 0.72;
+      border-radius: 34px;
+      transform: scale(0.22) translateY(-72px);
+      filter: blur(1px) brightness(0.95);
+    }
+    100% {
+      opacity: 0;
+      border-radius: 48px;
+      transform: scale(0.04) translateY(-220px);
+      filter: blur(8px) brightness(0.58);
+    }
+  }
+
+  @keyframes mobileFinderClassicLoad {
+    0% {
+      background-size: 0% 100%, 100% 100%;
+      opacity: 1;
+    }
+    78% {
+      background-size: 100% 100%, 100% 100%;
+      opacity: 1;
+    }
+    100% {
+      background-size: 100% 100%, 100% 100%;
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    body.mac-finder-active .mac-finder-mode,
+    body.mac-finder-mobile-closing .mac-finder-mode,
+    body.mac-finder-booting .mac-finder-mode::after {
+      animation: none;
+      transform: none;
+      filter: none;
+    }
+  }
+
+  @media (min-width: 769px) {
+  .floating-transform-toggle,
+  html:not(.dark) .floating-transform-toggle,
+  html.dark .floating-transform-toggle {
+    position: fixed !important;
+    right: 24px !important;
+    bottom: calc(env(safe-area-inset-bottom) + 24px) !important;
+    z-index: 80;
+    min-width: 150px;
+    height: 46px;
+    padding: 0 22px;
+    border: 1px solid rgba(255, 217, 88, 0.38) !important;
+    border-radius: 999px !important;
+    background:
+      linear-gradient(135deg, rgba(255, 230, 118, 0.44), rgba(164, 113, 10, 0.18)),
+      rgba(255, 255, 255, 0.14) !important;
+    clip-path: none;
+    color: #111111 !important;
+    -webkit-text-fill-color: #111111 !important;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.52),
+      inset 0 -1px 0 rgba(116, 76, 0, 0.18),
+      0 18px 44px rgba(98, 66, 0, 0.22) !important;
+    backdrop-filter: blur(18px) saturate(170%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(170%) !important;
+  }
+
+  .floating-transform-toggle::before {
+    border-radius: inherit;
+    clip-path: none;
+    background:
+      linear-gradient(100deg,
+        transparent 0%,
+        rgba(255, 219, 80, 0.08) 28%,
+        rgba(255, 246, 168, 0.58) 46%,
+        rgba(255, 201, 54, 0.2) 64%,
+        transparent 100%);
+    background-size: 220% 100%;
+    mix-blend-mode: screen;
+  }
+
+  .floating-transform-toggle .mac-transform-label {
+    left: 50%;
+    top: 50%;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: #111111 !important;
+    -webkit-text-fill-color: #111111 !important;
+  }
+
+  html.dark .floating-transform-toggle {
+    color: #f8f0c8 !important;
+    -webkit-text-fill-color: #f8f0c8 !important;
+    background:
+      linear-gradient(135deg, rgba(255, 207, 74, 0.26), rgba(93, 62, 0, 0.28)),
+      rgba(20, 20, 20, 0.42) !important;
+    border-color: rgba(255, 214, 88, 0.3) !important;
+  }
+
+  html.dark .floating-transform-toggle .mac-transform-label {
+    color: #f8f0c8 !important;
+    -webkit-text-fill-color: #f8f0c8 !important;
+  }
+
+  body.show-transform-fab:not(.mac-finder-active):not(.has-active-page) .floating-transform-toggle:hover {
+    transform: translateY(-2px) !important;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.62),
+      inset 0 -1px 0 rgba(116, 76, 0, 0.18),
+      0 22px 52px rgba(98, 66, 0, 0.28) !important;
+  }
+
+  .floating-transform-toggle.is-pressing,
+  body.show-transform-fab:not(.mac-finder-active):not(.has-active-page) .floating-transform-toggle.is-pressing {
+    transform: translateY(2px) !important;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.42),
+      0 10px 28px rgba(98, 66, 0, 0.2) !important;
+  }
+  }
+
+  @media (max-width: 768px) {
+    .floating-transform-toggle,
+    html:not(.dark) .floating-transform-toggle,
+    html.dark .floating-transform-toggle {
+      right: 16px !important;
+      bottom: calc(env(safe-area-inset-bottom) + 18px) !important;
+      min-width: 138px;
+      height: 44px;
+      padding: 0 18px;
     }
   }
