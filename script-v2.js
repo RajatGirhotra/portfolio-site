@@ -95,7 +95,7 @@
     const shouldPersist = options.persist !== false;
     const shouldAnimate = options.animate !== false;
     const enabled = Boolean(isActive);
-    const toggles = document.querySelectorAll('.mac-transform-toggle');
+    const toggles = document.querySelectorAll('.mac-transform-toggle, .nav-finder-toggle');
     const finderMode = document.getElementById('macFinderMode');
     const finderScroller = document.querySelector('.mac-mobile-scroll-pages');
     const shouldUseTvTransition = window.innerWidth > 768 && finderMode;
@@ -1538,7 +1538,7 @@
       };
     };
 
-    const draggableSelector = '.mac-folder, .mac-second-page-note img';
+    const draggableSelector = '.mac-folder, .mac-welcome .mac-note-image, .mac-second-page-note img';
     finderMode.addEventListener('pointerdown', event => {
       if (window.innerWidth > 768 || !document.body.classList.contains('mac-finder-active')) return;
       const item = event.target.closest(draggableSelector);

@@ -12,8 +12,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="movbilebackground.jpg" media="(max-width: 768px)">
 <link rel="preload" as="image" href="background-1800.jpg" media="(min-width: 769px)">
-<link rel="preload" as="image" href="noteweb.png" media="(min-width: 769px)">
-<link rel="preload" as="image" href="note.png" media="(max-width: 768px)">
+<link rel="preload" as="image" href="noteweb.png?v=20260418-yellow" media="(min-width: 769px)">
+<link rel="preload" as="image" href="note.png?v=20260418-yellow" media="(max-width: 768px)">
 <link rel="preload" as="image" href="workmobile.png" media="(max-width: 768px)">
 <link rel="preload" as="image" href="howiaimobile.png" media="(max-width: 768px)">
 <link rel="preload" as="image" href="resumemobile.png" media="(max-width: 768px)">
@@ -67,6 +67,9 @@
         <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
       </svg>
+    </button>
+    <button class="nav-finder-toggle mac-clickable" type="button" onclick="toggleMacFinderMode()" aria-pressed="false" aria-label="Toggle Finder view">
+      <span class="nav-finder-track" aria-hidden="true"><span></span></span>
     </button>
   </div>
   <!-- Mobile-only controls -->
@@ -183,8 +186,8 @@
 
   <div class="mac-welcome">
     <picture>
-      <source media="(max-width: 768px)" srcset="note.png">
-      <img class="mac-note-image" src="noteweb.png" alt="Hi, welcome to a different kind of portfolio. My name is Rajat Girhotra. Feel free to browse around" width="1240" height="1480" loading="eager" decoding="async" fetchpriority="high">
+      <source media="(max-width: 768px)" srcset="note.png?v=20260418-yellow">
+      <img class="mac-note-image" src="noteweb.png?v=20260418-yellow" alt="Hi, welcome to a different kind of portfolio. My name is Rajat Girhotra. Feel free to browse around" width="1240" height="1480" loading="eager" decoding="async" fetchpriority="high">
     </picture>
     <h2>Hi,<br>Welcome to a different kind of portfolio.<br><br>My name is Rajat Girhotra.<br>Feel free to browse around</h2>
     <button class="mac-transform-toggle mac-clickable" type="button" onclick="pressSurpriseMe(event)" aria-pressed="true" aria-label="Toggle Finder view">
@@ -193,7 +196,7 @@
     </button>
   </div>
   <div class="mac-second-page-note" aria-hidden="true">
-    <img src="note.png" alt="" width="1240" height="1480" loading="eager" decoding="async">
+    <img src="note.png?v=20260418-yellow" alt="" width="1240" height="1480" loading="eager" decoding="async">
   </div>
 
   <div class="mac-desktop" role="group" aria-label="Desktop folders">
