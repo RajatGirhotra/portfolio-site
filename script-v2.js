@@ -99,7 +99,7 @@
     const finderMode = document.getElementById('macFinderMode');
     const finderScroller = document.querySelector('.mac-mobile-scroll-pages');
     const shouldUseTvTransition = window.innerWidth > 768 && finderMode;
-    const shouldUseMobileTransition = window.innerWidth <= 768 && finderMode;
+    const shouldUseFinderBoot = Boolean(finderMode);
     const wasFinderActive = document.body.classList.contains('mac-finder-active');
     window.clearTimeout(macFinderCloseTimer);
     window.clearTimeout(macFinderBootTimer);
@@ -108,16 +108,8 @@
     if (enabled) {
       document.body.classList.remove('mac-finder-closing', 'mac-finder-mobile-closing', 'mac-finder-booting', 'mac-finder-opening');
       document.body.classList.add('mac-finder-active');
-      if (!shouldAnimate && finderMode) finderMode.classList.remove('tv-open');
-      if (!wasFinderActive && shouldAnimate && shouldUseTvTransition) {
-        document.body.classList.add('mac-finder-opening');
-        finderMode.classList.remove('tv-open');
-        void finderMode.offsetWidth;
-        finderMode.classList.add('tv-open');
-        macFinderOpenTimer = window.setTimeout(() => {
-          document.body.classList.remove('mac-finder-opening');
-        }, 920);
-      } else if (!wasFinderActive && shouldAnimate && shouldUseMobileTransition) {
+      if (finderMode) finderMode.classList.remove('tv-open');
+      if (!wasFinderActive && shouldAnimate && shouldUseFinderBoot) {
         document.body.classList.add('mac-finder-opening', 'mac-finder-booting');
         macFinderBootTimer = window.setTimeout(() => {
           document.body.classList.remove('mac-finder-opening', 'mac-finder-booting');
@@ -129,7 +121,7 @@
       macFinderCloseTimer = window.setTimeout(() => {
         document.body.classList.remove('mac-finder-active', 'mac-finder-closing');
       }, 820);
-    } else if (shouldAnimate && shouldUseMobileTransition && document.body.classList.contains('mac-finder-active')) {
+    } else if (shouldAnimate && window.innerWidth <= 768 && finderMode && document.body.classList.contains('mac-finder-active')) {
       document.body.classList.remove('mac-finder-booting');
       document.body.classList.add('mac-finder-mobile-closing');
       macFinderCloseTimer = window.setTimeout(() => {
@@ -1716,7 +1708,7 @@
     afterDomReady(),
     withTimeout(waitForImages(), 1200),
     withTimeout(waitForFinderAssets(), 1200),
-    new Promise(resolve => window.setTimeout(resolve, 350))
+    new Promise(resolve => window.setTimeout(resolve, 2500))
   ]).then(revealSite).catch(revealSite);
 
   afterDomReady().then(() => {

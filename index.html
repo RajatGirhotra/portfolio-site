@@ -29,16 +29,8 @@
 
 <div id="site-loader" aria-live="polite" aria-label="Loading website">
   <div class="site-loader-inner">
-    <div class="site-loader-kicker">Loading portfolio</div>
-    <div class="site-loader-name">Rajat Girhotra</div>
-    <div class="site-loader-bars" aria-hidden="true">
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
+    <div class="site-loader-kicker">Booting up</div>
+    <div class="site-loader-bar" aria-hidden="true"><span></span></div>
   </div>
 </div>
 
@@ -68,7 +60,7 @@
         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
       </svg>
     </button>
-    <button class="nav-finder-toggle mac-clickable" type="button" onclick="toggleMacFinderMode()" aria-pressed="false" aria-label="Toggle Finder view">
+    <button class="nav-finder-toggle mac-clickable" type="button" onclick="toggleMacFinderMode()" aria-pressed="false" aria-label="Switch to regular mode">
       <span class="nav-finder-track" aria-hidden="true"><span></span></span>
     </button>
   </div>
@@ -76,6 +68,9 @@
   <div class="nav-mobile-controls">
     <button class="nav-overlay-close" onclick="closePage()" aria-label="Close page">
       <span class="page-close-icon"></span><span>Close</span>
+    </button>
+    <button class="nav-finder-toggle mac-clickable" type="button" onclick="toggleMacFinderMode()" aria-pressed="false" aria-label="Switch to regular mode">
+      <span class="nav-finder-track" aria-hidden="true"><span></span></span>
     </button>
     <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
       <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -129,7 +124,7 @@
       <div class="mac-menu-item">
         <button class="mac-menu-trigger mac-clickable" type="button">Finder</button>
         <div class="mac-menu-dropdown" role="menu">
-          <button type="button" onclick="toggleMacFinderMode()">Surprise me</button>
+          <button type="button" onclick="toggleMacFinderMode()">Switch to regular mode</button>
           <button type="button" onclick="openMacShortcut('about')">About Rajat</button>
           <button type="button" onclick="openMacShortcut('contact')">Contact</button>
         </div>
@@ -178,7 +173,8 @@
       <span>Rajat Girhotra</span>
       <span id="macMenuDate">Fri Apr 17</span>
       <span id="macMenuClock">Pune 12:00 PM</span>
-      <button class="mac-menu-normal-toggle mac-clickable" type="button" onclick="setMacFinderMode(false)" aria-pressed="true" aria-label="Switch to normal website">
+      <span class="mac-menu-mode-label">Switch to regular mode</span>
+      <button class="mac-menu-normal-toggle mac-clickable" type="button" onclick="setMacFinderMode(false)" aria-pressed="true" aria-label="Switch to regular mode">
         <span class="mac-menu-normal-track" aria-hidden="true"><span></span></span>
       </button>
     </div>
@@ -189,9 +185,9 @@
       <source media="(max-width: 768px)" srcset="note.png?v=20260418-yellow">
       <img class="mac-note-image" src="noteweb.png?v=20260418-yellow" alt="Hi, welcome to a different kind of portfolio. My name is Rajat Girhotra. Feel free to browse around" width="1240" height="1480" loading="eager" decoding="async" fetchpriority="high">
     </picture>
-    <h2>Hi,<br>Welcome to a different kind of portfolio.<br><br>My name is Rajat Girhotra.<br>Feel free to browse around</h2>
-    <button class="mac-transform-toggle mac-clickable" type="button" onclick="pressSurpriseMe(event)" aria-pressed="true" aria-label="Toggle Finder view">
-      <span class="mac-transform-label">Surprise me</span>
+    <h2><span>Hi</span><strong>Feel free to click around.</strong></h2>
+    <button class="mac-transform-toggle mac-clickable" type="button" onclick="pressSurpriseMe(event)" aria-pressed="true" aria-label="Switch to regular mode">
+      <span class="mac-transform-label">Switch to regular mode</span>
       <span class="mac-transform-switch" aria-hidden="true"><span></span></span>
     </button>
   </div>
@@ -203,17 +199,28 @@
     <button class="mac-folder mac-clickable" type="button" onclick="openMacShortcut('work')" aria-label="Open Work">
       <img class="mac-folder-icon mac-folder-icon-desktop" src="folderwork.png" alt="" width="69" height="52" loading="eager" decoding="async" fetchpriority="high" aria-hidden="true">
       <img class="mac-folder-icon mac-folder-icon-mobile" src="workmobile.png" alt="" width="58" height="58" loading="eager" decoding="sync" fetchpriority="high" aria-hidden="true">
+      <span class="mac-css-app-icon mac-css-work-icon" aria-hidden="true"></span>
       <span class="mac-folder-label">Work</span>
     </button>
     <button class="mac-folder mac-clickable" type="button" onclick="openMacShortcut('how-i-ai')" aria-label="Open How I AI">
       <img class="mac-folder-icon mac-folder-icon-desktop" src="folderhowiai.png" alt="" width="69" height="52" loading="eager" decoding="async" fetchpriority="high" aria-hidden="true">
       <img class="mac-folder-icon mac-folder-icon-mobile" src="howiaimobile.png" alt="" width="58" height="58" loading="eager" decoding="sync" fetchpriority="high" aria-hidden="true">
+      <span class="mac-css-app-icon mac-css-ai-icon" aria-hidden="true"></span>
       <span class="mac-folder-label">How I AI</span>
     </button>
     <button class="mac-folder mac-clickable" type="button" onclick="openMacShortcut('resume')" aria-label="Open Resume">
       <img class="mac-folder-icon mac-folder-icon-desktop" src="folderresume.png" alt="" width="69" height="52" loading="eager" decoding="async" fetchpriority="high" aria-hidden="true">
       <img class="mac-folder-icon mac-folder-icon-mobile" src="resumemobile.png" alt="" width="58" height="58" loading="eager" decoding="sync" fetchpriority="high" aria-hidden="true">
+      <span class="mac-css-app-icon mac-css-resume-icon" aria-hidden="true"></span>
       <span class="mac-folder-label">Resume</span>
+    </button>
+    <button class="mac-folder mac-folder-about-mobile mac-clickable" type="button" onclick="openMacShortcut('about')" aria-label="Open About me">
+      <span class="mac-css-app-icon mac-css-about-icon" aria-hidden="true"></span>
+      <span class="mac-folder-label">About me</span>
+    </button>
+    <button class="mac-folder mac-folder-switch-mode mac-clickable" type="button" onclick="setMacFinderMode(false)" aria-label="Switch mode">
+      <span class="mac-switch-app-icon" aria-hidden="true"></span>
+      <span class="mac-folder-label">Switch mode</span>
     </button>
   </div>
 
@@ -241,7 +248,12 @@
   </div>
   <div class="mac-mobile-scroll-pages" aria-hidden="true">
     <div class="mac-scroll-page"></div>
-    <div class="mac-scroll-page mac-empty-page"></div>
+    <div class="mac-scroll-page mac-empty-page">
+      <div class="mac-mobile-second-copy">
+        <p>Hi<br>My name is Rajat Girhotra.</p>
+        <p>Welcome to my portfolio. You can browse around here or switch the mode for a regular view of the portfolio.</p>
+      </div>
+    </div>
   </div>
   <div class="mac-page-dots" aria-hidden="true">
     <span class="mac-page-dot is-active"></span>
@@ -250,6 +262,10 @@
   <div id="macAppSplash" class="mac-app-splash" aria-hidden="true">
     <img id="macAppSplashIcon" src="workmobile.png" alt="" width="96" height="96" aria-hidden="true">
     <span id="macAppSplashName">Work</span>
+  </div>
+  <div class="mac-boot-loader" aria-hidden="true">
+    <span class="mac-boot-text">Booting up</span>
+    <span class="mac-boot-bar"><span></span></span>
   </div>
   <div id="macSafariWindow" class="mac-safari-window" aria-hidden="true">
     <div class="mac-safari-chrome">
@@ -1831,8 +1847,8 @@
       </div>
     </div>
     <p class="fun-fact">Fun fact - This website is fully vibe coded by me.</p>
-    <button class="mac-transform-toggle hero-transform-toggle mac-clickable" type="button" onclick="pressSurpriseMe(event)" aria-pressed="false" aria-label="Toggle Finder view">
-      <span class="mac-transform-label">Surprise me</span>
+    <button class="mac-transform-toggle hero-transform-toggle mac-clickable" type="button" onclick="pressSurpriseMe(event)" aria-pressed="false" aria-label="Switch to regular mode">
+      <span class="mac-transform-label">Switch to regular mode</span>
       <span class="mac-transform-switch" aria-hidden="true"><span></span></span>
     </button>
   </div>
@@ -1844,8 +1860,8 @@
     </svg>
   </div>
 </section>
-<button class="mac-transform-toggle floating-transform-toggle mac-clickable" type="button" onclick="pressSurpriseMe(event)" aria-pressed="false" aria-label="Toggle Finder view">
-  <span class="mac-transform-label">Surprise me</span>
+<button class="mac-transform-toggle floating-transform-toggle mac-clickable" type="button" onclick="pressSurpriseMe(event)" aria-pressed="false" aria-label="Switch to regular mode">
+  <span class="mac-transform-label">Switch to regular mode</span>
   <span class="mac-transform-switch" aria-hidden="true"><span></span></span>
 </button>
 <div class="mobile-home-experience" aria-label="Bajaj Finserv experience">
