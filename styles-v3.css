@@ -549,6 +549,10 @@
     body.has-active-page nav .logo {
       display: inline-flex;
     }
+
+    body.finder-launched-page .nav-mobile-controls .nav-finder-toggle {
+      display: none;
+    }
   }
 
   #nav-progress-bar {
@@ -895,6 +899,10 @@
 
   .nav-link:hover { opacity: 0.5; cursor: pointer; }
   .nav-link.active { font-weight: 500; }
+
+  .mac-mobile-second-copy {
+    display: none;
+  }
 
   .mac-transform-toggle,
   .mac-finder-mode,
@@ -1256,7 +1264,7 @@
       align-items: center;
       gap: 8px;
       padding: 8px 6px;
-      border-radius: 20%;
+      border-radius: 8px;
       font: 400 14px/1.25 'Inter', sans-serif;
       text-shadow: 0 2px 14px rgba(0, 0, 0, 0.38);
       cursor: none;
@@ -1341,6 +1349,11 @@
       filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.28));
     }
 
+    .mac-dock-icon-match-safari {
+      transform: scale(1.12);
+      transform-origin: center;
+    }
+
     .mac-dock-label {
       position: absolute;
       left: 50%;
@@ -1390,7 +1403,7 @@
       height: min(590px, 76vh);
       display: none;
       flex-direction: column;
-      border-radius: 20%;
+      border-radius: 8px;
       background: #f7f7f7;
       color: #111111;
       box-shadow: 0 36px 120px rgba(0, 0, 0, 0.38);
@@ -1522,7 +1535,7 @@
       display: none;
       flex-direction: column;
       overflow: hidden;
-      border-radius: 18px;
+      border-radius: 8px;
       background: #ffffff;
       box-shadow: 0 38px 130px rgba(0,0,0,0.42);
       animation: macWindowIn 0.22s cubic-bezier(0.22, 1, 0.36, 1);
@@ -2322,6 +2335,7 @@
 
     .mac-mobile-second-copy {
       position: absolute;
+      display: block;
       left: 40px;
       top: 40px;
       width: min(300px, calc(100vw - 80px));
@@ -2347,13 +2361,13 @@
 
     .mac-desktop {
       position: absolute;
-      left: 24px;
-      right: 24px;
-      top: 40px;
+      left: 38px;
+      right: 38px;
+      top: 48px;
       z-index: 3;
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      column-gap: 12px;
+      column-gap: 18px;
       row-gap: 18px;
       align-items: start;
       pointer-events: none;
@@ -2371,7 +2385,7 @@
       appearance: none;
       border: 0;
       background: transparent;
-      color: #d8d8d8;
+      color: #ffffff;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -2409,7 +2423,7 @@
       height: 60px;
       display: grid;
       place-items: center;
-      border-radius: 18px;
+      border-radius: 20%;
       box-shadow: 0 10px 18px rgba(0, 0, 0, 0.34);
       overflow: hidden;
     }
@@ -2523,6 +2537,9 @@
 
     .mac-folder-switch-mode {
       display: flex;
+      position: absolute;
+      left: 0;
+      top: 354px;
     }
 
     .mac-switch-app-icon {
@@ -2564,16 +2581,23 @@
       background: transparent;
     }
 
+    .mac-folder-switch-mode .mac-folder-label {
+      width: 70px;
+      line-height: 1.2;
+      text-align: center;
+    }
+
     .mac-welcome {
       position: absolute;
-      left: 36px;
-      right: 36px;
-      top: 28svh;
+      left: 44px;
+      right: 44px;
+      top: 214px;
+      bottom: auto;
       z-index: 3;
       color: #f3f3f3;
       text-shadow: 0 2px 18px rgba(0, 0, 0, 0.42);
       width: auto;
-      max-width: calc(100vw - 72px);
+      max-width: calc(100vw - 88px);
       overflow: visible;
       pointer-events: none;
       transform: translate3d(var(--mac-page-x), 0, 0);
@@ -2617,8 +2641,8 @@
     .mac-welcome h2 {
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      max-width: min(340px, calc(100vw - 48px));
+      gap: 12px;
+      max-width: min(320px, calc(100vw - 88px));
       margin: 0;
       font-family: 'Inter', sans-serif;
       letter-spacing: 0.01em;
@@ -2631,7 +2655,7 @@
     }
 
     .mac-welcome h2 strong {
-      font: 700 40px/1.02 'Inter', sans-serif;
+      font: 700 40px/1.04 'Inter', sans-serif;
       letter-spacing: -0.05em;
       color: #f3f3f3;
     }
@@ -2763,6 +2787,11 @@
       display: block;
       object-fit: contain;
       filter: drop-shadow(0 10px 18px rgba(0,0,0,0.34));
+    }
+
+    .mac-dock-icon-match-safari {
+      transform: scale(1.12);
+      transform-origin: center;
     }
 
     .mac-dock-label {
@@ -6047,6 +6076,31 @@
     }
   }
 
+  html.dark .mac-finder-mode,
+  html.dark .mac-window,
+  html.dark .mac-window-content,
+  html.dark .mac-safari-window,
+  html.dark .mac-safari-content {
+    color: #f3f3f3 !important;
+    --text: #f3f3f3;
+    --black: #f3f3f3;
+    --gray: rgba(243, 243, 243, 0.72);
+    --text-muted: rgba(243, 243, 243, 0.72);
+  }
+
+  html.dark .mac-window-content :where(h1, h2, h3, h4, h5, h6, p, span, small, strong, em, li, a, button, label, figcaption, div),
+  html.dark .mac-safari-content :where(h1, h2, h3, h4, h5, h6, p, span, small, strong, em, li, a, button, label, figcaption, div),
+  html.dark .mac-menu-bar :where(span, button) {
+    color: #f3f3f3 !important;
+    -webkit-text-fill-color: #f3f3f3 !important;
+  }
+
+  html.dark .mac-window-content :where(.portfolio-problem, .portfolio-description, .work-card-copy, .cs-text, .cs-meta-value, .stat-label, .company-role, .company-period, .footer-copy, .footer-meta-inline),
+  html.dark .mac-safari-content :where(.portfolio-problem, .portfolio-description, .work-card-copy, .cs-text, .cs-meta-value, .stat-label, .company-role, .company-period, .footer-copy, .footer-meta-inline) {
+    color: rgba(243, 243, 243, 0.72) !important;
+    -webkit-text-fill-color: rgba(243, 243, 243, 0.72) !important;
+  }
+
   .mac-transform-toggle,
   html:not(.dark) .hero-transform-toggle,
   html.dark .hero-transform-toggle,
@@ -6329,6 +6383,13 @@
     visibility: hidden;
     transform: scale(0.985);
     transition: opacity 0.34s ease, visibility 0.34s ease, transform 0.34s ease;
+  }
+
+  body.mac-finder-booting .mac-finder-mode {
+    opacity: 1;
+    visibility: visible;
+    transform: scaleY(1) scaleX(1);
+    filter: none;
   }
 
   body.mac-finder-booting .mac-finder-mode::before {

@@ -217,13 +217,13 @@
   }
 
   const MAC_APP_SPLASH = {
-    home: { name: 'Safari', icon: 'safari.png' },
+    home: { name: 'Safari', icon: 'safari.svg' },
     work: { name: 'Work', icon: 'workmobile.png' },
     'how-i-ai': { name: 'How I AI', icon: 'howiaimobile.png' },
     resume: { name: 'Resume', icon: 'resumemobile.png' },
-    contact: { name: 'Contact', icon: 'contacts.png' },
-    about: { name: 'Notes', icon: 'notes.png' },
-    settings: { name: 'Settings', icon: 'settings.png' }
+    contact: { name: 'Contact', icon: 'phone.svg' },
+    about: { name: 'Notes', icon: 'notes.svg' },
+    settings: { name: 'Settings', icon: 'settings.svg' }
   };
 
   function showMacAppSplash(id, onComplete) {
@@ -404,12 +404,12 @@
   };
 
   const MAC_WINDOW_ICONS = {
-    home: 'safari.png',
+    home: 'safari.svg',
     work: 'folderwork.png',
     'how-i-ai': 'folderhowiai.png',
     resume: 'folderresume.png',
-    contact: 'contacts.png',
-    about: 'notes.png',
+    contact: 'phone.svg',
+    about: 'notes.svg',
     'life-insurance': 'folderwork.png',
     'go-leap': 'folderwork.png',
     colrows: 'folderwork.png',
@@ -905,8 +905,8 @@
 
   function waitForFinderAssets() {
     const assets = window.innerWidth <= 768
-      ? ['movbilebackground.jpg', 'workmobile.png', 'howiaimobile.png', 'resumemobile.png', 'safari.png', 'contacts.png', 'settings.png', 'notes.png']
-      : ['background-1800.jpg', 'folderwork.png', 'folderhowiai.png', 'folderresume.png', 'safari.png', 'contacts.png', 'settings.png', 'notes.png'];
+      ? ['movbilebackground.jpg', 'workmobile.png', 'howiaimobile.png', 'resumemobile.png', 'safari.svg', 'phone.svg', 'settings.svg', 'notes.svg']
+      : ['background-1800.jpg', 'folderwork.png', 'folderhowiai.png', 'folderresume.png', 'safari.svg', 'phone.svg', 'settings.svg', 'notes.svg'];
 
     return Promise.all(assets.map(src => new Promise(resolve => {
       const img = new Image();
@@ -1303,6 +1303,7 @@
     if (!globalPageClose) return;
     const activePage = document.querySelector('.page-view.active');
     document.body.classList.toggle('has-active-page', Boolean(activePage));
+    document.body.classList.toggle('finder-launched-page', Boolean(activePage && activePage.dataset.homeMode === 'finder'));
     document.body.classList.toggle('active-work-page', Boolean(activePage && activePage.id === 'page-work'));
     globalPageClose.classList.toggle('is-visible', Boolean(activePage));
   }
