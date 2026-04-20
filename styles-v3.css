@@ -1073,6 +1073,10 @@
       pointer-events: auto;
     }
 
+    body.mac-finder-active {
+      background: #000000;
+    }
+
     .mac-menu-bar {
       position: relative;
       z-index: 50;
