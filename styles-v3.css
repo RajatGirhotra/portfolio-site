@@ -2285,7 +2285,7 @@
       pointer-events: none;
       overflow: hidden;
       color: #f3f3f3;
-      background: #000000 url('movbilebackground.jpg') center center / cover no-repeat;
+      background: #000000 url('background-1800.jpg') center center / cover no-repeat;
       background-attachment: scroll;
       --mac-page-x: 0px;
       transition: opacity 0.34s ease, visibility 0.34s ease;
@@ -2426,8 +2426,8 @@
 
     .mac-folder-art,
     .mac-folder-icon {
-      width: 60px;
-      height: 60px;
+      width: 67.2px;
+      height: 67.2px;
       display: block;
       object-fit: contain;
       filter: none;
@@ -2438,18 +2438,11 @@
     }
 
     .mac-folder-icon-mobile {
-      display: none;
+      display: block;
     }
 
     .mac-css-app-icon {
-      position: relative;
-      width: 60px;
-      height: 60px;
-      display: grid;
-      place-items: center;
-      border-radius: 20%;
-      box-shadow: 0 10px 18px rgba(0, 0, 0, 0.34);
-      overflow: hidden;
+      display: none;
     }
 
     .mac-css-work-icon {
@@ -2611,6 +2604,12 @@
       text-align: center;
     }
 
+    html:not(.dark) .mac-folder,
+    html:not(.dark) .mac-folder-label {
+      color: #000000;
+      text-shadow: none;
+    }
+
     .mac-welcome {
       position: absolute;
       left: 44px;
@@ -2682,6 +2681,20 @@
       font: 700 40px/1.04 'Inter', sans-serif;
       letter-spacing: -0.05em;
       color: #f3f3f3;
+    }
+
+    html:not(.dark) .mac-welcome {
+      color: #000000;
+      text-shadow: none;
+    }
+
+    html:not(.dark) .mac-welcome h2 span,
+    html:not(.dark) .mac-welcome h2 strong,
+    html:not(.dark) .mac-mobile-second-copy,
+    html:not(.dark) .mac-mobile-second-copy p {
+      color: #000000;
+      -webkit-text-fill-color: #000000;
+      text-shadow: none;
     }
 
     .mac-welcome p {
