@@ -414,7 +414,7 @@
   nav {
     position: fixed;
     top: 0; left: 0; right: 0;
-    padding: 16px 48px;
+    padding: 10px 48px;
     z-index: 420;
     display: flex;
     justify-content: space-between;
@@ -426,7 +426,7 @@
     box-shadow: none;
     isolation: isolate;
     overflow: hidden;
-    transition: background 0.28s ease, box-shadow 0.28s ease;
+    transition: background 0.28s ease;
   }
 
   nav::before {
@@ -456,7 +456,7 @@
     background: rgba(255, 255, 255, 0.94);
     backdrop-filter: blur(18px) saturate(1.2);
     -webkit-backdrop-filter: blur(18px) saturate(1.2);
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.03);
+    box-shadow: none;
   }
 
   body.nav-filled nav::after {
@@ -503,28 +503,28 @@
 
   @media (min-width: 769px) {
     nav {
-      min-height: 81px;
+      min-height: 64px;
     }
 
     body.has-active-page nav .nav-mobile-controls {
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.72);
+      padding: 0;
+      border-radius: 0;
+      background: transparent;
       border: none;
-      backdrop-filter: blur(22px) saturate(180%);
-      -webkit-backdrop-filter: blur(22px) saturate(180%);
-      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.08);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      box-shadow: none;
     }
 
     html.dark body.has-active-page nav .nav-mobile-controls {
-      background: rgba(10, 10, 10, 0.72);
-      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.26);
+      background: transparent;
+      box-shadow: none;
     }
   }
 
   @media (max-width: 768px) {
     nav {
-      padding: 16px 24px;
+      padding: 12px 24px;
       background: #ffffff;
     }
     body.nav-filled nav {
@@ -533,15 +533,15 @@
     body.has-active-page nav {
       justify-content: space-between;
       background: #ffffff;
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.03);
-      padding: 16px 20px;
+      box-shadow: none;
+      padding: 12px 20px;
     }
     html.dark body.has-active-page nav {
       background: rgba(10, 10, 10, 0.94);
     }
     body.has-active-page.nav-filled nav {
       background: #ffffff;
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.03);
+      box-shadow: none;
     }
     html.dark body.has-active-page.nav-filled nav {
       background: rgba(10, 10, 10, 0.94);
@@ -553,6 +553,10 @@
     body.finder-launched-page .nav-mobile-controls .nav-finder-toggle {
       display: none;
     }
+  }
+
+  body.has-active-page .nav-mobile-controls .nav-finder-toggle {
+    display: none;
   }
 
   #nav-progress-bar {
@@ -1047,6 +1051,11 @@
       transition: opacity 0.34s ease, visibility 0.34s ease;
     }
 
+    html:not(.dark) .mac-finder-mode {
+      color: #111111;
+      background: #f5f5f5 url('lightmode.png') center center / cover no-repeat;
+    }
+
     .mac-finder-mode::before {
       content: "";
       position: absolute;
@@ -1294,7 +1303,7 @@
       height: auto;
       display: block;
       object-fit: contain;
-      filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.28));
+      filter: none;
     }
 
     .mac-folder-icon-mobile {
@@ -1311,6 +1320,12 @@
       background: transparent;
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
+    }
+
+    html:not(.dark) .mac-folder,
+    html:not(.dark) .mac-folder-label {
+      color: #000000;
+      text-shadow: none;
     }
 
     .mac-dock {
@@ -2276,6 +2291,11 @@
       transition: opacity 0.34s ease, visibility 0.34s ease;
     }
 
+    html:not(.dark) .mac-finder-mode {
+      color: #111111;
+      background: #f5f5f5 url('lightmode.png') center center / cover no-repeat;
+    }
+
     .mac-finder-mode::before {
       content: "";
       position: absolute;
@@ -2410,7 +2430,7 @@
       height: 60px;
       display: block;
       object-fit: contain;
-      filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.34));
+      filter: none;
     }
 
     .mac-folder-icon-desktop {
@@ -4431,7 +4451,7 @@
   /* ─── MOBILE ─── */
   @media (max-width: 768px) {
     nav {
-      padding: 16px 20px;
+      padding: 12px 20px;
       background: #ffffff;
     }
     body.nav-filled nav {
@@ -5919,6 +5939,24 @@
       margin-left: 2px;
     }
 
+    .mac-menu-theme-label {
+      color: inherit;
+      font: 400 12px/1 'Inter', sans-serif;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      opacity: 0.9;
+      margin-left: 10px;
+    }
+
+    .mac-menu-divider {
+      color: inherit;
+      font: 400 12px/1 'Inter', sans-serif;
+      opacity: 0.45;
+      margin-left: 2px;
+      margin-right: -2px;
+      user-select: none;
+    }
+
     .mac-menu-theme-icon svg {
       width: 15px;
       height: 15px;
@@ -6103,6 +6141,94 @@
   html.dark .mac-safari-content :where(.portfolio-problem, .portfolio-description, .work-card-copy, .cs-text, .cs-meta-value, .stat-label, .company-role, .company-period, .footer-copy, .footer-meta-inline) {
     color: rgba(243, 243, 243, 0.72) !important;
     -webkit-text-fill-color: rgba(243, 243, 243, 0.72) !important;
+  }
+
+  html.dark .mac-window-content :where(.cs-band, .cs-insight-card, .cs-design-card, .cs-problem-card, .cs-goal-item, .cs-results, .cs-impact-grid, .cs-compare-table, .cs-feature-item, .cs-reflection),
+  html.dark .mac-safari-content :where(.cs-band, .cs-insight-card, .cs-design-card, .cs-problem-card, .cs-goal-item, .cs-results, .cs-impact-grid, .cs-compare-table, .cs-feature-item, .cs-reflection) {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+  }
+
+  html.dark .mac-window-content :where(.cs-problem-card-title, .cs-goal-text, .cs-feature-item, .cs-result-num, .cs-impact-delta, .cs-design-result, .cs-heading, .cs-hero-title),
+  html.dark .mac-safari-content :where(.cs-problem-card-title, .cs-goal-text, .cs-feature-item, .cs-result-num, .cs-impact-delta, .cs-design-result, .cs-heading, .cs-hero-title) {
+    color: #f3f3f3 !important;
+    -webkit-text-fill-color: #f3f3f3 !important;
+  }
+
+  html.dark .mac-window-content :where(.cs-problem-card-text, .cs-goal-num, .cs-band-label, .cs-stat-label, .cs-design-text, .cs-impact-label, .cs-impact-from, .cs-compare-header, .cs-compare-cell, .cs-image-placeholder-label),
+  html.dark .mac-safari-content :where(.cs-problem-card-text, .cs-goal-num, .cs-band-label, .cs-stat-label, .cs-design-text, .cs-impact-label, .cs-impact-from, .cs-compare-header, .cs-compare-cell, .cs-image-placeholder-label) {
+    color: rgba(243, 243, 243, 0.72) !important;
+    -webkit-text-fill-color: rgba(243, 243, 243, 0.72) !important;
+  }
+
+  html.dark .mac-window-content .cs-image-placeholder,
+  html.dark .mac-safari-content .cs-image-placeholder {
+    background: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  html.dark .mac-window-content .resume-download-button,
+  html.dark .mac-safari-content .resume-download-button {
+    background: #f3f3f3 !important;
+    color: #111111 !important;
+    -webkit-text-fill-color: #111111 !important;
+    border-color: #f3f3f3 !important;
+  }
+
+  html.dark .mac-window-content .work-tab,
+  html.dark .mac-safari-content .work-tab {
+    background: rgba(255, 255, 255, 0.06) !important;
+    color: #f3f3f3 !important;
+    -webkit-text-fill-color: #f3f3f3 !important;
+    border-color: rgba(255, 255, 255, 0.16) !important;
+  }
+
+  html.dark .mac-window-content .work-tab.is-active,
+  html.dark .mac-safari-content .work-tab.is-active {
+    background: #f3f3f3 !important;
+    color: #111111 !important;
+    -webkit-text-fill-color: #111111 !important;
+    border-color: #f3f3f3 !important;
+  }
+
+  html.dark .mac-window-content .contact-block,
+  html.dark .mac-safari-content .contact-block {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+  }
+
+  html.dark .mac-window-content .contact-block-highlight,
+  html.dark .mac-safari-content .contact-block-highlight {
+    background: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  html.dark .mac-window-content .contact-label,
+  html.dark .mac-safari-content .contact-label,
+  html.dark .mac-window-content .contact-note,
+  html.dark .mac-safari-content .contact-note {
+    color: rgba(243, 243, 243, 0.72) !important;
+    -webkit-text-fill-color: rgba(243, 243, 243, 0.72) !important;
+  }
+
+  html.dark .mac-window-content .contact-value,
+  html.dark .mac-window-content .contact-value-static,
+  html.dark .mac-safari-content .contact-value,
+  html.dark .mac-safari-content .contact-value-static {
+    color: #f3f3f3 !important;
+    -webkit-text-fill-color: #f3f3f3 !important;
+  }
+
+  html.dark .mac-window-content .contact-chip,
+  html.dark .mac-safari-content .contact-chip {
+    background: rgba(255, 255, 255, 0.06) !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+    color: #f3f3f3 !important;
+    -webkit-text-fill-color: #f3f3f3 !important;
+  }
+
+  html.dark .mac-window-content .footer-link-button,
+  html.dark .mac-safari-content .footer-link-button {
+    color: #f3f3f3 !important;
+    -webkit-text-fill-color: #f3f3f3 !important;
   }
 
   .mac-transform-toggle,

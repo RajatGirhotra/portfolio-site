@@ -43,6 +43,11 @@
     document.documentElement.classList.toggle('dark', isDark);
     syncThemeImages();
 
+    const macThemeModeLabel = document.getElementById('macThemeModeLabel');
+    if (macThemeModeLabel) {
+      macThemeModeLabel.textContent = isDark ? 'Dark mode' : 'Light mode';
+    }
+
     const base = getBaseColor();
     tspans.forEach(t => {
       if (t.el.getAttribute('fill') !== 'url(#' + (t.el._gradId || '') + ')') {
@@ -317,6 +322,7 @@
     });
 
     content.appendChild(page);
+    setupImageSkeletons(content);
     ensureImagesLoad(content);
   }
 
@@ -436,11 +442,6 @@
     const clone = source.cloneNode(true);
     clone.querySelectorAll('.page-close, .global-page-close, .progress-slider-cs').forEach(el => el.remove());
     clone.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
-    clone.querySelectorAll('.image-skeleton-host').forEach(el => el.classList.add('is-loaded'));
-    clone.querySelectorAll('img').forEach(img => {
-      img.classList.add('is-loaded');
-      img.loading = 'eager';
-    });
     clone.classList.add('mac-window-clone');
     clone.dataset.sourcePage = pageId;
     win.dataset.currentPage = pageId;
@@ -456,6 +457,7 @@
     }
 
     content.appendChild(clone);
+    setupImageSkeletons(content);
     win.classList.add('is-open');
     win.classList.remove('is-maximized', 'is-minimized');
     win.setAttribute('aria-hidden', 'false');
@@ -474,16 +476,12 @@
     const clone = source.cloneNode(true);
     clone.querySelectorAll('.page-close, .global-page-close, .progress-slider-cs, .mac-window-back').forEach(el => el.remove());
     clone.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
-    clone.querySelectorAll('.image-skeleton-host').forEach(el => el.classList.add('is-loaded'));
-    clone.querySelectorAll('img').forEach(img => {
-      img.classList.add('is-loaded');
-      img.loading = 'eager';
-    });
     clone.classList.add('mac-window-clone', 'mac-case-window-clone');
     clone.dataset.sourcePage = pageId;
     win.dataset.currentPage = pageId;
 
     content.appendChild(clone);
+    setupImageSkeletons(content);
     win.classList.add('is-open');
     win.classList.remove('is-maximized', 'is-minimized');
     win.setAttribute('aria-hidden', 'false');
@@ -833,12 +831,13 @@
     const returnTo = activePage && activePage.classList.contains('case-study-view') ? activePage.dataset.returnTo : '';
     const homeMode = activePage && activePage.dataset.homeMode ? activePage.dataset.homeMode : sessionStorage.getItem(STORAGE_KEYS.homeMode) || 'finder';
 
-    document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-
     if (returnTo) {
       const returnPage = document.getElementById('page-' + returnTo);
       if (returnPage) {
+        document.querySelectorAll('.page-view').forEach(p => {
+          if (p !== returnPage) p.classList.remove('active');
+        });
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
         returnPage.classList.add('active');
         returnPage.dataset.homeMode = homeMode;
         ensureImagesLoad(returnPage);
@@ -853,6 +852,8 @@
     }
 
     setMacFinderMode(homeMode === 'finder', { animate: false });
+    document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
     syncGlobalCloseButton();
     persistViewState('');
     updateProgressSlider();
@@ -921,7 +922,13 @@
   }
 
   function ensureImagesLoad(root = document) {
-    if (!root || !isMobileImageRuntime()) return;
+    if (!root) return;
+    const shouldForce = isMobileImageRuntime() ||
+      root.closest?.('.mac-window, .mac-safari-window') ||
+      root.classList?.contains('mac-safari-content') ||
+      root.classList?.contains('mac-window-content');
+
+    if (!shouldForce) return;
 
     root.querySelectorAll('img').forEach(img => {
       if (siteLoader && siteLoader.contains(img)) return;
@@ -964,11 +971,11 @@
     ensureImagesLoad(document.querySelector('.portfolio-section .portfolio-container'));
   }
 
-  function setupImageSkeletons() {
-    document.querySelectorAll('img').forEach(img => {
+  function setupImageSkeletons(root = document) {
+    root.querySelectorAll('img').forEach(img => {
       if (siteLoader && siteLoader.contains(img)) return;
 
-      const host = img.closest('.portfolio-project-image, .case-study-hero-media, .resume-preview, .artwork-figure, .portfolio-card');
+      const host = img.closest('.portfolio-project-image, .case-study-hero-media, .resume-preview, .artwork-figure, .ai-design-figure, .work-left, .portfolio-card');
       if (!host) return;
 
       host.classList.add('image-skeleton-host');
@@ -1420,7 +1427,7 @@
       event.preventDefault();
       event.stopPropagation();
       event.stopImmediatePropagation();
-      openMacCaseWindow(match[1]);
+      openPage(match[1], { homeMode: 'finder' });
     }, true);
 
     macWindowContent.addEventListener('keydown', event => {
@@ -1432,7 +1439,7 @@
       if (!match) return;
       event.preventDefault();
       event.stopPropagation();
-      openMacCaseWindow(match[1]);
+      openPage(match[1], { homeMode: 'finder' });
     }, true);
   }
   const macMobileScroller = document.querySelector('.mac-mobile-scroll-pages');
