@@ -1236,6 +1236,65 @@
       box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
     }
 
+    .mac-pop-note {
+      position: absolute;
+      z-index: 4;
+      display: block;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      opacity: 0;
+      visibility: hidden;
+      transform: translate3d(var(--mac-item-x, 0px), calc(var(--mac-item-y, 0px) + 12px), 0) scale(0.98);
+      transition: opacity 0.38s ease, visibility 0.38s ease, transform 0.38s ease;
+      cursor: none;
+    }
+
+    .mac-pop-note.is-visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translate3d(var(--mac-item-x, 0px), var(--mac-item-y, 0px), 0) scale(1);
+    }
+
+    .mac-pop-note img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .mac-pop-note-close {
+      position: absolute;
+      top: 5%;
+      right: 4%;
+      width: 13%;
+      aspect-ratio: 1;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      cursor: none;
+    }
+
+    .mac-pop-note.is-dragging {
+      transition: none !important;
+      z-index: 6;
+    }
+
+    .mac-pop-note-2 {
+      left: 45.2vw;
+      top: 39.8vh;
+      width: min(20.6vw, 280px);
+    }
+
+    .mac-pop-note-3 {
+      right: 12.4vw;
+      top: 20.5vh;
+      width: min(20.8vw, 300px);
+    }
+
     .mac-welcome h2 {
       display: none;
       margin: 0;
@@ -1704,7 +1763,7 @@
     .mac-safari-content .mac-safari-big-name {
       position: relative !important;
       z-index: 1 !important;
-      pointer-events: none !important;
+      pointer-events: auto !important;
       width: 100%;
       box-sizing: border-box;
       padding: 88px 48px 42px;
@@ -1721,12 +1780,45 @@
       overflow: visible;
     }
 
+    .mac-safari-content .mac-safari-big-name-text {
+      display: flex;
+      justify-content: center;
+      align-items: baseline;
+      width: 100%;
+      color: #000000;
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(72px, 9vw, 156px);
+      font-weight: 700;
+      line-height: 0.9;
+      letter-spacing: -0.075em;
+      white-space: nowrap;
+      -webkit-text-fill-color: currentColor;
+    }
+
+    .mac-safari-content .mac-safari-name-letter {
+      display: inline-block;
+      color: inherit;
+      cursor: none;
+      transition: color 0.16s ease;
+    }
+
+    .mac-safari-content .mac-safari-name-letter.is-gradient {
+      color: transparent !important;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent !important;
+    }
+
     .mac-safari-content .mac-safari-big-name text {
-      fill: #000000 !important;
+      fill: currentColor;
       font-family: 'Inter', sans-serif;
       font-size: 190px;
       font-weight: 700;
       letter-spacing: -9px;
+    }
+
+    .mac-safari-content .mac-safari-big-name tspan {
+      pointer-events: visiblePainted;
     }
 
     .mac-safari-content .hero .mac-safari-big-name {
@@ -1734,12 +1826,16 @@
       left: 0 !important;
       right: 0 !important;
       bottom: 0 !important;
-      padding: 0 44px 28px;
+      padding: 0 56px 34px;
       background: transparent !important;
     }
 
     .mac-safari-content .hero .mac-safari-big-name svg {
-      max-height: 34vh;
+      max-height: min(22vh, 190px);
+    }
+
+    .mac-safari-content .hero .mac-safari-big-name-text {
+      font-size: clamp(70px, 8.8vw, 148px);
     }
 
     .mac-safari-content .footer-name-svg text,
@@ -2631,6 +2727,10 @@
       display: none;
     }
 
+    .mac-pop-note {
+      display: none;
+    }
+
     .mac-second-page-note {
       position: absolute;
       left: 100vw;
@@ -3034,11 +3134,8 @@
   .mac-safari-window .mac-safari-content .mac-safari-page,
   .mac-safari-window .mac-safari-content .mac-safari-page * {
     color: #000000 !important;
-    -webkit-text-fill-color: #000000 !important;
   }
 
-  .mac-safari-window .mac-safari-content svg,
-  .mac-safari-window .mac-safari-content svg *,
   .mac-safari-window .mac-safari-content .footer-name-svg text,
   .mac-safari-window .mac-safari-content .footer-name-svg tspan {
     fill: #000000 !important;
@@ -3097,7 +3194,21 @@
   }
 
   .mac-safari-window .mac-safari-content .mac-safari-big-name text {
-    fill: #000000 !important;
+    fill: var(--mac-safari-name-fill, #000000);
+    -webkit-text-fill-color: unset !important;
+  }
+
+  .mac-safari-window .mac-safari-content .mac-safari-big-name tspan {
+    -webkit-text-fill-color: unset !important;
+  }
+
+  html.dark .mac-safari-window .mac-safari-content .mac-safari-big-name {
+    --mac-safari-name-fill: #f3f3f3;
+    color: #f3f3f3 !important;
+  }
+
+  html.dark .mac-safari-window .mac-safari-content .mac-safari-big-name-text {
+    color: #f3f3f3 !important;
   }
 
   .mac-coming-soon-toast {
@@ -5975,6 +6086,27 @@
       height: 15px;
     }
 
+    .mac-menu-notes-button {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      display: inline-grid;
+      place-items: center;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      cursor: none;
+      opacity: 0.9;
+    }
+
+    .mac-menu-notes-button img {
+      width: 15px;
+      height: 15px;
+      display: block;
+      filter: none;
+    }
+
     .mac-menu-mode-label {
       color: inherit;
       font: 400 12px/1 'Inter', sans-serif;
@@ -6100,7 +6232,6 @@
     html.dark .mac-safari-window .mac-safari-content .footer-column-title,
     html.dark .mac-safari-window .mac-safari-content .footer-link {
       color: #f3f3f3 !important;
-      -webkit-text-fill-color: #f3f3f3 !important;
     }
 
     html.dark .mac-safari-window .mac-safari-content .sub-tagline,
@@ -6116,8 +6247,6 @@
       -webkit-text-fill-color: rgba(243, 243, 243, 0.72) !important;
     }
 
-    html.dark .mac-safari-window .mac-safari-content svg,
-    html.dark .mac-safari-window .mac-safari-content svg *,
     html.dark .mac-safari-window .mac-safari-content .footer-name-svg text,
     html.dark .mac-safari-window .mac-safari-content .footer-name-svg tspan {
       fill: #f3f3f3 !important;
@@ -6144,16 +6273,29 @@
   }
 
   html.dark .mac-window-content :where(h1, h2, h3, h4, h5, h6, p, span, small, strong, em, li, a, button, label, figcaption, div),
-  html.dark .mac-safari-content :where(h1, h2, h3, h4, h5, h6, p, span, small, strong, em, li, a, button, label, figcaption, div),
   html.dark .mac-menu-bar :where(span, button) {
     color: #f3f3f3 !important;
     -webkit-text-fill-color: #f3f3f3 !important;
   }
 
+  html.dark .mac-safari-content :where(h1, h2, h3, h4, h5, h6, p, span, small, strong, em, li, a, button, label, figcaption, div) {
+    color: #f3f3f3 !important;
+  }
+
   html.dark .mac-window-content :where(.portfolio-problem, .portfolio-description, .work-card-copy, .cs-text, .cs-meta-value, .stat-label, .company-role, .company-period, .footer-copy, .footer-meta-inline),
   html.dark .mac-safari-content :where(.portfolio-problem, .portfolio-description, .work-card-copy, .cs-text, .cs-meta-value, .stat-label, .company-role, .company-period, .footer-copy, .footer-meta-inline) {
     color: rgba(243, 243, 243, 0.72) !important;
+  }
+
+  html.dark .mac-window-content :where(.portfolio-problem, .portfolio-description, .work-card-copy, .cs-text, .cs-meta-value, .stat-label, .company-role, .company-period, .footer-copy, .footer-meta-inline) {
     -webkit-text-fill-color: rgba(243, 243, 243, 0.72) !important;
+  }
+
+  .mac-safari-window .mac-safari-content .mac-safari-big-name text,
+  .mac-safari-window .mac-safari-content .mac-safari-big-name tspan,
+  html.dark .mac-safari-window .mac-safari-content .mac-safari-big-name text,
+  html.dark .mac-safari-window .mac-safari-content .mac-safari-big-name tspan {
+    -webkit-text-fill-color: unset !important;
   }
 
   html.dark .mac-window-content :where(.cs-band, .cs-insight-card, .cs-design-card, .cs-problem-card, .cs-goal-item, .cs-results, .cs-impact-grid, .cs-compare-table, .cs-feature-item, .cs-reflection),

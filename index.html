@@ -21,6 +21,8 @@
 <link rel="preload" as="image" href="phone.svg">
 <link rel="preload" as="image" href="settings.svg">
 <link rel="preload" as="image" href="notes.svg">
+<link rel="preload" as="image" href="notedark.png">
+<link rel="preload" as="image" href="notelight.png">
 <link rel="stylesheet" href="styles-v3.css">
 
 
@@ -157,6 +159,9 @@
       <span>Rajat Girhotra</span>
       <span id="macMenuDate">Fri Apr 17</span>
       <span id="macMenuClock">Pune 12:00 PM</span>
+      <button class="mac-menu-notes-button mac-clickable" type="button" onclick="toggleDesktopFinderNotes()" aria-label="Toggle notes">
+        <img src="notedark.png" data-light-src="notelight.png" data-dark-src="notedark.png" alt="" width="15" height="15" aria-hidden="true">
+      </button>
       <span class="mac-menu-mode-label">Switch to regular mode</span>
       <button class="mac-menu-normal-toggle mac-clickable" type="button" onclick="setMacFinderMode(false)" aria-pressed="true" aria-label="Switch to regular mode">
         <span class="mac-menu-normal-track" aria-hidden="true"><span></span></span>
@@ -195,6 +200,14 @@
   </div>
   <div class="mac-second-page-note" aria-hidden="true">
     <img src="note.png?v=20260418-yellow" alt="" width="1240" height="1480" loading="eager" decoding="async">
+  </div>
+  <div class="mac-pop-note mac-pop-note-2 mac-clickable">
+    <img src="Note2.png" alt="Feel free to open any folders or apps" width="560" height="330" loading="eager" decoding="async" fetchpriority="high">
+    <button class="mac-pop-note-close mac-clickable" type="button" aria-label="Close note"></button>
+  </div>
+  <div class="mac-pop-note mac-pop-note-3 mac-clickable">
+    <img src="Note3.png" alt="Welcome to my Portfolio" width="560" height="380" loading="eager" decoding="async" fetchpriority="high">
+    <button class="mac-pop-note-close mac-clickable" type="button" aria-label="Close note"></button>
   </div>
 
   <div class="mac-desktop" role="group" aria-label="Desktop folders">

@@ -66,6 +66,16 @@
 
     const footerText = document.getElementById('footerNameText');
     if (footerText) footerText.setAttribute('fill', base);
+
+    document.querySelectorAll('.mac-safari-big-name text').forEach(text => {
+      text.setAttribute('fill', base);
+    });
+
+    document.querySelectorAll('.mac-safari-big-name tspan').forEach(tspan => {
+      if (tspan.dataset.gradientActive !== 'true') {
+        tspan.setAttribute('fill', base);
+      }
+    });
   }
 
   function toggleTheme() {
@@ -95,6 +105,65 @@
   let macFinderCloseTimer;
   let macFinderBootTimer;
   let macFinderOpenTimer;
+  let macFinderNote2Timer;
+  let macFinderNote3Timer;
+
+  function clearDesktopFinderNoteTimers() {
+    window.clearTimeout(macFinderNote2Timer);
+    window.clearTimeout(macFinderNote3Timer);
+  }
+
+  function resetDesktopFinderNotes() {
+    document.querySelectorAll('.mac-pop-note').forEach(note => {
+      note.classList.remove('is-visible', 'is-dismissed');
+    });
+  }
+
+  function restoreDesktopFinderNotes() {
+    clearDesktopFinderNoteTimers();
+    if (window.innerWidth <= 768) return;
+    document.querySelectorAll('.mac-pop-note').forEach(note => {
+      note.classList.remove('is-dismissed');
+      note.classList.add('is-visible');
+    });
+  }
+
+  function toggleDesktopFinderNotes() {
+    clearDesktopFinderNoteTimers();
+    if (window.innerWidth <= 768) return;
+
+    const notes = Array.from(document.querySelectorAll('.mac-pop-note'));
+    if (!notes.length) return;
+
+    const hasVisibleNote = notes.some(note => note.classList.contains('is-visible'));
+    notes.forEach(note => {
+      note.classList.toggle('is-visible', !hasVisibleNote);
+      note.classList.toggle('is-dismissed', hasVisibleNote);
+    });
+  }
+
+  function scheduleDesktopFinderNotes(initialDelay = 1500) {
+    clearDesktopFinderNoteTimers();
+    if (window.innerWidth <= 768) {
+      resetDesktopFinderNotes();
+      return;
+    }
+
+    const note2 = document.querySelector('.mac-pop-note-2');
+    const note3 = document.querySelector('.mac-pop-note-3');
+    if (!note2 || !note3) return;
+
+    resetDesktopFinderNotes();
+    macFinderNote2Timer = window.setTimeout(() => {
+      if (!document.body.classList.contains('mac-finder-active') || note2.classList.contains('is-dismissed')) return;
+      note2.classList.add('is-visible');
+    }, initialDelay);
+
+    macFinderNote3Timer = window.setTimeout(() => {
+      if (!document.body.classList.contains('mac-finder-active') || note3.classList.contains('is-dismissed')) return;
+      note3.classList.add('is-visible');
+    }, initialDelay + 1000);
+  }
 
   function setMacFinderMode(isActive, options = {}) {
     const shouldPersist = options.persist !== false;
@@ -120,19 +189,26 @@
           document.body.classList.remove('mac-finder-opening', 'mac-finder-booting');
         }, 2500);
       }
+      scheduleDesktopFinderNotes(!wasFinderActive && shouldAnimate && shouldUseFinderBoot ? 4000 : 1500);
     } else if (shouldAnimate && shouldUseTvTransition && document.body.classList.contains('mac-finder-active')) {
+      clearDesktopFinderNoteTimers();
+      resetDesktopFinderNotes();
       finderMode.classList.remove('tv-open');
       document.body.classList.add('mac-finder-closing');
       macFinderCloseTimer = window.setTimeout(() => {
         document.body.classList.remove('mac-finder-active', 'mac-finder-closing');
       }, 820);
     } else if (shouldAnimate && window.innerWidth <= 768 && finderMode && document.body.classList.contains('mac-finder-active')) {
+      clearDesktopFinderNoteTimers();
+      resetDesktopFinderNotes();
       document.body.classList.remove('mac-finder-booting');
       document.body.classList.add('mac-finder-mobile-closing');
       macFinderCloseTimer = window.setTimeout(() => {
         document.body.classList.remove('mac-finder-active', 'mac-finder-mobile-closing');
       }, 720);
     } else {
+      clearDesktopFinderNoteTimers();
+      resetDesktopFinderNotes();
       document.body.classList.remove('mac-finder-active', 'mac-finder-closing', 'mac-finder-opening', 'mac-finder-booting', 'mac-finder-mobile-closing');
       if (finderMode) finderMode.classList.remove('tv-open');
     }
@@ -275,19 +351,137 @@
   function createMacSafariNameBlock() {
     const nameBlock = document.createElement('div');
     nameBlock.className = 'mac-safari-big-name mac-safari-home-section';
-    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    svg.setAttribute('viewBox', '0 0 1200 240');
-    svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-    text.setAttribute('x', '600');
-    text.setAttribute('y', '174');
-    text.setAttribute('text-anchor', 'middle');
-    text.setAttribute('textLength', '1120');
-    text.setAttribute('lengthAdjust', 'spacingAndGlyphs');
-    text.textContent = 'Rajat Girhotra';
-    svg.appendChild(text);
-    nameBlock.appendChild(svg);
+    const text = document.createElement('div');
+    text.className = 'mac-safari-big-name-text';
+    [...'Rajat Girhotra'].forEach(char => {
+      const letter = document.createElement('span');
+      letter.className = 'mac-safari-name-letter';
+      letter.textContent = char === ' ' ? '\u00A0' : char;
+
+      if (char !== ' ') {
+        letter.addEventListener('mouseenter', () => {
+          const [c1, c2] = GRADIENTS[Math.floor(Math.random() * GRADIENTS.length)];
+          letter.style.backgroundImage = `linear-gradient(135deg, ${c1}, ${c2})`;
+          letter.classList.add('is-gradient');
+        });
+
+        letter.addEventListener('mouseleave', () => {
+          letter.classList.remove('is-gradient');
+          letter.style.backgroundImage = '';
+        });
+      }
+
+      text.appendChild(letter);
+    });
+    nameBlock.appendChild(text);
     return nameBlock;
+  }
+
+  function initMacSafariNameEffects(root = document) {
+    root.querySelectorAll('.mac-safari-big-name:not([data-name-ready="true"])').forEach(nameBlock => {
+      const svgEl = nameBlock.querySelector('svg');
+      const textEl = nameBlock.querySelector('text');
+      if (!svgEl || !textEl) return;
+
+      nameBlock.dataset.nameReady = 'true';
+      let defs = svgEl.querySelector('defs');
+      if (!defs) {
+        defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+        svgEl.insertBefore(defs, svgEl.firstChild);
+      }
+
+      const name = 'Rajat Girhotra';
+      textEl.textContent = name;
+      const charExtents = [];
+      for (let i = 0; i < name.length; i++) {
+        try {
+          charExtents.push(textEl.getExtentOfChar(i));
+        } catch(e) {
+          charExtents.push(null);
+        }
+      }
+
+      const safariTspans = [];
+      let activeSafariIdx = -1;
+      textEl.textContent = '';
+      textEl.setAttribute('fill', getBaseColor());
+
+      [...name].forEach((char, i) => {
+        const tspan = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
+        tspan.textContent = char === ' ' ? '\u00A0' : char;
+        tspan.setAttribute('fill', getBaseColor());
+
+        if (char !== ' ') {
+          const gradId = `macSafariLg${Date.now()}${i}`;
+          const grad = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+          grad.setAttribute('id', gradId);
+          grad.setAttribute('x1', '0%');
+          grad.setAttribute('y1', '0%');
+          grad.setAttribute('x2', '100%');
+          grad.setAttribute('y2', '100%');
+
+          const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+          stop1.setAttribute('offset', '0%');
+          const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+          stop2.setAttribute('offset', '100%');
+          grad.appendChild(stop1);
+          grad.appendChild(stop2);
+          defs.appendChild(grad);
+          tspan._gradId = gradId;
+          tspan._stop1 = stop1;
+          tspan._stop2 = stop2;
+          tspan._ext = charExtents[i];
+        }
+
+        safariTspans.push({ el: tspan, char });
+        textEl.appendChild(tspan);
+      });
+
+      const resetActiveLetter = () => {
+        if (activeSafariIdx !== -1 && safariTspans[activeSafariIdx]) {
+          safariTspans[activeSafariIdx].el.setAttribute('fill', getBaseColor());
+        }
+        activeSafariIdx = -1;
+      };
+
+      svgEl.addEventListener('mousemove', event => {
+        const matrix = svgEl.getScreenCTM();
+        if (!matrix) return;
+
+        const pt = svgEl.createSVGPoint();
+        pt.x = event.clientX;
+        pt.y = event.clientY;
+        const svgPt = pt.matrixTransform(matrix.inverse());
+
+        let hitIdx = -1;
+        for (let i = 0; i < safariTspans.length; i++) {
+          const { el, char } = safariTspans[i];
+          if (char === ' ' || !el._ext) continue;
+          const ext = el._ext;
+          if (svgPt.x >= ext.x && svgPt.x <= ext.x + ext.width &&
+              svgPt.y >= ext.y - 5 && svgPt.y <= ext.y + ext.height + 5) {
+            hitIdx = i;
+            break;
+          }
+        }
+
+        if (hitIdx === activeSafariIdx) return;
+        resetActiveLetter();
+        activeSafariIdx = hitIdx;
+
+        if (hitIdx !== -1) {
+          const t = safariTspans[hitIdx].el;
+          if (t._gradId) {
+            const [c1, c2] = GRADIENTS[Math.floor(Math.random() * GRADIENTS.length)];
+            t._stop1.setAttribute('stop-color', c1);
+            t._stop2.setAttribute('stop-color', c2);
+            t.setAttribute('fill', `url(#${t._gradId})`);
+          }
+        }
+      });
+
+      svgEl.addEventListener('mouseleave', resetActiveLetter);
+    });
   }
 
   function buildMacSafariHome() {
@@ -322,6 +516,7 @@
     });
 
     content.appendChild(page);
+    requestAnimationFrame(() => initMacSafariNameEffects(page));
     setupImageSkeletons(content);
     ensureImagesLoad(content);
   }
@@ -907,7 +1102,7 @@
   function waitForFinderAssets() {
     const assets = window.innerWidth <= 768
       ? ['movbilebackground.jpg', 'workmobile.png', 'howiaimobile.png', 'resumemobile.png', 'safari.svg', 'phone.svg', 'settings.svg', 'notes.svg']
-      : ['background-1800.jpg', 'folderwork.png', 'folderhowiai.png', 'folderresume.png', 'safari.svg', 'phone.svg', 'settings.svg', 'notes.svg'];
+      : ['background-1800.jpg', 'folderwork.png', 'folderhowiai.png', 'folderresume.png', 'safari.svg', 'phone.svg', 'settings.svg', 'notes.svg', 'notedark.png', 'notelight.png'];
 
     return Promise.all(assets.map(src => new Promise(resolve => {
       const img = new Image();
@@ -1590,7 +1785,7 @@
     const finderMode = document.getElementById('macFinderMode');
     if (!finderMode) return;
 
-    const draggableSelector = '.mac-welcome, .mac-folder, .mac-dock-item';
+    const draggableSelector = '.mac-welcome, .mac-folder, .mac-dock-item, .mac-pop-note';
 
     const getTranslate = item => ({
       x: Number.parseFloat(item.style.getPropertyValue('--mac-item-x') || '0') || 0,
@@ -1617,6 +1812,7 @@
       if (window.innerWidth <= 768 || !document.body.classList.contains('mac-finder-active')) return;
       if (event.button !== 0) return;
       if (event.target.closest('.mac-window, .mac-safari-window')) return;
+      if (event.target.closest('.mac-pop-note-close')) return;
 
       const item = event.target.closest(draggableSelector);
       if (!item || !finderMode.contains(item) || item.hidden) return;
@@ -1664,6 +1860,19 @@
       event.stopImmediatePropagation();
     }, true);
   }
+
+  function setupDesktopFinderNotes() {
+    document.querySelectorAll('.mac-pop-note-close').forEach(closeButton => {
+      closeButton.addEventListener('click', event => {
+        event.preventDefault();
+        event.stopPropagation();
+        const note = closeButton.closest('.mac-pop-note');
+        if (!note) return;
+        note.classList.add('is-dismissed');
+        note.classList.remove('is-visible');
+      });
+    });
+  }
   const systemThemeQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
 
   if (systemThemeQuery) {
@@ -1681,6 +1890,7 @@
   setupMacFinderWindowDrag();
   setupMobileFinderItemDrag();
   setupDesktopFinderItemDrag();
+  setupDesktopFinderNotes();
   updateMacMenuDateTime();
   window.setInterval(updateMacMenuDateTime, 30000);
   syncThemeImages();
