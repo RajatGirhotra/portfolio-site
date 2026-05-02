@@ -2054,9 +2054,11 @@
 
     .mac-window-content .resume-preview {
       width: 100%;
+      max-width: 720px;
       max-height: 430px;
       overflow: hidden;
       background: #ffffff;
+      margin: 0 auto;
     }
 
     .mac-window-content .resume-preview img {
@@ -4834,20 +4836,21 @@
   }
 
   .resume-preview {
-    width: fit-content;
+    width: min(100%, 860px);
     max-width: 100%;
     border: 1px solid rgba(0,0,0,0.08);
     background: #f8f8f8;
     display: flex;
     justify-content: center;
+    margin: 0 auto;
   }
 
   .resume-preview img {
     display: block;
-    width: auto;
+    width: 100%;
     max-width: 100%;
     height: auto;
-    max-height: calc(100svh - 180px);
+    max-height: calc(100svh - 160px);
     object-fit: contain;
     object-position: top;
   }
@@ -5461,10 +5464,10 @@
       width: 100%;
     }
     .resume-preview img {
-      max-height: calc(100svh - 220px);
-      width: auto;
+      width: 100%;
       max-width: 100%;
-      margin: 0 auto;
+      max-height: none;
+      margin: 0;
     }
     .resume-info-col {
       display: contents;
