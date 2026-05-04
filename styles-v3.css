@@ -283,6 +283,10 @@
     overflow: hidden;
   }
 
+  picture.image-skeleton-host {
+    display: block;
+  }
+
   .image-skeleton-host::before {
     content: '';
     position: absolute;

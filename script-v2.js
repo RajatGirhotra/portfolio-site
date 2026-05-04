@@ -1169,10 +1169,21 @@
   function setupImageSkeletons(root = document) {
     root.querySelectorAll('img').forEach(img => {
       if (siteLoader && siteLoader.contains(img)) return;
+      if (img.dataset.skeletonBound === 'true') return;
 
-      const host = img.closest('.portfolio-project-image, .case-study-hero-media, .resume-preview, .artwork-figure, .ai-design-figure, .work-left, .portfolio-card');
+      let host = img.closest('.portfolio-project-image, .case-study-hero-media, .resume-preview, .artwork-figure, .ai-design-figure, .work-left, .portfolio-card, .mac-pop-note, .mac-second-page-note, .mac-menu-notes-button');
+      if (!host) {
+        host = img.closest('picture');
+      }
+      if (!host && img.closest('.mac-welcome')) {
+        host = img.closest('picture') || img.parentElement;
+      }
+      if (!host && img.closest('.work-left')) {
+        host = img.parentElement;
+      }
       if (!host) return;
 
+      img.dataset.skeletonBound = 'true';
       host.classList.add('image-skeleton-host');
       img.classList.add('image-skeleton');
 
