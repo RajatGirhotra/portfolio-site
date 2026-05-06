@@ -107,6 +107,30 @@
   let macFinderOpenTimer;
   let macFinderNote2Timer;
   let macFinderNote3Timer;
+  let lockedNormalScrollY = 0;
+
+  function lockNormalPageForFinder() {
+    lockedNormalScrollY = 0;
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    document.body.style.position = 'fixed';
+    document.body.style.top = '0px';
+    document.body.style.left = '0';
+    document.body.style.right = '0';
+    document.body.style.width = '100%';
+  }
+
+  function unlockNormalPageFromFinder() {
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.left = '';
+    document.body.style.right = '';
+    document.body.style.width = '';
+    window.scrollTo({ top: lockedNormalScrollY, left: 0, behavior: 'auto' });
+    document.documentElement.scrollTop = lockedNormalScrollY;
+    document.body.scrollTop = lockedNormalScrollY;
+  }
 
   function clearDesktopFinderNoteTimers() {
     window.clearTimeout(macFinderNote2Timer);
@@ -180,6 +204,7 @@
     window.clearTimeout(macFinderOpenTimer);
 
     if (enabled) {
+      lockNormalPageForFinder();
       document.body.classList.remove('mac-finder-closing', 'mac-finder-mobile-closing', 'mac-finder-booting', 'mac-finder-opening');
       document.body.classList.add('mac-finder-active');
       if (finderMode) finderMode.classList.remove('tv-open');
@@ -197,6 +222,8 @@
       document.body.classList.add('mac-finder-closing');
       macFinderCloseTimer = window.setTimeout(() => {
         document.body.classList.remove('mac-finder-active', 'mac-finder-closing');
+        unlockNormalPageFromFinder();
+        window.setTimeout(replayBigNameIntro, 120);
       }, 820);
     } else if (shouldAnimate && window.innerWidth <= 768 && finderMode && document.body.classList.contains('mac-finder-active')) {
       clearDesktopFinderNoteTimers();
@@ -205,12 +232,18 @@
       document.body.classList.add('mac-finder-mobile-closing');
       macFinderCloseTimer = window.setTimeout(() => {
         document.body.classList.remove('mac-finder-active', 'mac-finder-mobile-closing');
+        unlockNormalPageFromFinder();
+        window.setTimeout(replayBigNameIntro, 120);
       }, 720);
     } else {
       clearDesktopFinderNoteTimers();
       resetDesktopFinderNotes();
       document.body.classList.remove('mac-finder-active', 'mac-finder-closing', 'mac-finder-opening', 'mac-finder-booting', 'mac-finder-mobile-closing');
       if (finderMode) finderMode.classList.remove('tv-open');
+      unlockNormalPageFromFinder();
+      if (wasFinderActive) {
+        window.setTimeout(replayBigNameIntro, 120);
+      }
     }
 
     if (shouldPersist) {
@@ -1129,9 +1162,11 @@
       if (siteLoader && siteLoader.contains(img)) return;
 
       img.loading = 'eager';
+      img.setAttribute('loading', 'eager');
       if (!img.decoding) {
         img.decoding = 'async';
       }
+      img.setAttribute('decoding', 'async');
 
       const picture = img.closest('picture');
       if (picture) {
@@ -1152,6 +1187,28 @@
         img.decode().catch(() => {});
       }
     });
+
+    window.setTimeout(() => {
+      root.querySelectorAll('img').forEach(img => {
+        if (siteLoader && siteLoader.contains(img)) return;
+        if (img.complete && img.naturalWidth > 0) return;
+
+        const src = img.getAttribute('src');
+        if (src) {
+          img.src = src;
+        }
+
+        const picture = img.closest('picture');
+        if (picture) {
+          picture.querySelectorAll('source[srcset]').forEach(source => {
+            const srcset = source.getAttribute('srcset');
+            if (srcset) {
+              source.srcset = srcset;
+            }
+          });
+        }
+      });
+    }, 260);
   }
 
   function ensureInitialMobileImages() {
@@ -1187,29 +1244,59 @@
       host.classList.add('image-skeleton-host');
       img.classList.add('image-skeleton');
 
+      const imageHasPixels = () => img.complete && img.naturalWidth > 0;
+      const imageHasSource = () => Boolean(img.currentSrc || img.getAttribute('src'));
+
       const markReady = () => {
+        if (img.dataset.skeletonReady === 'true') return;
+        img.dataset.skeletonReady = 'true';
         host.classList.add('is-loaded');
         img.classList.add('is-loaded');
       };
 
-      if (img.complete && img.naturalWidth > 0) {
-        if (img.decode) {
-          img.decode().catch(() => {}).finally(markReady);
-        } else {
-          markReady();
+      const tryMarkReady = ({ allowSourceFallback = false, preferDecode = true } = {}) => {
+        if (imageHasPixels()) {
+          if (preferDecode && img.decode) {
+            img.decode().catch(() => {}).finally(markReady);
+          } else {
+            markReady();
+          }
+          return true;
         }
+
+        if (allowSourceFallback && imageHasSource()) {
+          markReady();
+          return true;
+        }
+
+        return false;
+      };
+
+      if (tryMarkReady()) {
         return;
       }
 
       img.addEventListener('load', () => {
-        if (img.decode) {
-          img.decode().catch(() => {}).finally(markReady);
-        } else {
-          markReady();
-        }
+        tryMarkReady({ allowSourceFallback: true });
       }, { once: true });
 
       img.addEventListener('error', markReady, { once: true });
+
+      requestAnimationFrame(() => {
+        tryMarkReady();
+      });
+
+      window.setTimeout(() => {
+        tryMarkReady({ allowSourceFallback: true });
+      }, 180);
+
+      window.setTimeout(() => {
+        tryMarkReady({ allowSourceFallback: true, preferDecode: false });
+      }, 1200);
+
+      window.setTimeout(() => {
+        tryMarkReady({ allowSourceFallback: true, preferDecode: false });
+      }, 2600);
     });
   }
 
@@ -1224,28 +1311,40 @@
       setTimeout(fitName, 100);
       setTimeout(fitFooterName, 100);
       setTimeout(() => {
-        splitIntoLetters();
+        replayBigNameIntro();
         splitFooterIntoLetters();
         fitFooterName();
-        const letters = tspans.filter(t => t.char !== ' ');
-        const totalDuration = 1500;
-        const interval = totalDuration / letters.length;
-
-        letters.forEach((t, i) => {
-          setTimeout(() => {
-            const el = t.el;
-            if (!el._gradId) return;
-            const [c1, c2] = GRADIENTS[Math.floor(Math.random() * GRADIENTS.length)];
-            el._stop1.setAttribute('stop-color', c1);
-            el._stop2.setAttribute('stop-color', c2);
-            el.setAttribute('fill', `url(#${el._gradId})`);
-
-            setTimeout(() => {
-              el.setAttribute('fill', getBaseColor());
-            }, 400);
-          }, i * interval);
-        });
       }, 200);
+    });
+  }
+
+  function replayBigNameIntro() {
+    if (window.innerWidth <= 768) return;
+
+    fitName();
+    splitIntoLetters();
+
+    const letters = tspans.filter(t => t.char !== ' ');
+    const totalDuration = 1500;
+    const interval = letters.length ? totalDuration / letters.length : 0;
+
+    letters.forEach(t => {
+      t.el.setAttribute('fill', getBaseColor());
+    });
+
+    letters.forEach((t, i) => {
+      window.setTimeout(() => {
+        const el = t.el;
+        if (!el || !el._gradId) return;
+        const [c1, c2] = GRADIENTS[Math.floor(Math.random() * GRADIENTS.length)];
+        el._stop1.setAttribute('stop-color', c1);
+        el._stop2.setAttribute('stop-color', c2);
+        el.setAttribute('fill', `url(#${el._gradId})`);
+
+        window.setTimeout(() => {
+          el.setAttribute('fill', getBaseColor());
+        }, 400);
+      }, i * interval);
     });
   }
 
@@ -1290,6 +1389,7 @@
   const footerNameWrap = document.querySelector('.footer-name');
   const footerNameSvg = document.getElementById('footerNameSvg');
   const footerNameText = document.getElementById('footerNameText');
+  const workAboutSpacer = document.querySelector('.work-about-spacer');
 
   const SIDE_PAD = 200;
   let nameHeight   = 0;
@@ -1308,6 +1408,9 @@
       wrapper.style.position = 'absolute';
       heroCenter.style.top = 'calc(50% + 32px)';
       heroCenter.style.transform = 'translate(-50%, -50%)';
+      if (workAboutSpacer) {
+        workAboutSpacer.style.height = '';
+      }
       return;
     }
 
@@ -1373,6 +1476,9 @@
       wrapper.style.right = '-200px';
       wrapper.style.pointerEvents = 'auto';
       wrapper.style.transition = 'filter 0.12s linear';
+      if (workAboutSpacer) {
+        workAboutSpacer.style.height = `${Math.ceil(nameHeight + 200)}px`;
+      }
       update();
     }
   }
@@ -1418,21 +1524,52 @@
     const H = window.innerHeight;
     const scrollY = window.scrollY;
     const portfolioSection = document.querySelector('.portfolio-section');
+    const aboutSection = document.querySelector('.about-section');
+    let recoveryBlurRatio = 0;
+    let portfolioNaturalDocTop = null;
+
+    let shouldScrollNaturally = false;
+    const nameTopInViewport = H - nameHeight - bottomOffset;
+    const nameBottomInViewport = H - bottomOffset;
 
     if (portfolioSection) {
       const rect = portfolioSection.getBoundingClientRect();
-      const nameTopInViewport = H - nameHeight - bottomOffset;
-      const nameBottomInViewport = H - bottomOffset;
-      const fadeStart = nameBottomInViewport + 120;
-      const fadeEnd = nameTopInViewport - Math.max(180, nameHeight * 0.32);
-      const fadeRange = Math.max(1, fadeStart - fadeEnd);
-      const rawFade = Math.max(0, Math.min(1, (fadeStart - rect.top) / fadeRange));
-      const easedFade = rawFade * rawFade * (3 - 2 * rawFade);
-      const nameOpacity = 1 - easedFade;
+      const recoveryStartGap = 100;
+      const gapAfterPortfolio = 100;
+      const isPortfolioActive = rect.top < nameBottomInViewport && rect.bottom > nameTopInViewport;
+      let nameOpacity = 1;
+
+      if (rect.top >= nameBottomInViewport) {
+        nameOpacity = 1;
+      } else if (isPortfolioActive) {
+        const fadeStart = nameBottomInViewport + 120;
+        const fadeEnd = nameTopInViewport - Math.max(180, nameHeight * 0.32);
+        const fadeRange = Math.max(1, fadeStart - fadeEnd);
+        const rawFade = Math.max(0, Math.min(1, (fadeStart - rect.top) / fadeRange));
+        const easedFade = rawFade * rawFade * (3 - 2 * rawFade);
+        nameOpacity = 1 - easedFade;
+      } else if (rect.bottom <= nameTopInViewport - recoveryStartGap) {
+        const recoveryRange = Math.max(180, nameHeight * 0.55);
+        const recoveryDistance = (nameTopInViewport - recoveryStartGap) - rect.bottom;
+        const rawRecovery = Math.max(0, Math.min(1, recoveryDistance / recoveryRange));
+        const easedRecovery = rawRecovery * rawRecovery * (3 - 2 * rawRecovery);
+        nameOpacity = 0.18 + (0.82 * easedRecovery);
+        recoveryBlurRatio = 1 - easedRecovery;
+        portfolioNaturalDocTop = scrollY + rect.bottom + gapAfterPortfolio;
+      } else {
+        nameOpacity = 0;
+        recoveryBlurRatio = 1;
+        portfolioNaturalDocTop = scrollY + rect.bottom + gapAfterPortfolio;
+      }
       wrapper.style.opacity = nameOpacity.toFixed(3);
       wrapper.style.pointerEvents = nameOpacity > 0.08 ? 'auto' : 'none';
 
-      if (rect.bottom > H / 2 || nameOpacity > 0.02) {
+      if (portfolioNaturalDocTop !== null) {
+        wrapper.style.position = 'absolute';
+        wrapper.style.top = `${portfolioNaturalDocTop}px`;
+        wrapper.style.bottom = 'auto';
+        shouldScrollNaturally = true;
+      } else if (!isPortfolioActive || rect.bottom > H / 2 || nameOpacity > 0.02) {
         // Portfolio bottom still in upper half — stay fixed
         wrapper.style.bottom = bottomOffset + 'px';
         triggerScrollY = scrollY;
@@ -1447,12 +1584,31 @@
       wrapper.style.pointerEvents = 'auto';
     }
 
+    if (aboutSection) {
+      const aboutRect = aboutSection.getBoundingClientRect();
+      const gapBeforeAbout = 100;
+      const aboutAlignedDocTop = scrollY + aboutRect.top - nameHeight - gapBeforeAbout;
+
+      if (aboutRect.top - gapBeforeAbout < nameBottomInViewport) {
+        const finalDocTop = portfolioNaturalDocTop !== null
+          ? Math.min(portfolioNaturalDocTop, aboutAlignedDocTop)
+          : aboutAlignedDocTop;
+        wrapper.style.position = 'absolute';
+        wrapper.style.top = `${finalDocTop}px`;
+        wrapper.style.bottom = 'auto';
+        shouldScrollNaturally = true;
+      }
+    }
+
+    if (!shouldScrollNaturally) {
+      wrapper.style.position = 'fixed';
+      wrapper.style.top = 'auto';
+    }
+
     // Blur logic
-    const nameTopInViewport = H - nameHeight - bottomOffset;
     const sections = [
       document.querySelector('.work-section'),
-      document.querySelector('.portfolio-section'),
-      document.querySelector('.about-section')
+      document.querySelector('.portfolio-section')
     ].filter(Boolean);
 
     let maxRatio = 0;
@@ -1464,6 +1620,10 @@
       const effectiveOverlap = Math.max(0, overlapPx - Math.max(0, (rect.top + 120) - nameTopInViewport));
       const ratio = Math.min(1, effectiveOverlap / nameHeight);
       if (ratio > maxRatio) maxRatio = ratio;
+    }
+
+    if (recoveryBlurRatio > 0) {
+      maxRatio = Math.max(maxRatio, recoveryBlurRatio * 0.78);
     }
 
     if (maxRatio === 0) {
@@ -2248,7 +2408,7 @@
     [...name].forEach((char, i) => {
       const tspan = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
       tspan.textContent = char === ' ' ? '\u00A0' : char;
-      tspan.setAttribute('fill', '#000000');
+      tspan.setAttribute('fill', getBaseColor());
 
       if (char !== ' ') {
         const gradId = `lg${i}`;
@@ -2339,19 +2499,14 @@
     const svgEl = document.getElementById('bigNameSvg');
     if (!svgEl) return;
 
-    // Convert mouse position to SVG coordinate space
-    const pt = svgEl.createSVGPoint();
-    pt.x = e.clientX;
-    pt.y = e.clientY;
-    const svgPt = pt.matrixTransform(svgEl.getScreenCTM().inverse());
-
     let hitIdx = -1;
     for (let i = 0; i < tspans.length; i++) {
       const { el, char } = tspans[i];
-      if (char === ' ' || !el._ext) continue;
-      const ext = el._ext;
-      if (svgPt.x >= ext.x && svgPt.x <= ext.x + ext.width &&
-          svgPt.y >= ext.y - 5 && svgPt.y <= ext.y + ext.height + 5) {
+      if (char === ' ') continue;
+      const rect = el.getBoundingClientRect();
+      if (!rect.width || !rect.height) continue;
+      if (e.clientX >= rect.left && e.clientX <= rect.right &&
+          e.clientY >= rect.top - 6 && e.clientY <= rect.bottom + 6) {
         hitIdx = i;
         break;
       }
@@ -2376,26 +2531,30 @@
     }
   });
 
+  const bigNameSvgEl = document.getElementById('bigNameSvg');
+  if (bigNameSvgEl) {
+    bigNameSvgEl.addEventListener('mouseleave', () => {
+      if (activeIdx !== -1 && tspans[activeIdx]) {
+        tspans[activeIdx].el.setAttribute('fill', getBaseColor());
+      }
+      activeIdx = -1;
+    });
+  }
+
   document.addEventListener('mousemove', e => {
     if (!footerTspans.length || window.innerWidth <= 1024) return;
 
     const svgEl = document.getElementById('footerNameSvg');
     if (!svgEl) return;
 
-    const pt = svgEl.createSVGPoint();
-    pt.x = e.clientX;
-    pt.y = e.clientY;
-    const screenCTM = svgEl.getScreenCTM();
-    if (!screenCTM) return;
-    const svgPt = pt.matrixTransform(screenCTM.inverse());
-
     let hitIdx = -1;
     for (let i = 0; i < footerTspans.length; i++) {
       const { el, char } = footerTspans[i];
-      if (char === ' ' || !el._ext) continue;
-      const ext = el._ext;
-      if (svgPt.x >= ext.x && svgPt.x <= ext.x + ext.width &&
-          svgPt.y >= ext.y - 8 && svgPt.y <= ext.y + ext.height + 8) {
+      if (char === ' ') continue;
+      const rect = el.getBoundingClientRect();
+      if (!rect.width || !rect.height) continue;
+      if (e.clientX >= rect.left && e.clientX <= rect.right &&
+          e.clientY >= rect.top - 8 && e.clientY <= rect.bottom + 8) {
         hitIdx = i;
         break;
       }
@@ -2419,3 +2578,13 @@
       }
     }
   });
+
+  const footerNameSvgEl = document.getElementById('footerNameSvg');
+  if (footerNameSvgEl) {
+    footerNameSvgEl.addEventListener('mouseleave', () => {
+      if (activeFooterIdx !== -1 && footerTspans[activeFooterIdx]) {
+        footerTspans[activeFooterIdx].el.setAttribute('fill', getBaseColor());
+      }
+      activeFooterIdx = -1;
+    });
+  }
