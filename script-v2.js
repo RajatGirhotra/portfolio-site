@@ -49,6 +49,7 @@
     document.documentElement.classList.toggle('dark', isDark);
     syncThemeImages();
     syncMobileSettingsPanel();
+    syncDesktopSettingsPanel();
 
     const macThemeModeLabel = document.getElementById('macThemeModeLabel');
     if (macThemeModeLabel) {
@@ -648,7 +649,8 @@
       if (window.innerWidth <= 768) {
         showMacAppSplash('settings', openMobileSettingsApp);
       } else {
-        showMacComingSoonToast();
+        setMacFinderMode(true, { persist: false });
+        openMacFinderWindow('settings');
       }
       return;
     }
@@ -686,6 +688,7 @@
     'how-i-ai': 'How I AI',
     resume: 'Resume',
     contact: 'Contact',
+    settings: 'Settings',
     about: 'Notes',
     'life-insurance': 'Life Insurance',
     'go-leap': 'Go Leap',
@@ -701,6 +704,7 @@
     'how-i-ai': 'folderhowiai.png',
     resume: 'folderresume.png',
     contact: 'phone.svg',
+    settings: 'settings.svg',
     about: 'notes.svg',
     'life-insurance': 'folderwork.png',
     'go-leap': 'folderwork.png',
@@ -716,21 +720,98 @@
     return page.querySelector('.page-inner, .case-study-page') || page;
   }
 
+  function buildMacDesktopSettingsContent() {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'mac-window-clone mac-desktop-settings';
+    wrapper.dataset.sourcePage = 'settings';
+    wrapper.innerHTML = `
+      <div class="mac-desktop-settings-inner">
+        <h1 class="mac-desktop-settings-title">Settings</h1>
+        <div class="mac-desktop-settings-profile">
+          <div class="mac-desktop-settings-avatar">
+            <img src="Rajat.jpeg" alt="Rajat Girhotra" loading="eager" decoding="async">
+          </div>
+          <div class="mac-desktop-settings-profile-copy">
+            <strong>Rajat Girhotra</strong>
+            <span>Product designer, AI guy</span>
+          </div>
+        </div>
+        <div class="mac-desktop-settings-card">
+          <button id="macDesktopThemeRow" class="mac-desktop-settings-row mac-clickable" type="button" onclick="toggleDesktopSettingsTheme()" aria-pressed="false">
+            <span class="mac-desktop-settings-row-icon" aria-hidden="true">
+              <svg class="mac-desktop-settings-sun-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+              </svg>
+            </span>
+            <span class="mac-desktop-settings-row-label">Dark Mode</span>
+            <span id="macDesktopThemeSwitch" class="mac-desktop-settings-switch" aria-hidden="true"><span></span></span>
+          </button>
+          <div class="mac-desktop-settings-divider" aria-hidden="true"></div>
+          <button class="mac-desktop-settings-row mac-clickable" type="button" onclick="switchDesktopSettingsToRegularMode()">
+            <span class="mac-desktop-settings-row-icon mac-desktop-settings-row-icon--switch" aria-hidden="true">
+              <img src="switch.svg" alt="" loading="eager" decoding="async">
+            </span>
+            <span class="mac-desktop-settings-row-label">Switch to regular portfolio</span>
+            <span class="mac-desktop-settings-switch is-on" aria-hidden="true"><span></span></span>
+          </button>
+        </div>
+      </div>
+    `;
+    return wrapper;
+  }
+
+  function syncDesktopSettingsPanel() {
+    const panel = document.querySelector('#macFinderWindowContent .mac-desktop-settings');
+    const themeRow = document.getElementById('macDesktopThemeRow');
+    const themeSwitch = document.getElementById('macDesktopThemeSwitch');
+    if (!panel) return;
+    const isDark = document.documentElement.classList.contains('dark');
+    panel.classList.toggle('is-dark', isDark);
+    if (themeRow) themeRow.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+    if (themeSwitch) themeSwitch.classList.toggle('is-on', isDark);
+  }
+
+  function toggleDesktopSettingsTheme() {
+    toggleTheme();
+    syncDesktopSettingsPanel();
+  }
+
+  function switchDesktopSettingsToRegularMode() {
+    closeMacFinderWindow();
+    setMacFinderMode(false);
+  }
+
   function openMacFinderWindow(pageId, options = {}) {
     const win = document.getElementById('macFinderWindow');
     const content = document.getElementById('macFinderWindowContent');
     const page = document.getElementById('page-' + pageId);
     const source = getMacWindowSource(pageId);
-    if (!win || !content || !source) return;
+    if (!win || !content) return;
 
     closeMacSafariWindow();
     content.innerHTML = '';
-    const clone = source.cloneNode(true);
-    clone.querySelectorAll('.page-close, .global-page-close, .progress-slider-cs').forEach(el => el.remove());
-    clone.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
-    clone.classList.add('mac-window-clone');
-    clone.dataset.sourcePage = pageId;
+    let clone;
+    if (pageId === 'settings') {
+      clone = buildMacDesktopSettingsContent();
+    } else {
+      if (!source) return;
+      clone = source.cloneNode(true);
+      clone.querySelectorAll('.page-close, .global-page-close, .progress-slider-cs').forEach(el => el.remove());
+      clone.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
+      clone.classList.add('mac-window-clone');
+      clone.dataset.sourcePage = pageId;
+    }
     win.dataset.currentPage = pageId;
+    win.classList.toggle('is-maximize-disabled', pageId === 'settings');
+    win.classList.toggle('is-settings-window', pageId === 'settings');
 
     const isCaseStudy = Boolean(page && page.classList.contains('case-study-view'));
     if (!isCaseStudy) {
@@ -750,6 +831,9 @@
     syncMacMinimizedWindow(null);
     constrainMacFinderWindow();
     ensureImagesLoad(content);
+    if (pageId === 'settings') {
+      syncDesktopSettingsPanel();
+    }
   }
 
   function openMacCaseWindow(pageId) {
@@ -859,6 +943,8 @@
     const content = document.getElementById('macFinderWindowContent');
     if (!win) return;
     win.classList.remove('is-open', 'is-maximized', 'is-minimized');
+    win.classList.remove('is-maximize-disabled');
+    win.classList.remove('is-settings-window');
     win.setAttribute('aria-hidden', 'true');
     delete win.dataset.currentPage;
     if (content) content.innerHTML = '';
@@ -879,6 +965,7 @@
   function toggleMacFinderWindowMaximize() {
     const win = document.getElementById('macFinderWindow');
     if (!win || !win.classList.contains('is-open')) return;
+    if (win.classList.contains('is-maximize-disabled') || win.dataset.currentPage === 'settings') return;
     if (win.classList.contains('is-maximized')) {
       win.classList.remove('is-maximized');
       win.style.left = win.dataset.restoreLeft || win.style.left;

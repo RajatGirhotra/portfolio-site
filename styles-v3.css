@@ -1607,6 +1607,23 @@
       display: none;
     }
 
+    .mac-window.is-maximize-disabled .mac-window-maximize {
+      opacity: 0.42;
+      pointer-events: none;
+    }
+
+    .mac-window.is-settings-window {
+      width: min(344px, 24.8vw);
+      height: min(688px, 70.4vh);
+      border-radius: 28px;
+      overflow: hidden;
+    }
+
+    .mac-window.is-settings-window .mac-window-content {
+      padding: 0;
+      background: transparent;
+    }
+
     .mac-safari-window {
       position: absolute;
       left: calc(9vw + 130px);
@@ -2237,6 +2254,193 @@
 
     .mac-window-content .work-highlights {
       gap: 8px;
+    }
+
+    .mac-window-content .mac-desktop-settings {
+      width: 100%;
+      min-height: 100%;
+      padding: 22px 18px 24px;
+      color: #111111;
+      background: #f3f3f3;
+    }
+
+    .mac-window-content .mac-desktop-settings.is-dark {
+      color: #f3f3f3;
+      background: #161616;
+    }
+
+    .mac-window-content .mac-desktop-settings-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .mac-window-content .mac-desktop-settings-title {
+      margin: 0;
+      font: 700 26px/1 'Inter', sans-serif;
+      letter-spacing: -0.05em;
+      color: inherit;
+    }
+
+    .mac-window-content .mac-desktop-settings-profile,
+    .mac-window-content .mac-desktop-settings-card {
+      width: 100%;
+      border-radius: 19px;
+      background: #ffffff;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .mac-window-content .mac-desktop-settings.is-dark .mac-desktop-settings-profile,
+    .mac-window-content .mac-desktop-settings.is-dark .mac-desktop-settings-card {
+      background: #222222;
+      border-color: rgba(255,255,255,0.08);
+    }
+
+    .mac-window-content .mac-desktop-settings-profile {
+      min-height: 67px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+    }
+
+    .mac-window-content .mac-desktop-settings-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.08);
+      flex: 0 0 auto;
+      background: #ffffff;
+    }
+
+    .mac-window-content .mac-desktop-settings-avatar img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .mac-window-content .mac-desktop-settings-profile-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      min-width: 0;
+    }
+
+    .mac-window-content .mac-desktop-settings-profile-copy strong {
+      font: 700 19px/1.02 'Inter', sans-serif;
+      letter-spacing: -0.05em;
+      color: inherit;
+    }
+
+    .mac-window-content .mac-desktop-settings-profile-copy span {
+      font: 400 11px/1.2 'Inter', sans-serif;
+      color: inherit;
+      opacity: 0.86;
+    }
+
+    .mac-window-content .mac-desktop-settings-card {
+      flex: 1 1 auto;
+      padding: 11px 14px 19px;
+    }
+
+    .mac-window-content .mac-desktop-settings-row {
+      width: 100%;
+      border: none;
+      background: transparent;
+      color: inherit;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      padding: 11px 0;
+      text-align: left;
+    }
+
+    .mac-window-content .mac-desktop-settings-row-icon {
+      width: 26px;
+      height: 26px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+      color: #000000;
+    }
+
+    .mac-window-content .mac-desktop-settings.is-dark .mac-desktop-settings-row-icon {
+      color: #f3f3f3;
+    }
+
+    .mac-window-content .mac-desktop-settings-sun-icon {
+      display: block;
+      width: 19px;
+      height: 19px;
+      opacity: 1;
+      transform: none;
+    }
+
+    .mac-window-content .mac-desktop-settings-row-icon--switch img {
+      display: block;
+      width: 19px;
+      height: 19px;
+      object-fit: contain;
+      filter: brightness(0);
+    }
+
+    .mac-window-content .mac-desktop-settings.is-dark .mac-desktop-settings-row-icon--switch img {
+      filter: none;
+    }
+
+    .mac-window-content .mac-desktop-settings-row-label {
+      flex: 1 1 auto;
+      min-width: 0;
+      font: 500 13px/1.2 'Inter', sans-serif;
+      letter-spacing: -0.02em;
+      color: inherit;
+    }
+
+    .mac-window-content .mac-desktop-settings-divider {
+      height: 1px;
+      margin: 0 0 0 38px;
+      background: rgba(0,0,0,0.1);
+    }
+
+    .mac-window-content .mac-desktop-settings.is-dark .mac-desktop-settings-divider {
+      background: rgba(255,255,255,0.14);
+    }
+
+    .mac-window-content .mac-desktop-settings-switch {
+      width: 33px;
+      height: 18px;
+      border-radius: 999px;
+      background: #d1d1d6;
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      flex: 0 0 auto;
+      transition: background 0.18s ease;
+    }
+
+    .mac-window-content .mac-desktop-settings-switch span {
+      position: absolute;
+      left: 2px;
+      top: 1px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.18);
+      transition: transform 0.18s ease;
+    }
+
+    .mac-window-content .mac-desktop-settings-switch.is-on {
+      background: #34c759;
+    }
+
+    .mac-window-content .mac-desktop-settings-switch.is-on span {
+      transform: translateX(14px);
     }
 
     .mac-window-back {
