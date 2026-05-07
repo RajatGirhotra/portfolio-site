@@ -32,6 +32,12 @@
     return document.documentElement.classList.contains('dark') ? '#F3F3F3' : '#000000';
   }
 
+  function applyLetterFill(letterEl, fillValue) {
+    if (!letterEl) return;
+    letterEl.setAttribute('fill', fillValue);
+    letterEl.style.fill = fillValue;
+  }
+
   function syncThemeImages() {
     const isDark = document.documentElement.classList.contains('dark');
     document.querySelectorAll('[data-light-src][data-dark-src]').forEach(img => {
@@ -42,6 +48,7 @@
   function applyThemeState(isDark) {
     document.documentElement.classList.toggle('dark', isDark);
     syncThemeImages();
+    syncMobileSettingsPanel();
 
     const macThemeModeLabel = document.getElementById('macThemeModeLabel');
     if (macThemeModeLabel) {
@@ -51,29 +58,29 @@
     const base = getBaseColor();
     tspans.forEach(t => {
       if (t.el.getAttribute('fill') !== 'url(#' + (t.el._gradId || '') + ')') {
-        t.el.setAttribute('fill', base);
+        applyLetterFill(t.el, base);
       }
     });
 
     const bigText = document.getElementById('bigNameText');
-    if (bigText) bigText.setAttribute('fill', base);
+    if (bigText) applyLetterFill(bigText, base);
 
     footerTspans.forEach(t => {
       if (t.el.getAttribute('fill') !== 'url(#' + (t.el._gradId || '') + ')') {
-        t.el.setAttribute('fill', base);
+        applyLetterFill(t.el, base);
       }
     });
 
     const footerText = document.getElementById('footerNameText');
-    if (footerText) footerText.setAttribute('fill', base);
+    if (footerText) applyLetterFill(footerText, base);
 
     document.querySelectorAll('.mac-safari-big-name text').forEach(text => {
-      text.setAttribute('fill', base);
+      applyLetterFill(text, base);
     });
 
     document.querySelectorAll('.mac-safari-big-name tspan').forEach(tspan => {
       if (tspan.dataset.gradientActive !== 'true') {
-        tspan.setAttribute('fill', base);
+        applyLetterFill(tspan, base);
       }
     });
   }
@@ -205,6 +212,7 @@
 
     if (enabled) {
       lockNormalPageForFinder();
+      closeMobileSettingsApp();
       document.body.classList.remove('mac-finder-closing', 'mac-finder-mobile-closing', 'mac-finder-booting', 'mac-finder-opening');
       document.body.classList.add('mac-finder-active');
       if (finderMode) finderMode.classList.remove('tv-open');
@@ -216,6 +224,7 @@
       }
       scheduleDesktopFinderNotes(!wasFinderActive && shouldAnimate && shouldUseFinderBoot ? 4000 : 1500);
     } else if (shouldAnimate && shouldUseTvTransition && document.body.classList.contains('mac-finder-active')) {
+      closeMobileSettingsApp();
       clearDesktopFinderNoteTimers();
       resetDesktopFinderNotes();
       finderMode.classList.remove('tv-open');
@@ -226,6 +235,7 @@
         window.setTimeout(replayBigNameIntro, 120);
       }, 820);
     } else if (shouldAnimate && window.innerWidth <= 768 && finderMode && document.body.classList.contains('mac-finder-active')) {
+      closeMobileSettingsApp();
       clearDesktopFinderNoteTimers();
       resetDesktopFinderNotes();
       document.body.classList.remove('mac-finder-booting');
@@ -236,6 +246,7 @@
         window.setTimeout(replayBigNameIntro, 120);
       }, 720);
     } else {
+      closeMobileSettingsApp();
       clearDesktopFinderNoteTimers();
       resetDesktopFinderNotes();
       document.body.classList.remove('mac-finder-active', 'mac-finder-closing', 'mac-finder-opening', 'mac-finder-booting', 'mac-finder-mobile-closing');
@@ -379,6 +390,44 @@
 
   function stripDuplicateIds(root) {
     root.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
+  }
+
+  function syncMobileSettingsPanel() {
+    const panel = document.getElementById('macMobileSettings');
+    const themeRow = document.getElementById('macMobileThemeRow');
+    const themeSwitch = document.getElementById('macMobileThemeSwitch');
+    if (!panel) return;
+    const isDark = document.documentElement.classList.contains('dark');
+    panel.classList.toggle('is-dark', isDark);
+    if (themeRow) themeRow.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+    if (themeSwitch) themeSwitch.classList.toggle('is-on', isDark);
+  }
+
+  function openMobileSettingsApp() {
+    const panel = document.getElementById('macMobileSettings');
+    if (!panel || window.innerWidth > 768) return;
+    syncMobileSettingsPanel();
+    panel.classList.add('is-open');
+    panel.setAttribute('aria-hidden', 'false');
+    setupImageSkeletons(panel);
+    ensureImagesLoad(panel);
+  }
+
+  function closeMobileSettingsApp() {
+    const panel = document.getElementById('macMobileSettings');
+    if (!panel) return;
+    panel.classList.remove('is-open');
+    panel.setAttribute('aria-hidden', 'true');
+  }
+
+  function toggleMobileSettingsTheme() {
+    toggleTheme();
+    syncMobileSettingsPanel();
+  }
+
+  function switchMobileSettingsToRegularMode() {
+    closeMobileSettingsApp();
+    toggleMacFinderMode();
   }
 
   function createMacSafariNameBlock() {
@@ -591,8 +640,16 @@
   }
 
   function openMacShortcut(id) {
+    if (id !== 'settings') {
+      closeMobileSettingsApp();
+    }
+
     if (id === 'settings') {
-      if (window.innerWidth <= 768) showMacComingSoonToast();
+      if (window.innerWidth <= 768) {
+        showMacAppSplash('settings', openMobileSettingsApp);
+      } else {
+        showMacComingSoonToast();
+      }
       return;
     }
 
@@ -618,6 +675,7 @@
   }
 
   function openMacWorkTab(tabId) {
+    closeMobileSettingsApp();
     setWorkTab(tabId || 'office');
     openMacShortcut('work');
   }
@@ -1152,6 +1210,9 @@
   function ensureImagesLoad(root = document) {
     if (!root) return;
     const shouldForce = isMobileImageRuntime() ||
+      root.classList?.contains('page-view') ||
+      root.classList?.contains('work-tab-panel') ||
+      root.closest?.('.page-view.active') ||
       root.closest?.('.mac-window, .mac-safari-window') ||
       root.classList?.contains('mac-safari-content') ||
       root.classList?.contains('mac-window-content');
@@ -1329,7 +1390,7 @@
     const interval = letters.length ? totalDuration / letters.length : 0;
 
     letters.forEach(t => {
-      t.el.setAttribute('fill', getBaseColor());
+      applyLetterFill(t.el, getBaseColor());
     });
 
     letters.forEach((t, i) => {
@@ -1339,10 +1400,10 @@
         const [c1, c2] = GRADIENTS[Math.floor(Math.random() * GRADIENTS.length)];
         el._stop1.setAttribute('stop-color', c1);
         el._stop2.setAttribute('stop-color', c2);
-        el.setAttribute('fill', `url(#${el._gradId})`);
+        applyLetterFill(el, `url(#${el._gradId})`);
 
         window.setTimeout(() => {
-          el.setAttribute('fill', getBaseColor());
+          applyLetterFill(el, getBaseColor());
         }, 400);
       }, i * interval);
     });
@@ -2342,6 +2403,41 @@
   let footerTspans = [];
   let activeFooterIdx = -1;
 
+  function getSvgCharHitIndex(svgEl, textEl, event, letters) {
+    if (!svgEl || !textEl || !letters.length) return -1;
+    const screenCTM = svgEl.getScreenCTM();
+    if (!screenCTM) return -1;
+
+    const pt = svgEl.createSVGPoint();
+    pt.x = event.clientX;
+    pt.y = event.clientY;
+    const svgPt = pt.matrixTransform(screenCTM.inverse());
+
+    let charIndex = -1;
+    try {
+      charIndex = textEl.getCharNumAtPosition(svgPt);
+    } catch (error) {
+      charIndex = -1;
+    }
+
+    if (charIndex < 0 || charIndex >= letters.length) return -1;
+    return letters[charIndex]?.char === ' ' ? -1 : charIndex;
+  }
+
+  function resetBigNameLetter() {
+    if (activeIdx !== -1 && tspans[activeIdx]) {
+      applyLetterFill(tspans[activeIdx].el, getBaseColor());
+    }
+    activeIdx = -1;
+  }
+
+  function resetFooterNameLetter() {
+    if (activeFooterIdx !== -1 && footerTspans[activeFooterIdx]) {
+      applyLetterFill(footerTspans[activeFooterIdx].el, getBaseColor());
+    }
+    activeFooterIdx = -1;
+  }
+
   function initMobileHeroNameEffect() {
     const nameEl = document.querySelector('.mobile-hero-name');
     if (!nameEl || nameEl.dataset.colorReady === 'true') return;
@@ -2408,7 +2504,7 @@
     [...name].forEach((char, i) => {
       const tspan = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
       tspan.textContent = char === ' ' ? '\u00A0' : char;
-      tspan.setAttribute('fill', getBaseColor());
+      applyLetterFill(tspan, getBaseColor());
 
       if (char !== ' ') {
         const gradId = `lg${i}`;
@@ -2463,7 +2559,7 @@
     [...name].forEach((char, i) => {
       const tspan = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
       tspan.textContent = char === ' ' ? '\u00A0' : char;
-      tspan.setAttribute('fill', getBaseColor());
+      applyLetterFill(tspan, getBaseColor());
 
       if (char !== ' ') {
         const gradId = `footer-lg${i}`;
@@ -2497,26 +2593,14 @@
     if (!tspans.length) return;
 
     const svgEl = document.getElementById('bigNameSvg');
-    if (!svgEl) return;
+    const textEl = document.getElementById('bigNameText');
+    if (!svgEl || !textEl) return;
 
-    let hitIdx = -1;
-    for (let i = 0; i < tspans.length; i++) {
-      const { el, char } = tspans[i];
-      if (char === ' ') continue;
-      const rect = el.getBoundingClientRect();
-      if (!rect.width || !rect.height) continue;
-      if (e.clientX >= rect.left && e.clientX <= rect.right &&
-          e.clientY >= rect.top - 6 && e.clientY <= rect.bottom + 6) {
-        hitIdx = i;
-        break;
-      }
-    }
+    const hitIdx = getSvgCharHitIndex(svgEl, textEl, e, tspans);
 
     if (hitIdx === activeIdx) return;
 
-    if (activeIdx !== -1 && tspans[activeIdx]) {
-      tspans[activeIdx].el.setAttribute('fill', getBaseColor());
-    }
+    resetBigNameLetter();
 
     activeIdx = hitIdx;
 
@@ -2526,45 +2610,28 @@
         const [c1, c2] = GRADIENTS[Math.floor(Math.random() * GRADIENTS.length)];
         t._stop1.setAttribute('stop-color', c1);
         t._stop2.setAttribute('stop-color', c2);
-        t.setAttribute('fill', `url(#${t._gradId})`);
+        applyLetterFill(t, `url(#${t._gradId})`);
       }
     }
   });
 
   const bigNameSvgEl = document.getElementById('bigNameSvg');
   if (bigNameSvgEl) {
-    bigNameSvgEl.addEventListener('mouseleave', () => {
-      if (activeIdx !== -1 && tspans[activeIdx]) {
-        tspans[activeIdx].el.setAttribute('fill', getBaseColor());
-      }
-      activeIdx = -1;
-    });
+    bigNameSvgEl.addEventListener('mouseleave', resetBigNameLetter);
   }
 
   document.addEventListener('mousemove', e => {
     if (!footerTspans.length || window.innerWidth <= 1024) return;
 
     const svgEl = document.getElementById('footerNameSvg');
-    if (!svgEl) return;
+    const textEl = document.getElementById('footerNameText');
+    if (!svgEl || !textEl) return;
 
-    let hitIdx = -1;
-    for (let i = 0; i < footerTspans.length; i++) {
-      const { el, char } = footerTspans[i];
-      if (char === ' ') continue;
-      const rect = el.getBoundingClientRect();
-      if (!rect.width || !rect.height) continue;
-      if (e.clientX >= rect.left && e.clientX <= rect.right &&
-          e.clientY >= rect.top - 8 && e.clientY <= rect.bottom + 8) {
-        hitIdx = i;
-        break;
-      }
-    }
+    const hitIdx = getSvgCharHitIndex(svgEl, textEl, e, footerTspans);
 
     if (hitIdx === activeFooterIdx) return;
 
-    if (activeFooterIdx !== -1 && footerTspans[activeFooterIdx]) {
-      footerTspans[activeFooterIdx].el.setAttribute('fill', getBaseColor());
-    }
+    resetFooterNameLetter();
 
     activeFooterIdx = hitIdx;
 
@@ -2574,17 +2641,12 @@
         const [c1, c2] = GRADIENTS[Math.floor(Math.random() * GRADIENTS.length)];
         t._stop1.setAttribute('stop-color', c1);
         t._stop2.setAttribute('stop-color', c2);
-        t.setAttribute('fill', `url(#${t._gradId})`);
+        applyLetterFill(t, `url(#${t._gradId})`);
       }
     }
   });
 
   const footerNameSvgEl = document.getElementById('footerNameSvg');
   if (footerNameSvgEl) {
-    footerNameSvgEl.addEventListener('mouseleave', () => {
-      if (activeFooterIdx !== -1 && footerTspans[activeFooterIdx]) {
-        footerTspans[activeFooterIdx].el.setAttribute('fill', getBaseColor());
-      }
-      activeFooterIdx = -1;
-    });
+    footerNameSvgEl.addEventListener('mouseleave', resetFooterNameLetter);
   }

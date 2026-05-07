@@ -4842,11 +4842,13 @@
   .resume-preview {
     width: min(100%, 860px);
     max-width: 100%;
+    min-height: 480px;
     border: 1px solid rgba(0,0,0,0.08);
     background: #f8f8f8;
     display: flex;
     justify-content: center;
     margin: 0 auto;
+    overflow: hidden;
   }
 
   .resume-preview img {
@@ -5466,12 +5468,17 @@
     }
     .resume-preview {
       width: 100%;
+      min-height: auto;
+      aspect-ratio: 0.72 / 1;
     }
     .resume-preview img {
       width: 100%;
+      height: 100%;
       max-width: 100%;
       max-height: none;
       margin: 0;
+      object-fit: contain;
+      object-position: top center;
     }
     .resume-info-col {
       display: contents;
@@ -6540,6 +6547,10 @@
     margin-top: 20px;
   }
 
+  .mac-mobile-settings {
+    display: none;
+  }
+
   @media (max-width: 768px) {
     .mac-finder-mode .mac-desktop,
     .mac-finder-mode .mac-welcome,
@@ -6560,6 +6571,230 @@
 
     .mac-transform-label {
       font-size: 16px;
+    }
+
+    .mac-mobile-settings {
+      position: absolute;
+      inset: 0;
+      z-index: 16;
+      display: none;
+      padding: calc(env(safe-area-inset-top) + 34px) 16px calc(env(safe-area-inset-bottom) + 28px);
+      background: #efefed;
+      color: #000000;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .mac-mobile-settings.is-open {
+      display: block;
+    }
+
+    .mac-mobile-settings.is-dark {
+      background: #0f0f10;
+      color: #f3f3f3;
+    }
+
+    .mac-mobile-settings-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .mac-mobile-settings-header h2 {
+      font: 700 32px/1 'Inter', sans-serif;
+      letter-spacing: -0.055em;
+    }
+
+    .mac-mobile-settings-close {
+      width: 32px;
+      height: 32px;
+      border: none;
+      border-radius: 999px;
+      background: #000000;
+      color: #ffffff;
+      font: 300 22px/1 'Inter', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      flex: 0 0 auto;
+    }
+
+    .mac-mobile-settings-close .page-close-icon {
+      width: 14px;
+      height: 14px;
+      flex: 0 0 14px;
+    }
+
+    .mac-mobile-settings-close .page-close-icon::before,
+    .mac-mobile-settings-close .page-close-icon::after {
+      width: 12px;
+      height: 1.5px;
+    }
+
+    .mac-mobile-settings.is-dark .mac-mobile-settings-close {
+      background: #ffffff;
+      color: #000000;
+    }
+
+    .mac-mobile-settings-profile,
+    .mac-mobile-settings-card {
+      width: 100%;
+      border-radius: 34px;
+      background: rgba(255,255,255,0.96);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.4);
+    }
+
+    .mac-mobile-settings-profile {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      min-height: 84px;
+      padding: 12px 18px;
+      margin-bottom: 24px;
+    }
+
+    .mac-mobile-settings-card {
+      min-height: 63vh;
+      padding: 12px 18px;
+    }
+
+    .mac-mobile-settings.is-dark .mac-mobile-settings-profile,
+    .mac-mobile-settings.is-dark .mac-mobile-settings-card {
+      background: rgba(28,28,30,0.96);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+    }
+
+    .mac-mobile-settings-avatar {
+      width: 60px;
+      height: 60px;
+      flex: 0 0 auto;
+      border-radius: 999px;
+      overflow: hidden;
+      border: 2px solid rgba(0,0,0,0.08);
+      background: #f8f8f8;
+    }
+
+    .mac-mobile-settings-avatar img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .mac-mobile-settings-profile-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .mac-mobile-settings-profile-copy strong {
+      font: 700 24px/1.05 'Inter', sans-serif;
+      letter-spacing: -0.03em;
+      color: inherit;
+    }
+
+    .mac-mobile-settings-profile-copy span {
+      font: 400 14px/1.2 'Inter', sans-serif;
+      color: inherit;
+      opacity: 0.86;
+    }
+
+    .mac-mobile-settings-row {
+      width: 100%;
+      border: none;
+      background: transparent;
+      color: inherit;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 0;
+      text-align: left;
+    }
+
+    .mac-mobile-settings-row-icon {
+      width: 42px;
+      height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+      color: #000000;
+    }
+
+    .mac-mobile-settings.is-dark .mac-mobile-settings-row-icon {
+      color: #f3f3f3;
+    }
+
+    .mac-mobile-settings-sun-icon {
+      display: block;
+      width: 28px;
+      height: 28px;
+      opacity: 1;
+      transform: none;
+    }
+
+    .mac-mobile-settings-row-icon--switch img {
+      display: block;
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+      filter: brightness(0);
+    }
+
+    .mac-mobile-settings.is-dark .mac-mobile-settings-row-icon--switch img {
+      filter: none;
+    }
+
+    .mac-mobile-settings-row-label {
+      flex: 1 1 auto;
+      min-width: 0;
+      font: 500 16px/1.2 'Inter', sans-serif;
+      letter-spacing: -0.02em;
+      color: inherit;
+    }
+
+    .mac-mobile-settings-divider {
+      height: 1px;
+      margin: 0 0 0 58px;
+      background: rgba(0,0,0,0.09);
+    }
+
+    .mac-mobile-settings.is-dark .mac-mobile-settings-divider {
+      background: rgba(255,255,255,0.14);
+    }
+
+    .mac-mobile-settings-switch {
+      width: 41px;
+      height: 23px;
+      border-radius: 999px;
+      background: #d1d1d6;
+      position: relative;
+      flex: 0 0 auto;
+      transition: background 0.2s ease;
+    }
+
+    .mac-mobile-settings-switch span {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 19px;
+      height: 19px;
+      border-radius: 999px;
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      transition: transform 0.2s ease;
+    }
+
+    .mac-mobile-settings-switch.is-on {
+      background: #34c759;
+    }
+
+    .mac-mobile-settings-switch.is-on span {
+      transform: translateX(18px);
     }
 
   }
