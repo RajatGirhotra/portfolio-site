@@ -143,7 +143,7 @@
     border-color: #ffffff;
   }
   html.dark .resume-preview {
-    background: #171717;
+    background: #ffffff;
     border-color: rgba(255,255,255,0.08);
   }
   html.dark .contact-block {
@@ -4091,6 +4091,11 @@
     mask-image: linear-gradient(to bottom, #000 0%, #000 68%, rgba(0, 0, 0, 0.42) 88%, transparent 100%);
   }
 
+  html:not(.dark) .hero::before {
+    background-image: none;
+    opacity: 0;
+  }
+
   .hero::after {
     content: "";
     position: absolute;
@@ -4624,7 +4629,7 @@
       max-width: 100%;
       width: 100%;
       padding: 0 20px;
-      top: 50% !important;
+      top: calc(50% - 32px) !important;
       left: 50%;
       transform: translate(-50%, -50%);
       gap: 0;
@@ -4840,11 +4845,11 @@
   }
 
   .resume-preview {
-    width: min(100%, 860px);
+    width: min(100%, 960px);
     max-width: 100%;
     min-height: 480px;
-    border: 1px solid rgba(0,0,0,0.08);
-    background: #f8f8f8;
+    border: none;
+    background: #ffffff;
     display: flex;
     justify-content: center;
     margin: 0 auto;
@@ -4856,7 +4861,7 @@
     width: 100%;
     max-width: 100%;
     height: auto;
-    max-height: calc(100svh - 160px);
+    max-height: calc(100svh - 110px);
     object-fit: contain;
     object-position: top;
   }
