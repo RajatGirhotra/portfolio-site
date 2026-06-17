@@ -1,7 +1,11 @@
 
+  @import url('https://api.fontshare.com/v2/css?f[]=general-sans@300,400,500,600,700&f[]=switzer@300,400,500,600,700&display=swap');
+
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
+    --font-heading: 'General Sans', sans-serif;
+    --font-body: 'Switzer', sans-serif;
     --black: #000000;
     --gray: #888;
     --light-gray: #c0c0c0;
@@ -109,6 +113,40 @@
     background: transparent;
     color: #ffffff;
     border-bottom-color: #ffffff;
+  }
+
+  body,
+  button,
+  input,
+  textarea,
+  select {
+    font-family: var(--font-body);
+  }
+
+  h1, h2, h3, h4, h5, h6,
+  #bigNameText,
+  #footerNameText,
+  .page-title,
+  .portfolio-title,
+  .portfolio-title-main,
+  .portfolio-project-name,
+  .work-card-title,
+  .work-empty-title,
+  .about-hero-title,
+  .contact-hero-title,
+  .cs-hero-title,
+  .cs-heading,
+  .ai-category-title,
+  .mobile-hero-name,
+  .stat-num,
+  .footer-column-title,
+  .mac-desktop-settings-title,
+  .mac-desktop-settings-profile-copy strong,
+  .mac-mobile-settings-header h2,
+  .mac-mobile-settings-profile-copy strong,
+  .mac-window-content .mac-desktop-settings-title,
+  .mac-window-content .mac-desktop-settings-profile-copy strong {
+    font-family: var(--font-heading) !important;
   }
   html.dark .work-card {
     background: #171717;
@@ -265,7 +303,7 @@
   html, body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-body);
     overflow-x: clip;
     overscroll-behavior-y: none;
     scrollbar-width: none;
@@ -370,7 +408,7 @@
   }
 
   .site-loader-kicker {
-    font: 500 14px/1 'Inter', sans-serif;
+    font: 500 14px/1 var(--font-body);
     letter-spacing: 0.04em;
     color: #39ff14;
     text-shadow: 0 0 10px rgba(57, 255, 20, 0.72), 0 0 28px rgba(57, 255, 20, 0.36);
@@ -608,7 +646,7 @@
     color: var(--text);
     border-radius: 999px;
     padding: 10px 16px;
-    font: 400 13px/1 'Inter', sans-serif;
+    font: 400 13px/1 var(--font-body);
     letter-spacing: 0.02em;
     cursor: pointer;
   }
@@ -727,7 +765,7 @@
     }
 
     body.has-active-page .mobile-menu .nav-link {
-      font-family: 'Inter', sans-serif;
+      font-family: var(--font-body);
       font-size: 28px;
       font-weight: 400;
       letter-spacing: -0.03em;
@@ -844,7 +882,7 @@
     }
 
     .mobile-menu .nav-link {
-      font-family: 'Inter', sans-serif;
+      font-family: var(--font-body);
       font-size: 36px;
       font-weight: 400;
       letter-spacing: -0.02em;
@@ -894,7 +932,7 @@
   }
 
   .nav-link {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-body);
     font-size: 13px;
     line-height: 1;
     font-weight: 400;
@@ -940,7 +978,7 @@
       border-radius: 8px;
       background: rgba(255, 255, 255, 0.14);
       color: #ffffff;
-      font: 400 14px/1 'Inter', sans-serif;
+      font: 400 14px/1 var(--font-body);
       letter-spacing: -0.01em;
       box-shadow: 0 12px 34px rgba(0, 0, 0, 0.18);
       backdrop-filter: blur(18px) saturate(140%);
@@ -1051,13 +1089,13 @@
       pointer-events: none;
       overflow: hidden;
       color: #ffffff;
-      background: #000000 url('background-1800.jpg') center center / cover no-repeat;
+      background: #000000 url('darkwall-desktop-dark.jpg') center center / cover no-repeat;
       transition: opacity 0.34s ease, visibility 0.34s ease;
     }
 
     html:not(.dark) .mac-finder-mode {
       color: #111111;
-      background: #f5f5f5 url('lightmode.png') center center / cover no-repeat;
+      background: #f5f5f5 url('lightwall-desktop-light.jpg') center center / cover no-repeat;
     }
 
     .mac-finder-mode::before {
@@ -1189,7 +1227,7 @@
       padding: 0 9px;
       background: transparent;
       color: #111111;
-      font: 400 13px/1 'Inter', sans-serif;
+      font: 400 13px/1 var(--font-body);
       text-align: left;
       cursor: none;
     }
@@ -1302,13 +1340,13 @@
     .mac-welcome h2 {
       display: none;
       margin: 0;
-      font: 700 32px/1.18 'Inter', sans-serif;
+      font: 700 32px/1.18 var(--font-body);
       letter-spacing: 0.01em;
     }
 
     .mac-welcome p {
       margin: 0;
-      font: 400 14px/1.3 'Inter', sans-serif;
+      font: 400 14px/1.3 var(--font-body);
       color: rgba(243, 243, 243, 0.92);
     }
 
@@ -1341,7 +1379,7 @@
       gap: 8px;
       padding: 8px 6px;
       border-radius: 8px;
-      font: 400 14px/1.25 'Inter', sans-serif;
+      font: 400 14px/1.25 var(--font-body);
       text-shadow: 0 2px 14px rgba(0, 0, 0, 0.38);
       cursor: none;
       transition: transform 0.2s ease, background 0.2s ease;
@@ -1389,6 +1427,13 @@
     html:not(.dark) .mac-folder-label {
       color: #000000;
       text-shadow: none;
+    }
+
+    @media (min-width: 769px) {
+      html:not(.dark) .mac-folder,
+      html:not(.dark) .mac-folder-label {
+        color: #ffffff;
+      }
     }
 
     .mac-dock {
@@ -1686,7 +1731,7 @@
       border-radius: 9px;
       background: #ffffff;
       color: #444444;
-      font: 500 13px/1 'Inter', sans-serif;
+      font: 500 13px/1 var(--font-body);
       box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
     }
 
@@ -1790,7 +1835,7 @@
       padding: 88px 48px 42px;
       overflow: visible;
       color: #000000 !important;
-      font-family: 'Inter', sans-serif;
+      font-family: var(--font-body);
       background: #ffffff !important;
     }
 
@@ -1807,7 +1852,7 @@
       align-items: baseline;
       width: 100%;
       color: #000000;
-      font-family: 'Inter', sans-serif;
+      font-family: var(--font-body);
       font-size: clamp(72px, 9vw, 156px);
       font-weight: 700;
       line-height: 0.9;
@@ -1832,7 +1877,7 @@
 
     .mac-safari-content .mac-safari-big-name text {
       fill: currentColor;
-      font-family: 'Inter', sans-serif;
+      font-family: var(--font-body);
       font-size: 190px;
       font-weight: 700;
       letter-spacing: -9px;
@@ -1890,7 +1935,7 @@
     .mac-window-content .page-title,
     .mac-window-content .portfolio-title {
       margin: 0 0 18px;
-      font: 700 24px/1.15 'Inter', sans-serif;
+      font: 700 24px/1.15 var(--font-body);
       color: #111111 !important;
       letter-spacing: -0.02em;
     }
@@ -2168,14 +2213,14 @@
 
     .mac-window-content .about-hero-title {
       margin: 0 0 2px;
-      font: 700 32px/1.05 'Inter', sans-serif;
+      font: 700 32px/1.05 var(--font-body);
       letter-spacing: -0.04em;
       color: #111111 !important;
     }
 
     .mac-window-content .about-hero-subtitle {
       margin: 0 0 24px;
-      font: italic 28px/1.1 'Cormorant Garamond', serif;
+      font: italic 28px/1.1 var(--font-heading);
       color: #6a6a6a !important;
     }
 
@@ -2186,7 +2231,7 @@
 
     .mac-window-content .about-text p {
       margin: 0;
-      font: 400 13px/1.75 'Inter', sans-serif;
+      font: 400 13px/1.75 var(--font-body);
       color: #333333 !important;
     }
 
@@ -2279,7 +2324,7 @@
 
     .mac-window-content .mac-desktop-settings-title {
       margin: 0;
-      font: 700 26px/1 'Inter', sans-serif;
+      font: 700 26px/1 var(--font-body);
       letter-spacing: -0.05em;
       color: inherit;
     }
@@ -2331,13 +2376,13 @@
     }
 
     .mac-window-content .mac-desktop-settings-profile-copy strong {
-      font: 700 19px/1.02 'Inter', sans-serif;
+      font: 700 19px/1.02 var(--font-body);
       letter-spacing: -0.05em;
       color: inherit;
     }
 
     .mac-window-content .mac-desktop-settings-profile-copy span {
-      font: 400 11px/1.2 'Inter', sans-serif;
+      font: 400 11px/1.2 var(--font-body);
       color: inherit;
       opacity: 0.86;
     }
@@ -2396,7 +2441,7 @@
     .mac-window-content .mac-desktop-settings-row-label {
       flex: 1 1 auto;
       min-width: 0;
-      font: 500 13px/1.2 'Inter', sans-serif;
+      font: 500 13px/1.2 var(--font-body);
       letter-spacing: -0.02em;
       color: inherit;
     }
@@ -2454,7 +2499,7 @@
       border-radius: 999px;
       background: #ffffff;
       color: #111111;
-      font: 500 12px/1 'Inter', sans-serif;
+      font: 500 12px/1 var(--font-body);
       letter-spacing: 0.01em;
       cursor: none;
     }
@@ -2591,7 +2636,7 @@
       pointer-events: none;
       overflow: hidden;
       color: #f3f3f3;
-      background: #000000 url('background-1800.jpg') center center / cover no-repeat;
+      background: #000000 url('darkwall-desktop-dark.jpg') center center / cover no-repeat;
       background-attachment: scroll;
       --mac-page-x: 0px;
       transition: opacity 0.34s ease, visibility 0.34s ease;
@@ -2599,7 +2644,7 @@
 
     html:not(.dark) .mac-finder-mode {
       color: #111111;
-      background: #f5f5f5 url('lightmode.png') center center / cover no-repeat;
+      background: #f5f5f5 url('lightwall-desktop-light.jpg') center center / cover no-repeat;
     }
 
     .mac-finder-mode::before {
@@ -2670,7 +2715,7 @@
       top: 40px;
       width: min(300px, calc(100vw - 80px));
       color: #f3f3f3;
-      font: 400 14px/1.45 'Inter', sans-serif;
+      font: 400 14px/1.45 var(--font-body);
       letter-spacing: -0.01em;
       text-shadow: 0 2px 14px rgba(0, 0, 0, 0.42);
     }
@@ -2721,7 +2766,7 @@
       align-items: center;
       gap: 8px;
       padding: 0;
-      font: 400 14px/1.25 'Inter', sans-serif;
+      font: 400 14px/1.25 var(--font-body);
       text-shadow: 0 2px 14px rgba(0, 0, 0, 0.42);
       pointer-events: auto;
       transform: translate3d(var(--mac-item-x, 0px), var(--mac-item-y, 0px), 0);
@@ -2916,6 +2961,13 @@
       text-shadow: none;
     }
 
+    @media (min-width: 769px) {
+      html:not(.dark) .mac-folder,
+      html:not(.dark) .mac-folder-label {
+        color: #ffffff;
+      }
+    }
+
     .mac-welcome {
       position: absolute;
       left: 44px;
@@ -2977,18 +3029,18 @@
       gap: 12px;
       max-width: min(320px, calc(100vw - 88px));
       margin: 0;
-      font-family: 'Inter', sans-serif;
+      font-family: var(--font-body);
       letter-spacing: 0.01em;
       overflow-wrap: break-word;
     }
 
     .mac-welcome h2 span {
-      font: 500 16px/1 'Inter', sans-serif;
+      font: 500 16px/1 var(--font-body);
       color: rgba(243, 243, 243, 0.9);
     }
 
     .mac-welcome h2 strong {
-      font: 700 40px/1.04 'Inter', sans-serif;
+      font: 700 40px/1.04 var(--font-body);
       letter-spacing: -0.05em;
       color: #f3f3f3;
     }
@@ -3010,7 +3062,7 @@
     .mac-welcome p {
       display: none;
       margin: 0;
-      font: 400 14px/1.3 'Inter', sans-serif;
+      font: 400 14px/1.3 var(--font-body);
       color: rgba(243, 243, 243, 0.88);
     }
 
@@ -3027,7 +3079,7 @@
       border-radius: 8px;
       background: rgba(255,255,255,0.12);
       color: #f3f3f3;
-      font: 400 14px/1 'Inter', sans-serif;
+      font: 400 14px/1 var(--font-body);
       box-shadow: 0 12px 34px rgba(0,0,0,0.24);
       backdrop-filter: blur(18px) saturate(140%);
       -webkit-backdrop-filter: blur(18px) saturate(140%);
@@ -3180,7 +3232,7 @@
 
     .mac-app-splash span {
       color: #ffffff;
-      font: 500 15px/1.2 'Inter', sans-serif;
+      font: 500 15px/1.2 var(--font-body);
       text-shadow: 0 2px 14px rgba(0,0,0,0.42);
     }
 
@@ -3221,7 +3273,7 @@
       border-radius: 19px;
       background: #ffffff;
       color: #333333;
-      font: 600 14px/1 'Inter', sans-serif;
+      font: 600 14px/1 var(--font-body);
       box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
     }
 
@@ -3232,7 +3284,7 @@
       border-radius: 50%;
       background: #ffffff;
       color: #111111;
-      font: 400 24px/1 'Inter', sans-serif;
+      font: 400 24px/1 var(--font-body);
       box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
     }
 
@@ -3430,7 +3482,7 @@
     border-radius: 999px;
     background: rgba(20, 20, 20, 0.88);
     color: #ffffff;
-    font: 600 13px/1 'Inter', sans-serif;
+    font: 600 13px/1 var(--font-body);
     opacity: 0;
     pointer-events: none;
     transform: translate(-50%, 10px);
@@ -3448,7 +3500,7 @@
     font-weight: 400;
     color: var(--text);
     cursor: pointer;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-body);
     background: rgba(255,255,255,0.55);
     backdrop-filter: blur(18px) saturate(180%);
     -webkit-backdrop-filter: blur(18px) saturate(180%);
@@ -3496,7 +3548,7 @@
 
   .page-inner {
     padding: 80px 60px;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-body);
     max-width: 900px;
   }
 
@@ -3509,7 +3561,7 @@
   }
 
   .page-title {
-    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-family: var(--font-heading);
     font-size: 112px;
     line-height: 0.88;
     font-style: italic;
@@ -3668,7 +3720,7 @@
   }
 
   .cs-hero-title {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-body);
     font-size: clamp(28px, 4vw, 52px);
     font-weight: 700;
     line-height: 1.1;
@@ -3715,7 +3767,7 @@
     max-width: 1000px;
     margin: 0 auto;
     padding: 64px 60px 120px;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-body);
   }
 
   .cs-section {
@@ -4971,7 +5023,7 @@
     display: flex;
     flex-direction: column;
     padding: 0 45% 120px 220px;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-body);
     text-align: left;
   }
   .work-about-spacer {
@@ -4988,7 +5040,7 @@
     font-size: 52px;
     font-weight: 400;
     font-style: italic;
-    font-family: Georgia, serif;
+    font-family: var(--font-heading);
     color: #aaaaaa;
     line-height: 1.15;
     margin-bottom: 56px;
@@ -5086,7 +5138,7 @@
   }
 
   .resume-caption {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-body);
     font-size: 15px;
     line-height: 1.75;
     color: var(--text-muted);
@@ -5104,7 +5156,7 @@
     background: #111111;
     color: #ffffff;
     text-decoration: none;
-    font: 500 13px/1 'Inter', sans-serif;
+    font: 500 13px/1 var(--font-body);
     letter-spacing: 0.01em;
     align-self: flex-start;
   }
@@ -5336,7 +5388,7 @@
     color: #5f5f5f;
     border-radius: 999px;
     padding: 13px 24px;
-    font: 500 14px/1 'Inter', sans-serif;
+    font: 500 14px/1 var(--font-body);
     cursor: none;
     transition: color 0.18s ease, background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
     display: inline-flex;
@@ -5539,7 +5591,7 @@
     background: none;
     border: none;
     padding: 0;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-body);
     text-align: left;
   }
 
@@ -5601,7 +5653,7 @@
       border: 1px solid rgba(0,0,0,0.1);
       background: rgba(255,255,255,0.72);
       color: var(--text);
-      font-family: 'Inter', sans-serif;
+      font-family: var(--font-body);
       backdrop-filter: blur(18px) saturate(160%);
       -webkit-backdrop-filter: blur(18px) saturate(160%);
     }
@@ -5995,7 +6047,7 @@
 
   .ai-section {
     padding: 0 100px;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-body);
   }
   .ai-category {
     margin-bottom: 48px;
@@ -6288,7 +6340,7 @@
 
     .mac-menu-theme-label {
       color: inherit;
-      font: 400 12px/1 'Inter', sans-serif;
+      font: 400 12px/1 var(--font-body);
       letter-spacing: -0.01em;
       white-space: nowrap;
       opacity: 0.9;
@@ -6297,7 +6349,7 @@
 
     .mac-menu-divider {
       color: inherit;
-      font: 400 12px/1 'Inter', sans-serif;
+      font: 400 12px/1 var(--font-body);
       opacity: 0.45;
       margin-left: 2px;
       margin-right: -2px;
@@ -6332,7 +6384,7 @@
 
     .mac-menu-mode-label {
       color: inherit;
-      font: 400 12px/1 'Inter', sans-serif;
+      font: 400 12px/1 var(--font-body);
       letter-spacing: -0.01em;
       white-space: nowrap;
       opacity: 0.9;
@@ -6724,7 +6776,7 @@
     z-index: 1;
     color: #111111 !important;
     -webkit-text-fill-color: #111111 !important;
-    font: 500 18px/1 'Inter', sans-serif;
+    font: 500 18px/1 var(--font-body);
     letter-spacing: -0.02em;
     transform: translate(-50%, -50%);
     white-space: nowrap;
@@ -6812,7 +6864,7 @@
     }
 
     .mac-mobile-settings-header h2 {
-      font: 700 32px/1 'Inter', sans-serif;
+      font: 700 32px/1 var(--font-body);
       letter-spacing: -0.055em;
     }
 
@@ -6823,7 +6875,7 @@
       border-radius: 999px;
       background: #000000;
       color: #ffffff;
-      font: 300 22px/1 'Inter', sans-serif;
+      font: 300 22px/1 var(--font-body);
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -6901,13 +6953,13 @@
     }
 
     .mac-mobile-settings-profile-copy strong {
-      font: 700 24px/1.05 'Inter', sans-serif;
+      font: 700 24px/1.05 var(--font-body);
       letter-spacing: -0.03em;
       color: inherit;
     }
 
     .mac-mobile-settings-profile-copy span {
-      font: 400 14px/1.2 'Inter', sans-serif;
+      font: 400 14px/1.2 var(--font-body);
       color: inherit;
       opacity: 0.86;
     }
@@ -6961,7 +7013,7 @@
     .mac-mobile-settings-row-label {
       flex: 1 1 auto;
       min-width: 0;
-      font: 500 16px/1.2 'Inter', sans-serif;
+      font: 500 16px/1.2 var(--font-body);
       letter-spacing: -0.02em;
       color: inherit;
     }
@@ -7152,7 +7204,7 @@
   }
 
   .mac-boot-text {
-    font: 500 14px/1 'Inter', sans-serif;
+    font: 500 14px/1 var(--font-body);
     letter-spacing: 0.04em;
     color: #39ff14;
     text-shadow: 0 0 10px rgba(57, 255, 20, 0.72), 0 0 28px rgba(57, 255, 20, 0.36);

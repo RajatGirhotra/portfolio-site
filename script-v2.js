@@ -32,6 +32,9 @@
     return document.documentElement.classList.contains('dark') ? '#F3F3F3' : '#000000';
   }
 
+  let tspans = [];
+  let footerTspans = [];
+
   function applyLetterFill(letterEl, fillValue) {
     if (!letterEl) return;
     letterEl.setAttribute('fill', fillValue);
@@ -45,8 +48,11 @@
     });
   }
 
-  function applyThemeState(isDark) {
+  function applyThemeState(isDark, options = {}) {
     document.documentElement.classList.toggle('dark', isDark);
+    if (options.persist !== false) {
+      sessionStorage.setItem(STORAGE_KEYS.themeMode, isDark ? 'dark' : 'light');
+    }
     syncThemeImages();
     syncMobileSettingsPanel();
     syncDesktopSettingsPanel();
@@ -223,6 +229,9 @@
           document.body.classList.remove('mac-finder-opening', 'mac-finder-booting');
         }, 2500);
       }
+      if (!hasExplicitThemePreference()) {
+        applyThemeState(getDefaultThemeForMode('finder'), { persist: false });
+      }
       scheduleDesktopFinderNotes(!wasFinderActive && shouldAnimate && shouldUseFinderBoot ? 4000 : 1500);
     } else if (shouldAnimate && shouldUseTvTransition && document.body.classList.contains('mac-finder-active')) {
       closeMobileSettingsApp();
@@ -230,6 +239,9 @@
       resetDesktopFinderNotes();
       finderMode.classList.remove('tv-open');
       document.body.classList.add('mac-finder-closing');
+      if (!hasExplicitThemePreference()) {
+        applyThemeState(getDefaultThemeForMode('normal'), { persist: false });
+      }
       macFinderCloseTimer = window.setTimeout(() => {
         document.body.classList.remove('mac-finder-active', 'mac-finder-closing');
         unlockNormalPageFromFinder();
@@ -241,6 +253,9 @@
       resetDesktopFinderNotes();
       document.body.classList.remove('mac-finder-booting');
       document.body.classList.add('mac-finder-mobile-closing');
+      if (!hasExplicitThemePreference()) {
+        applyThemeState(getDefaultThemeForMode('normal'), { persist: false });
+      }
       macFinderCloseTimer = window.setTimeout(() => {
         document.body.classList.remove('mac-finder-active', 'mac-finder-mobile-closing');
         unlockNormalPageFromFinder();
@@ -253,6 +268,9 @@
       document.body.classList.remove('mac-finder-active', 'mac-finder-closing', 'mac-finder-opening', 'mac-finder-booting', 'mac-finder-mobile-closing');
       if (finderMode) finderMode.classList.remove('tv-open');
       unlockNormalPageFromFinder();
+      if (!enabled && !hasExplicitThemePreference()) {
+        applyThemeState(getDefaultThemeForMode('normal'), { persist: false });
+      }
       if (wasFinderActive) {
         window.setTimeout(replayBigNameIntro, 120);
       }
@@ -1096,8 +1114,19 @@
     page: 'portfolio-active-page',
     workTab: 'portfolio-work-tab',
     howAiTab: 'portfolio-how-ai-tab',
-    homeMode: 'portfolio-home-mode'
+    homeMode: 'portfolio-home-mode',
+    themeMode: 'portfolio-theme-mode'
   };
+
+  function hasExplicitThemePreference() {
+    return Boolean(sessionStorage.getItem(STORAGE_KEYS.themeMode));
+  }
+
+  function getDefaultThemeForMode(homeMode) {
+    const isDesktop = window.innerWidth > 768;
+    if (!isDesktop) return true;
+    return homeMode === 'finder';
+  }
 
   function getPageIdFromElement(pageEl) {
     return pageEl ? pageEl.id.replace(/^page-/, '') : '';
@@ -1280,7 +1309,7 @@
   function waitForFinderAssets() {
     const assets = window.innerWidth <= 768
       ? ['movbilebackground.jpg', 'workmobile.png', 'howiaimobile.png', 'resumemobile.png', 'safari.svg', 'phone.svg', 'settings.svg', 'notes.svg']
-      : ['background-1800.jpg', 'folderwork.png', 'folderhowiai.png', 'folderresume.png', 'safari.svg', 'phone.svg', 'settings.svg', 'notes.svg', 'notedark.png', 'notelight.png'];
+      : ['darkwall-desktop-dark.jpg', 'lightwall-desktop-light.jpg', 'folderwork.png', 'folderhowiai.png', 'folderresume.png', 'safari.svg', 'phone.svg', 'settings.svg', 'notes.svg', 'notedark.png', 'notelight.png'];
 
     return Promise.all(assets.map(src => new Promise(resolve => {
       const img = new Image();
@@ -2212,12 +2241,21 @@
   setupDesktopFinderNotes();
   updateMacMenuDateTime();
   window.setInterval(updateMacMenuDateTime, 30000);
-  syncThemeImages();
+  const bootSavedPage = sessionStorage.getItem(STORAGE_KEYS.page);
+  const defaultBootHomeMode = 'finder';
+  const bootHomeMode = bootSavedPage
+    ? (sessionStorage.getItem(STORAGE_KEYS.homeMode) || defaultBootHomeMode)
+    : defaultBootHomeMode;
+  if (!hasExplicitThemePreference()) {
+    applyThemeState(getDefaultThemeForMode(bootHomeMode), { persist: false });
+  } else {
+    syncThemeImages();
+    syncMobileSettingsPanel();
+    syncDesktopSettingsPanel();
+  }
   syncGlobalCloseButton();
   syncDesktopTabFloat();
   updateProgressSlider();
-  const bootSavedPage = sessionStorage.getItem(STORAGE_KEYS.page);
-  const bootHomeMode = bootSavedPage ? (sessionStorage.getItem(STORAGE_KEYS.homeMode) || 'finder') : 'finder';
   setMacFinderMode(bootHomeMode === 'finder', { persist: false });
 
   afterDomReady().then(() => {
@@ -2247,6 +2285,13 @@
     withTimeout(waitForFinderAssets(), 1200),
     new Promise(resolve => window.setTimeout(resolve, 2500))
   ]).then(revealSite).catch(revealSite);
+
+  window.setTimeout(() => {
+    if (document.body.classList.contains('is-loading')) {
+      document.body.classList.remove('mac-finder-booting', 'mac-finder-opening');
+      revealSite();
+    }
+  }, 4200);
 
   afterDomReady().then(() => {
     setupImageSkeletons();
@@ -2485,9 +2530,7 @@
     ['#FF6D00', '#FF4081'],
   ];
 
-  let tspans = [];
   let activeIdx = -1;
-  let footerTspans = [];
   let activeFooterIdx = -1;
 
   function getSvgCharHitIndex(svgEl, textEl, event, letters) {

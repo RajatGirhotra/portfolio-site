@@ -5,13 +5,28 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rajat Girhotra</title>
 <script>
-  document.documentElement.classList.add('dark');
+  (function () {
+    const THEME_KEY = 'portfolio-theme-mode';
+    const HOME_MODE_KEY = 'portfolio-home-mode';
+    const PAGE_KEY = 'portfolio-active-page';
+    const savedTheme = sessionStorage.getItem(THEME_KEY);
+    const isDesktop = window.innerWidth > 768;
+    const savedPage = sessionStorage.getItem(PAGE_KEY);
+    const savedHomeMode = savedPage
+      ? (sessionStorage.getItem(HOME_MODE_KEY) || 'finder')
+      : 'finder';
+    const shouldStartDark = savedTheme
+      ? savedTheme === 'dark'
+      : (isDesktop ? savedHomeMode === 'finder' : true);
+    document.documentElement.classList.toggle('dark', shouldStartDark);
+  }());
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="movbilebackground.jpg" media="(max-width: 768px)">
-<link rel="preload" as="image" href="background-1800.jpg" media="(min-width: 769px)">
+<link rel="preload" as="image" href="darkwall-desktop-dark.jpg" media="(min-width: 769px)">
+<link rel="preload" as="image" href="lightwall-desktop-light.jpg" media="(min-width: 769px)">
 <link rel="preload" as="image" href="noteweb.png?v=20260418-yellow" media="(min-width: 769px)">
 <link rel="preload" as="image" href="note.png?v=20260418-yellow" media="(max-width: 768px)">
 <link rel="preload" as="image" href="workmobile.png" media="(max-width: 768px)">
@@ -667,7 +682,7 @@
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
   </div>
-  <div class="page-inner about-page-inner" style="font-family: 'Inter', sans-serif;">
+  <div class="page-inner about-page-inner" style="font-family: var(--font-body);">
     <div class="about-hero-title">Designer. Builder.</div>
     <div class="about-hero-subtitle">Lifelong learner.</div>
     <div class="about-text">
@@ -1914,7 +1929,7 @@
   <!-- Blur wrapper: filter applied here, extends beyond viewport so blur never clips -->
   <div id="bigNameWrapper" style="position:fixed;bottom:0;left:-200px;right:-200px;z-index:1;pointer-events:auto;">
     <svg id="bigNameSvg" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;opacity:0;animation:slideUp 1.1s cubic-bezier(0.16,1,0.3,1) 0.85s forwards;overflow:visible;">
-      <text id="bigNameText" y="90%" text-anchor="middle" font-family="'Inter', sans-serif" font-weight="700" fill="#000000">Rajat Girhotra</text>
+      <text id="bigNameText" y="90%" text-anchor="middle" font-family="'General Sans', sans-serif" font-weight="700" fill="#000000">Rajat Girhotra</text>
     </svg>
   </div>
 </section>
@@ -2094,7 +2109,7 @@
   <div class="footer-name-row">
     <div class="footer-name" aria-label="Rajat Girhotra">
       <svg id="footerNameSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2200 420" preserveAspectRatio="xMinYMid meet" aria-hidden="true">
-        <text id="footerNameText" x="0" y="332" font-family="'Inter', sans-serif" font-size="390" font-weight="700" letter-spacing="-30" fill="#000000">Rajat Girhotra</text>
+        <text id="footerNameText" x="0" y="332" font-family="'General Sans', sans-serif" font-size="390" font-weight="700" letter-spacing="-30" fill="#000000">Rajat Girhotra</text>
       </svg>
     </div>
   </div>
