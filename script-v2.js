@@ -61,6 +61,14 @@
     if (macThemeModeLabel) {
       macThemeModeLabel.textContent = isDark ? 'Dark mode' : 'Light mode';
     }
+    const macFinderThemeToggle = document.getElementById('macFinderThemeToggle');
+    const macFinderThemeSwitch = document.getElementById('macFinderThemeSwitch');
+    if (macFinderThemeToggle) {
+      macFinderThemeToggle.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+    }
+    if (macFinderThemeSwitch) {
+      macFinderThemeSwitch.classList.toggle('is-on', isDark);
+    }
 
     const base = getBaseColor();
     tspans.forEach(t => {
