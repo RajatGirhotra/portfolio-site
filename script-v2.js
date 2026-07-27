@@ -347,6 +347,12 @@
     clockEl.textContent = `Pune ${puneTime}`;
   }
 
+  function goToMinimalPortfolio() {
+    sessionStorage.setItem(STORAGE_KEYS.homeMode, 'normal');
+    sessionStorage.removeItem(STORAGE_KEYS.activePage);
+    window.location.href = 'index.html';
+  }
+
   function toggleMacFinderMode() {
     const isFinderActive = document.body.classList.contains('mac-finder-active');
     if (!isFinderActive) {
@@ -354,18 +360,7 @@
       return;
     }
 
-    closeMacFinderWindow();
-    document.querySelectorAll('.page-view').forEach(page => page.classList.remove('active'));
-    document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
-    setMacFinderMode(false);
-    persistViewState('');
-    syncGlobalCloseButton();
-    updateProgressSlider();
-    requestAnimationFrame(() => {
-      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-    });
+    goToMinimalPortfolio();
   }
 
   const MAC_APP_SPLASH = {
@@ -812,7 +807,7 @@
 
   function switchDesktopSettingsToRegularMode() {
     closeMacFinderWindow();
-    setMacFinderMode(false);
+    goToMinimalPortfolio();
   }
 
   function openMacFinderWindow(pageId, options = {}) {
