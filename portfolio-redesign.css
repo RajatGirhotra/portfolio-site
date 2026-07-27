@@ -1402,9 +1402,9 @@ body.case-study-open {
     line-height: 1;
     font-weight: 600;
     letter-spacing: -0.02em;
-    opacity: 0;
-    pointer-events: none;
-    transform: translate(-50%, 16px);
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, 0);
     transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.18s ease;
   }
 
