@@ -898,7 +898,8 @@ body.ask-ai-open .ask-ai-panel {
 }
 
 #feature-title,
-#feature-title-2 {
+#feature-title-2,
+#feature-title-3 {
   font-family: "Geist", sans-serif;
   font-size: 16px;
   line-height: 1.3;

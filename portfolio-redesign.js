@@ -47,7 +47,8 @@ const phoneCopyButton = document.getElementById('phoneCopyButton');
 const contactToast = document.getElementById('contactToast');
 const caseStudyOverlays = {
   health: document.getElementById('healthCaseStudy'),
-  colrows: document.getElementById('colrowsCaseStudy')
+  colrows: document.getElementById('colrowsCaseStudy'),
+  refi: document.getElementById('refiCaseStudy')
 };
 const caseStudyOpenTriggers = Array.from(document.querySelectorAll('[data-case-study-open]'));
 const caseStudyActionBar = document.getElementById('caseStudyActionBar');
