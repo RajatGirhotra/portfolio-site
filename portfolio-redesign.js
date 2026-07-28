@@ -49,9 +49,17 @@ const caseStudyOverlays = {
   health: document.getElementById('healthCaseStudy'),
   colrows: document.getElementById('colrowsCaseStudy')
 };
-const caseStudyCloseButtons = Array.from(document.querySelectorAll('[data-case-study-close]'));
 const caseStudyOpenTriggers = Array.from(document.querySelectorAll('[data-case-study-open]'));
+const caseStudyActionBar = document.getElementById('caseStudyActionBar');
+const caseStudyReturn = document.getElementById('caseStudyReturn');
+const caseStudyContactTrigger = document.getElementById('caseStudyContactTrigger');
+const caseStudyContactIsland = document.getElementById('caseStudyContactIsland');
+const caseStudyContactClose = document.getElementById('caseStudyContactClose');
+const caseStudyContactCopyButtons = Array.from(
+  caseStudyContactIsland?.querySelectorAll('.contact-copy-button') || []
+);
 let activeCaseStudy = null;
+let homeScrollPosition = 0;
 let mobileMenuCloseTimer = null;
 
 function setMobileMenuOpen(isOpen) {
@@ -480,41 +488,99 @@ function closeAskAiPanel() {
   askAiBackdrop.hidden = true;
 }
 
-function openCaseStudy(caseStudyId) {
+function getCaseStudyFromUrl() {
+  const caseStudyId = new URL(window.location.href).searchParams.get('case-study');
+  return Object.hasOwn(caseStudyOverlays, caseStudyId) ? caseStudyId : null;
+}
+
+function setCaseStudyUrl(caseStudyId) {
+  const url = new URL(window.location.href);
+  url.searchParams.set('case-study', caseStudyId);
+  url.hash = '';
+  history.pushState({ portfolioCaseStudyEntry: true, caseStudyId }, '', url);
+}
+
+function clearCaseStudyUrl() {
+  const url = new URL(window.location.href);
+  url.searchParams.delete('case-study');
+  url.hash = '';
+  history.replaceState(null, '', url);
+}
+
+function openCaseStudy(caseStudyId, { updateHistory = true } = {}) {
   const overlay = caseStudyOverlays[caseStudyId];
   if (!overlay) return;
+  if (!activeCaseStudy) homeScrollPosition = window.scrollY;
   closeAskAiPanel();
   setContactIslandOpen(false);
-  Object.keys(caseStudyOverlays).forEach((id) => {
-    if (id !== caseStudyId) closeCaseStudy(id);
+  setCaseStudyContactOpen(false);
+  Object.entries(caseStudyOverlays).forEach(([id, caseStudy]) => {
+    if (id === caseStudyId) return;
+    caseStudy.classList.remove('is-open');
+    caseStudy.setAttribute('aria-hidden', 'true');
+    caseStudy.hidden = true;
   });
   activeCaseStudy = caseStudyId;
   overlay.hidden = false;
+  caseStudyActionBar.hidden = false;
   document.body.classList.add('case-study-open');
+  if (updateHistory && getCaseStudyFromUrl() !== caseStudyId) {
+    setCaseStudyUrl(caseStudyId);
+  }
   requestAnimationFrame(() => {
     overlay.classList.add('is-open');
     overlay.setAttribute('aria-hidden', 'false');
-    overlay.scrollTop = 0;
-    overlay.querySelector('[data-case-study-close]')?.focus();
+    window.scrollTo(0, 0);
+    caseStudyReturn?.focus();
   });
 }
 
-function closeCaseStudy(caseStudyId = activeCaseStudy) {
+function closeCaseStudy(caseStudyId = activeCaseStudy, { restoreScroll = true } = {}) {
   const overlay = caseStudyOverlays[caseStudyId];
   if (!overlay) return;
   overlay.classList.remove('is-open');
   overlay.setAttribute('aria-hidden', 'true');
+  overlay.hidden = true;
   if (activeCaseStudy === caseStudyId) activeCaseStudy = null;
-  if (!activeCaseStudy) document.body.classList.remove('case-study-open');
-  window.setTimeout(() => {
-    if (!overlay.classList.contains('is-open')) {
-      overlay.hidden = true;
-    }
-  }, 220);
+  if (activeCaseStudy) return;
+  caseStudyActionBar.hidden = true;
+  document.body.classList.remove('case-study-open');
+  setCaseStudyContactOpen(false);
+  if (restoreScroll) window.scrollTo(0, homeScrollPosition);
 }
 
-function closeAllCaseStudies() {
-  Object.keys(caseStudyOverlays).forEach((caseStudyId) => closeCaseStudy(caseStudyId));
+function closeAllCaseStudies(options = {}) {
+  Object.keys(caseStudyOverlays).forEach((caseStudyId) => {
+    if (caseStudyOverlays[caseStudyId].hidden) return;
+    closeCaseStudy(caseStudyId, options);
+  });
+}
+
+function returnFromCaseStudy() {
+  if (!activeCaseStudy) return;
+  if (history.state?.portfolioCaseStudyEntry) {
+    history.back();
+    return;
+  }
+  clearCaseStudyUrl();
+  closeAllCaseStudies();
+}
+
+function setCaseStudyContactOpen(isOpen) {
+  if (!caseStudyContactTrigger || !caseStudyContactIsland) return;
+  if (isOpen) {
+    caseStudyContactTrigger.style.setProperty(
+      '--contact-expanded-height',
+      `${caseStudyContactIsland.scrollHeight}px`
+    );
+  }
+  caseStudyContactTrigger.classList.toggle('is-open', isOpen);
+  caseStudyContactTrigger.setAttribute('aria-expanded', String(isOpen));
+  caseStudyContactIsland.classList.toggle('is-open', isOpen);
+  caseStudyContactIsland.setAttribute('aria-hidden', String(!isOpen));
+  if (!isOpen) {
+    caseStudyContactCopyButtons.forEach(resetCopyIcon);
+  }
 }
 
 function setContactIslandOpen(isOpen) {
@@ -608,9 +674,6 @@ mobileMenuToggle?.addEventListener('click', () => {
 topnavLinks.forEach((link) => {
   link.addEventListener('click', () => setMobileMenuOpen(false));
 });
-caseStudyCloseButtons.forEach((button) => {
-  button.addEventListener('click', () => closeCaseStudy(button.dataset.caseStudyClose));
-});
 caseStudyOpenTriggers.forEach((trigger) => {
   const caseStudyId = trigger.dataset.caseStudyOpen;
   trigger.addEventListener('click', () => openCaseStudy(caseStudyId));
@@ -618,6 +681,30 @@ caseStudyOpenTriggers.forEach((trigger) => {
     if (event.key !== 'Enter' && event.key !== ' ') return;
     event.preventDefault();
     openCaseStudy(caseStudyId);
+  });
+});
+caseStudyReturn?.addEventListener('click', returnFromCaseStudy);
+caseStudyContactTrigger?.addEventListener('click', (event) => {
+  const isOpen = caseStudyContactIsland?.classList.contains('is-open');
+  const target = event.target;
+  const clickedCollapsedLabel =
+    target === caseStudyContactTrigger || target?.classList?.contains('contact-label');
+  if (isOpen && !clickedCollapsedLabel) return;
+  setCaseStudyContactOpen(!isOpen);
+});
+caseStudyContactTrigger?.addEventListener('keydown', (event) => {
+  if (event.key !== 'Enter' && event.key !== ' ') return;
+  event.preventDefault();
+  setCaseStudyContactOpen(!caseStudyContactIsland?.classList.contains('is-open'));
+});
+caseStudyContactClose?.addEventListener('click', (event) => {
+  event.stopPropagation();
+  setCaseStudyContactOpen(false);
+});
+caseStudyContactCopyButtons.forEach((button) => {
+  button.addEventListener('click', (event) => {
+    event.stopPropagation();
+    copyContactValue(button, button.dataset.copyToast || 'Copied to clipboard');
   });
 });
 contactTrigger?.addEventListener('click', (event) => {
@@ -678,11 +765,21 @@ askAiDrawerSuggestionButtons.forEach((button) => {
 
 window.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') {
-    closeAllCaseStudies();
+    returnFromCaseStudy();
     closeAskAiPanel();
     setMobileMenuOpen(false);
     setContactIslandOpen(false);
+    setCaseStudyContactOpen(false);
   }
+});
+
+window.addEventListener('popstate', () => {
+  const caseStudyId = getCaseStudyFromUrl();
+  if (caseStudyId) {
+    openCaseStudy(caseStudyId, { updateHistory: false });
+    return;
+  }
+  closeAllCaseStudies();
 });
 
 window.addEventListener('scroll', updateMobileAskAiVisibility, { passive: true });
@@ -708,6 +805,16 @@ document.addEventListener('click', (event) => {
   setContactIslandOpen(false);
 });
 
+document.addEventListener('click', (event) => {
+  if (!caseStudyContactIsland?.classList.contains('is-open')) return;
+  const target = event.target;
+  if (
+    caseStudyContactIsland.contains(target) ||
+    caseStudyContactTrigger?.contains(target)
+  ) return;
+  setCaseStudyContactOpen(false);
+});
+
 document.querySelectorAll('[data-scroll-target]').forEach((button) => {
   button.addEventListener('click', () => {
     const target = document.querySelector(button.getAttribute('data-scroll-target'));
@@ -725,3 +832,8 @@ document.querySelectorAll('a[href^="#"]').forEach((link) => {
     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 });
+
+const initialCaseStudy = getCaseStudyFromUrl();
+if (initialCaseStudy) {
+  openCaseStudy(initialCaseStudy, { updateHistory: false });
+}

@@ -145,13 +145,19 @@
       >
         <div class="feature-card">
           <div class="feature-media">
-            <img src="web_container1.png" alt="Design Decisions project preview" loading="lazy">
+            <picture>
+              <source media="(max-width: 640px)" srcset="mobile_healthinsurance.png">
+              <img
+                src="web_healthinsurance.png"
+                alt="Designing Health Insurance for Tier 2 and Tier 3 Indian Cities project preview"
+                loading="lazy"
+              >
+            </picture>
           </div>
         </div>
         <div class="feature-meta">
-          <h2 id="feature-title">Design Decisions</h2>
+          <h2 id="feature-title">Designing Health Insurance for Tier-2 &amp; Tier-3 Indian Cities</h2>
           <p>Improvements and Trade-offs</p>
-          <span>Health Insurance | Car Insurance | Pocket Insurance</span>
         </div>
       </section>
 
@@ -235,9 +241,73 @@
     </main>
   </div>
 
-  <article id="healthCaseStudy" class="case-study-overlay" aria-hidden="true" aria-labelledby="healthCaseStudyTitle" hidden>
-    <button id="healthCaseStudyClose" class="case-study-close" type="button" data-case-study-close="health" aria-label="Close Health Insurance case study">Close</button>
+  <header id="caseStudyActionBar" class="case-study-action-bar" hidden>
+    <div class="case-study-action-bar-inner">
+      <button id="caseStudyReturn" class="case-study-return" type="button">
+        <img src="return.svg" alt="" width="16" height="16" aria-hidden="true">
+        <span>Return</span>
+      </button>
 
+      <div
+        id="caseStudyContactTrigger"
+        class="pill pill-dark contact-trigger case-study-contact-trigger"
+        role="button"
+        tabindex="0"
+        aria-expanded="false"
+        aria-controls="caseStudyContactIsland"
+      >
+        <span class="contact-label">Contact</span>
+        <div id="caseStudyContactIsland" class="contact-island" aria-hidden="true">
+          <div class="contact-island-header">
+            <h2>Get in touch</h2>
+            <button id="caseStudyContactClose" class="contact-island-close" type="button" aria-label="Close contact details">×</button>
+          </div>
+          <div class="contact-island-list">
+            <div class="contact-island-item">
+              <span>Email</span>
+              <button
+                class="contact-island-value contact-copy-button"
+                type="button"
+                data-copy-value="rajatgirhotra13@gmail.com"
+                data-copy-toast="Email copied to clipboard"
+                aria-label="Copy email address"
+              >
+                <strong>rajatgirhotra13@gmail.com</strong>
+                <span class="contact-item-icon" aria-hidden="true"><img src="copy.svg" alt=""></span>
+              </button>
+            </div>
+            <div class="contact-island-item">
+              <span>LinkedIn</span>
+              <a
+                class="contact-island-value"
+                href="https://www.linkedin.com/in/rajat-girhotra/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <strong>@rajat.girhotra</strong>
+                <span class="contact-item-icon" aria-hidden="true"><img src="link.svg" alt=""></span>
+              </a>
+            </div>
+            <div class="contact-island-item">
+              <span>Phone number</span>
+              <button
+                class="contact-island-value contact-copy-button"
+                type="button"
+                data-copy-value="9354423022"
+                data-copy-toast="Phone number copied to clipboard"
+                aria-label="Copy phone number"
+              >
+                <strong>9354423022</strong>
+                <span class="contact-item-icon" aria-hidden="true"><img src="copy.svg" alt=""></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <article id="healthCaseStudy" class="case-study-overlay" aria-hidden="true" aria-labelledby="healthCaseStudyTitle" hidden>
     <div class="case-study-shell">
       <header class="case-study-intro">
         <p class="case-study-kicker">Health Insurance</p>
@@ -353,8 +423,6 @@
   </article>
 
   <article id="colrowsCaseStudy" class="case-study-overlay" aria-hidden="true" aria-labelledby="colrowsCaseStudyTitle" hidden>
-    <button class="case-study-close" type="button" data-case-study-close="colrows" aria-label="Close Colrows case study">Close</button>
-
     <div class="case-study-shell">
       <header class="case-study-intro">
         <p class="case-study-kicker">Colrows</p>

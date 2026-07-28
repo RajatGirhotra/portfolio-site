@@ -876,6 +876,12 @@ body.ask-ai-open .ask-ai-panel {
   object-fit: cover;
 }
 
+.feature-media picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .feature-meta {
   width: 872px;
   max-width: 100%;
@@ -888,6 +894,15 @@ body.ask-ai-open .ask-ai-panel {
   font-size: 20px;
   line-height: 1.3;
   font-weight: 500;
+  letter-spacing: -0.03em;
+}
+
+#feature-title {
+  font-family: "Geist", sans-serif;
+  font-size: 16px;
+  line-height: 1.3;
+  font-weight: 500;
+  word-spacing: normal;
   letter-spacing: -0.03em;
 }
 
@@ -969,46 +984,104 @@ body.ask-ai-open .ask-ai-panel {
 }
 
 .case-study-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 80;
-  overflow-y: auto;
+  position: relative;
+  min-height: 100vh;
   background: #ffffff;
   color: #111111;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
 }
 
 .case-study-overlay.is-open {
-  opacity: 1;
-  pointer-events: auto;
+  display: block;
 }
 
 body.case-study-open {
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
-.case-study-close {
+body.case-study-open .site-shell {
+  display: none;
+}
+
+body.case-study-open .ask-ai-mobile-trigger {
+  display: none;
+}
+
+.case-study-action-bar {
   position: fixed;
-  top: 36px;
-  right: 36px;
-  z-index: 2;
-  height: 40px;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 90;
+  padding: 32px 0 24px;
+  background: rgba(255, 255, 255, 0.88);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+
+.case-study-action-bar[hidden] {
+  display: none;
+}
+
+.case-study-action-bar-inner {
+  width: var(--container);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.case-study-return {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 35px;
   padding: 0 16px;
   border-radius: var(--radius-pill);
-  background: #111111;
-  color: #ffffff;
-  font-size: 14px;
+  background: #f0f0f0;
+  color: #111111;
+  font-size: 16px;
   line-height: 1;
   font-weight: 500;
   cursor: pointer;
+  transition: background-color 0.18s ease;
+}
+
+.case-study-return:hover {
+  background: #e7e7e7;
+}
+
+.case-study-return img {
+  display: block;
+  width: 16px;
+  height: 16px;
+}
+
+.case-study-contact-trigger {
+  width: 102px;
+  height: 35px;
+  border-radius: 18px;
+  font-size: 16px;
+}
+
+.case-study-contact-trigger::before {
+  right: 0;
+  left: auto;
+  width: 102px;
+  height: 35px;
+  border-radius: 18px;
+}
+
+.case-study-contact-trigger .contact-island {
+  right: 0;
+  left: auto;
 }
 
 .case-study-shell {
   width: var(--container);
   margin: 0 auto;
-  padding: 96px 0 120px;
+  padding: 136px 0 120px;
 }
 
 .case-study-intro {
@@ -1474,13 +1547,22 @@ body.case-study-open {
     min-height: 460px;
   }
 
-  .case-study-close {
-    top: 20px;
-    right: 20px;
+  .case-study-action-bar {
+    padding: 20px 0 16px;
+  }
+
+  .case-study-contact-trigger .contact-label {
+    inset: 0;
+    width: 100%;
+    height: 35px;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    line-height: 1;
   }
 
   .case-study-shell {
-    padding: 80px 0 88px;
+    padding: 112px 0 88px;
   }
 
   .case-study-meta,
