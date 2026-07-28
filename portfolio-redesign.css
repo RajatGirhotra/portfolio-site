@@ -897,7 +897,8 @@ body.ask-ai-open .ask-ai-panel {
   letter-spacing: -0.03em;
 }
 
-#feature-title {
+#feature-title,
+#feature-title-2 {
   font-family: "Geist", sans-serif;
   font-size: 16px;
   line-height: 1.3;
