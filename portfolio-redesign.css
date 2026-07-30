@@ -932,12 +932,52 @@ body.ask-ai-open .ask-ai-panel {
   padding-bottom: 96px;
 }
 
-.content-copy {
-  width: min(100%, 560px);
+.site-footer {
+  width: 100%;
+  background: #f3f3f3;
 }
 
-.about-copy {
-  width: min(100%, 760px);
+.site-footer-inner {
+  width: var(--container);
+  min-height: 88px;
+  margin: 0 auto;
+  padding: 28px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  color: #222222;
+  font-size: 14px;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+.site-footer a {
+  text-decoration: none;
+  transition: color 0.18s ease;
+}
+
+.site-footer p a {
+  color: #0071de;
+}
+
+.site-footer-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.site-footer-links a:hover,
+.site-footer p a:hover {
+  color: #777777;
+}
+
+.content-copy {
+  width: min(100%, 560px);
 }
 
 .section-kicker {
@@ -965,24 +1005,109 @@ body.ask-ai-open .ask-ai-panel {
   line-height: 1.6;
 }
 
-.about-copy h3 {
-  margin: 0 0 12px;
-  color: #111111;
+.about-section {
+  padding-top: 136px;
+  padding-bottom: 136px;
+}
+
+.about-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: 112px;
+  align-items: start;
+}
+
+.about-main {
+  min-width: 0;
+}
+
+.about-heading {
+  margin: 0 0 30px;
+  color: var(--muted);
   font-size: 16px;
-  line-height: 23px;
+  line-height: 1.4;
   font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.about-copy {
+  width: 100%;
 }
 
 .about-copy p {
   margin: 0 0 28px;
   color: #222222;
   font-size: 16px;
-  line-height: 1.6;
-  letter-spacing: -0.01em;
+  line-height: 1.5;
+  letter-spacing: -0.025em;
 }
 
-.about-copy p:last-child {
+.about-copy .about-contact {
+  margin-top: 32px;
   margin-bottom: 0;
+}
+
+.about-contact a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color 0.18s ease;
+}
+
+.about-contact a:hover {
+  color: #777777;
+}
+
+.about-signature {
+  margin: 44px 0 0;
+  color: #111111;
+  font-family: "Snell Roundhand", "Segoe Script", cursive;
+  font-size: 28px;
+  line-height: 1;
+  transform: rotate(-5deg);
+  transform-origin: left center;
+}
+
+.about-expertise {
+  min-width: 0;
+}
+
+.expertise-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.expertise-pill {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: #f3f3f3;
+  color: #171717;
+  font-size: 15px;
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  white-space: nowrap;
+}
+
+.expertise-pill svg {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .case-study-overlay {
@@ -1255,6 +1380,43 @@ body.case-study-open .ask-ai-mobile-trigger {
 @media (max-width: 900px) {
   :root {
     --container: min(100% - 32px, 872px);
+  }
+
+  .about-section {
+    padding-top: 104px;
+    padding-bottom: 112px;
+  }
+
+  .about-layout {
+    grid-template-columns: 1fr;
+    gap: 72px;
+  }
+
+  .about-main {
+    width: min(100%, 640px);
+  }
+
+  .about-heading {
+    margin-bottom: 36px;
+  }
+
+  .about-copy p {
+    margin-bottom: 32px;
+  }
+
+  .about-copy .about-contact {
+    margin-top: 40px;
+  }
+
+  .about-signature {
+    margin-top: 52px;
+  }
+
+  .expertise-list {
+    max-width: 620px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px 8px;
   }
 
   body.ask-ai-open .site-shell {
@@ -1598,6 +1760,42 @@ body.case-study-open .ask-ai-mobile-trigger {
 @media (max-width: 640px) {
   :root {
     --container: min(100% - 32px, 1040px);
+  }
+
+  .site-footer-inner {
+    min-height: 0;
+    padding: 28px 0 calc(104px + env(safe-area-inset-bottom, 0px));
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .site-footer-links {
+    gap: 24px;
+  }
+
+  .about-section {
+    padding-top: 88px;
+    padding-bottom: 96px;
+  }
+
+  .about-layout {
+    gap: 72px;
+  }
+
+  .about-copy p {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .about-signature {
+    font-size: 26px;
+  }
+
+  .expertise-pill {
+    min-height: 32px;
+    padding: 6px 10px;
+    font-size: 14px;
   }
 
   .topnav,
