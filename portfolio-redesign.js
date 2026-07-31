@@ -95,22 +95,59 @@ function updateMobileAskAiVisibility() {
 }
 
 const ASK_AI_FALLBACK_KB = `
-Rajat Girhotra is a product designer based in Pune, India, currently working at Bajaj Finserv.
-He specialises in simplifying complex insurance journeys across discovery, comparison, forms, checkout, payment, and servicing.
-He previously worked as a coder and switched into design in 2020.
-His coding background gives him technical understanding, while his design practice focuses on user clarity, business outcomes, systems thinking, and product quality.
-Rajat is strongest in end-to-end product design, UX strategy, user-flow architecture, funnel design, form design, edge cases, design systems, and trust-heavy experiences.
-At Bajaj Finserv he has worked across health insurance, life insurance, car and motor insurance, listing pages, detail pages, cart, checkout, payment, transaction history, membership, and point-of-sale products.
-In health insurance, he redesigned the purchase journey to reduce drop-offs, simplify family-member selection, improve plan discovery, and reduce form friction.
-According to the portfolio, the health insurance redesign improved conversion from 18.6 percent to 26.9 percent and reduced several key drop-offs.
-In life insurance, he redesigned the end-to-end purchase experience with emphasis on trust, continuity, transparency, and conversion.
-In car insurance, he worked on scalable flow architecture, decision trees, validation, plan selection, add-ons, and edge-case recovery across purchase and renewal journeys.
+## What's Rajat's strongest project?
+
+The Health Insurance redesign is Rajat's strongest overall project.
+
+He redesigned the purchase journey across plan discovery, family-member selection, proposal forms, checkout, and payment. The work improved conversion from 18.6% to 26.9% while reducing friction at key drop-off points.
+
+## Who is Rajat?
+
+Rajat Girhotra is a product designer based in Pune with 6+ years of experience. He currently works at Bajaj Finserv, making insurance simpler, clearer, and more trustworthy.
+
+He previously worked as a coder and moved into design in 2020. That technical background supports his focus on user clarity, business outcomes, systems thinking, and product quality.
+
+## What are Rajat's design strengths?
+
+Rajat's strengths include end-to-end product design, UX strategy, user-flow architecture, funnel and form design, edge-case handling, design systems, and trust-heavy experiences.
+
+## What has Rajat worked on at Bajaj Finserv?
+
+Rajat has worked across health, life, car, and motor insurance, as well as listing pages, detail pages, checkout, payments, transaction history, membership, and point-of-sale products.
+
+## Tell me about the Health Insurance project
+
+Rajat redesigned the Health Insurance purchase journey to simplify family-member selection, improve plan discovery, reduce form friction, and make complex decisions easier to understand.
+
+The redesign improved conversion from 18.6% to 26.9% and reduced several important drop-offs.
+
+## Tell me about Life Insurance
+
+Rajat redesigned the end-to-end Life Insurance purchase experience with an emphasis on trust, continuity, transparency, and conversion.
+
+## Tell me about Car Insurance
+
+Rajat worked on scalable flow architecture, decision trees, validation, plan selection, add-ons, and edge-case recovery across purchase and renewal journeys.
+
+## Tell me about Go Leap
+
 Go Leap was a freelance project focused on turning static catalogue browsing into a more immersive discovery experience.
-ReFi Protocol was a freelance Web3 dashboard project designed to make staking, NFTs, wallets, and sustainability flows easier to understand.
-Colrows involved working closely with the founder, product, and engineering teams on a bright product and brand direction.
+
+## Tell me about ReFi Protocol
+
+ReFi Protocol was a freelance Web3 dashboard designed to make staking, NFTs, wallets, and sustainability flows easier to understand.
+
+## Tell me about Colrows
+
+For Colrows, Rajat worked closely with the founder, product, and engineering teams to shape the product experience and its bright visual direction.
+
+## How does Rajat use AI?
+
 Rajat uses AI as a creative and productivity partner to expand exploration while keeping product judgment, editing, and systems thinking human-led.
-He is open to product design roles, collaborations, freelance projects, and conversations around design, systems, AI, and creative technology.
-His email is rajatgirhotra13@gmail.com and his phone number is +91 9354423022.
+
+## How can I contact Rajat?
+
+You can reach Rajat at rajatgirhotra13@gmail.com or +91 9354423022. He is open to product design roles, collaborations, freelance projects, and conversations around design, systems, AI, and creative technology.
 `;
 
 let askAiKnowledgeText = ASK_AI_FALLBACK_KB;
@@ -195,9 +232,107 @@ function parseKnowledgeBase(markdown) {
 
 function formatAnswerText(text) {
   return text
-    .replace(/\s+\n/g, '\n')
+    .replace(/[ \t]+\n/g, '\n')
     .replace(/\n{3,}/g, '\n\n')
     .trim();
+}
+
+function splitIntoSentences(text) {
+  return (text.match(/.+?(?:[.!?](?=\s+[A-Z])|$)/g) || [text])
+    .map(sentence => sentence.trim())
+    .filter(Boolean);
+}
+
+function splitAnswerIntoBlocks(answer) {
+  return answer
+    .split(/\n\s*\n/)
+    .filter(Boolean)
+    .flatMap((block) => {
+      if (block.length <= 420 || /^(?:[•*-]|\d+\.)\s+/m.test(block)) return [block];
+
+      const sentences = splitIntoSentences(block);
+      if (sentences.length < 2) return [block];
+
+      const paragraphs = [];
+      for (let index = 0; index < sentences.length; index += 2) {
+        paragraphs.push(sentences.slice(index, index + 2).join(' '));
+      }
+      return paragraphs;
+    });
+}
+
+function limitKnowledgeParagraph(paragraph, maxLength = 520) {
+  if (paragraph.length <= maxLength) return paragraph;
+
+  const sentences = splitIntoSentences(paragraph);
+  const selected = [];
+  let length = 0;
+
+  for (const sentence of sentences) {
+    if (selected.length >= 3 || (selected.length && length + sentence.length + 1 > maxLength)) break;
+    selected.push(sentence);
+    length += sentence.length + 1;
+  }
+
+  if (selected.length) return selected.join(' ');
+
+  const shortened = paragraph.slice(0, maxLength);
+  const finalSpace = shortened.lastIndexOf(' ');
+  return `${shortened.slice(0, finalSpace > 0 ? finalSpace : maxLength).trim()}…`;
+}
+
+function appendAnswerTextWithLinks(parent, text) {
+  const urlPattern = /https?:\/\/[^\s]+/g;
+  let cursor = 0;
+
+  text.replace(urlPattern, (url, offset) => {
+    if (offset > cursor) {
+      parent.appendChild(document.createTextNode(text.slice(cursor, offset)));
+    }
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.textContent = url.replace(/^https?:\/\//, '').replace(/\/$/, '');
+    parent.appendChild(link);
+    cursor = offset + url.length;
+    return url;
+  });
+
+  if (cursor < text.length) {
+    parent.appendChild(document.createTextNode(text.slice(cursor)));
+  }
+}
+
+function renderAskAiAnswer(bubble, text) {
+  if (!bubble) return;
+
+  const answer = formatAnswerText(text);
+  const blocks = splitAnswerIntoBlocks(answer);
+
+  bubble.replaceChildren();
+  bubble.classList.add('ask-ai-answer');
+
+  blocks.forEach((block) => {
+    const lines = block.split('\n').map(line => line.trim()).filter(Boolean);
+    const isList = lines.length > 0 && lines.every(line => /^(?:[•*-]|\d+\.)\s+/.test(line));
+
+    if (isList) {
+      const list = document.createElement(lines.every(line => /^\d+\./.test(line)) ? 'ol' : 'ul');
+      lines.forEach((line) => {
+        const item = document.createElement('li');
+        appendAnswerTextWithLinks(item, line.replace(/^(?:[•*-]|\d+\.)\s+/, ''));
+        list.appendChild(item);
+      });
+      bubble.appendChild(list);
+      return;
+    }
+
+    const paragraph = document.createElement('p');
+    appendAnswerTextWithLinks(paragraph, lines.join(' '));
+    bubble.appendChild(paragraph);
+  });
 }
 
 function getTopKnowledgeChunks(question, limit = 3) {
@@ -272,7 +407,7 @@ function answerFromKnowledgeBase(question) {
       const key = paragraph.toLowerCase();
       if (!used.has(key)) {
         used.add(key);
-        selected.push(paragraph);
+        selected.push(limitKnowledgeParagraph(paragraph));
       }
       if (selected.length >= 2) break;
     }
@@ -291,7 +426,11 @@ function appendAskAiMessage(role, text) {
 
   const bubble = document.createElement('div');
   bubble.className = 'ask-ai-message-bubble';
-  bubble.textContent = text;
+  if (role === 'assistant') {
+    renderAskAiAnswer(bubble, text);
+  } else {
+    bubble.textContent = text;
+  }
 
   wrapper.appendChild(bubble);
   askAiChat.appendChild(wrapper);
@@ -410,7 +549,7 @@ async function submitAskAiQuestion(rawQuestion) {
 
     if (loadingState?.wrapper && loadingState?.bubble) {
       loadingState.wrapper.classList.remove('ask-ai-message-loading');
-      loadingState.bubble.textContent = validation.reply;
+      renderAskAiAnswer(loadingState.bubble, validation.reply);
     } else {
       appendAskAiMessage('assistant', validation.reply);
     }
@@ -447,7 +586,7 @@ async function submitAskAiQuestion(rawQuestion) {
   const answer = answerFromKnowledgeBase(question);
   if (loadingState?.wrapper && loadingState?.bubble) {
     loadingState.wrapper.classList.remove('ask-ai-message-loading');
-    loadingState.bubble.textContent = answer;
+    renderAskAiAnswer(loadingState.bubble, answer);
   } else {
     appendAskAiMessage('assistant', answer);
   }

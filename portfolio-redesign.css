@@ -689,6 +689,37 @@ body.ask-ai-open .ask-ai-panel {
   line-height: 1.55;
 }
 
+.ask-ai-message-assistant .ask-ai-answer {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  white-space: normal;
+}
+
+.ask-ai-answer p,
+.ask-ai-answer ul,
+.ask-ai-answer ol {
+  margin: 0;
+}
+
+.ask-ai-answer ul,
+.ask-ai-answer ol {
+  display: grid;
+  gap: 8px;
+  padding-left: 20px;
+}
+
+.ask-ai-answer a {
+  color: #006fd7;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+.ask-ai-answer a:hover {
+  color: #005cad;
+}
+
 .ask-ai-message-loading .ask-ai-message-bubble {
   color: #7a7a7a;
 }
