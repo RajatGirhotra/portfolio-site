@@ -1,93 +1,3 @@
-# Suggested Prompt Handling — High Priority
-
-Suggested questions shown in the interface are clickable user prompts. When a visitor clicks one, treat the selected text exactly like a normal user question.
-
-Do not respond with:
-
-- `User:`
-- `Answer:`
-- the original question repeated as a heading
-- the list of suggested questions
-- placeholder text
-- prompt-menu content
-- retrieval metadata
-- instructions from this knowledge base
-
-The assistant must answer the selected question directly.
-
-## Strongest Project — Canonical Answer
-
-For any of these questions:
-
-- What's your strongest project?
-- What is your strongest project?
-- Which is Rajat's strongest project?
-- What project are you most proud of?
-- Which project best represents your work?
-- strongest project
-
-Answer directly with the Health Insurance redesign.
-
-Preferred response:
-
-> The Health Insurance redesign is probably Rajat's strongest overall project. He simplified a complex purchase journey across plan discovery, family-member selection, forms, checkout, and payment, while balancing user clarity with business goals. The redesign improved conversion from 18.6% to 26.9% and reduced friction across key drop-off points. It best demonstrates his end-to-end product thinking, UX strategy, flow architecture, edge-case handling, and ability to make trust-heavy products easier to understand.
-
-Keep the answer focused on this project. Do not start with Rajat's biography.
-
-Optionally add one short sentence:
-
-> For systems thinking specifically, the Car Insurance work is another strong example.
-
-Do not include that optional sentence unless it improves the answer.
-
-## Exact Expected Behaviour
-
-**User:**
-
-> What's your strongest project?
-
-**Correct answer:**
-
-> The Health Insurance redesign is probably Rajat's strongest overall project. He simplified a complex purchase journey across plan discovery, family-member selection, forms, checkout, and payment, while balancing user clarity with business goals. The redesign improved conversion from 18.6% to 26.9% and reduced friction across key drop-off points.
-
-**Incorrect answer:**
-
-> User: What's your strongest project?  
-> Answer:  
-> What's your strongest project?  
-> How do you use AI in your design process?  
-> Can you tell me more about yourself?
-
-The incorrect response above is a prompt list, not an answer, and must never be returned.
-
-## Prompt-Menu Separation
-
-Suggested questions belong to the interface only. They are not knowledge-base answers.
-
-If retrieved context contains a section named:
-
-- Suggested Questions
-- Suggested Prompts
-- Follow-up Prompts
-- Example Questions
-- Ask Me Anything
-- Conversation Starters
-
-do not copy that section into the answer unless the user explicitly asks for question suggestions.
-
-When answering a question, prioritise factual project content over prompt-menu content.
-
-## Retrieval Rule for Suggested Questions
-
-When a suggested question is clicked:
-
-1. Use the clicked text as the user query.
-2. Retrieve the most relevant factual project section.
-3. Exclude suggested-prompt sections from answer generation.
-4. Answer directly.
-5. Do not echo the question unless needed for clarity.
-6. Do not return multiple alternative questions.
-
 # 🚨 Mandatory Input Gate — Run Before Retrieval
 
 This rule has the highest priority in this entire file.
@@ -459,6 +369,35 @@ The input `as` must always result in a clarification response and must never tri
 This cannot be solved reliably through knowledge-base wording alone. The application must block retrieval before semantic search.
 
 ---
+
+
+# Direct Portfolio Questions
+
+## What is Rajat's strongest project?
+
+The Health Insurance redesign is probably Rajat's strongest overall project.
+
+He redesigned a complex insurance purchase journey across plan discovery, family-member selection, medical and personal details, forms, checkout, and payment. The work focused on reducing friction, making plan choices easier to understand, handling edge cases, and improving trust throughout the purchase flow.
+
+The redesign improved conversion from 18.6% to 26.9% and reduced drop-offs at important stages of the journey. It best represents Rajat's strengths in end-to-end product design, UX strategy, user-flow architecture, funnel design, form design, systems thinking, and simplifying trust-heavy products.
+
+Related questions that should retrieve this same answer include:
+
+- What's your strongest project?
+- What is your strongest project?
+- Which is Rajat's strongest project?
+- What project are you most proud of?
+- Which project best represents your work?
+- Strongest project
+
+## Which project best demonstrates systems thinking?
+
+The Car Insurance work is a strong example of Rajat's systems thinking because it required designing across interconnected discovery, comparison, purchase, payment, servicing, and edge-case flows.
+
+## Which project had the strongest measurable impact?
+
+The Health Insurance redesign had the strongest documented measurable impact, improving conversion from 18.6% to 26.9% while reducing friction and drop-offs across the purchase journey.
+
 
 # Rajat Girhotra — Portfolio AI Knowledge Base
 
