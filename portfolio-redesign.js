@@ -571,12 +571,24 @@ function updateAskAiSendState() {
   askAiSend.classList.toggle('is-active', askAiInput.value.trim().length > 0);
 }
 
+function updateAskAiStarterSuggestions() {
+  if (!askAiSuggestions) return;
+  const isDrawerOpen = Boolean(
+    (askAiSuggestionDrawer && !askAiSuggestionDrawer.hidden) ||
+    (askAiCaseStudyDrawer && !askAiCaseStudyDrawer.hidden)
+  );
+  askAiPanel?.classList.toggle('is-drawer-open', isDrawerOpen);
+  if (askAiReplyInFlight) return;
+  askAiSuggestions.hidden = isDrawerOpen;
+}
+
 function setAskAiSuggestionDrawerOpen(isOpen) {
   if (!askAiSuggestionsToggle || !askAiSuggestionDrawer) return;
 
   askAiSuggestionDrawer.hidden = !isOpen;
   askAiSuggestionsToggle.classList.toggle('is-active', isOpen);
   askAiSuggestionsToggle.setAttribute('aria-expanded', String(isOpen));
+  updateAskAiStarterSuggestions();
 
   const icon = askAiSuggestionsToggle.querySelector('img');
   if (!icon) return;
@@ -589,6 +601,7 @@ function setAskAiCaseStudyDrawerOpen(isOpen) {
   askAiCaseStudyDrawer.hidden = !isOpen;
   askAiChatModeToggle.classList.toggle('is-active', isOpen);
   askAiChatModeToggle.setAttribute('aria-expanded', String(isOpen));
+  updateAskAiStarterSuggestions();
 
   const icon = askAiChatModeToggle.querySelector('img');
   if (!icon) return;

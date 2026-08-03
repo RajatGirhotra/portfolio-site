@@ -114,7 +114,14 @@ body.ask-ai-open .site-shell {
 .ask-ai-link {
   text-decoration: none;
   color: var(--text);
-  transition: color 0.18s ease, opacity 0.18s ease;
+  transition: color 0.18s ease, opacity 0.18s ease, text-decoration-color 0.18s ease;
+}
+
+.topnav a {
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
 }
 
 .nav-description {
@@ -161,6 +168,20 @@ body.ask-ai-open .site-shell {
   align-items: center;
   gap: 10px;
   cursor: pointer;
+}
+
+.ask-ai-trigger-text {
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition: color 0.18s ease, text-decoration-color 0.18s ease;
+}
+
+.ask-ai-trigger:hover .ask-ai-trigger-text,
+.ask-ai-trigger:focus-visible .ask-ai-trigger-text {
+  color: #141414;
+  text-decoration-color: #2f80ff;
 }
 
 .ask-ai-mobile-trigger {
@@ -497,6 +518,11 @@ body.ask-ai-open .site-shell {
 }
 
 .topnav a:hover,
+.topnav a:focus-visible {
+  color: #141414;
+  text-decoration-color: #2f80ff;
+}
+
 .ask-ai-link:hover {
   color: var(--muted);
 }
@@ -782,6 +808,20 @@ body.ask-ai-open .ask-ai-panel {
   cursor: pointer;
 }
 
+.ask-ai-suggestion span {
+  text-decoration-color: transparent;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition: color 0.18s ease, text-decoration-color 0.18s ease;
+}
+
+.ask-ai-suggestion:hover span,
+.ask-ai-suggestion:focus-visible span {
+  color: #242424;
+  text-decoration-color: #2f80ff;
+}
+
 .ask-ai-suggestion::before {
   content: "↳";
   display: inline-flex;
@@ -798,8 +838,12 @@ body.ask-ai-open .ask-ai-panel {
   padding: 20px 16px 16px;
 }
 
+.ask-ai-panel.is-drawer-open .ask-ai-panel-footer {
+  padding-top: 0;
+}
+
 .ask-ai-suggestion-drawer {
-  margin: 0 0 18px;
+  margin: 0 0 32px;
   padding: 22px 24px 26px;
   border-radius: 22px;
   background: #ffffff;
@@ -993,7 +1037,11 @@ body.ask-ai-open .ask-ai-panel {
   line-height: 1;
   font-weight: 500;
   letter-spacing: -0.01em;
-  transition: color 0.3s ease-out;
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition: color 0.3s ease-out, text-decoration-color 0.3s ease-out;
 }
 
 .case-study-rail-mark {
@@ -1016,6 +1064,12 @@ body.ask-ai-open .ask-ai-panel {
 
 .case-study-rail-item:hover {
   color: #494949;
+}
+
+.case-study-rail-item:hover .case-study-rail-label,
+.case-study-rail-item:focus-visible .case-study-rail-label {
+  color: #141414;
+  text-decoration-color: #2f80ff;
 }
 
 .case-study-rail-item.is-active .case-study-rail-mark {
@@ -1092,6 +1146,17 @@ body.case-study-open .case-study-rail {
   line-height: 1.5;
   font-weight: 500;
   letter-spacing: -0.01em;
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition: color 0.18s ease, text-decoration-color 0.18s ease;
+}
+
+.feature-block-clickable:hover .feature-meta h2,
+.feature-block-clickable:focus-visible .feature-meta h2 {
+  color: #141414;
+  text-decoration-color: #2f80ff;
 }
 
 #feature-title,
