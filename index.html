@@ -19,7 +19,7 @@
     }
     window.scrollTo(0, 0);
   </script>
-  <link rel="stylesheet" href="portfolio-redesign.css?v=20260803-10">
+  <link rel="stylesheet" href="portfolio-redesign.css?v=20260803-12">
 </head>
 <body>
   <div class="site-shell">
@@ -72,6 +72,18 @@
       <button class="case-study-rail-item" type="button" data-case-study-rail-target="refi-work">
         <span class="case-study-rail-mark" aria-hidden="true"></span>
         <span class="case-study-rail-label">ReFi NFT Dashboard</span>
+      </button>
+      <span class="case-study-rail-tick" aria-hidden="true"></span>
+      <span class="case-study-rail-tick" aria-hidden="true"></span>
+      <button class="case-study-rail-item" type="button" data-case-study-rail-target="life-work">
+        <span class="case-study-rail-mark" aria-hidden="true"></span>
+        <span class="case-study-rail-label">Life Insurance</span>
+      </button>
+      <span class="case-study-rail-tick" aria-hidden="true"></span>
+      <span class="case-study-rail-tick" aria-hidden="true"></span>
+      <button class="case-study-rail-item" type="button" data-case-study-rail-target="goleap-work">
+        <span class="case-study-rail-mark" aria-hidden="true"></span>
+        <span class="case-study-rail-label">Go Leap</span>
       </button>
     </aside>
 
@@ -222,9 +234,9 @@
         <div class="feature-card">
           <div class="feature-media">
             <picture>
-              <source media="(max-width: 640px)" srcset="RefiMobile-1400.jpg">
+              <source media="(max-width: 640px)" srcset="mobile_refi.png">
               <img
-                src="RefiDesktopDarkMode-2400.jpg"
+                src="desktop_refi.png"
                 alt="ReFi NFT Dashboard project preview"
                 loading="lazy"
               >
@@ -234,6 +246,58 @@
         <div class="feature-meta">
           <h2 id="feature-title-3">ReFi NFT Dashboard</h2>
           <p>Making climate investing accessible, transparent, and on Blockchain with NFTs</p>
+        </div>
+      </section>
+
+      <section
+        id="life-work"
+        class="feature-block feature-block-clickable"
+        aria-labelledby="feature-title-4"
+        role="button"
+        tabindex="0"
+        data-case-study-open="life"
+      >
+        <div class="feature-card">
+          <div class="feature-media">
+            <picture>
+              <source media="(max-width: 640px)" srcset="mobile_life.png">
+              <img
+                src="desktop_life.png"
+                alt="Life Insurance project preview"
+                loading="lazy"
+              >
+            </picture>
+          </div>
+        </div>
+        <div class="feature-meta">
+          <h2 id="feature-title-4">Life Insurance Experience Redesign</h2>
+          <p>Designing a clearer, more trustworthy purchase journey for long-term protection</p>
+        </div>
+      </section>
+
+      <section
+        id="goleap-work"
+        class="feature-block feature-block-clickable"
+        aria-labelledby="feature-title-5"
+        role="button"
+        tabindex="0"
+        data-case-study-open="goleap"
+      >
+        <div class="feature-card">
+          <div class="feature-media">
+            <picture>
+              <source media="(max-width: 640px)" srcset="mobile_goleap.png">
+              <img
+                src="desktop_Goleap.png"
+                alt="Go Leap project preview"
+                loading="lazy"
+              >
+            </picture>
+          </div>
+        </div>
+        <div class="feature-meta">
+          <h2 id="feature-title-5">Go Leap</h2>
+          <p>Turning static catalogue browsing into a more immersive product discovery experience</p>
         </div>
       </section>
 
@@ -674,8 +738,8 @@
       </header>
 
       <picture class="case-study-hero-media">
-        <source media="(max-width: 768px)" srcset="RefiMobile-1400.jpg">
-        <img src="RefiDesktopDarkMode-2400.jpg" alt="ReFi NFT Dashboard case study hero" loading="lazy" decoding="async">
+        <source media="(max-width: 768px)" srcset="mobile_refi.png">
+        <img src="desktop_refi.png" alt="ReFi NFT Dashboard case study hero" loading="lazy" decoding="async">
       </picture>
 
       <section class="case-study-section">
@@ -727,6 +791,94 @@
           Emerging technology becomes useful only when the interface makes its value,
           risks, and system state understandable. The dashboard treats transparency as
           part of the product experience, not supporting documentation.
+        </p>
+      </section>
+    </div>
+  </article>
+
+  <article id="lifeCaseStudy" class="case-study-overlay" aria-hidden="true" aria-labelledby="lifeCaseStudyTitle" hidden>
+    <div class="case-study-shell">
+      <header class="case-study-intro">
+        <p class="case-study-kicker">Life Insurance</p>
+        <h1 id="lifeCaseStudyTitle">Life Insurance Experience Redesign</h1>
+        <p>
+          Redesigning a high-trust insurance purchase journey around clarity,
+          continuity, transparent plan selection, and confident completion.
+        </p>
+        <dl class="case-study-meta">
+          <div><dt>Role</dt><dd>Product Designer</dd></div>
+          <div><dt>Platform</dt><dd>Mobile Web + App</dd></div>
+          <div><dt>Focus</dt><dd>Trust, Conversion, Forms</dd></div>
+          <div><dt>Scope</dt><dd>UX, UI, Journey Design</dd></div>
+        </dl>
+      </header>
+
+      <picture class="case-study-hero-media">
+        <source media="(max-width: 768px)" srcset="mobile_life.png">
+        <img src="desktop_life.png" alt="Life Insurance case study hero" loading="lazy" decoding="async">
+      </picture>
+
+      <section class="case-study-section">
+        <p class="case-study-kicker">01 Focus</p>
+        <h2>Making a long-term financial decision feel clear</h2>
+        <div class="case-study-card-grid">
+          <div class="case-study-card"><h3>Trust-first flow</h3><p>Structured the journey so users understood coverage, eligibility, and next steps before committing.</p></div>
+          <div class="case-study-card"><h3>Continuity</h3><p>Kept the experience coherent from discovery through proposal details, review, payment, and confirmation.</p></div>
+          <div class="case-study-card"><h3>Transparent choices</h3><p>Clarified plan comparison, premium logic, and decision points so users could move forward with confidence.</p></div>
+          <div class="case-study-card"><h3>Friction control</h3><p>Reduced uncertainty through progressive disclosure, simpler form sections, and clearer validation states.</p></div>
+        </div>
+      </section>
+
+      <section class="case-study-section case-study-reflection">
+        <p class="case-study-kicker">02 Reflection</p>
+        <h2>What this project reinforced</h2>
+        <p>
+          In insurance, trust is not a visual layer. It is built through sequencing,
+          explanation, recovery states, and the confidence that every next step makes sense.
+        </p>
+      </section>
+    </div>
+  </article>
+
+  <article id="goleapCaseStudy" class="case-study-overlay" aria-hidden="true" aria-labelledby="goleapCaseStudyTitle" hidden>
+    <div class="case-study-shell">
+      <header class="case-study-intro">
+        <p class="case-study-kicker">Go Leap</p>
+        <h1 id="goleapCaseStudyTitle">Immersive Product Discovery</h1>
+        <p>
+          A freelance project focused on turning static catalogue browsing into a
+          richer, more guided product discovery experience.
+        </p>
+        <dl class="case-study-meta">
+          <div><dt>Role</dt><dd>Freelance Product Designer</dd></div>
+          <div><dt>Platform</dt><dd>Web</dd></div>
+          <div><dt>Focus</dt><dd>Catalogue, Discovery, Visual UX</dd></div>
+          <div><dt>Scope</dt><dd>UX/UI Design</dd></div>
+        </dl>
+      </header>
+
+      <picture class="case-study-hero-media">
+        <source media="(max-width: 768px)" srcset="mobile_goleap.png">
+        <img src="desktop_Goleap.png" alt="Go Leap case study hero" loading="lazy" decoding="async">
+      </picture>
+
+      <section class="case-study-section">
+        <p class="case-study-kicker">01 Focus</p>
+        <h2>From passive browsing to active exploration</h2>
+        <div class="case-study-card-grid">
+          <div class="case-study-card"><h3>Better discovery</h3><p>Restructured browsing so users could understand product categories and details without friction.</p></div>
+          <div class="case-study-card"><h3>Visual clarity</h3><p>Used stronger hierarchy and imagery to make the catalogue feel more tangible and easier to scan.</p></div>
+          <div class="case-study-card"><h3>Guided movement</h3><p>Created a flow that helped users move from overview to product-level detail naturally.</p></div>
+          <div class="case-study-card"><h3>Conversion support</h3><p>Reduced dead ends by making key actions and product information available at the right moments.</p></div>
+        </div>
+      </section>
+
+      <section class="case-study-section case-study-reflection">
+        <p class="case-study-kicker">02 Reflection</p>
+        <h2>What this project reinforced</h2>
+        <p>
+          Discovery experiences need rhythm: enough structure to compare, enough visual
+          detail to feel real, and enough momentum to keep people moving.
         </p>
       </section>
     </div>
@@ -787,6 +939,8 @@
         <button type="button" class="ask-ai-drawer-suggestion ask-ai-drawer-case-study" data-ask-ai-case-study="health">Designing Health Insurance for Tier-2 &amp; Tier-3 Indian Cities</button>
         <button type="button" class="ask-ai-drawer-suggestion ask-ai-drawer-case-study" data-ask-ai-case-study="colrows">Designing an AI driven query editor</button>
         <button type="button" class="ask-ai-drawer-suggestion ask-ai-drawer-case-study" data-ask-ai-case-study="refi">ReFi NFT Dashboard</button>
+        <button type="button" class="ask-ai-drawer-suggestion ask-ai-drawer-case-study" data-ask-ai-case-study="life">Life Insurance Experience Redesign</button>
+        <button type="button" class="ask-ai-drawer-suggestion ask-ai-drawer-case-study" data-ask-ai-case-study="goleap">Go Leap</button>
       </div>
       <div class="ask-ai-input-shell">
         <input id="askAiInput" type="text" placeholder="Ask about Rajat..." aria-label="Ask about Rajat">

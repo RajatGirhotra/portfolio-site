@@ -55,7 +55,9 @@ const contactToast = document.getElementById('contactToast');
 const caseStudyOverlays = {
   health: document.getElementById('healthCaseStudy'),
   colrows: document.getElementById('colrowsCaseStudy'),
-  refi: document.getElementById('refiCaseStudy')
+  refi: document.getElementById('refiCaseStudy'),
+  life: document.getElementById('lifeCaseStudy'),
+  goleap: document.getElementById('goleapCaseStudy')
 };
 const caseStudyOpenTriggers = Array.from(document.querySelectorAll('[data-case-study-open]'));
 const caseStudyRailItems = Array.from(document.querySelectorAll('[data-case-study-rail-target]'));
@@ -170,6 +172,18 @@ Rajat's strengths include end-to-end product design, UX strategy, user-flow arch
 
 Rajat has worked across health, life, car, and motor insurance, as well as listing pages, detail pages, checkout, payments, transaction history, membership, and point-of-sale products.
 
+## What case studies are available?
+
+Rajat's portfolio includes five case studies: Health Insurance, Colrows, ReFi NFT Dashboard, Life Insurance, and Go Leap.
+
+## Full case study links
+
+Health Insurance: https://rajatgirhotra.com/?case-study=health
+Colrows: https://rajatgirhotra.com/?case-study=colrows
+ReFi NFT Dashboard: https://rajatgirhotra.com/?case-study=refi
+Life Insurance: https://rajatgirhotra.com/?case-study=life
+Go Leap: https://rajatgirhotra.com/?case-study=goleap
+
 ## Tell me about the Health Insurance project
 
 Rajat redesigned the Health Insurance purchase journey to simplify family-member selection, improve plan discovery, reduce form friction, and make complex decisions easier to understand.
@@ -179,10 +193,6 @@ The redesign improved conversion from 18.6% to 26.9% and reduced several importa
 ## Tell me about Life Insurance
 
 Rajat redesigned the end-to-end Life Insurance purchase experience with an emphasis on trust, continuity, transparency, and conversion.
-
-## Tell me about Car Insurance
-
-Rajat worked on scalable flow architecture, decision trees, validation, plan selection, add-ons, and edge-case recovery across purchase and renewal journeys.
 
 ## Tell me about Go Leap
 
