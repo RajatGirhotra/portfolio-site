@@ -13,8 +13,10 @@ const resetScrollToTop = () => {
 window.addEventListener('DOMContentLoaded', resetScrollToTop);
 window.addEventListener('load', () => {
   resetScrollToTop();
+  updateCaseStudyRailActive();
   requestAnimationFrame(() => {
     resetScrollToTop();
+    updateCaseStudyRailActive();
     setTimeout(resetScrollToTop, 60);
   });
 });
@@ -33,8 +35,13 @@ const askAiChat = document.getElementById('askAiChat');
 const askAiSuggestions = document.querySelector('.ask-ai-suggestions');
 const askAiSuggestionButtons = Array.from(document.querySelectorAll('.ask-ai-suggestion'));
 const askAiSuggestionsToggle = document.getElementById('askAiSuggestionsToggle');
+const askAiChatModeToggle = document.getElementById('askAiChatModeToggle');
 const askAiSuggestionDrawer = document.getElementById('askAiSuggestionDrawer');
-const askAiDrawerSuggestionButtons = Array.from(document.querySelectorAll('.ask-ai-drawer-suggestion'));
+const askAiDrawerSuggestionButtons = Array.from(
+  document.querySelectorAll('#askAiSuggestionDrawer .ask-ai-drawer-suggestion')
+);
+const askAiCaseStudyDrawer = document.getElementById('askAiCaseStudyDrawer');
+const askAiCaseStudyButtons = Array.from(document.querySelectorAll('[data-ask-ai-case-study]'));
 const primaryNavigation = document.getElementById('primaryNavigation');
 const mobileMenuToggle = document.getElementById('mobileMenuToggle');
 const topnavLinks = Array.from(document.querySelectorAll('.topnav a'));
@@ -51,6 +58,7 @@ const caseStudyOverlays = {
   refi: document.getElementById('refiCaseStudy')
 };
 const caseStudyOpenTriggers = Array.from(document.querySelectorAll('[data-case-study-open]'));
+const caseStudyRailItems = Array.from(document.querySelectorAll('[data-case-study-rail-target]'));
 const caseStudyActionBar = document.getElementById('caseStudyActionBar');
 const caseStudyReturn = document.getElementById('caseStudyReturn');
 const caseStudyContactTrigger = document.getElementById('caseStudyContactTrigger');
@@ -62,6 +70,53 @@ const caseStudyContactCopyButtons = Array.from(
 let activeCaseStudy = null;
 let homeScrollPosition = 0;
 let mobileMenuCloseTimer = null;
+
+function setCaseStudyRailActive(targetId) {
+  caseStudyRailItems.forEach((item) => {
+    item.classList.toggle('is-active', item.dataset.caseStudyRailTarget === targetId);
+  });
+}
+
+function setCaseStudyRailVisible(isVisible) {
+  const rail = document.querySelector('.case-study-rail');
+  rail?.classList.toggle('is-visible', isVisible);
+}
+
+function updateCaseStudyRailActive() {
+  if (!caseStudyRailItems.length) return;
+
+  const firstTarget = document.getElementById(caseStudyRailItems[0]?.dataset.caseStudyRailTarget || '');
+  const lastTarget = document.getElementById(caseStudyRailItems[caseStudyRailItems.length - 1]?.dataset.caseStudyRailTarget || '');
+  const firstRect = firstTarget?.getBoundingClientRect();
+  const lastRect = lastTarget?.getBoundingClientRect();
+  const isWorkInView = Boolean(
+    firstRect &&
+    lastRect &&
+    firstRect.top <= window.innerHeight * 0.62 &&
+    lastRect.bottom >= window.innerHeight * 0.38
+  );
+
+  setCaseStudyRailVisible(isWorkInView && !document.body.classList.contains('case-study-open'));
+  if (!isWorkInView || document.body.classList.contains('case-study-open')) return;
+
+  const viewportAnchor = window.innerHeight * 0.48;
+  let activeTarget = caseStudyRailItems[0]?.dataset.caseStudyRailTarget;
+  let closestDistance = Number.POSITIVE_INFINITY;
+
+  caseStudyRailItems.forEach((item) => {
+    const target = document.getElementById(item.dataset.caseStudyRailTarget || '');
+    if (!target) return;
+
+    const rect = target.getBoundingClientRect();
+    const distance = Math.abs(rect.top - viewportAnchor);
+    if (distance < closestDistance) {
+      closestDistance = distance;
+      activeTarget = item.dataset.caseStudyRailTarget;
+    }
+  });
+
+  if (activeTarget) setCaseStudyRailActive(activeTarget);
+}
 
 function setMobileMenuOpen(isOpen) {
   if (!mobileMenuToggle) return;
@@ -518,6 +573,18 @@ function setAskAiSuggestionDrawerOpen(isOpen) {
   icon.src = isOpen ? icon.dataset.activeSrc : icon.dataset.inactiveSrc;
 }
 
+function setAskAiCaseStudyDrawerOpen(isOpen) {
+  if (!askAiChatModeToggle || !askAiCaseStudyDrawer) return;
+
+  askAiCaseStudyDrawer.hidden = !isOpen;
+  askAiChatModeToggle.classList.toggle('is-active', isOpen);
+  askAiChatModeToggle.setAttribute('aria-expanded', String(isOpen));
+
+  const icon = askAiChatModeToggle.querySelector('img');
+  if (!icon) return;
+  icon.src = isOpen ? icon.dataset.activeSrc : icon.dataset.inactiveSrc;
+}
+
 async function submitAskAiQuestion(rawQuestion) {
   const question = (rawQuestion || '').trim();
   if (askAiReplyInFlight) return;
@@ -532,6 +599,7 @@ async function submitAskAiQuestion(rawQuestion) {
     askAiReplyInFlight = true;
     if (askAiSuggestions) askAiSuggestions.hidden = true;
     setAskAiSuggestionDrawerOpen(false);
+    setAskAiCaseStudyDrawerOpen(false);
     if (question) appendAskAiMessage('user', question);
     if (askAiInput) askAiInput.value = '';
     updateAskAiSendState();
@@ -562,6 +630,7 @@ async function submitAskAiQuestion(rawQuestion) {
   askAiReplyInFlight = true;
   if (askAiSuggestions) askAiSuggestions.hidden = true;
   setAskAiSuggestionDrawerOpen(false);
+  setAskAiCaseStudyDrawerOpen(false);
 
   await loadAskAiKnowledge();
 
@@ -614,14 +683,13 @@ async function openAskAiPanel() {
   askAiPanel.setAttribute('aria-hidden', 'false');
   askAiTriggers.forEach((trigger) => trigger.setAttribute('aria-expanded', 'true'));
   askAiBackdrop.hidden = false;
-  setTimeout(() => {
-    askAiInput?.focus();
-  }, 180);
 }
 
 function closeAskAiPanel() {
   if (!askAiPanel || !askAiTrigger || !askAiBackdrop) return;
   askAiAbortController?.abort();
+  setAskAiSuggestionDrawerOpen(false);
+  setAskAiCaseStudyDrawerOpen(false);
   document.body.classList.remove('ask-ai-open');
   askAiPanel.setAttribute('aria-hidden', 'true');
   askAiTriggers.forEach((trigger) => trigger.setAttribute('aria-expanded', 'false'));
@@ -823,6 +891,17 @@ caseStudyOpenTriggers.forEach((trigger) => {
     openCaseStudy(caseStudyId);
   });
 });
+
+caseStudyRailItems.forEach((item) => {
+  item.addEventListener('click', () => {
+    const target = document.getElementById(item.dataset.caseStudyRailTarget || '');
+    if (!target) return;
+
+    setCaseStudyRailActive(item.dataset.caseStudyRailTarget);
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
 caseStudyReturn?.addEventListener('click', returnFromCaseStudy);
 caseStudyContactTrigger?.addEventListener('click', (event) => {
   const isOpen = caseStudyContactIsland?.classList.contains('is-open');
@@ -887,6 +966,14 @@ askAiInput?.addEventListener('keydown', (event) => {
 
 askAiInput?.addEventListener('input', updateAskAiSendState);
 
+askAiInput?.addEventListener('focus', () => {
+  askAiInput.closest('.ask-ai-input-shell')?.classList.add('is-active');
+});
+
+askAiInput?.addEventListener('blur', () => {
+  askAiInput.closest('.ask-ai-input-shell')?.classList.remove('is-active');
+});
+
 askAiSuggestionButtons.forEach((button) => {
   button.addEventListener('click', () => {
     submitAskAiQuestion(button.textContent || '');
@@ -894,12 +981,28 @@ askAiSuggestionButtons.forEach((button) => {
 });
 
 askAiSuggestionsToggle?.addEventListener('click', () => {
-  setAskAiSuggestionDrawerOpen(askAiSuggestionDrawer?.hidden ?? true);
+  const shouldOpen = askAiSuggestionDrawer?.hidden ?? true;
+  setAskAiCaseStudyDrawerOpen(false);
+  setAskAiSuggestionDrawerOpen(shouldOpen);
+});
+
+askAiChatModeToggle?.addEventListener('click', () => {
+  const shouldOpen = askAiCaseStudyDrawer?.hidden ?? true;
+  setAskAiSuggestionDrawerOpen(false);
+  setAskAiCaseStudyDrawerOpen(shouldOpen);
 });
 
 askAiDrawerSuggestionButtons.forEach((button) => {
   button.addEventListener('click', () => {
     submitAskAiQuestion(button.textContent || '');
+  });
+});
+
+askAiCaseStudyButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    const caseStudyId = button.dataset.askAiCaseStudy;
+    setAskAiCaseStudyDrawerOpen(false);
+    if (caseStudyId) openCaseStudy(caseStudyId);
   });
 });
 
@@ -922,14 +1025,19 @@ window.addEventListener('popstate', () => {
   closeAllCaseStudies();
 });
 
-window.addEventListener('scroll', updateMobileAskAiVisibility, { passive: true });
+window.addEventListener('scroll', () => {
+  updateMobileAskAiVisibility();
+  updateCaseStudyRailActive();
+}, { passive: true });
 window.addEventListener('resize', () => {
   updateMobileAskAiVisibility();
+  updateCaseStudyRailActive();
   if (!window.matchMedia('(max-width: 900px)').matches) {
     setMobileMenuOpen(false);
   }
 });
 updateMobileAskAiVisibility();
+updateCaseStudyRailActive();
 
 document.addEventListener('click', (event) => {
   if (document.body.classList.contains('mobile-menu-open')) {

@@ -19,7 +19,7 @@
     }
     window.scrollTo(0, 0);
   </script>
-  <link rel="stylesheet" href="portfolio-redesign.css?v=20260802-1">
+  <link rel="stylesheet" href="portfolio-redesign.css?v=20260803-10">
 </head>
 <body>
   <div class="site-shell">
@@ -55,6 +55,25 @@
         </button>
       </div>
     </header>
+
+    <aside class="case-study-rail" aria-label="Case study navigation">
+      <button class="case-study-rail-item is-active" type="button" data-case-study-rail-target="selected-work">
+        <span class="case-study-rail-mark" aria-hidden="true"></span>
+        <span class="case-study-rail-label">Health Insurance</span>
+      </button>
+      <span class="case-study-rail-tick" aria-hidden="true"></span>
+      <span class="case-study-rail-tick" aria-hidden="true"></span>
+      <button class="case-study-rail-item" type="button" data-case-study-rail-target="colrows-work">
+        <span class="case-study-rail-mark" aria-hidden="true"></span>
+        <span class="case-study-rail-label">Colrows</span>
+      </button>
+      <span class="case-study-rail-tick" aria-hidden="true"></span>
+      <span class="case-study-rail-tick" aria-hidden="true"></span>
+      <button class="case-study-rail-item" type="button" data-case-study-rail-target="refi-work">
+        <span class="case-study-rail-mark" aria-hidden="true"></span>
+        <span class="case-study-rail-label">ReFi NFT Dashboard</span>
+      </button>
+    </aside>
 
     <main>
       <section class="hero">
@@ -167,6 +186,7 @@
       </section>
 
       <section
+        id="colrows-work"
         class="feature-block feature-block-clickable"
         aria-labelledby="feature-title-2"
         role="button"
@@ -192,6 +212,7 @@
       </section>
 
       <section
+        id="refi-work"
         class="feature-block feature-block-clickable"
         aria-labelledby="feature-title-3"
         role="button"
@@ -248,7 +269,9 @@
                 <a href="mailto:rajatgirhotra13@gmail.com">rajatgirhotra13@gmail.com</a>.
               </p>
             </div>
-            <p class="about-signature" aria-label="Rajat Girhotra">Rajat Girhotra</p>
+            <div class="about-signature" aria-label="Rajat Girhotra">
+              <img src="sign.svg" alt="">
+            </div>
           </div>
 
           <aside class="about-expertise" aria-labelledby="expertise-heading">
@@ -739,13 +762,15 @@
     </div>
 
     <div class="ask-ai-panel-body">
-      <h2>Ask me anything.</h2>
       <div id="askAiChat" class="ask-ai-chat" hidden></div>
-      <div class="ask-ai-suggestions">
-        <button type="button" class="ask-ai-suggestion">What's your strongest project?</button>
-        <button type="button" class="ask-ai-suggestion">How do you use AI in your design process?</button>
-        <button type="button" class="ask-ai-suggestion">Can you tell me more about yourself?</button>
-        <button type="button" class="ask-ai-suggestion">What’s your design + code background?</button>
+      <div class="ask-ai-starter">
+        <h2>Ask me anything.</h2>
+        <div class="ask-ai-suggestions">
+          <button type="button" class="ask-ai-suggestion">What's your strongest project?</button>
+          <button type="button" class="ask-ai-suggestion">How do you use AI in your design process?</button>
+          <button type="button" class="ask-ai-suggestion">Can you tell me more about yourself?</button>
+          <button type="button" class="ask-ai-suggestion">What’s your design + code background?</button>
+        </div>
       </div>
     </div>
 
@@ -756,6 +781,12 @@
         <button type="button" class="ask-ai-drawer-suggestion">How do you use AI in your design process?</button>
         <button type="button" class="ask-ai-drawer-suggestion">Can you tell me more about yourself?</button>
         <button type="button" class="ask-ai-drawer-suggestion">What’s your design + code background?</button>
+      </div>
+      <div id="askAiCaseStudyDrawer" class="ask-ai-suggestion-drawer" hidden>
+        <p>Case studies</p>
+        <button type="button" class="ask-ai-drawer-suggestion ask-ai-drawer-case-study" data-ask-ai-case-study="health">Designing Health Insurance for Tier-2 &amp; Tier-3 Indian Cities</button>
+        <button type="button" class="ask-ai-drawer-suggestion ask-ai-drawer-case-study" data-ask-ai-case-study="colrows">Designing an AI driven query editor</button>
+        <button type="button" class="ask-ai-drawer-suggestion ask-ai-drawer-case-study" data-ask-ai-case-study="refi">ReFi NFT Dashboard</button>
       </div>
       <div class="ask-ai-input-shell">
         <input id="askAiInput" type="text" placeholder="Ask about Rajat..." aria-label="Ask about Rajat">
@@ -769,15 +800,31 @@
             aria-controls="askAiSuggestionDrawer"
           >
             <img
-              src="ai_icon1_inactive.svg"
-              data-inactive-src="ai_icon1_inactive.svg"
-              data-active-src="ai_icon1_active.svg.svg"
+              src="chaticon1.svg"
+              data-inactive-src="chaticon1.svg"
+              data-active-src="chaticon1clicked.svg"
               alt=""
               width="18"
               height="18"
             >
           </button>
-          <button type="button" class="ask-ai-mini-button" aria-label="Work bag">◔</button>
+          <button
+            id="askAiChatModeToggle"
+            type="button"
+            class="ask-ai-mini-button ask-ai-chat-mode-toggle"
+            aria-label="Show case studies"
+            aria-expanded="false"
+            aria-controls="askAiCaseStudyDrawer"
+          >
+            <img
+              src="chaticon2.svg"
+              data-inactive-src="chaticon2.svg"
+              data-active-src="chaticon2clicked.svg"
+              alt=""
+              width="18"
+              height="18"
+            >
+          </button>
           <button id="askAiSend" type="button" class="ask-ai-send" aria-label="Send question">↑</button>
         </div>
       </div>
@@ -785,6 +832,6 @@
   </aside>
 
   <script src="portfolio-ai-validation.js"></script>
-  <script src="portfolio-redesign.js?v=20260731-4"></script>
+  <script src="portfolio-redesign.js?v=20260803-6"></script>
 </body>
 </html>
