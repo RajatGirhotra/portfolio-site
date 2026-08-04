@@ -45,6 +45,16 @@ assertBlocked(
 assertAllowed('Health Insurance');
 assertAllowed('strongest project');
 assertAllowed('Who is Rajat?');
+assertAllowed('Tell me about yourself');
+assertAllowed('Can you tell me more about yourself?');
+assertAllowed('Who are you?');
+assertAllowed('Introduce yourself');
+assertAllowed('What do you do?');
+assertAllowed("What's your background?");
+assertAllowed("What's your story?");
+assertAllowed('Tell me about your experience');
+assertAllowed('What kind of designer are you?');
+assertAllowed('Can you introduce yourself?');
 assertAllowed('Go Leap');
 assertAllowed('Projects');
 assertAllowed('Experience');
@@ -52,6 +62,10 @@ assertAllowed('Skills');
 assertAllowed('Contact');
 assertAllowed('AI workflow');
 assertAllowed('Design process');
+assertAllowed('What is your current role?');
+assertAllowed('Tell me about your career');
+assertAllowed('What is your education?');
+assertAllowed('Where are you based?');
 assertAllowed('Bajaj Finserv');
 
 console.log('Portfolio AI validation tests passed.');

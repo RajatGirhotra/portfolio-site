@@ -24,6 +24,7 @@
 
   function cleanMarkdownText(raw) {
     return raw
+      .replace(/^#{1,6}\s+/gm, '')
       .replace(/^>\s?/gm, '')
       .replace(/^\-\s+/gm, '• ')
       .replace(/^\d+\.\s+/gm, '')
@@ -33,6 +34,11 @@
       .replace(/\[(.*?)\]\((.*?)\)/g, '$1')
       .replace(/\n{2,}/g, '\n\n')
       .trim();
+  }
+
+  function getAnswerText(raw, fallbackText) {
+    const answerMatch = String(raw || '').match(/^#{3,6}\s+Answer\s*\n([\s\S]*)$/im);
+    return answerMatch ? cleanMarkdownText(answerMatch[1]) : fallbackText;
   }
 
   function parseKnowledgeBase(knowledgeMarkdown) {
@@ -45,13 +51,14 @@
       const raw = buffer.join('\n').trim();
       if (!raw) return;
 
-      const text = cleanMarkdownText(raw);
+      const corpusText = cleanMarkdownText(raw);
+      const text = getAnswerText(raw, corpusText);
 
       if (text) {
         chunks.push({
           heading: currentHeading || 'General',
           text,
-          corpus: `${currentHeading} ${text}`.trim()
+          corpus: `${currentHeading} ${corpusText}`.trim()
         });
       }
 
@@ -59,7 +66,7 @@
     }
 
     lines.forEach((line) => {
-      if (/^#{1,6}\s/.test(line)) {
+      if (/^#{1,2}\s/.test(line)) {
         flushBuffer();
         currentHeading = line.replace(/^#{1,6}\s*/, '').trim();
         return;

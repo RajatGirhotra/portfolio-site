@@ -283,7 +283,8 @@ function parseKnowledgeBase(knowledgeMarkdown) {
   function flushBuffer() {
     const raw = buffer.join('\n').trim();
     if (!raw) return;
-    const text = raw
+    const cleanText = (value) => String(value || '')
+      .replace(/^#{1,6}\s+/gm, '')
       .replace(/^>\s?/gm, '')
       .replace(/^\-\s+/gm, '• ')
       .replace(/^\d+\.\s+/gm, '')
@@ -293,19 +294,22 @@ function parseKnowledgeBase(knowledgeMarkdown) {
       .replace(/\[(.*?)\]\((.*?)\)/g, '$1')
       .replace(/\n{2,}/g, '\n\n')
       .trim();
+    const corpusText = cleanText(raw);
+    const answerMatch = raw.match(/^#{3,6}\s+Answer\s*\n([\s\S]*)$/im);
+    const text = answerMatch ? cleanText(answerMatch[1]) : corpusText;
 
     if (text) {
       chunks.push({
         heading: currentHeading || 'General',
         text,
-        corpus: `${currentHeading} ${text}`.trim()
+        corpus: `${currentHeading} ${corpusText}`.trim()
       });
     }
     buffer = [];
   }
 
   lines.forEach((line) => {
-    if (/^#{1,6}\s/.test(line)) {
+    if (/^#{1,2}\s/.test(line)) {
       flushBuffer();
       currentHeading = line.replace(/^#{1,6}\s*/, '').trim();
       return;
@@ -457,10 +461,23 @@ function getIntroResponse() {
   return "Hi! I’m the AI guide for Rajat’s portfolio. You can ask me about his product design experience, Bajaj Finserv work, insurance projects, AI workflow, strengths, or how to contact him.";
 }
 
+function isAboutRajatQuestion(query) {
+  return /\b(?:tell|talk) (?:me )?(?:more )?about (?:yourself|you|rajat)\b/.test(query) ||
+    /\bcan you (?:tell|talk) (?:me )?(?:more )?about (?:yourself|you|rajat)\b/.test(query) ||
+    /\bwho (?:are you|is rajat)\b/.test(query) ||
+    /\b(?:introduce yourself|can you introduce yourself|give me an introduction)\b/.test(query) ||
+    /\bwhat do you do\b/.test(query) ||
+    /\bwhat(?:'s| is) your (?:background|story|profile)\b/.test(query) ||
+    /\b(?:your|rajat'?s) (?:background|story|profile)\b/.test(query) ||
+    /\bwhat kind of designer are you\b/.test(query) ||
+    /\b(?:about|intro|introduction) (?:rajat|you|yourself)\b/.test(query);
+}
+
 function answerFromKnowledgeBase(question, systemInstructions = askAiSystemInstructions) {
   const modelInstructions = systemInstructions;
   void modelInstructions;
   const query = normaliseText(question);
+  const retrievalQuestion = isAboutRajatQuestion(query) ? 'About Rajat' : question;
 
   if (!query) {
     return "Ask me about Rajat’s experience, projects, design approach, AI workflow, or how to contact him.";
@@ -474,15 +491,11 @@ function answerFromKnowledgeBase(question, systemInstructions = askAiSystemInstr
     return "You’re welcome. You can also ask about Rajat’s insurance work, his strongest skills, AI workflow, or the projects in this portfolio.";
   }
 
-  if (/\b(are you rajat|who are you)\b/.test(query)) {
-    return "I’m the AI guide for Rajat Girhotra’s portfolio. I’m not Rajat himself, but I can help you understand his work, experience, projects, and design approach.";
-  }
-
   if (/\b(contact|email|phone|reach|hire|collaborat|availability)\b/.test(query)) {
     return "You can reach Rajat at rajatgirhotra13@gmail.com or +91 9354423022.\n\nBased on his portfolio, he is open to product design roles, collaborations, freelance projects, and conversations around design, systems, AI, and creative technology.";
   }
 
-  const topChunks = getTopKnowledgeChunks(question, 3);
+  const topChunks = getTopKnowledgeChunks(retrievalQuestion, 3);
   if (!topChunks.length) {
     return "I don’t have that exact detail in Rajat’s portfolio knowledge base. You can ask about his Bajaj Finserv work, insurance projects, AI workflow, design strengths, or how to contact him.";
   }

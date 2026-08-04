@@ -22,6 +22,96 @@
     /\bwrite code\b/,
     /\bwrite .* code\b/
   ];
+
+  const PORTFOLIO_INTENTS = [
+    {
+      intent: 'about-rajat',
+      patterns: [
+        /\b(?:tell|talk) (?:me )?(?:more )?about (?:yourself|you|rajat)\b/,
+        /\bcan you (?:tell|talk) (?:me )?(?:more )?about (?:yourself|you|rajat)\b/,
+        /\bwho (?:are you|is rajat)\b/,
+        /\b(?:introduce yourself|can you introduce yourself|give me an introduction)\b/,
+        /\bwhat do you do\b/,
+        /\bwhat(?:'s| is) your (?:background|story|profile)\b/,
+        /\b(?:your|rajat'?s) (?:background|story|profile)\b/,
+        /\bwhat kind of designer are you\b/,
+        /\b(?:about|intro|introduction) (?:rajat|you|yourself)\b/
+      ]
+    },
+    {
+      intent: 'experience',
+      patterns: [
+        /\b(?:tell me about|what(?:'s| is)|describe|share) (?:your|rajat'?s)? ?experience\b/,
+        /\b(?:experience|work history|professional journey|past work)\b/
+      ]
+    },
+    {
+      intent: 'skills',
+      patterns: [
+        /\b(?:what are|what're|tell me about|show me|describe) (?:your|rajat'?s)? ?(?:skills|strengths|capabilities)\b/,
+        /\b(?:skills|strengths|capabilities|expertise)\b/
+      ]
+    },
+    {
+      intent: 'projects',
+      patterns: [
+        /\b(?:what|which|show|list|tell me about).*\b(?:projects|portfolio|case stud(?:y|ies)|work)\b/,
+        /\b(?:projects|portfolio|case stud(?:y|ies))\b/
+      ]
+    },
+    {
+      intent: 'strongest-project',
+      patterns: [
+        /\b(?:strongest|best|most impressive|top|main|flagship) project\b/,
+        /\bwhich project (?:is|was) (?:your|rajat'?s)? ?(?:strongest|best|most impressive)\b/
+      ]
+    },
+    {
+      intent: 'contact',
+      patterns: [
+        /\b(?:contact|email|phone|reach|hire|hiring|recruiter|collaborat|freelance|available|availability)\b/,
+        /\bhow (?:can|do) i (?:contact|reach|hire) (?:you|rajat)\b/
+      ]
+    },
+    {
+      intent: 'ai-workflow',
+      patterns: [
+        /\b(?:ai workflow|ai process|use ai|using ai|work with ai|ai-assisted|artificial intelligence)\b/,
+        /\bhow do you use ai\b/
+      ]
+    },
+    {
+      intent: 'design-process',
+      patterns: [
+        /\b(?:design process|design approach|product process|ux process|how do you design|how do you work)\b/
+      ]
+    },
+    {
+      intent: 'current-role',
+      patterns: [
+        /\b(?:current role|current job|currently working|where do you work|what is your role|what's your role)\b/
+      ]
+    },
+    {
+      intent: 'career',
+      patterns: [
+        /\b(?:career|career path|professional path|journey|transitioned into design)\b/
+      ]
+    },
+    {
+      intent: 'education',
+      patterns: [
+        /\b(?:education|degree|college|university|study|studied|school)\b/
+      ]
+    },
+    {
+      intent: 'location',
+      patterns: [
+        /\b(?:where are you based|where is rajat based|location|city|pune|india)\b/
+      ]
+    }
+  ];
+
   const PORTFOLIO_PATTERNS = [
     /\brajat\b/,
     /\bproject\b|\bprojects\b|\bportfolio\b|\bcase stud(?:y|ies)\b/,
@@ -63,8 +153,18 @@
     return false;
   }
 
+  function getPortfolioIntent(input) {
+    const matchedIntent = PORTFOLIO_INTENTS.find(({ patterns }) => {
+      return patterns.some(pattern => pattern.test(input));
+    });
+
+    if (matchedIntent) return matchedIntent.intent;
+    if (PORTFOLIO_PATTERNS.some(pattern => pattern.test(input))) return 'portfolio';
+    return null;
+  }
+
   function hasPortfolioIntent(input) {
-    return PORTFOLIO_PATTERNS.some(pattern => pattern.test(input));
+    return Boolean(getPortfolioIntent(input));
   }
 
   function isUnrelated(input) {
@@ -95,12 +195,13 @@
       return { allowed: false, reason: 'gibberish', reply: REPLIES.gibberish };
     }
 
-    if (isUnrelated(input)) {
-      return { allowed: false, reason: 'unrelated', reply: REPLIES.unrelated };
+    const portfolioIntent = getPortfolioIntent(input);
+    if (portfolioIntent) {
+      return { allowed: true, reason: portfolioIntent };
     }
 
-    if (hasPortfolioIntent(input)) {
-      return { allowed: true, reason: 'portfolio' };
+    if (isUnrelated(input)) {
+      return { allowed: false, reason: 'unrelated', reply: REPLIES.unrelated };
     }
 
     return { allowed: false, reason: 'unrelated', reply: REPLIES.unrelated };
