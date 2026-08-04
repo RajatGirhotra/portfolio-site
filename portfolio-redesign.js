@@ -940,14 +940,32 @@ async function copyContactValue(button, toastMessage) {
   showContactToast(toastMessage);
 }
 
+function toggleAskAiPanel() {
+  const isOpen = document.body.classList.contains('ask-ai-open');
+  if (isOpen) {
+    closeAskAiPanel();
+    return;
+  }
+  openAskAiPanel();
+}
+
 askAiTriggers.forEach((trigger) => {
-  trigger.addEventListener('click', () => {
-    const isOpen = document.body.classList.contains('ask-ai-open');
-    if (isOpen) {
-      closeAskAiPanel();
+  let handledPointerActivation = false;
+
+  trigger.addEventListener('pointerup', (event) => {
+    if (event.pointerType !== 'touch') return;
+    event.preventDefault();
+    handledPointerActivation = true;
+    toggleAskAiPanel();
+  });
+
+  trigger.addEventListener('click', (event) => {
+    if (handledPointerActivation) {
+      event.preventDefault();
+      handledPointerActivation = false;
       return;
     }
-    openAskAiPanel();
+    toggleAskAiPanel();
   });
 });
 

@@ -1895,7 +1895,7 @@ body.case-study-open .ask-ai-mobile-trigger {
     position: fixed !important;
     right: auto;
     top: auto !important;
-    bottom: calc(22px + env(safe-area-inset-bottom, 0px));
+    bottom: calc(72px + env(safe-area-inset-bottom, 0px));
     left: 50%;
     z-index: 120;
     width: auto;
@@ -1913,6 +1913,8 @@ body.case-study-open .ask-ai-mobile-trigger {
     letter-spacing: -0.02em;
     opacity: 1;
     pointer-events: auto;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
     transform: translate(-50%, 0);
     transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.18s ease;
   }
