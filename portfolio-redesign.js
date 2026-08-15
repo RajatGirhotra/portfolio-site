@@ -778,18 +778,27 @@ function getCaseStudyFromUrl() {
   return Object.hasOwn(caseStudyOverlays, caseStudyId) ? caseStudyId : null;
 }
 
-function setCaseStudyUrl(caseStudyId) {
+function getCaseStudyUrl(caseStudyId) {
   const url = new URL(window.location.href);
   url.searchParams.set('case-study', caseStudyId);
   url.hash = '';
-  history.pushState({ portfolioCaseStudyEntry: true, caseStudyId }, '', url);
+  return url;
 }
 
-function clearCaseStudyUrl() {
+function setCaseStudyUrl(caseStudyId) {
+  history.pushState({ portfolioCaseStudyEntry: true, caseStudyId }, '', getCaseStudyUrl(caseStudyId));
+}
+
+function navigateToCaseStudy(caseStudyId) {
+  if (!caseStudyId) return;
+  window.location.assign(getCaseStudyUrl(caseStudyId));
+}
+
+function pushHomeUrlFromCaseStudy() {
   const url = new URL(window.location.href);
   url.searchParams.delete('case-study');
   url.hash = '';
-  history.replaceState(null, '', url);
+  history.pushState({ portfolioHomeEntry: true }, '', url);
 }
 
 function openCaseStudy(caseStudyId, { updateHistory = true } = {}) {
@@ -816,7 +825,6 @@ function openCaseStudy(caseStudyId, { updateHistory = true } = {}) {
     overlay.classList.add('is-open');
     overlay.setAttribute('aria-hidden', 'false');
     window.scrollTo(0, 0);
-    caseStudyReturn?.focus();
   });
 }
 
@@ -843,11 +851,7 @@ function closeAllCaseStudies(options = {}) {
 
 function returnFromCaseStudy() {
   if (!activeCaseStudy) return;
-  if (history.state?.portfolioCaseStudyEntry) {
-    history.back();
-    return;
-  }
-  clearCaseStudyUrl();
+  pushHomeUrlFromCaseStudy();
   closeAllCaseStudies();
 }
 
@@ -979,11 +983,11 @@ topnavLinks.forEach((link) => {
 });
 caseStudyOpenTriggers.forEach((trigger) => {
   const caseStudyId = trigger.dataset.caseStudyOpen;
-  trigger.addEventListener('click', () => openCaseStudy(caseStudyId));
+  trigger.addEventListener('click', () => navigateToCaseStudy(caseStudyId));
   trigger.addEventListener('keydown', (event) => {
     if (event.key !== 'Enter' && event.key !== ' ') return;
     event.preventDefault();
-    openCaseStudy(caseStudyId);
+    navigateToCaseStudy(caseStudyId);
   });
 });
 
@@ -1097,7 +1101,7 @@ askAiCaseStudyButtons.forEach((button) => {
   button.addEventListener('click', () => {
     const caseStudyId = button.dataset.askAiCaseStudy;
     setAskAiCaseStudyDrawerOpen(false);
-    if (caseStudyId) openCaseStudy(caseStudyId);
+    if (caseStudyId) navigateToCaseStudy(caseStudyId);
   });
 });
 
