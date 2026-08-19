@@ -1710,7 +1710,18 @@ body.case-study-open .ask-ai-mobile-trigger {
     inset: 0;
     z-index: 64;
     background: rgba(17, 17, 17, 0.26);
+    opacity: 0;
     pointer-events: auto;
+    transition: opacity 0.28s ease;
+  }
+
+  body.mobile-menu-open::before {
+    opacity: 1;
+  }
+
+  body.mobile-menu-closing::before {
+    opacity: 0;
+    pointer-events: none;
   }
 
   .topbar {
@@ -1736,12 +1747,56 @@ body.case-study-open .ask-ai-mobile-trigger {
   }
 
   .topnav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 88;
+    display: grid;
+    grid-template-columns: 1fr;
     flex: 0 0 auto;
+    gap: 32px;
     justify-content: flex-start;
+    padding: 84px 16px 32px;
+    border-radius: 0;
+    background: var(--bg);
+    box-shadow: none;
+    pointer-events: none;
+    visibility: hidden;
+    transform: translate3d(0, -100%, 0);
+    transition:
+      transform 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+      visibility 0s linear 0.28s;
+    will-change: transform;
   }
 
   .topnav a {
-    display: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 32px;
+    padding: 0;
+    border-bottom: 0;
+    border-radius: 0;
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+
+  body.mobile-menu-open .topnav {
+    pointer-events: auto;
+    visibility: visible;
+    transform: translate3d(0, 0, 0);
+    transition-delay: 0s;
+  }
+
+  body.mobile-menu-closing .topnav {
+    pointer-events: none;
+    visibility: visible;
+    transform: translate3d(0, -100%, 0);
+    transition-delay: 0s;
   }
 
   .brand {
@@ -1807,59 +1862,12 @@ body.case-study-open .ask-ai-mobile-trigger {
     transform: translateY(-4px) rotate(-45deg);
   }
 
-  body.mobile-menu-open .topnav a,
-  body.mobile-menu-closing .topnav a {
-    display: flex;
-  }
-
-  body.mobile-menu-open .topnav,
-  body.mobile-menu-closing .topnav {
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-    z-index: 88;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 32px;
-    padding: 84px 16px 32px;
-    border-radius: 0;
-    background: var(--bg);
-    box-shadow: none;
-    transform: translateY(0);
-  }
-
-  body.mobile-menu-open .topnav {
-    animation: mobile-menu-sheet-in 0.26s ease both;
-  }
-
-  body.mobile-menu-closing .topnav {
-    animation: mobile-menu-sheet-out 0.26s ease both;
-  }
-
-  body.mobile-menu-open .topnav a,
-  body.mobile-menu-closing .topnav a {
-    align-items: center;
-    justify-content: space-between;
-    min-height: 32px;
-    padding: 0;
-    border-bottom: 0;
-    border-radius: 0;
-    color: var(--text);
-    font-size: 16px;
-    line-height: 1;
-    font-weight: 500;
-    letter-spacing: -0.02em;
-  }
-
-  body.mobile-menu-open .topnav a:hover,
-  body.mobile-menu-closing .topnav a:hover {
+  .topnav a:hover {
     background: transparent;
     color: var(--text);
   }
 
-  body.mobile-menu-open .nav-description,
-  body.mobile-menu-closing .nav-description {
+  .nav-description {
     display: inline;
     color: var(--muted);
     font-size: 16px;
@@ -1867,26 +1875,6 @@ body.case-study-open .ask-ai-mobile-trigger {
     font-weight: 500;
     letter-spacing: -0.02em;
     text-align: right;
-  }
-
-  @keyframes mobile-menu-sheet-in {
-    from {
-      transform: translateY(-100%);
-    }
-
-    to {
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes mobile-menu-sheet-out {
-    from {
-      transform: translateY(0);
-    }
-
-    to {
-      transform: translateY(-100%);
-    }
   }
 
   .ask-ai-desktop-trigger {

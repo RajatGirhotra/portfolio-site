@@ -137,7 +137,7 @@ function setMobileMenuOpen(isOpen) {
     mobileMenuCloseTimer = window.setTimeout(() => {
       document.body.classList.remove('mobile-menu-closing');
       mobileMenuCloseTimer = null;
-    }, 260);
+    }, 340);
   }
 
   mobileMenuToggle.setAttribute('aria-expanded', String(isOpen));
