@@ -517,6 +517,27 @@ body.ask-ai-open .site-shell {
   color: #171717;
 }
 
+@media (hover: none) {
+  .pill-dark:hover {
+    background: #171717;
+  }
+
+  .pill-dark.contact-trigger:hover,
+  .pill-dark.contact-trigger.is-open:hover {
+    background: transparent;
+  }
+
+  .contact-trigger:hover::before,
+  .contact-trigger.is-open:hover::before {
+    background: #171717;
+  }
+
+  .pill-light:hover {
+    background: #f2f2f2;
+    color: #171717;
+  }
+}
+
 .topnav a:hover,
 .topnav a:focus-visible {
   color: #141414;
@@ -1731,6 +1752,9 @@ body.case-study-open .ask-ai-mobile-trigger {
     left: 0;
     z-index: 100;
     padding: 28px 0 0;
+    background: var(--bg);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
 
   .site-shell {
@@ -1757,6 +1781,10 @@ body.case-study-open .ask-ai-mobile-trigger {
     flex: 0 0 auto;
     gap: 32px;
     justify-content: flex-start;
+    align-content: start;
+    height: 100vh;
+    height: 100dvh;
+    overflow-y: auto;
     padding: 84px 16px 32px;
     border-radius: 0;
     background: var(--bg);
