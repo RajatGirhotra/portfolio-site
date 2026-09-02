@@ -44,6 +44,7 @@ const askAiCaseStudyDrawer = document.getElementById('askAiCaseStudyDrawer');
 const askAiCaseStudyButtons = Array.from(document.querySelectorAll('[data-ask-ai-case-study]'));
 const primaryNavigation = document.getElementById('primaryNavigation');
 const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+const themeColorMeta = document.querySelector('meta[name="theme-color"]');
 const topnavLinks = Array.from(document.querySelectorAll('.topnav a'));
 const heroSection = document.querySelector('.hero');
 const contactTrigger = document.getElementById('contactTrigger');
@@ -131,11 +132,14 @@ function setMobileMenuOpen(isOpen) {
   if (isOpen) {
     document.body.classList.remove('mobile-menu-closing');
     document.body.classList.add('mobile-menu-open');
+    themeColorMeta?.setAttribute('content', '#bdbdbd');
   } else if (document.body.classList.contains('mobile-menu-open')) {
     document.body.classList.remove('mobile-menu-open');
     document.body.classList.add('mobile-menu-closing');
+    themeColorMeta?.setAttribute('content', '#bdbdbd');
     mobileMenuCloseTimer = window.setTimeout(() => {
       document.body.classList.remove('mobile-menu-closing');
+      themeColorMeta?.setAttribute('content', '#fafafa');
       mobileMenuCloseTimer = null;
     }, 340);
   }

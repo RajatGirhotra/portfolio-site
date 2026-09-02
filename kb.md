@@ -392,9 +392,17 @@ Reported portfolio outcome: conversion improved from 18.6% to 26.9%.
 
 ## Life Insurance
 
-Rajat worked on the end-to-end Life Insurance purchase journey across iOS, Android, and web.
+Rajat redesigned the end-to-end Life Insurance purchase journey across mobile web and app.
 
-The project focused on reducing cognitive load, improving transparency, showing live premium calculations, surfacing exclusions earlier, and allowing users to resume incomplete applications.
+The project focused on making a complex, long-term financial decision easier to understand, evaluate, and complete with confidence. Life insurance required users to make decisions around coverage, policy duration, premiums, eligibility, health declarations, and payment, so the goal was not simply to shorten the journey. The goal was to reduce uncertainty without removing information users genuinely needed to make a responsible decision.
+
+Key problems included too much insurance language, a disconnected journey across discovery, quotation, plan selection, proposal details, health declarations, and payment, unclear relationships between coverage and premium decisions, form fatigue, validation errors appearing too late, and trust dropping at the moments where users were asked for sensitive information or final payment.
+
+Rajat used the design principle Explain, Decide, Confirm. The experience gave users enough context to understand a decision, presented focused choices without unnecessary competing information, and then confirmed what changed and what would happen next.
+
+The redesign improved the starting point, connected coverage and premium more clearly, made plan selection more transparent, broke long forms into manageable sections, designed health declarations around consequences, moved validation closer to user input, made payment choices explicit, and maintained continuity through confirmation.
+
+The outcome was a more coherent purchase journey where information appeared closer to the decision it supported. Users could evaluate coverage, premium, and plan details together, move through long forms with lower perceived complexity, avoid more preventable errors, and retain context from discovery through proposal and payment.
 
 ## Car Insurance
 

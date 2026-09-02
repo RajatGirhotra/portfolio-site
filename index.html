@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rajat Girhotra</title>
   <meta name="description" content="Product designer based in Pune, designing thoughtful insurance experiences.">
+  <meta name="theme-color" content="#fafafa">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
@@ -21,7 +22,7 @@
     }
     window.scrollTo(0, 0);
   </script>
-  <link rel="stylesheet" href="portfolio-redesign.css?v=20260819-4">
+  <link rel="stylesheet" href="portfolio-redesign.css?v=20260902-1">
 </head>
 <body>
   <div class="site-shell">
@@ -802,14 +803,15 @@
         <p class="case-study-kicker">Life Insurance</p>
         <h1 id="lifeCaseStudyTitle">Life Insurance Experience Redesign</h1>
         <p>
-          Redesigning a high-trust insurance purchase journey around clarity,
-          continuity, transparent plan selection, and confident completion.
+          Redesigning the end-to-end life insurance journey to make a complex,
+          long-term financial decision easier to understand, evaluate, and complete
+          with confidence.
         </p>
         <dl class="case-study-meta">
           <div><dt>Role</dt><dd>Product Designer</dd></div>
           <div><dt>Platform</dt><dd>Mobile Web + App</dd></div>
           <div><dt>Focus</dt><dd>Trust, Conversion, Forms</dd></div>
-          <div><dt>Scope</dt><dd>UX, UI, Journey Design</dd></div>
+          <div><dt>Scope</dt><dd>Journey Design, UX, UI, Error States</dd></div>
         </dl>
       </header>
 
@@ -819,22 +821,119 @@
       </picture>
 
       <section class="case-study-section">
-        <p class="case-study-kicker">01 Focus</p>
-        <h2>Making a long-term financial decision feel clear</h2>
+        <p class="case-study-kicker">01 Context</p>
+        <h2>Life insurance asks for commitment before users feel confident</h2>
+        <p class="case-study-section-copy">
+          Buying life insurance is different from buying most financial products.
+          Users are making a decision that may affect their family for decades while
+          trying to understand coverage, policy duration, premiums, eligibility,
+          health declarations, and payment.
+        </p>
+        <p class="case-study-section-copy">
+          The existing journey contained the information required to complete a
+          purchase, but it often placed the burden of understanding that information
+          on the user. The challenge was not simply to shorten the flow. It was to
+          reduce uncertainty without removing information users genuinely needed to
+          make a responsible decision.
+        </p>
+      </section>
+
+      <section class="case-study-section">
+        <p class="case-study-kicker">02 Problem</p>
+        <h2>Where confidence started breaking down</h2>
         <div class="case-study-card-grid">
-          <div class="case-study-card"><h3>Trust-first flow</h3><p>Structured the journey so users understood coverage, eligibility, and next steps before committing.</p></div>
-          <div class="case-study-card"><h3>Continuity</h3><p>Kept the experience coherent from discovery through proposal details, review, payment, and confirmation.</p></div>
-          <div class="case-study-card"><h3>Transparent choices</h3><p>Clarified plan comparison, premium logic, and decision points so users could move forward with confidence.</p></div>
-          <div class="case-study-card"><h3>Friction control</h3><p>Reduced uncertainty through progressive disclosure, simpler form sections, and clearer validation states.</p></div>
+          <div class="case-study-card"><h3>Too much insurance language</h3><p>Users encountered product terminology before understanding what it meant for them, making basic decisions feel heavier than necessary.</p></div>
+          <div class="case-study-card"><h3>Disconnected journey</h3><p>Discovery, quotation, plan selection, proposal details, health declarations, and payment felt like separate stages instead of one continuous decision.</p></div>
+          <div class="case-study-card"><h3>Unclear premium decisions</h3><p>Coverage, tenure, payment frequency, and plan configuration affected premiums, but the relationship between those decisions was hard to follow.</p></div>
+          <div class="case-study-card"><h3>Form fatigue</h3><p>As users moved closer to purchase, the journey became form-heavy. Long sections and repeated questions made progress feel slower than it was.</p></div>
+          <div class="case-study-card"><h3>Late errors</h3><p>Some eligibility, validation, and data issues surfaced only after users had already invested significant effort.</p></div>
+          <div class="case-study-card"><h3>Trust drop-offs</h3><p>The highest-friction screens appeared exactly where users were sharing sensitive information or making the final financial commitment.</p></div>
+        </div>
+      </section>
+
+      <section class="case-study-section">
+        <p class="case-study-kicker">03 Challenge</p>
+        <h2>Simplify the experience without oversimplifying the decision</h2>
+        <p class="case-study-section-copy">
+          Life insurance has unavoidable complexity. Coverage decisions have
+          consequences, health information matters, regulatory information cannot
+          disappear, and different customer and payment states introduce extra
+          branches.
+        </p>
+        <p class="case-study-section-copy">
+          Instead of asking how to remove more steps, I approached the problem as:
+          how can every step earn its place in the journey? The goal was to make
+          complexity appear only when it became relevant and keep users informed
+          about why each decision mattered.
+        </p>
+      </section>
+
+      <section class="case-study-section">
+        <p class="case-study-kicker">04 Goals</p>
+        <h2>What we set out to achieve</h2>
+        <ol class="case-study-list">
+          <li>Make coverage, premiums, and important plan decisions understandable before users commit.</li>
+          <li>Create continuity from discovery through proposal, payment, and confirmation.</li>
+          <li>Reduce cognitive load across long forms using progressive disclosure and better grouping.</li>
+          <li>Prevent avoidable errors before submission instead of asking users to recover afterwards.</li>
+          <li>Build trust around sensitive moments such as health declarations and payment.</li>
+          <li>Support multiple customer and payment scenarios without making the primary journey feel complicated.</li>
+        </ol>
+      </section>
+
+      <section class="case-study-section">
+        <p class="case-study-kicker">05 Design Principle</p>
+        <h2>Explain, decide, confirm</h2>
+        <div class="case-study-card-grid">
+          <div class="case-study-card"><span>Explain</span><h3>Give context first</h3><p>Give users enough information to understand what a decision means before asking them to act.</p></div>
+          <div class="case-study-card"><span>Decide</span><h3>Focus the choice</h3><p>Present one focused decision without unnecessary information competing for attention.</p></div>
+          <div class="case-study-card"><span>Confirm</span><h3>Show what changed</h3><p>Make the result of the choice clear, including what happens next in the journey.</p></div>
+          <div class="case-study-card"><span>Used across</span><h3>High-trust moments</h3><p>This principle shaped coverage selection, plan configuration, health declarations, and payment decisions.</p></div>
+        </div>
+      </section>
+
+      <section class="case-study-section">
+        <p class="case-study-kicker">06 Design</p>
+        <h2>Eight areas that shaped the redesign</h2>
+        <div class="case-study-card-grid">
+          <div class="case-study-card"><span>01</span><h3>Easier starting point</h3><p>The journey reduced the amount of insurance knowledge expected from users and began with the decision they were trying to make: protecting themselves and their family.</p></div>
+          <div class="case-study-card"><span>02</span><h3>Coverage and premium connection</h3><p>When users changed a plan parameter, the premium impact stayed visible so configuration felt like understanding trade-offs, not just entering values.</p></div>
+          <div class="case-study-card"><span>03</span><h3>Transparent plan selection</h3><p>Plans were structured around the details most useful for the next decision, while secondary details stayed accessible without overwhelming comparison.</p></div>
+          <div class="case-study-card"><span>04</span><h3>Manageable forms</h3><p>Related questions were grouped, sections became easier to scan, field guidance moved closer to the input, and unnecessary repetition was reduced.</p></div>
+          <div class="case-study-card"><span>05</span><h3>Health declarations with context</h3><p>Medical and good-health declarations were treated as high-trust decisions, with clearer language and confirmation around choices with significant consequences.</p></div>
+          <div class="case-study-card"><span>06</span><h3>Earlier validation</h3><p>Requirements and system constraints surfaced closer to the moment of input, changing error handling from recovery after failure to prevention before submission.</p></div>
+          <div class="case-study-card"><span>07</span><h3>Explicit payment choices</h3><p>Payment options such as full payment or EMI were shown as clear alternatives with amount and expectation visible before selection.</p></div>
+          <div class="case-study-card"><span>08</span><h3>Continuity until completion</h3><p>Selected plan, coverage, and premium stayed present through the funnel, and confirmation screens clarified what was purchased and what happens next.</p></div>
+        </div>
+      </section>
+
+      <section class="case-study-section">
+        <p class="case-study-kicker">07 Outcome</p>
+        <h2>From a sequence of forms to one continuous decision</h2>
+        <div class="case-study-card-grid">
+          <div class="case-study-card"><h3>Clearer plan decisions</h3><p>Coverage, premium, and important plan information became easier to evaluate together rather than across disconnected screens.</p></div>
+          <div class="case-study-card"><h3>Lower perceived complexity</h3><p>Progressive disclosure and better grouping made a long insurance journey feel more manageable without hiding required information.</p></div>
+          <div class="case-study-card"><h3>Earlier error prevention</h3><p>Validation and constraints moved closer to user input, reducing unnecessary recovery loops later in the journey.</p></div>
+          <div class="case-study-card"><h3>Stronger continuity</h3><p>Users retained context about what they were purchasing as they moved from discovery to proposal and payment.</p></div>
+          <div class="case-study-card"><h3>Deliberate trust moments</h3><p>Sensitive decisions around health information and payment received additional explanation and confirmation instead of being treated like ordinary form inputs.</p></div>
         </div>
       </section>
 
       <section class="case-study-section case-study-reflection">
-        <p class="case-study-kicker">02 Reflection</p>
-        <h2>What this project reinforced</h2>
+        <p class="case-study-kicker">08 What I learned</p>
+        <h2>Trust is created by the journey, not added to the interface</h2>
         <p>
-          In insurance, trust is not a visual layer. It is built through sequencing,
-          explanation, recovery states, and the confidence that every next step makes sense.
+          This project reinforced that trust in financial products rarely comes from
+          one reassurance message, illustration, or visual treatment. It comes from
+          hundreds of smaller decisions: explaining something before asking for it,
+          showing the effect of a choice immediately, preventing an error before it
+          happens, keeping important information visible, and being explicit about
+          what happens next.
+        </p>
+        <p>
+          Life insurance will always contain complexity. Good product design does
+          not pretend that complexity does not exist. It introduces it at the moment
+          the user is ready for it.
         </p>
       </section>
     </div>
@@ -987,6 +1086,6 @@
 
   <script src="portfolio-ai-validation.js"></script>
   <script src="portfolio-ai-rag.js"></script>
-  <script src="portfolio-redesign.js?v=20260819-1"></script>
+  <script src="portfolio-redesign.js?v=20260819-2"></script>
 </body>
 </html>
