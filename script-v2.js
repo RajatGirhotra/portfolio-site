@@ -349,8 +349,13 @@
 
   function goToMinimalPortfolio() {
     sessionStorage.setItem(STORAGE_KEYS.homeMode, 'normal');
-    sessionStorage.removeItem(STORAGE_KEYS.activePage);
-    window.location.href = 'index.html';
+    sessionStorage.removeItem(STORAGE_KEYS.page);
+    window.location.href = 'index.html?mode=minimal';
+  }
+
+  function openCaseStudyLink(caseStudyId) {
+    const target = `index.html?case-study=${encodeURIComponent(caseStudyId)}`;
+    window.location.href = target;
   }
 
   function toggleMacFinderMode() {
@@ -449,7 +454,7 @@
 
   function switchMobileSettingsToRegularMode() {
     closeMobileSettingsApp();
-    toggleMacFinderMode();
+    goToMinimalPortfolio();
   }
 
   function createMacSafariNameBlock() {
@@ -593,36 +598,12 @@
     if (!content) return;
 
     content.innerHTML = '';
-    const page = document.createElement('div');
-    page.className = 'mac-safari-page';
-
-    const homeSections = [
-      document.querySelector('body > .hero'),
-      document.querySelector('body > .mobile-home-experience'),
-      ...document.querySelectorAll('body > .work-section-wrapper'),
-      document.querySelector('body > .site-footer')
-    ].filter(Boolean);
-
-    homeSections.forEach(source => {
-      if (!source) return;
-
-      const clone = source.cloneNode(true);
-      if (source.classList && source.classList.contains('hero')) {
-        clone.querySelector('#bigNameWrapper')?.remove();
-        clone.appendChild(createMacSafariNameBlock());
-      }
-
-      stripDuplicateIds(clone);
-      clone.querySelectorAll('.hero-transform-toggle, .floating-transform-toggle, script, canvas').forEach(el => el.remove());
-
-      clone.classList.add('mac-safari-home-section');
-      page.appendChild(clone);
-    });
-
-    content.appendChild(page);
-    requestAnimationFrame(() => initMacSafariNameEffects(page));
-    setupImageSkeletons(content);
-    ensureImagesLoad(content);
+    const frame = document.createElement('iframe');
+    frame.className = 'mac-safari-site-frame';
+    frame.title = 'Rajat Girhotra portfolio';
+    frame.src = 'index.html?mode=minimal';
+    frame.loading = 'eager';
+    content.appendChild(frame);
   }
 
   function openMacSafariWindow() {
@@ -1126,8 +1107,6 @@
   }
 
   function getDefaultThemeForMode(homeMode) {
-    const isDesktop = window.innerWidth > 768;
-    if (!isDesktop) return true;
     return homeMode === 'finder';
   }
 
@@ -2245,10 +2224,15 @@
   updateMacMenuDateTime();
   window.setInterval(updateMacMenuDateTime, 30000);
   const bootSavedPage = sessionStorage.getItem(STORAGE_KEYS.page);
-  const defaultBootHomeMode = 'finder';
-  const bootHomeMode = bootSavedPage
-    ? (sessionStorage.getItem(STORAGE_KEYS.homeMode) || defaultBootHomeMode)
-    : defaultBootHomeMode;
+  const forcedBootMode = new URLSearchParams(window.location.search).get('mode');
+  const defaultBootHomeMode = 'normal';
+  const bootHomeMode = forcedBootMode === 'finder'
+    ? 'finder'
+    : (forcedBootMode === 'normal' || forcedBootMode === 'minimal')
+      ? 'normal'
+      : bootSavedPage
+        ? (sessionStorage.getItem(STORAGE_KEYS.homeMode) || defaultBootHomeMode)
+        : defaultBootHomeMode;
   if (!hasExplicitThemePreference()) {
     applyThemeState(getDefaultThemeForMode(bootHomeMode), { persist: false });
   } else {

@@ -17,19 +17,46 @@
     const HOME_MODE_KEY = 'portfolio-home-mode';
     const PAGE_KEY = 'portfolio-active-page';
     const savedTheme = sessionStorage.getItem(THEME_KEY);
-    const isDesktop = window.innerWidth > 768;
     const savedPage = sessionStorage.getItem(PAGE_KEY);
-    const forcedMode = new URLSearchParams(window.location.search).get('mode');
-    const savedHomeMode = savedPage
-      ? (sessionStorage.getItem(HOME_MODE_KEY) || 'finder')
-      : 'finder';
+    const params = new URLSearchParams(window.location.search);
+    const forcedMode = params.get('mode');
+    const autoMode = params.get('auto');
+    const mobileQuery = window.matchMedia('(max-width: 768px)');
+    const defaultHomeMode = 'normal';
+
+    if (forcedMode !== 'finder' || (autoMode === 'mobile' && !mobileQuery.matches)) {
+      window.location.replace('index.html');
+      return;
+    }
+
+    if (autoMode === 'mobile') {
+      const handleMobileModeChange = event => {
+        if (!event.matches) {
+          window.location.replace('index.html');
+        }
+      };
+
+      if (typeof mobileQuery.addEventListener === 'function') {
+        mobileQuery.addEventListener('change', handleMobileModeChange);
+      } else if (typeof mobileQuery.addListener === 'function') {
+        mobileQuery.addListener(handleMobileModeChange);
+      }
+    }
+    let savedHomeMode = savedPage
+      ? (sessionStorage.getItem(HOME_MODE_KEY) || defaultHomeMode)
+      : defaultHomeMode;
     if (forcedMode === 'finder') {
+      savedHomeMode = 'finder';
       sessionStorage.setItem(HOME_MODE_KEY, 'finder');
+      sessionStorage.removeItem(PAGE_KEY);
+    } else if (forcedMode === 'normal' || forcedMode === 'minimal') {
+      savedHomeMode = 'normal';
+      sessionStorage.setItem(HOME_MODE_KEY, 'normal');
       sessionStorage.removeItem(PAGE_KEY);
     }
     const shouldStartDark = savedTheme
       ? savedTheme === 'dark'
-      : (isDesktop ? (forcedMode === 'finder' || savedHomeMode === 'finder') : true);
+      : savedHomeMode === 'finder';
     document.documentElement.classList.toggle('dark', shouldStartDark);
   }());
 </script>
@@ -51,7 +78,7 @@
 <link rel="preload" as="image" href="notes.svg">
 <link rel="preload" as="image" href="notedark.png">
 <link rel="preload" as="image" href="notelight.png">
-<link rel="stylesheet" href="styles-v3.css">
+<link rel="stylesheet" href="styles-v3.css?v=20260910-2">
 
 
 </head>
@@ -90,7 +117,7 @@
         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
       </svg>
     </button>
-    <button class="nav-finder-toggle mac-clickable" type="button" onclick="toggleMacFinderMode()" aria-pressed="false" aria-label="Switch to regular mode">
+    <button class="nav-finder-toggle mac-clickable" type="button" onclick="toggleMacFinderMode()" aria-pressed="false" aria-label="Less messy mode?">
       <span class="nav-finder-track" aria-hidden="true"><span></span></span>
     </button>
   </div>
@@ -99,7 +126,7 @@
     <button class="nav-overlay-close" onclick="closePage()" aria-label="Close page">
       <span class="page-close-icon"></span><span>Close</span>
     </button>
-    <button class="nav-finder-toggle mac-clickable" type="button" onclick="toggleMacFinderMode()" aria-pressed="false" aria-label="Switch to regular mode">
+    <button class="nav-finder-toggle mac-clickable" type="button" onclick="toggleMacFinderMode()" aria-pressed="false" aria-label="Less messy mode?">
       <span class="nav-finder-track" aria-hidden="true"><span></span></span>
     </button>
     <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
@@ -154,7 +181,7 @@
       <div class="mac-menu-item">
         <button class="mac-menu-trigger mac-clickable" type="button">Finder</button>
         <div class="mac-menu-dropdown" role="menu">
-          <button type="button" onclick="toggleMacFinderMode()">Switch to regular mode</button>
+          <button type="button" onclick="toggleMacFinderMode()">Less messy mode?</button>
           <button type="button" onclick="openMacShortcut('about')">About Rajat</button>
           <button type="button" onclick="openMacShortcut('contact')">Contact</button>
         </div>
@@ -190,8 +217,8 @@
       <button class="mac-menu-notes-button mac-clickable" type="button" onclick="toggleDesktopFinderNotes()" aria-label="Toggle notes">
         <img src="notedark.png" data-light-src="notelight.png" data-dark-src="notedark.png" alt="" width="15" height="15" aria-hidden="true">
       </button>
-      <span class="mac-menu-mode-label">Switch to regular mode</span>
-      <button class="mac-menu-normal-toggle mac-clickable" type="button" onclick="goToMinimalPortfolio()" aria-pressed="true" aria-label="Switch to regular mode">
+      <span class="mac-menu-mode-label">Less messy mode?</span>
+      <button class="mac-menu-normal-toggle mac-clickable" type="button" onclick="goToMinimalPortfolio()" aria-pressed="true" aria-label="Less messy mode?">
         <span class="mac-menu-normal-track" aria-hidden="true"><span></span></span>
       </button>
       <span class="mac-menu-divider" aria-hidden="true">|</span>
@@ -208,8 +235,8 @@
       <img class="mac-note-image" src="noteweb.png?v=20260418-yellow" alt="Hi, welcome to a different kind of portfolio. My name is Rajat Girhotra. Feel free to browse around" width="1240" height="1480" loading="eager" decoding="async" fetchpriority="high">
     </picture>
     <h2><span>Hi</span><strong>Feel free to click around.</strong></h2>
-    <button class="mac-transform-toggle mac-clickable" type="button" onclick="pressSurpriseMe(event)" aria-pressed="true" aria-label="Switch to regular mode">
-      <span class="mac-transform-label">Switch to regular mode</span>
+    <button class="mac-transform-toggle mac-clickable" type="button" onclick="pressSurpriseMe(event)" aria-pressed="true" aria-label="Less messy mode?">
+      <span class="mac-transform-label">Less messy mode?</span>
       <span class="mac-transform-switch" aria-hidden="true"><span></span></span>
     </button>
   </div>
@@ -249,9 +276,9 @@
       <span class="mac-css-app-icon mac-css-about-icon" aria-hidden="true"></span>
       <span class="mac-folder-label">About me</span>
     </button>
-    <button class="mac-folder mac-folder-switch-mode mac-clickable" type="button" onclick="goToMinimalPortfolio()" aria-label="Switch mode">
+    <button class="mac-folder mac-folder-switch-mode mac-clickable" type="button" onclick="goToMinimalPortfolio()" aria-label="Less messy mode?">
       <span class="mac-switch-app-icon" aria-hidden="true"></span>
-      <span class="mac-folder-label">Switch mode</span>
+      <span class="mac-folder-label">Less messy<br>mode?</span>
     </button>
   </div>
 
@@ -282,7 +309,7 @@
     <div class="mac-scroll-page mac-empty-page">
       <div class="mac-mobile-second-copy">
         <p>Hi<br>My name is Rajat Girhotra.</p>
-        <p>Welcome to my portfolio. You can browse around here or switch the mode for a regular view of the portfolio.</p>
+        <p>Welcome to my portfolio. You can browse around here or use Less messy mode? for a regular view of the portfolio.</p>
       </div>
     </div>
   </div>
@@ -347,7 +374,7 @@
         <button class="mac-window-control mac-window-minimize mac-clickable" type="button" onclick="minimizeMacSafariWindow()" aria-label="Minimize Safari"></button>
         <button class="mac-window-control mac-window-maximize mac-clickable" type="button" onclick="toggleMacSafariWindowMaximize()" aria-label="Maximize Safari"></button>
       </div>
-      <div class="mac-safari-url" aria-label="Safari URL">home.com</div>
+      <div class="mac-safari-url" aria-label="Safari URL">rajatgirhotra.com</div>
       <button class="mac-safari-mobile-close mac-clickable" type="button" onclick="closeMacSafariWindow()" aria-label="Close Safari">×</button>
     </div>
     <div id="macSafariContent" class="mac-safari-content"></div>
@@ -394,44 +421,16 @@
     <div class="work-tab-panel is-active" data-work-panel="office" role="tabpanel">
       <p class="work-tab-description">Professional work created in a collaborative environment, solving real-world problems and delivering impactful design solutions.</p>
       <div class="work-tab-showcase">
-        <div class="portfolio-container portfolio-container-clickable" onclick="openPage('health-insurance')" onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openPage('health-insurance'); }" role="button" tabindex="0" aria-label="Open Health Insurance case study">
+        <div class="portfolio-container portfolio-container-clickable" onclick="openCaseStudyLink('health')" onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openCaseStudyLink('health'); }" role="button" tabindex="0" aria-label="Open Health Insurance case study">
           <div class="portfolio-card">
             <picture class="portfolio-project-image">
-              <source media="(max-width: 768px)" srcset="Health_Mobile.png">
-              <img src="HealthDesktop.png" alt="Health Insurance project preview" loading="lazy" decoding="async" fetchpriority="low">
+              <source media="(max-width: 768px)" srcset="mobile_healthinsurance.png">
+              <img src="web_healthinsurance.png" alt="Health Insurance project preview" loading="lazy" decoding="async" fetchpriority="low">
             </picture>
           </div>
           <div class="portfolio-meta">
-            <div class="portfolio-project-name">Health Insurance</div>
-            <p class="portfolio-problem">Reducing drop offs and accelerating policy purchase through better UX</p>
-            <div class="portfolio-support-meta">
-              <div class="portfolio-support-line">Role: Product Designer</div>
-              <div class="portfolio-support-line">Scope: Discovery " UX " UI " Validation</div>
-              <div class="portfolio-support-line">Platform: Mobile Web + App</div>
-              <div class="portfolio-support-line">Duration: 3 weeks</div>
-            </div>
-            <div class="portfolio-cta" aria-hidden="true">
-              <span class="portfolio-cta-label">See Project</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="portfolio-container portfolio-container-clickable" onclick="openPage('car-insurance')" onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openPage('car-insurance'); }" role="button" tabindex="0" aria-label="Open Car Insurance case study">
-          <div class="portfolio-card">
-            <picture class="portfolio-project-image">
-              <source media="(max-width: 768px)" srcset="CarMobile.png">
-              <img src="CarDesktop.png" alt="Car Insurance project preview" loading="lazy" decoding="async" fetchpriority="low">
-            </picture>
-          </div>
-          <div class="portfolio-meta">
-            <div class="portfolio-project-name">Car Insurance buying journey</div>
-            <p class="portfolio-problem">Designing scalable flows, decision logic, and edge-case handling across purchase and renewal journeys</p>
-            <div class="portfolio-support-meta">
-              <div class="portfolio-support-line">Role: Experience Designer (Business + UX)</div>
-              <div class="portfolio-support-line">Scope: End-to-end flows</div>
-              <div class="portfolio-support-line">Platform: Mobile, Desktop</div>
-              <div class="portfolio-support-line">Collaboration: PM, Business, Central Design Team</div>
-            </div>
+            <div class="portfolio-project-name">Designing Health Insurance for Tier-2 &amp; Tier-3 Indian Cities</div>
+            <p class="portfolio-problem">Improvements and Trade-offs</p>
             <div class="portfolio-cta" aria-hidden="true">
               <span class="portfolio-cta-label">See Project</span>
             </div>
@@ -451,16 +450,16 @@
           </div>
         </div>
 
-        <div class="portfolio-container portfolio-container-clickable life-mobile-edge-card" onclick="openPage('life-insurance')" onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openPage('life-insurance'); }" role="button" tabindex="0" aria-label="Open Life Insurance case study">
+        <div class="portfolio-container portfolio-container-clickable life-mobile-edge-card" onclick="openCaseStudyLink('life')" onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openCaseStudyLink('life'); }" role="button" tabindex="0" aria-label="Open Life Insurance case study">
           <div class="portfolio-card">
             <picture class="portfolio-project-image">
-              <source media="(max-width: 768px)" srcset="LifeMobileLightMode-1400.jpg">
+              <source media="(max-width: 768px)" srcset="mobile_life.png">
               <img
                 id="life-work-preview-panel"
-                src="LifeDesktopLightMode-2400.jpg"
-                data-light-src="LifeDesktopLightMode-2400.jpg"
-                data-dark-src="LifeDesktopDarkMode-2400.jpg"
-                alt="Life Insurance, Bajaj Finserv project preview"
+                src="desktop_life.png"
+                data-light-src="desktop_life.png"
+                data-dark-src="desktop_life.png"
+                alt="Life Insurance project preview"
                 loading="lazy"
                 decoding="async"
                 fetchpriority="low"
@@ -468,35 +467,35 @@
             </picture>
           </div>
           <div class="portfolio-meta">
-            <div class="portfolio-project-name">Life Insurance, Bajaj Finserv</div>
-            <p class="portfolio-problem">Designing journey to buy Life Insurance for the customers</p>
+            <div class="portfolio-project-name">Life Insurance Experience Redesign</div>
+            <p class="portfolio-problem">Designing a clearer, more trustworthy purchase journey for long-term protection</p>
             <div class="portfolio-cta" aria-hidden="true">
               <span class="portfolio-cta-label">See Project</span>
             </div>
           </div>
         </div>
 
-        <div class="portfolio-container portfolio-container-clickable goleap-mobile-edge-card" onclick="openPage('go-leap')" onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openPage('go-leap'); }" role="button" tabindex="0" aria-label="Open Go Leap case study">
+        <div class="portfolio-container portfolio-container-clickable goleap-mobile-edge-card" onclick="openCaseStudyLink('goleap')" onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openCaseStudyLink('goleap'); }" role="button" tabindex="0" aria-label="Open Go Leap case study">
           <div class="portfolio-card">
             <picture class="portfolio-project-image">
-              <source media="(max-width: 768px)" srcset="GoLeapMobile-1400.jpg">
-              <img src="GoLeapDesktop-2400.jpg" alt="Go Leap project preview" loading="lazy" decoding="async" fetchpriority="low">
+              <source media="(max-width: 768px)" srcset="mobile_goleap.png">
+              <img src="desktop_GoLeap.png" alt="Go Leap project preview" loading="lazy" decoding="async" fetchpriority="low">
             </picture>
           </div>
           <div class="portfolio-meta">
             <div class="portfolio-project-name">Go Leap</div>
-            <p class="portfolio-problem">To make discovery experience more immersive</p>
+            <p class="portfolio-problem">Turning static catalogue browsing into a more immersive product discovery experience</p>
             <div class="portfolio-cta" aria-hidden="true">
               <span class="portfolio-cta-label">See Project</span>
             </div>
           </div>
         </div>
 
-        <div class="portfolio-container portfolio-container-clickable refi-mobile-edge-card" onclick="openPage('refi-nft-dashboard')" onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openPage('refi-nft-dashboard'); }" role="button" tabindex="0" aria-label="Open ReFi NFT Dashboard case study">
+        <div class="portfolio-container portfolio-container-clickable refi-mobile-edge-card" onclick="openCaseStudyLink('refi')" onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openCaseStudyLink('refi'); }" role="button" tabindex="0" aria-label="Open ReFi NFT Dashboard case study">
           <div class="portfolio-card">
             <picture class="portfolio-project-image">
-              <source media="(max-width: 768px)" srcset="RefiMobile-1400.jpg">
-              <img src="RefiDesktopDarkMode-2400.jpg" alt="ReFi NFT Dashboard project preview" loading="lazy" decoding="async" fetchpriority="low">
+              <source media="(max-width: 768px)" srcset="mobile_refi.png">
+              <img src="desktop_refi.png" alt="ReFi NFT Dashboard project preview" loading="lazy" decoding="async" fetchpriority="low">
             </picture>
           </div>
           <div class="portfolio-meta">
@@ -508,16 +507,16 @@
           </div>
         </div>
 
-        <div class="portfolio-container portfolio-container-clickable colrows-mobile-edge-card" onclick="openPage('colrows')" onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openPage('colrows'); }" role="button" tabindex="0" aria-label="Open Colrows case study">
+        <div class="portfolio-container portfolio-container-clickable colrows-mobile-edge-card" onclick="openCaseStudyLink('colrows')" onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openCaseStudyLink('colrows'); }" role="button" tabindex="0" aria-label="Open Colrows case study">
           <div class="portfolio-card">
             <picture class="portfolio-project-image">
-              <source media="(max-width: 768px)" srcset="ColrowsMobile-1400.jpg">
-              <img src="ColrowsDesktopLightMode-2400.jpg" alt="Colrows project preview" loading="lazy" decoding="async" fetchpriority="low">
+              <source media="(max-width: 768px)" srcset="Mobile_Colrows.png">
+              <img src="desktop_colrows.png" alt="Colrows project preview" loading="lazy" decoding="async" fetchpriority="low">
             </picture>
           </div>
           <div class="portfolio-meta">
-            <div class="portfolio-project-name">Colrows</div>
-            <p class="portfolio-problem">A bright brand and product direction for a more expressive digital experience</p>
+            <div class="portfolio-project-name">Colrows: Designing an AI driven query editor.</div>
+            <p class="portfolio-problem">Shaping Colrows alongside the founder, product, and engineering teams</p>
             <div class="portfolio-cta" aria-hidden="true">
               <span class="portfolio-cta-label">See Project</span>
             </div>
@@ -528,43 +527,43 @@
     <div class="work-tab-panel" data-work-panel="freelance" role="tabpanel" hidden>
       <p class="work-tab-description">Independent projects crafted for diverse clients, balancing creativity with tailored, client-focused outcomes.</p>
       <div class="work-tab-showcase">
-        <div class="portfolio-container portfolio-container-clickable goleap-mobile-edge-card" onclick="openPage('go-leap')" onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openPage('go-leap'); }" role="button" tabindex="0" aria-label="Open Go Leap case study">
+        <div class="portfolio-container portfolio-container-clickable goleap-mobile-edge-card" onclick="openCaseStudyLink('goleap')" onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openCaseStudyLink('goleap'); }" role="button" tabindex="0" aria-label="Open Go Leap case study">
           <div class="portfolio-card">
             <picture class="portfolio-project-image">
-              <source media="(max-width: 768px)" srcset="GoLeapMobile-1400.jpg">
-              <img src="GoLeapDesktop-2400.jpg" alt="Go Leap project preview" loading="lazy" decoding="async" fetchpriority="low">
+              <source media="(max-width: 768px)" srcset="mobile_goleap.png">
+              <img src="desktop_GoLeap.png" alt="Go Leap project preview" loading="lazy" decoding="async" fetchpriority="low">
             </picture>
           </div>
           <div class="portfolio-meta">
             <div class="portfolio-project-name">Go Leap</div>
-            <p class="portfolio-problem">To make discovery experience more immersive</p>
+            <p class="portfolio-problem">Turning static catalogue browsing into a more immersive product discovery experience</p>
             <div class="portfolio-cta" aria-hidden="true">
               <span class="portfolio-cta-label">See Project</span>
             </div>
           </div>
         </div>
 
-        <div class="portfolio-container portfolio-container-clickable colrows-mobile-edge-card" onclick="openPage('colrows')" onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openPage('colrows'); }" role="button" tabindex="0" aria-label="Open Colrows case study">
+        <div class="portfolio-container portfolio-container-clickable colrows-mobile-edge-card" onclick="openCaseStudyLink('colrows')" onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openCaseStudyLink('colrows'); }" role="button" tabindex="0" aria-label="Open Colrows case study">
           <div class="portfolio-card">
             <picture class="portfolio-project-image">
-              <source media="(max-width: 768px)" srcset="ColrowsMobile-1400.jpg">
-              <img src="ColrowsDesktopLightMode-2400.jpg" alt="Colrows project preview" loading="lazy" decoding="async" fetchpriority="low">
+              <source media="(max-width: 768px)" srcset="Mobile_Colrows.png">
+              <img src="desktop_colrows.png" alt="Colrows project preview" loading="lazy" decoding="async" fetchpriority="low">
             </picture>
           </div>
           <div class="portfolio-meta">
-            <div class="portfolio-project-name">Colrows</div>
-            <p class="portfolio-problem">A bright brand and product direction for a more expressive digital experience</p>
+            <div class="portfolio-project-name">Colrows: Designing an AI driven query editor.</div>
+            <p class="portfolio-problem">Shaping Colrows alongside the founder, product, and engineering teams</p>
             <div class="portfolio-cta" aria-hidden="true">
               <span class="portfolio-cta-label">See Project</span>
             </div>
           </div>
         </div>
 
-        <div class="portfolio-container portfolio-container-clickable refi-mobile-edge-card" onclick="openPage('refi-nft-dashboard')" onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openPage('refi-nft-dashboard'); }" role="button" tabindex="0" aria-label="Open ReFi NFT Dashboard case study">
+        <div class="portfolio-container portfolio-container-clickable refi-mobile-edge-card" onclick="openCaseStudyLink('refi')" onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openCaseStudyLink('refi'); }" role="button" tabindex="0" aria-label="Open ReFi NFT Dashboard case study">
           <div class="portfolio-card">
             <picture class="portfolio-project-image">
-              <source media="(max-width: 768px)" srcset="RefiMobile-1400.jpg">
-              <img src="RefiDesktopDarkMode-2400.jpg" alt="ReFi NFT Dashboard project preview" loading="lazy" decoding="async" fetchpriority="low">
+              <source media="(max-width: 768px)" srcset="mobile_refi.png">
+              <img src="desktop_refi.png" alt="ReFi NFT Dashboard project preview" loading="lazy" decoding="async" fetchpriority="low">
             </picture>
           </div>
           <div class="portfolio-meta">
@@ -685,14 +684,11 @@
     <div class="about-hero-title">Designer. Builder.</div>
     <div class="about-hero-subtitle">Lifelong learner.</div>
     <div class="about-text">
-      <p>Design was something that always stayed with me from the childhood. I used to be a coder until 2020. That’s when I decided to switch careers and move into design.</p>
-      <p>In hindsight, design probably came from my father. He always cared about how things were around him. From how footpaths connect to roads, to how easy an electronic device is to use. He paid attention to all of it.</p>
-      <p>Being a coder gave me the perspective of how computer works. Design is teraching me how humans work.</p>
-      <p>After getting a design job, I realised design is also about working with the business. Hitting numbers. Improving metrics. Fixing funnels. Reducing friction. All while still delighting and helping customers. That’s what I focus on now.</p>
-      <p>I learned design by practicing. By trying new products and apps. But mostly by staying curious.</p>
-      <p>With the rise of AI, I can now create what’s in my head at the speed of light. Iterate -> Experiment -> Fail -> Iterate again.</p>
-      <p><strong>Fail fast. Learn fast.</strong></p>
-      <p>In my free time, I read books, create videos, work on side projects, spend time with friends &amp; family or on my Playstation.</p>
+      <p>Design has stayed with me since childhood. I started as a coder and moved into design in 2020, carrying with me a strong understanding of how computers work while learning how people think and behave.</p>
+      <p>I enjoy working across the full product process, from early ideas to finished experiences. My focus is on making complex journeys clearer, improving business outcomes, and creating details that customers feel even when they do not consciously notice them.</p>
+      <p>I learn by practising, trying new products, and staying curious. AI now helps me explore, experiment, fail, and iterate faster while keeping the final judgment firmly human.</p>
+      <p>Outside design, I read, create videos, build side projects, spend time with friends and family, or unwind with my PlayStation.</p>
+      <p>Always happy to talk &mdash; reach out on <a href="https://www.linkedin.com/in/rajat-girhotra/" target="_blank" rel="noreferrer">LinkedIn</a> or at <a href="mailto:rajatgirhotra13@gmail.com">rajatgirhotra13@gmail.com</a>.</p>
     </div>
     <div class="about-work-experience">
       <!-- WORK EXPERIENCE -->
@@ -812,11 +808,11 @@
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
   </div>
   <div class="case-study-page">
-    <h1 class="cs-hero-title">Health Insurance Experience Redesign</h1>
+    <h1 class="cs-hero-title">Designing Health Insurance for Tier-2 &amp; Tier-3 Indian Cities</h1>
     <div class="case-study-hero">
       <picture class="case-study-hero-media">
-        <source media="(max-width: 768px)" srcset="Health%20Mobile.png">
-        <img src="HealthDesktop.png" alt="Health Insurance case study hero" loading="lazy" decoding="async" fetchpriority="low">
+        <source media="(max-width: 768px)" srcset="mobile_healthinsurance.png">
+        <img src="web_healthinsurance.png" alt="Health Insurance case study hero" loading="lazy" decoding="async" fetchpriority="low">
       </picture>
     </div>
     <div class="case-study-body">
@@ -1013,11 +1009,11 @@
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
   </div>
   <div class="case-study-page">
-    <h1 class="cs-hero-title">Life Insurance, Bajaj Finserv</h1>
+    <h1 class="cs-hero-title">Life Insurance Experience Redesign</h1>
     <div class="case-study-hero">
       <picture class="case-study-hero-media">
-        <source media="(max-width: 768px)" srcset="LifeMobileLightMode-1400.jpg">
-        <img src="Desktop1-1800.jpg" alt="Life Insurance, Bajaj Finserv case study hero" loading="lazy" decoding="async" fetchpriority="low">
+        <source media="(max-width: 768px)" srcset="mobile_life.png">
+        <img src="desktop_life.png" alt="Life Insurance case study hero" loading="lazy" decoding="async" fetchpriority="low">
       </picture>
     </div>
     <div class="case-study-body">
@@ -1146,8 +1142,8 @@
     <h1 class="cs-hero-title">Go Leap</h1>
     <div class="case-study-hero">
       <picture class="case-study-hero-media">
-        <source media="(max-width: 768px)" srcset="GoLeapMobile-1400.jpg">
-        <img src="GoLeapDesktop-2400.jpg" alt="Go Leap case study hero" loading="lazy" decoding="async" fetchpriority="low">
+        <source media="(max-width: 768px)" srcset="mobile_goleap.png">
+        <img src="desktop_GoLeap.png" alt="Go Leap case study hero" loading="lazy" decoding="async" fetchpriority="low">
       </picture>
     </div>
     <div class="case-study-body">
@@ -1450,8 +1446,8 @@
     <h1 class="cs-hero-title">ReFi NFT Dashboard</h1>
     <div class="case-study-hero">
       <picture class="case-study-hero-media">
-        <source media="(max-width: 768px)" srcset="RefiMobile-1400.jpg">
-        <img src="RefiDesktopDarkMode-2400.jpg" alt="ReFi NFT Dashboard case study hero" loading="lazy" decoding="async" fetchpriority="low">
+        <source media="(max-width: 768px)" srcset="mobile_refi.png">
+        <img src="desktop_refi.png" alt="ReFi NFT Dashboard case study hero" loading="lazy" decoding="async" fetchpriority="low">
       </picture>
     </div>
     <div class="case-study-body">
@@ -1669,11 +1665,11 @@
     <div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div><div class="ps-cs-line"></div>
   </div>
   <div class="case-study-page">
-    <h1 class="cs-hero-title">Colrows</h1>
+    <h1 class="cs-hero-title">Colrows: Designing an AI driven query editor.</h1>
     <div class="case-study-hero">
       <picture class="case-study-hero-media">
-        <source media="(max-width: 768px)" srcset="ColrowsMobile-1400.jpg">
-        <img src="ColrowsDesktopLightMode-2400.jpg" alt="Colrows case study hero" loading="lazy" decoding="async" fetchpriority="low">
+        <source media="(max-width: 768px)" srcset="Mobile_Colrows.png">
+        <img src="desktop_colrows.png" alt="Colrows case study hero" loading="lazy" decoding="async" fetchpriority="low">
       </picture>
     </div>
     <div class="case-study-body">
@@ -1902,11 +1898,11 @@
 <section class="hero">
   <div class="hero-center">
     <h1 class="mobile-hero-name">RAJAT<br>GIRHOTRA</h1>
-    <p class="tagline">Designer of digital and visual products based in Pune.</p>
-    <p class="sub-tagline">Currently working as product designer at Bajaj Finserv.</p>
+    <p class="tagline">Product Designer based in Pune, with 6+ years of experience.</p>
+    <p class="sub-tagline">Currently working at Bajaj Finserv to make the process of buying insurance simpler, clearer, and more trustworthy.</p>
     <div class="stats">
       <div>
-        <div class="stat-num">5+</div>
+        <div class="stat-num">6+</div>
         <div class="stat-label">Years of experience</div>
       </div>
       <div>
@@ -1919,8 +1915,8 @@
       </div>
     </div>
     <p class="fun-fact">Fun fact - This website is fully vibe coded by me.</p>
-    <button class="mac-transform-toggle hero-transform-toggle mac-clickable" type="button" onclick="pressSurpriseMe(event)" aria-pressed="false" aria-label="Switch to regular mode">
-      <span class="mac-transform-label">Switch to regular mode</span>
+    <button class="mac-transform-toggle hero-transform-toggle mac-clickable" type="button" onclick="pressSurpriseMe(event)" aria-pressed="false" aria-label="Less messy mode?">
+      <span class="mac-transform-label">Less messy mode?</span>
       <span class="mac-transform-switch" aria-hidden="true"><span></span></span>
     </button>
   </div>
@@ -1932,8 +1928,8 @@
     </svg>
   </div>
 </section>
-<button class="mac-transform-toggle floating-transform-toggle mac-clickable" type="button" onclick="pressSurpriseMe(event)" aria-pressed="false" aria-label="Switch to regular mode">
-  <span class="mac-transform-label">Switch to regular mode</span>
+<button class="mac-transform-toggle floating-transform-toggle mac-clickable" type="button" onclick="pressSurpriseMe(event)" aria-pressed="false" aria-label="Less messy mode?">
+  <span class="mac-transform-label">Less messy mode?</span>
   <span class="mac-transform-switch" aria-hidden="true"><span></span></span>
 </button>
 <div class="mobile-home-experience" aria-label="Bajaj Finserv experience">
@@ -1978,24 +1974,24 @@
   <p class="portfolio-description">A curated selection of projects that reflect my approach to thoughtful, user-centered design.</p>
 
   <!-- Portfolio item 1 -->
-  <div class="portfolio-container portfolio-container-clickable life-mobile-edge-card" onclick="openPage('life-insurance')" onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openPage('life-insurance'); }" role="button" tabindex="0" aria-label="Open Life Insurance case study">
+  <div class="portfolio-container portfolio-container-clickable life-mobile-edge-card" onclick="openCaseStudyLink('life')" onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openCaseStudyLink('life'); }" role="button" tabindex="0" aria-label="Open Life Insurance case study">
     <div class="portfolio-card">
       <picture class="portfolio-project-image">
-        <source media="(max-width: 768px)" srcset="LifeMobileLightMode-1400.jpg">
+        <source media="(max-width: 768px)" srcset="mobile_life.png">
         <img
           id="life-work-preview"
-          src="LifeDesktopLightMode-2400.jpg"
-          data-light-src="LifeDesktopLightMode-2400.jpg"
-          data-dark-src="LifeDesktopDarkMode-2400.jpg"
-          alt="Life Insurance, Bajaj Finserv project preview"
+          src="desktop_life.png"
+          data-light-src="desktop_life.png"
+          data-dark-src="desktop_life.png"
+          alt="Life Insurance project preview"
           loading="lazy"
           decoding="async"
           fetchpriority="low">
       </picture>
     </div>
     <div class="portfolio-meta">
-      <div class="portfolio-project-name">Life Insurance, Bajaj Finserv</div>
-      <p class="portfolio-problem">Designing journey to buy Life Insurance for the customers</p>
+      <div class="portfolio-project-name">Life Insurance Experience Redesign</div>
+      <p class="portfolio-problem">Designing a clearer, more trustworthy purchase journey for long-term protection</p>
       <div class="portfolio-cta" aria-hidden="true">
         <span class="portfolio-cta-label">See Project</span>
       </div>
@@ -2003,27 +1999,27 @@
   </div>
 
   <!-- Portfolio item 2 -->
-  <div class="portfolio-container portfolio-container-clickable goleap-mobile-edge-card" onclick="openPage('go-leap')" onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openPage('go-leap'); }" role="button" tabindex="0" aria-label="Open Go Leap case study">
+  <div class="portfolio-container portfolio-container-clickable goleap-mobile-edge-card" onclick="openCaseStudyLink('goleap')" onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openCaseStudyLink('goleap'); }" role="button" tabindex="0" aria-label="Open Go Leap case study">
     <div class="portfolio-card">
       <picture class="portfolio-project-image">
-        <source media="(max-width: 768px)" srcset="GoLeapMobile-1400.jpg">
-        <img src="GoLeapDesktop-2400.jpg" alt="Go Leap project preview" loading="lazy" decoding="async" fetchpriority="low">
+        <source media="(max-width: 768px)" srcset="mobile_goleap.png">
+        <img src="desktop_GoLeap.png" alt="Go Leap project preview" loading="lazy" decoding="async" fetchpriority="low">
       </picture>
     </div>
     <div class="portfolio-meta">
       <div class="portfolio-project-name">Go Leap</div>
-      <p class="portfolio-problem">To make discovery experience more immersive</p>
+      <p class="portfolio-problem">Turning static catalogue browsing into a more immersive product discovery experience</p>
       <div class="portfolio-cta" aria-hidden="true">
         <span class="portfolio-cta-label">See Project</span>
       </div>
     </div>
   </div>
 
-  <div class="portfolio-container portfolio-container-clickable refi-mobile-edge-card" onclick="openPage('refi-nft-dashboard')" onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openPage('refi-nft-dashboard'); }" role="button" tabindex="0" aria-label="Open ReFi NFT Dashboard case study">
+  <div class="portfolio-container portfolio-container-clickable refi-mobile-edge-card" onclick="openCaseStudyLink('refi')" onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openCaseStudyLink('refi'); }" role="button" tabindex="0" aria-label="Open ReFi NFT Dashboard case study">
     <div class="portfolio-card">
       <picture class="portfolio-project-image">
-        <source media="(max-width: 768px)" srcset="RefiMobile-1400.jpg">
-        <img src="RefiDesktopDarkMode-2400.jpg" alt="ReFi NFT Dashboard project preview" loading="lazy" decoding="async" fetchpriority="low">
+        <source media="(max-width: 768px)" srcset="mobile_refi.png">
+        <img src="desktop_refi.png" alt="ReFi NFT Dashboard project preview" loading="lazy" decoding="async" fetchpriority="low">
       </picture>
     </div>
     <div class="portfolio-meta">
@@ -2035,16 +2031,16 @@
     </div>
   </div>
 
-  <div class="portfolio-container portfolio-container-clickable colrows-mobile-edge-card" onclick="openPage('colrows')" onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openPage('colrows'); }" role="button" tabindex="0" aria-label="Open Colrows case study">
+  <div class="portfolio-container portfolio-container-clickable colrows-mobile-edge-card" onclick="openCaseStudyLink('colrows')" onkeydown="if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); openCaseStudyLink('colrows'); }" role="button" tabindex="0" aria-label="Open Colrows case study">
     <div class="portfolio-card">
       <picture class="portfolio-project-image">
-        <source media="(max-width: 768px)" srcset="ColrowsMobile-1400.jpg">
-        <img src="ColrowsDesktopLightMode-2400.jpg" alt="Colrows project preview" loading="lazy" decoding="async" fetchpriority="low">
+        <source media="(max-width: 768px)" srcset="Mobile_Colrows.png">
+        <img src="desktop_colrows.png" alt="Colrows project preview" loading="lazy" decoding="async" fetchpriority="low">
       </picture>
     </div>
     <div class="portfolio-meta">
-      <div class="portfolio-project-name">Colrows</div>
-      <p class="portfolio-problem">Creating a collaborative color workspace for creative teams to explore and decide faster.</p>
+      <div class="portfolio-project-name">Colrows: Designing an AI driven query editor.</div>
+      <p class="portfolio-problem">Shaping Colrows alongside the founder, product, and engineering teams</p>
       <div class="portfolio-cta" aria-hidden="true">
         <span class="portfolio-cta-label">See Project</span>
       </div>
@@ -2065,14 +2061,11 @@
   <div class="about-hero-title">Designer. Builder.</div>
   <div class="about-hero-subtitle">Lifelong learner.</div>
   <div class="about-text">
-    <p>Design was something that always stayed with me from the childhood. I used to be a coder until 2020. That’s when I decided to switch careers and move into design.</p>
-    <p>In hindsight, design probably came from my father. He always cared about how things were around him. From how footpaths connect to roads, to how easy an electronic device is to use. He paid attention to all of it.</p>
-    <p>Being a coder gave me the perspective of how computer works. Design is teraching me how humans work.</p>
-    <p>After getting a design job, I realised design is also about working with the business. Hitting numbers. Improving metrics. Fixing funnels. Reducing friction. All while still delighting and helping customers. That’s what I focus on now.</p>
-    <p>I learned design by practicing. By trying new products and apps. But mostly by staying curious.</p>
-    <p>With the rise of AI, I can now create what’s in my head at the speed of light. Iterate -> Experiment -> Fail -> Iterate again.</p>
-    <p><strong>Fail fast. Learn fast.</strong></p>
-    <p>In my free time, I read books, create videos, work on side projects, spend time with friends &amp; family or on my Playstation.</p>
+    <p>Design has stayed with me since childhood. I started as a coder and moved into design in 2020, carrying with me a strong understanding of how computers work while learning how people think and behave.</p>
+    <p>I enjoy working across the full product process, from early ideas to finished experiences. My focus is on making complex journeys clearer, improving business outcomes, and creating details that customers feel even when they do not consciously notice them.</p>
+    <p>I learn by practising, trying new products, and staying curious. AI now helps me explore, experiment, fail, and iterate faster while keeping the final judgment firmly human.</p>
+    <p>Outside design, I read, create videos, build side projects, spend time with friends and family, or unwind with my PlayStation.</p>
+    <p>Always happy to talk &mdash; reach out on <a href="https://www.linkedin.com/in/rajat-girhotra/" target="_blank" rel="noreferrer">LinkedIn</a> or at <a href="mailto:rajatgirhotra13@gmail.com">rajatgirhotra13@gmail.com</a>.</p>
   </div>
 </div>
 
@@ -2145,6 +2138,6 @@
 
 
 
-<script src="script-v2.js"></script>
+<script src="script-v2.js?v=20260910-4"></script>
 </body>
 </html>

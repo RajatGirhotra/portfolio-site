@@ -79,7 +79,7 @@ Availability: Open to product design roles, freelance projects, collaborations, 
 
 ### Answer
 
-Rajat Girhotra is a 34-year-old Product Designer based in Pune, currently working at Bajaj Finserv.
+Rajat Girhotra is a 34-year-old Product Designer based in Pune, with 6+ years of experience. He is currently working at Bajaj Finserv.
 
 He specialises in simplifying complex digital products, especially insurance and fintech journeys where trust, clarity, business logic, and conversion all matter. His work spans discovery, comparison, forms, checkout, payment, servicing, edge cases, and design systems across mobile and web.
 
@@ -89,7 +89,7 @@ He is strongest in end-to-end product design, UX strategy, user-flow architectur
 
 ## Short Introduction
 
-Rajat Girhotra is a Pune-based Product Designer at Bajaj Finserv. He specialises in simplifying complex insurance and fintech journeys through UX strategy, systems thinking, flow design, form design, and conversion-focused product work.
+Rajat Girhotra is a Pune-based Product Designer at Bajaj Finserv with 6+ years of experience. He specialises in simplifying complex insurance and fintech journeys through UX strategy, systems thinking, flow design, form design, and conversion-focused product work.
 
 ## Age
 
@@ -328,7 +328,7 @@ The work required balancing customer needs, business goals, compliance requireme
 
 Full case study:
 
-https://www.rajatgirhotra.com/health-insurance
+https://www.rajatgirhotra.com/?case-study=health
 
 ## Best Project for Systems Thinking
 
@@ -341,9 +341,9 @@ https://www.rajatgirhotra.com/health-insurance
 
 ### Answer
 
-The Car Insurance journey best demonstrates Rajat's systems thinking.
+The Health Insurance redesign best demonstrates Rajat's systems thinking.
 
-The work involved decision trees, multiple user states, renewals, expired policies, early validation, quote generation, NCB and IDV logic, plan selection, add-ons, checkout, and recovery from errors.
+The work involved family-member logic, multiple user states, plan comparison, medical declarations, validation, checkout, payment, compliance constraints, and recovery from errors.
 
 ## Most Creative Project
 
@@ -375,14 +375,11 @@ He transformed a static catalogue into a more editorial and immersive discovery 
 
 Rajat's portfolio includes:
 
-- Health Insurance
-- Life Insurance
-- Car Insurance
+- Designing Health Insurance for Tier-2 & Tier-3 Indian Cities
+- Colrows: Designing an AI driven query editor
+- ReFi NFT Dashboard
+- Life Insurance Experience Redesign
 - Go Leap
-- ReFi Protocol
-- Colrows
-- AI-assisted visual explorations
-- Product and brand work
 
 ## Health Insurance
 
@@ -403,10 +400,6 @@ Rajat used the design principle Explain, Decide, Confirm. The experience gave us
 The redesign improved the starting point, connected coverage and premium more clearly, made plan selection more transparent, broke long forms into manageable sections, designed health declarations around consequences, moved validation closer to user input, made payment choices explicit, and maintained continuity through confirmation.
 
 The outcome was a more coherent purchase journey where information appeared closer to the decision it supported. Users could evaluate coverage, premium, and plan details together, move through long forms with lower perceived complexity, avoid more preventable errors, and retain context from discovery through proposal and payment.
-
-## Car Insurance
-
-Rajat designed scalable Car Insurance flows across purchase, renewal, expired-policy handling, validation, quote generation, plan selection, add-ons, checkout, and policy issuance.
 
 ## Go Leap
 
@@ -652,7 +645,7 @@ Outside work, Rajat enjoys reading, creating videos, working on side projects, s
 
 ### Answer
 
-Rajat's current portfolio knowledge base does not include enough verified detail about his formal education. His résumé may contain more information.
+Rajat studied M.Sc. Information and Communication Systems at TU Chemnitz in Germany. He also studied B.Tech Electronics & Communication Engineering at Lingaya's University in India.
 
 ## Tools
 
@@ -665,7 +658,7 @@ Rajat's current portfolio knowledge base does not include enough verified detail
 
 ### Answer
 
-Rajat's portfolio focuses more on process and outcomes than on a complete software checklist. His work clearly involves modern product-design, prototyping, collaboration, and AI-assisted creative tools.
+Rajat's tool stack includes Figma, Adobe XD, Creative Suite, Webflow, InVision, HTML, CSS, JavaScript, Claude Code, and Codex. His skill areas include UX design, UI design, AI rapid prototyping, wireframing, journey mapping, motion design, data-led design, vibe coding, A/B testing, and funnel management.
 
 ## Resume
 
@@ -678,7 +671,7 @@ Rajat's portfolio focuses more on process and outcomes than on a complete softwa
 
 ### Answer
 
-Rajat's portfolio AI does not currently have a direct résumé link in this knowledge base. You can contact him at rajatgirhotra13@gmail.com for his latest résumé.
+Rajat's latest CV is available from the portfolio resume page and the downloadable file `Rajat_Girhotra_CV.pdf`. You can also contact him at rajatgirhotra13@gmail.com.
 
 ## Salary
 

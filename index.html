@@ -14,6 +14,48 @@
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <script>
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const explicitMode = params.get('mode');
+      const hasCaseStudyRoute = params.has('case-study');
+      const mobileQuery = window.matchMedia('(max-width: 768px)');
+      let isEmbedded = false;
+
+      try {
+        isEmbedded = window.self !== window.top;
+      } catch (error) {
+        isEmbedded = true;
+      }
+
+      if (!isEmbedded && !hasCaseStudyRoute) {
+        const openFinderMode = () => {
+          if (explicitMode === 'finder') {
+            window.location.replace('index-legacy-finder.html?mode=finder');
+            return true;
+          }
+          if (explicitMode !== 'minimal' && mobileQuery.matches) {
+            window.location.replace('index-legacy-finder.html?mode=finder&auto=mobile');
+            return true;
+          }
+          return false;
+        };
+
+        if (openFinderMode()) return;
+
+        const handleMobileModeChange = event => {
+          if (event.matches && explicitMode !== 'minimal') {
+            window.location.replace('index-legacy-finder.html?mode=finder&auto=mobile');
+          }
+        };
+
+        if (typeof mobileQuery.addEventListener === 'function') {
+          mobileQuery.addEventListener('change', handleMobileModeChange);
+        } else if (typeof mobileQuery.addListener === 'function') {
+          mobileQuery.addListener(handleMobileModeChange);
+        }
+      }
+    }());
+
     if ('scrollRestoration' in history) {
       history.scrollRestoration = 'manual';
     }
@@ -22,7 +64,7 @@
     }
     window.scrollTo(0, 0);
   </script>
-  <link rel="stylesheet" href="portfolio-redesign.css?v=20260902-1">
+  <link rel="stylesheet" href="portfolio-redesign.css?v=20260910-3">
 </head>
 <body>
   <div class="site-shell">
@@ -37,7 +79,7 @@
           <a href="#about"><span class="nav-label">About</span><span class="nav-description">Get to know me</span></a>
           <a href="#how-i-ai"><span class="nav-label">How I AI</span><span class="nav-description">How I think with AI</span></a>
           <a href="#writings"><span class="nav-label">Writings</span><span class="nav-description">Some of my thoughts</span></a>
-          <a href="index-legacy-finder.html?mode=finder"><span class="nav-label">OS mode</span><span class="nav-description">Open Finder view</span></a>
+          <a class="device-mode-link" href="index-legacy-finder.html?mode=finder"><span class="nav-label">OS mode</span><span class="nav-description">Open Finder view</span></a>
         </nav>
         <button
           id="mobileMenuToggle"
@@ -496,7 +538,7 @@
     <div class="case-study-shell">
       <header class="case-study-intro">
         <p class="case-study-kicker">Health Insurance</p>
-        <h1 id="healthCaseStudyTitle">Health Insurance Experience Redesign</h1>
+        <h1 id="healthCaseStudyTitle">Designing Health Insurance for Tier-2 &amp; Tier-3 Indian Cities</h1>
         <p>
           Redesigning the end-to-end health insurance purchase journey to improve conversion,
           reduce drop-offs, and simplify decision making for users buying policies for
@@ -511,8 +553,8 @@
       </header>
 
       <picture class="case-study-hero-media">
-        <source media="(max-width: 768px)" srcset="Health%20Mobile.png">
-        <img src="HealthDesktop.png" alt="Health Insurance case study hero" loading="lazy" decoding="async">
+        <source media="(max-width: 768px)" srcset="mobile_healthinsurance.png">
+        <img src="web_healthinsurance.png" alt="Health Insurance case study hero" loading="lazy" decoding="async">
       </picture>
 
       <section class="case-study-section">
@@ -611,7 +653,7 @@
     <div class="case-study-shell">
       <header class="case-study-intro">
         <p class="case-study-kicker">Colrows</p>
-        <h1 id="colrowsCaseStudyTitle">From Idea to Product</h1>
+        <h1 id="colrowsCaseStudyTitle">Colrows: Designing an AI driven query editor.</h1>
         <p>
           Designing an AI-first data workspace that turns complex workflows into
           real-time decision systems anyone can use, not just analysts.
@@ -625,8 +667,8 @@
       </header>
 
       <picture class="case-study-hero-media">
-        <source media="(max-width: 768px)" srcset="ColrowsMobile-1400.jpg">
-        <img src="ColrowsDesktopLightMode-2400.jpg" alt="Colrows case study hero" loading="lazy" decoding="async">
+        <source media="(max-width: 768px)" srcset="Mobile_Colrows.png">
+        <img src="desktop_colrows.png" alt="Colrows case study hero" loading="lazy" decoding="async">
       </picture>
 
       <section class="case-study-section">
