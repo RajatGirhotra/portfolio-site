@@ -1749,7 +1749,8 @@ body.case-study-open .ask-ai-mobile-trigger {
     background: rgba(17, 17, 17, 0.26);
     opacity: 0;
     pointer-events: auto;
-    transition: opacity 0.28s ease;
+    transition: opacity 0.34s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: opacity;
   }
 
   body.mobile-menu-open::before {
@@ -1812,11 +1813,12 @@ body.case-study-open .ask-ai-mobile-trigger {
     box-shadow: none;
     pointer-events: none;
     visibility: hidden;
-    transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, calc(-100% - 1px), 0);
     transition:
-      transform 0.28s cubic-bezier(0.4, 0, 0.2, 1),
-      visibility 0s linear 0.28s;
+      transform 0.34s cubic-bezier(0.4, 0, 0.2, 1),
+      visibility 0s linear 0.34s;
     will-change: transform;
+    backface-visibility: hidden;
   }
 
   .topnav a {
@@ -1838,14 +1840,18 @@ body.case-study-open .ask-ai-mobile-trigger {
     pointer-events: auto;
     visibility: visible;
     transform: translate3d(0, 0, 0);
-    transition-delay: 0s;
+    transition:
+      transform 0.34s cubic-bezier(0.4, 0, 0.2, 1),
+      visibility 0s linear 0s;
   }
 
   body.mobile-menu-closing .topnav {
     pointer-events: none;
     visibility: visible;
-    transform: translate3d(0, -100%, 0);
-    transition-delay: 0s;
+    transform: translate3d(0, calc(-100% - 1px), 0);
+    transition:
+      transform 0.34s cubic-bezier(0.4, 0, 0.2, 1),
+      visibility 0s linear 0.34s;
   }
 
   .brand {
@@ -1900,7 +1906,11 @@ body.case-study-open .ask-ai-mobile-trigger {
     border-radius: 999px;
     background: currentColor;
     transform-origin: center;
-    transition: transform 0.18s ease, opacity 0.18s ease;
+    transition:
+      transform 0.34s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.34s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+    backface-visibility: hidden;
   }
 
   body.mobile-menu-open .mobile-menu-toggle span:first-child {
@@ -2197,13 +2207,13 @@ body.case-study-open .ask-ai-mobile-trigger {
   }
 
   .eyebrow {
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.4;
     margin-bottom: 20px;
   }
 
   .hero-text {
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.4;
     margin-bottom: 20px;
   }

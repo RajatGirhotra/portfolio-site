@@ -347,10 +347,21 @@
     clockEl.textContent = `Pune ${puneTime}`;
   }
 
+  let minimalPortfolioNavigationStarted = false;
+
   function goToMinimalPortfolio() {
+    if (minimalPortfolioNavigationStarted) return;
+    minimalPortfolioNavigationStarted = true;
     sessionStorage.setItem(STORAGE_KEYS.homeMode, 'normal');
     sessionStorage.removeItem(STORAGE_KEYS.page);
-    window.location.href = 'index.html?mode=minimal';
+    window.location.assign('index.html?mode=minimal');
+  }
+
+  function openMinimalPortfolioOnPointerDown(event) {
+    if (event.pointerType !== 'touch') return;
+    event.preventDefault();
+    event.stopPropagation();
+    goToMinimalPortfolio();
   }
 
   function openCaseStudyLink(caseStudyId) {

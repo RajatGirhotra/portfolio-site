@@ -2890,6 +2890,7 @@
       position: absolute;
       left: 0;
       top: 354px;
+      touch-action: manipulation;
     }
 
     .mac-switch-app-icon {

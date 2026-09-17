@@ -78,7 +78,10 @@
 <link rel="preload" as="image" href="notes.svg">
 <link rel="preload" as="image" href="notedark.png">
 <link rel="preload" as="image" href="notelight.png">
-<link rel="stylesheet" href="styles-v3.css?v=20260917-2">
+<link rel="prefetch" href="index.html?mode=minimal" as="document">
+<link rel="prefetch" href="portfolio-redesign.css?v=20260917-2" as="style">
+<link rel="prefetch" href="portfolio-redesign.js?v=20260917-2" as="script">
+<link rel="stylesheet" href="styles-v3.css?v=20260917-3">
 
 
 </head>
@@ -275,7 +278,7 @@
       <img class="mac-folder-icon mac-folder-icon-mobile" src="askaiapp.svg?v=20260917-2" alt="" width="60" height="60" loading="eager" decoding="sync" fetchpriority="high" aria-hidden="true">
       <span class="mac-folder-label">Ask AI</span>
     </button>
-    <button class="mac-folder mac-folder-switch-mode mac-clickable" type="button" onclick="goToMinimalPortfolio()" aria-label="Less messy mode?">
+    <button class="mac-folder mac-folder-switch-mode mac-clickable" type="button" onpointerdown="openMinimalPortfolioOnPointerDown(event)" onclick="goToMinimalPortfolio()" aria-label="Less messy mode?">
       <span class="mac-switch-app-icon" aria-hidden="true"></span>
       <span class="mac-folder-label">Less messy<br>mode?</span>
     </button>
@@ -2137,6 +2140,6 @@
 
 
 
-<script src="script-v2.js?v=20260917-1"></script>
+<script src="script-v2.js?v=20260917-2"></script>
 </body>
 </html>
