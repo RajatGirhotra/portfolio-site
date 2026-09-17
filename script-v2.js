@@ -374,6 +374,7 @@
     'how-i-ai': { name: 'How I AI', icon: 'howiaimobile.png' },
     resume: { name: 'Resume', icon: 'resumemobile.png' },
     contact: { name: 'Contact', icon: 'phone.svg' },
+    'ask-ai': { name: 'Ask AI', icon: 'askaiapp.svg?v=20260917-2' },
     about: { name: 'Notes', icon: 'notes.svg' },
     settings: { name: 'Settings', icon: 'settings.svg' }
   };
@@ -593,7 +594,7 @@
     });
   }
 
-  function buildMacSafariHome() {
+  function buildMacSafariHome(source = 'index.html?mode=minimal') {
     const content = document.getElementById('macSafariContent');
     if (!content) return;
 
@@ -601,20 +602,26 @@
     const frame = document.createElement('iframe');
     frame.className = 'mac-safari-site-frame';
     frame.title = 'Rajat Girhotra portfolio';
-    frame.src = 'index.html?mode=minimal';
+    frame.src = source;
     frame.loading = 'eager';
     content.appendChild(frame);
   }
 
-  function openMacSafariWindow() {
+  function openMacSafariWindow(source = 'index.html?mode=minimal') {
     const win = document.getElementById('macSafariWindow');
     if (!win) return;
     setMacFinderMode(true, { persist: false });
-    buildMacSafariHome();
+    buildMacSafariHome(source);
     win.classList.add('is-open');
     win.classList.remove('is-maximized', 'is-minimized');
     win.setAttribute('aria-hidden', 'false');
     syncMacMinimizedWindow(null);
+  }
+
+  function openMacAskAiShortcut() {
+    showMacAppSplash('ask-ai', () => {
+      openMacSafariWindow('index.html?mode=minimal&ask-ai=open');
+    });
   }
 
   function closeMacSafariWindow() {

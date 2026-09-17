@@ -1188,3 +1188,8 @@ const initialCaseStudy = getCaseStudyFromUrl();
 if (initialCaseStudy) {
   openCaseStudy(initialCaseStudy, { updateHistory: false });
 }
+
+const shouldOpenAskAi = new URL(window.location.href).searchParams.get('ask-ai') === 'open';
+if (shouldOpenAskAi) {
+  openAskAiPanel();
+}
